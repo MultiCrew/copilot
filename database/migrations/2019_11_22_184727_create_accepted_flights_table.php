@@ -15,12 +15,14 @@ class CreateAcceptedFlightsTable extends Migration
     {
         Schema::create('accepted_flights', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('copilot')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('copilot')->references('id')->on('users');
             $table->string('departure');
             $table->string('arrival');
             $table->string('aircraft');
-            $table->foreign('plan_id')->references('id')->on('flight_plans');
+            $table->integer('plan_id')->nullable();
             $table->timestamps();
         });
     }

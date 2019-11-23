@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'username', 'password',
     ];
 
     /**
@@ -38,4 +38,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The flights the user has requested.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function flights()
+    {
+        return $this->hasMany('Copilot\Models\Flights\FlightRequests', 'user_id');
+    }
 }

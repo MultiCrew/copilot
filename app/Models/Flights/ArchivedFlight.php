@@ -4,7 +4,7 @@ namespace App\Models\Flights;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FlightPlans extends Model
+class ArchivedFlight extends Model
 {
     //
 }

@@ -15,6 +15,7 @@ class CreateFlightRequestsTable extends Migration
     {
         Schema::create('flight_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('departure');
             $table->string('arrival');

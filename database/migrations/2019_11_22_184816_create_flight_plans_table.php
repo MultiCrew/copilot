@@ -16,6 +16,9 @@ class CreateFlightPlansTable extends Migration
         Schema::create('flight_plans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('plan_url');
+            $table->unsignedInteger('planner');
+            $table->unsignedInteger('accepted_by_1');
+            $table->unsignedInteger('accepted_by_2');
             $table->foreign('planner')->references('id')->on('users');
             $table->foreign('accepted_by_1')->references('id')->on('users');
             $table->foreign('accepted_by_2')->references('id')->on('users');

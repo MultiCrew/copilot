@@ -4,7 +4,7 @@ namespace App\Models\Flights;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FlightRequests extends Model
+class FlightRequest extends Model
 {
     /**
      * Attributes that are mass assignable
