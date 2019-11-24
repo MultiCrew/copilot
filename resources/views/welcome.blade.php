@@ -13,7 +13,7 @@
         <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
         <style>
             html, body {
-                background: url('img/background.png');
+                background: url('img/background.png') no-repeat;
                 color: #eee;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
@@ -97,20 +97,18 @@
                 </div>
 
                 <div class="text-links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://laravel.com/docs">Copilot</a>
+                    <a href="https://laracasts.com">Account</a>
+                    <a href="https://github.com/laravel/laravel">
+                        <i class="fab fa-fw fa-github mr-2"></i>GitHub
+                    </a>
                 </div>
 
                 <div class="icon-links mt-5">
                     <a href="https://fb.me/flymulticrew"><i class="fab fa-facebook-square fa-2x"></i></a>
                     <a href="https://twitter.com/flymulticrew"><i class="fab fa-twitter fa-2x"></i></a>
                     <a href="https://github.com/MultiCrew"><i class="fab fa-github fa-2x"></i></a>
+                </div>
             </div>
         </div>
     </body>
