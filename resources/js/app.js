@@ -6,6 +6,7 @@
 
 require('./bootstrap');
 
+
 window.Vue = require('vue');
 
 /**
@@ -61,3 +62,4 @@ $(document).ready(function(){
         $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
     }
 });
+

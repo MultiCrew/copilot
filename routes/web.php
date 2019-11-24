@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group([
+    'as' => 'home.'
+], function() {
+    Route::get('/', 'Home\HomeController@index')->name('home');
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
