@@ -11,10 +11,8 @@
 |
 */
 
-Route::group([
-    'as' => 'home.'
-], function() {
-    Route::get('/', 'Home\HomeController@index')->name('home');
-});
+Route::get('/', 'Home\HomeController@index')->name('home');
 
 Auth::routes();
+
+Route::view('/dashboard', 'home')->name('dashboard');

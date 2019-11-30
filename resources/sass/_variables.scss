@@ -1,5 +1,13 @@
+// MTC Color Scheme
+$primary: #353A3F;
+$secondary: #FDFFFC;
+$tertiary: #2EC4B6;
+$quaternary: #E71D36;
+$quinary: #FF9F1C;
+
 // Body
-$body-bg: #f8fafc;
+$body-bg: $secondary;
+//$body-bg: #f8fafc;
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
