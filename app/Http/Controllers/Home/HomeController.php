@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -14,6 +15,9 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        return view('home');
+        if (Auth::check())
+            return view('home');
+        else
+            return route('login');
     }
 }
