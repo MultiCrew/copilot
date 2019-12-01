@@ -11,10 +11,13 @@
 |
 */
 
-Route::get('/', 'Home\HomeController@index')->name('home');
+Route::group([
+    'as' => 'home.'
+], function() {
+    Route::get('/', 'Home\HomeController@index')->name('home');
+    Route::get('dashboard', 'Home\HomeController@dashboard')->name('dashboard');
+});
 
 Auth::routes();
-
-Route::view('/dashboard', 'home')->name('dashboard');
 
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
