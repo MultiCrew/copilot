@@ -58,4 +58,19 @@ class DiscordController extends Controller
 			}
 		}
 	}
+
+	/**
+     * Connect a Discord account.
+     *
+     * @param \Illuminate\Http\Data $data
+     * @return \Illuminate\Http\Response
+     */
+
+	public function sendData($data){
+		$endpoint = "http://10.0.2.2:3000";
+		$client = new \GuzzleHttp\Client();
+		$response = $client->request('POST', $endpoint, 
+		['body' => $data]);
+		return ($response->getBody()->getContents());
+	}
 }
