@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Users;
 
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
