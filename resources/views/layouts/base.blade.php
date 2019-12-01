@@ -23,7 +23,7 @@
                             </p>
                         </div>
                         <div class="level-right">
-                            <a href="{{ route('cookie-consent') }}"><i class="fas fa-times has-text-white"></i></a>
+                            <a href="{{ route('cookie-consent')}}"><i class="fas fa-times has-text-white"></i></a>
                         </div>
                     </div>
                 </div>
