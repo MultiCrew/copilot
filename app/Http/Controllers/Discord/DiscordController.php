@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Discord;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\DiscordSendData;
 use Wohali\OAuth2\Client\Provider\Discord;
 
 class DiscordController extends Controller
@@ -48,7 +49,8 @@ class DiscordController extends Controller
 				$user = Auth::user();
 				$user->discord_id = $discordUser->getId();
 				$user->save();
-				redirect()->route('home.home');
+				//$user->notify(new DiscordSendData($message)); uncomment once message variable is set
+				return redirect()->route('home.home');
 		
 			} catch (Exception $e) {
 		
