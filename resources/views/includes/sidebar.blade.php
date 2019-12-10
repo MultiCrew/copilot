@@ -13,7 +13,7 @@
             <!-- Menu with submenu -->
             <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fas fa-search fa-fw mr-3"></i>
+                    <i class="fas fa-lg fa-search fa-fw mr-3"></i>
                     <span class="menu-collapsed">Find Flights</span>
                     <span class="submenu-icon ml-auto"></span>
                 </div>
@@ -32,7 +32,7 @@
             </div>
             <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="fas fa-plane fa-fw mr-3"></span>
+                    <span class="fas fa-lg fa-plane fa-fw mr-3"></span>
                     <span class="menu-collapsed">My Flights</span>
                     <span class="submenu-icon ml-auto"></span>
                 </div>
@@ -53,13 +53,13 @@
             <!-- /END Separator -->
             <a href="#" class="bg-dark list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fas fa-user fa-fw mr-3"></i>
+                    <i class="fas fa-lg fa-user fa-fw mr-3"></i>
                     <span class="menu-collapsed">Profile</span>
                 </div>
             </a>
             <a href="#" class="bg-dark list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fas fa-bell fa-fw mr-3"></i>
+                    <i class="fas fa-lg fa-bell fa-fw mr-3"></i>
                     <span class="menu-collapsed">Notifications <span class="badge badge-pill badge-primary ml-2">5</span></span>
                 </div>
             </a>
@@ -68,13 +68,13 @@
             <!-- /END Separator -->
             <a href="#" class="bg-dark list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fas fa-question-circle fa-fw mr-3"></i>
+                    <i class="fas fa-lg fa-question-circle fa-fw mr-3"></i>
                     <span class="menu-collapsed">Help</span>
                 </div>
             </a>
             <a href="#top" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span id="collapse-icon" class="fa fa-2x mr-3"></span>
+                    <span id="collapse-icon" class="fa fa-lg mr-3"></span>
                     <span id="collapse-text" class="menu-collapsed">Collapse</span>
                 </div>
             </a>
