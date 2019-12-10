@@ -15,7 +15,10 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('home');
+    Route::get('dashboard', 'Home\HomeController@dashboard')->name('dashboard');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
 });
 
 Auth::routes();
+
+Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');

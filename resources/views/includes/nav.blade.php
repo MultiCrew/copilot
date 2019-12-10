@@ -1,45 +1,50 @@
-<div class="container">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="{{ route('home.home') }}">
-        </a>
-        <div class="navbar-burger burger" data-target="navbarMenuHeroA" onclick="toggleBurger()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-    <div id="navbarMenuHeroA" class="navbar-menu">
-        <div class="navbar-end">
-            <a class="navbar-item" href="{{ route('home.home') }}">
-                Home
-            </a>
-            @auth
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        Hello, {{ Auth::user()->name }}
+<nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
+    <a class="navbar-brand" href="{{ url('/') }}">
+        <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="MultiCrew logo">
+        <span class="menu-collapsed">{{ config('app.name', 'Laravel') }}</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Left Side Of Navbar -->
+        <ul class="navbar-nav mr-auto">
+
+        </ul>
+
+        <!-- Right Side Of Navbar -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Authentication Links -->
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+            @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="{{ route('user.profile', ['user' => Auth::user()->username]) }}">
-                            My Profile
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
                         </a>
-                        <a class="navbar-item" href="{{ route('user.account') }}">
-                            My Account
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" onclick="event.preventDefault(); logout();">
-                            Logout
-                        </a>
-                        <form action="{{ route('auth.logout') }}" method="post" class="is-hidden" id="logout-form">
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     </div>
-                </div>
-            @endauth
-            @guest
-            <a class="navbar-item" href={{ route('auth.auth') }}>
-                    Login or Register
-            </a>
+                </li>
             @endguest
-        </div>
+        </ul>
     </div>
-</div>
+</nav>
