@@ -10,6 +10,27 @@
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
+p {
+    color: $primary;
+}
+
+#body {
+    background-color: $body-bg;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: $tertiary;
+    font-weight: 600;
+}
+
+.text-muted {
+    color: $quaternary;
+}
+
+.display-1,.display-2,.display-3,.display-4 {
+    color: $quinary;
+}
+
 #body-row {
     margin-left:0;
     margin-right:0;
