@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
     <a class="navbar-brand" href="{{ url('/') }}">
         <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="MultiCrew logo">
-        <span class="menu-collapsed">{{ config('app.name', 'Laravel') }}</span>
+        <span class="menu-collapsed navbar-name">{{ config('app.name', 'MultiCrew') }}</span>
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
