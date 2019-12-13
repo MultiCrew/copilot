@@ -5,7 +5,6 @@
 <h1>Your Account</h1>
 
 <form method="post">
-
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="username">Username</label>
@@ -18,6 +17,25 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" class="form-control" value="{{ Auth::user()->email }}">
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control">
+            <small class="form-text">Leave blank to keep current password!</small>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="password_conf">Confirm Password</label>
+            <input type="password" id="password_conf" name="password_conf" class="form-control">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success"><i class="fas fa-fw fa-save mr-3"></i>Save</button>
 </form>
 
 @endsection
