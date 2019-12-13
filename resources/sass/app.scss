@@ -1,15 +1,63 @@
+/*! `Darkster` Bootstrap 4 theme */
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700');
+$headings-font-family:Nunito;
+
+$primary:#FF550B;
+$secondary:#303030;
+$success:#015668;
+$danger:#FF304F;
+$info:#0F81C7;
+$warning:#0DE2EA;
+$light:#e8e8e8;
+$dark:#000000;
+$enable-shadows:true;
+$body-color:#cccccc;
+$link-color:#f0f0f0;
+$font-size-base:1.1rem;
+$input-disabled-bg: #ccc;
+
+/*! Import Bootstrap 4 variables */
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+$body-bg:$black;
+$link-hover-color:darken($link-color,20%);
+$navbar-dark-hover-color:$white;
+$navbar-light-hover-color:$gray-400;
+$navbar-light-active-color:$gray-800;
+$input-bg:$gray-300;
+$card-border-color:rgba($black, 0.6);
+$card-cap-bg:lighten($gray-800, 10%);
+$card-bg:lighten($body-bg, 5%);
+$list-group-bg:lighten($body-bg,5%);
+$list-group-border-color:rgba($black,0.6);
+$list-group-hover-bg:lighten($body-bg,10%);
+$list-group-active-color:$white;
+$list-group-active-bg:$list-group-hover-bg;
+$list-group-active-border-color:$list-group-border-color;
+$list-group-disabled-color:$gray-800;
+$list-group-disabled-bg:$black;
+$list-group-action-color:$white;
+@import '~bootstrap/scss/bootstrap';
+
+// Add SASS theme customizations here..
+.navbar-dark.bg-primary {background-color:#111111 !important;}
+h1,h2,h3,h4,h5,h6 {color: $primary;}
+.list-group-item {background-color:#111111 !important;}
+.sidebar-separator-title{background-color: #333 !important;}
+
+/*
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
+*/
 // Font Awesome
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/brands';
-
+/*
 p {
     color: $primary;
 }
@@ -30,7 +78,7 @@ h1,h2,h3,h4,h5,h6 {
 .display-1,.display-2,.display-3,.display-4 {
     color: $quinary;
 }
-
+*/
 #body-row {
     margin-left:0;
     margin-right:0;
@@ -65,6 +113,7 @@ h1,h2,h3,h4,h5,h6 {
     height: 45px;
     padding-left: 30px;
 }
+
 .sidebar-submenu {
     font-size: 0.9rem;
 }
