@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
     <a class="navbar-brand" href="{{ url('/') }}">
         <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="MultiCrew logo">
-        <span class="menu-collapsed">{{ config('app.name', 'Laravel') }}</span>
+        <span class="menu-collapsed navbar-name">{{ config('app.name', 'MultiCrew') }}</span>
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -19,11 +19,15 @@
             <!-- Authentication Links -->
             @guest
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    <a class="nav-link" href="{{ route('login') }}">
+                        <i class="fas fa-key fa-fw mr-2"></i>{{ __('Login') }}
+                    </a>
                 </li>
                 @if (Route::has('register'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <a class="nav-link" href="{{ route('register') }}">
+                            <i class="fas fa-user-plus fa-fw mr-2"></i>{{ __('Register') }}
+                        </a>
                     </li>
                 @endif
             @else
@@ -33,10 +37,18 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('account') }}">
+                            <i class="fas fa-cog fa-fw mr-3"></i>Account
+                        </a>
+                        <a class="dropdown-item" href="{{ route('profile') }}">
+                            <i class="fas fa-user fa-fw mr-3"></i>Profile
+                        </a>
+
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
+                            <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
