@@ -20,5 +20,7 @@ Route::group([
 });
 
 Auth::routes();
+Route::get('account', 'Auth\AccountController@index')->name('account');
+Route::get('profile', 'Auth\ProfileController@index')->name('profile');
 
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
