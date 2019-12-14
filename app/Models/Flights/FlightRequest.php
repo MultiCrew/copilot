@@ -21,7 +21,7 @@ class FlightRequest extends Model
      */
     public function requestee()
     {
-        return $this->belongsTo('Copilot\Models\User', 'user_id');
+        return $this->belongsTo('App\Models\Users\User', 'user_id');
     }
 
     /**
