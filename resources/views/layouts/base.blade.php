@@ -47,7 +47,10 @@
             var menu = $('.navbar-menu');
             burger.toggleClass('is-active');
             menu.toggleClass('is-active');
-        }
+		}
+		$('#cookieAlert').on('closed.bs.alert', function () {
+			window.location.href = '{{ route('cookie-consent')}}'
+		})
     </script>
     @yield('scripts')
 
