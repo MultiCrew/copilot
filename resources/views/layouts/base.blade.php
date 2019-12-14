@@ -21,7 +21,7 @@
                 <div class="p-4">
                     @yield('content')
                 </div>
-            </div>
+            </main>
         @endauth
 
         @guest
