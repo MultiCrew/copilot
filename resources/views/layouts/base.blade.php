@@ -18,7 +18,7 @@
 
         @auth
             @include('includes.sidebar')
-                <div class="p-4">
+                <div class="p-4" style="flex-grow: 100;">
                     @yield('content')
                 </div>
             </main>

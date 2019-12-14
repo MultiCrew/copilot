@@ -11193,13 +11193,28 @@ h6 {
   background-color: #333 !important;
 }
 
-/*
-// Variables
-@import 'variables';
+.list-group-item:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-*/
+.form-control {
+  box-shadow: 0;
+  background-color: #333333;
+  border: 1px solid #888888;
+  color: #fff;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #888888;
+  color: #ccc;
+}
+
+.close,
+.close > a {
+  color: #333;
+}
 
 /*!
  * Font Awesome Free 5.11.2 by @fontawesome - https://fontawesome.com
@@ -17129,11 +17144,6 @@ h1,h2,h3,h4,h5,h6 {
   padding: 0;
 }
 
-.navbar-name {
-  position: relative;
-  top: 2px;
-}
-
 /* Sidebar sizes when expanded and expanded */
 
 .sidebar-expanded {
@@ -17182,8 +17192,9 @@ h1,h2,h3,h4,h5,h6 {
 /* Closed submenu icon */
 
 #sidebar-container .list-group .list-group-item[aria-expanded=false] .submenu-icon::after {
-  content: " \F0D7";
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: " \F0DA";
   display: inline;
   text-align: right;
   padding-left: 10px;
@@ -17192,8 +17203,9 @@ h1,h2,h3,h4,h5,h6 {
 /* Opened submenu icon */
 
 #sidebar-container .list-group .list-group-item[aria-expanded=true] .submenu-icon::after {
-  content: " \F0DA";
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: " \F0D7";
   display: inline;
   text-align: right;
   padding-left: 10px;
