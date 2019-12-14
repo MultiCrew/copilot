@@ -44,6 +44,11 @@ $list-group-action-color:$white;
 h1,h2,h3,h4,h5,h6 {color: $primary;}
 .list-group-item {background-color:#111111 !important;}
 .sidebar-separator-title{background-color: #333 !important;}
+.list-group-item:last-child {border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
+.form-control {box-shadow: 0;background-color: #333333;border: 1px solid #888888;color: #fff;}
+.form-control:disabled, .form-control[readonly] {background-color: #888888;color: #ccc;}
+.close,.close>a {color: #333;}
+
 
 // Font Awesome
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
