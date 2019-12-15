@@ -15,12 +15,22 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('home');
-    Route::get('dashboard', 'Home\HomeController@dashboard')->name('dashboard');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
 });
 
+/*
+ * Auth, account and profile routes
+ */
 Auth::routes();
-Route::get('account', 'Auth\AccountController@index')->name('account');
-Route::get('profile', 'Auth\ProfileController@index')->name('profile');
+Route::resource('account', 'Auth\AccountController', [
+    'as' => 'account'
+])->only([
+    'index', 'update'
+]);
+Route::resource('profile', 'Auth\ProfileController', [
+    'as' => 'profile'
+])->only([
+    'index', 'update'
+]);
 
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
