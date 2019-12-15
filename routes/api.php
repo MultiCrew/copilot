@@ -18,5 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('client')->group(function() {
+    Route::get('/test', function (Request $request) {
+        return 'test';
+    });
     //add all API requests for the discord bot here
 });
