@@ -22,14 +22,10 @@ Route::group([
  * Auth, account and profile routes
  */
 Auth::routes();
-Route::resource('account', 'Auth\AccountController', [
-    'as' => 'account'
-])->only([
+Route::resource('account', 'Auth\AccountController')->only([
     'index', 'update'
 ]);
-Route::resource('profile', 'Auth\ProfileController', [
-    'as' => 'profile'
-])->only([
+Route::resource('profile', 'Auth\ProfileController')->only([
     'index', 'update'
 ]);
 
