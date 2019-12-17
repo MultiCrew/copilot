@@ -12,7 +12,7 @@ class FlightRequest extends Model
      * @var array
      */
     protected $fillable = [
-        'departure', 'arrival', 'acft'
+        'departure', 'arrival', 'aircraft'
     ];
     /**
      * The user that created the request.
