@@ -58,5 +58,15 @@ class FlightController extends Controller
         else
             return $data;
     }
+
+    /**
+     * Returns the form for adding a new flight to the database
+     *
+     * @return     View     Form to make a new flight
+     */
+    public function create()
+    {
+        return view('flights.create');
+    }
 }
 
