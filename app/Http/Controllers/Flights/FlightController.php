@@ -16,7 +16,7 @@ class FlightController extends Controller
      */
     public function index()
     {
-        return view('flight.index'//,
+        return view('flights.index'//,
             //['flights' => FlightRequest::all()]
         );
     }
