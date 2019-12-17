@@ -37,10 +37,10 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('account') }}">
+                        <a class="dropdown-item" href="{{ route('account.index') }}">
                             <i class="fas fa-cog fa-fw mr-3"></i>Account
                         </a>
-                        <a class="dropdown-item" href="{{ route('profile') }}">
+                        <a class="dropdown-item" href="{{ route('profile.index') }}">
                             <i class="fas fa-user fa-fw mr-3"></i>Profile
                         </a>
 

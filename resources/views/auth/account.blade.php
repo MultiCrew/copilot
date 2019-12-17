@@ -4,7 +4,10 @@
 
 <h1>Your Account</h1>
 
-<form method="post">
+<form method="post" action="">
+    @method('patch')
+    @csrf
+
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="username">Username</label>
