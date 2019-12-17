@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Flights;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use \Auth as Auth;
 use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
@@ -67,6 +68,28 @@ class FlightController extends Controller
     public function create()
     {
         return view('flights.create');
+    }
+
+    /**
+     * Create a new flight
+     *
+     * @param      \Illuminate\Http\Request     $request
+     * @return     JSON Array | PHP array       Array of flights found based on request
+     */
+    public function store(Request $request)
+    {
+        $flight = new FlightRequest();
+
+        $flight->fill([
+            'departure' => $request->departure,
+            'arrival'   => $request->arrival,
+            'aircraft'  => $request->aircraft
+        ]);
+        $flight->user_id = Auth::user()->id;
+
+        $flight->save();
+
+        return view('flights.index');
     }
 }
 
