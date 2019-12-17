@@ -18,12 +18,10 @@ Route::group([
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
 });
 
-Route::group([
-	'as' => 'flights.'
-], function() {
-	Route::get('dashboard', 'Flights\SearchController@index')->name('dashboard');
-	Route::get('search', 'Flights\SearchController@search')->name('search');
-});
+Route::resources([
+    'flights' => 'Flights\FlightController'
+]);
+Route::get('search', 'Flights\FlightController@search')->name('flights.search');
 
 Auth::routes();
 Route::get('account', 'Auth\AccountController@index')->name('account');

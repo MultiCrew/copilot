@@ -35,7 +35,41 @@
 <script>
 	$(document).ready(function()
     {
-        function fetch_customer_data(query = '')
+        /**
+         * Turns an array of flight request objects into table rows and adds them to the table
+         *
+         * @param      data     Array of flight objects
+         */
+        function handleData(data)
+        {
+            if (data.length > 0)
+            {
+                for (i = 0; i < data.length; i++)
+                {
+                    var htmlRow = '<tr>';
+
+                    htmlRow +=  '<td>'+data[i].id+'</td>';
+                    htmlRow +=  '<td>'+data[i].departure+'</td>';
+                    htmlRow +=  '<td>'+data[i].arrival+'</td>';
+                    htmlRow +=  '<td>'+data[i].aircraft+'</td>';
+                    htmlRow +=  '<td><a href="'+data[i].id+'" class="btn btn-sm btn-success">Join &raquo;</a></td>';
+
+                    $('tbody').append(htmlRow + '</tr>');
+                }
+            }
+            else
+            {
+                $('tbody').append('<tr><td colspan="5" class="text-center">No flights found</td><tr>');
+            }
+        }
+
+        /**
+         * Gets flight requests from database, optionally filtering by a search term
+         * Additionally, calls handleData() with the returned array of flights
+         *
+         * @param      string   query   Optional search term
+         */
+        function getFlights(query = '')
         {
             $.ajax({
                 url: "{{ route('flights.search') }}",
@@ -45,19 +79,21 @@
                 success: function(data)
                 {
                     $('#loading-icon').hide();
-                    $('tbody').attr('class', '');
-                    $('tbody').html(data.table_data);
+                    handleData(data);
                 }
             })
         }
 
-        fetch_customer_data();
+        getFlights();
 
+        /**
+         * When the search input's value is changed, get flights, passing in the search term
+         */
         $(document).on('keyup', '#search', function()
         {
             $('#loading-icon').show();
             var query = $(this).val();
-            fetch_customer_data(query);
+            getFlights(query);
         });
 	});
 </script>
