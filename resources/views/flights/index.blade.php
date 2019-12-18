@@ -42,8 +42,6 @@
          */
         function handleData(data)
         { 
-            $("#flights-table tbody").empty();
-            $('#loading-icon').hide();
             if (data.length > 0)
             {
                 for (i = 0; i < data.length; i++)
@@ -80,6 +78,7 @@
                 dataType: 'json',
                 success: function(data)
                 {
+                    $('#loading-icon').hide();
                     handleData(data);
                 }
             })
@@ -93,6 +92,7 @@
         $(document).on('keyup', '#search', function()
         {
             $('#loading-icon').show();
+            $("#flights-table tbody").find("tr:gt(0)").remove();
             var query = $(this).val();
             getFlights(query);
         });
