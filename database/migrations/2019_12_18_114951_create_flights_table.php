@@ -24,7 +24,7 @@ class CreateFlightsTable extends Migration
             $table->string('aircraft');
             $table->integer('plan_id')->nullable();
             $table->string('code')->nullable();
-            $table->boolean('public')->default(0);
+            $table->boolean('public')->default(1);
             $table->timestamps();
         });
     }
