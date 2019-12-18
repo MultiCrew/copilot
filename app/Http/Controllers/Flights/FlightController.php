@@ -10,6 +10,12 @@ use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display table of flights
      *
