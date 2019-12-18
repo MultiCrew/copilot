@@ -2,6 +2,8 @@
 
 namespace App\Models\Flights;
 
+use Illuminate\Support\Str;
+use App\Models\Flights\Flight;
 use Illuminate\Database\Eloquent\Model;
 
 class Flight extends Model

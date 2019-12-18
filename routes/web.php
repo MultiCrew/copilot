@@ -17,10 +17,16 @@ Route::group([
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
 });
 
-Route::resources([
-    'flights' => 'Flights\FlightController'
-]);
-Route::get('search', 'Flights\FlightController@search')->name('flights.search');
+Route::group([
+    'as' => 'flights.',
+    'prefix' => 'flights'
+], function() {
+    Route::resources([
+        '/' => 'Flights\FlightController'
+    ]);
+    Route::get('search', 'Flights\FlightController@search')->name('search');
+});
+
 
 /*
  * Auth, account and profile routes
