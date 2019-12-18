@@ -41,7 +41,7 @@
          * @param      data     Array of flight objects
          */
         function handleData(data)
-        {
+        { 
             if (data.length > 0)
             {
                 for (i = 0; i < data.length; i++)

@@ -13,7 +13,7 @@ class FlightController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index', 'search');
     }
     
     /**
@@ -45,7 +45,7 @@ class FlightController extends Controller
         if($query != '')
         {
             $data =
-                DB::table('flight_requests')
+                DB::table('flights')
                 ->where('departure', 'like', '%'.$query.'%')
                 ->orWhere('arrival', 'like', '%'.$query.'%')
                 ->orWhere('aircraft', 'like', '%'.$query.'%')
@@ -55,7 +55,7 @@ class FlightController extends Controller
         else
         {
             $data =
-                DB::table('flight_requests')
+                DB::table('flights')
                 ->orderBy('id', 'asc')
                 ->get();
         }
