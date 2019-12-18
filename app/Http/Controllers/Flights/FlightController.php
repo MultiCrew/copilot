@@ -92,7 +92,7 @@ class FlightController extends Controller
             'aircraft'  => $request->aircraft
         ]);
         $flight->requestee_id = Auth::user()->id;
-        $flight->public = ($request->public == 'on') ? 1 : 0;
+        $flight->public = $request->public == 'on';
         $flight->save();
 
         return view('flights.index');
