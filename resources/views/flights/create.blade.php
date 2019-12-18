@@ -23,8 +23,10 @@
                 <input type="text" name="aircraft" id="aircraft" class="form-control">
             </div>
             <div class="form-group col-md-6">
-                <label for="public">Public Toggle</label>
-                <input type="checkbox" name="public" id="public" checked data-toggle="toggle" data-on="Public" data-off="Private" data-onstyle="success" data-offstyle="danger">
+                <div class="custom-control custom-switch">
+                <label class="custom-control-label" for="public">Public flight toggle</label>
+                <input type="checkbox" class="custom-control-input" id="public">
+              </div>
             </div>
         </div>
 

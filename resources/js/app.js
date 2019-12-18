@@ -63,5 +63,3 @@ $(document).ready(function(){
     }
 });
 
-require('bootstrap4-toggle');
-
