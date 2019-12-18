@@ -6,7 +6,7 @@
 	<input type="text" name="search" id="search" class="form-control" placeholder="Search Flights">
 </div>
 
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover" id="flights-table">
 	<thead>
 		<tr>
 			<th>#</th>
@@ -42,6 +42,8 @@
          */
         function handleData(data)
         { 
+            $("#flights-table tbody").empty();
+            $('#loading-icon').hide();
             if (data.length > 0)
             {
                 for (i = 0; i < data.length; i++)
@@ -78,7 +80,6 @@
                 dataType: 'json',
                 success: function(data)
                 {
-                    $('#loading-icon').hide();
                     handleData(data);
                 }
             })

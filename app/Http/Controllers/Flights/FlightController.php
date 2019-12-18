@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Flights;
 
+use \Auth as Auth;
 use Illuminate\Http\Request;
+use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use \Auth as Auth;
-use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
 {
@@ -84,14 +84,14 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
-        $flight = new FlightRequest();
+        $flight = new Flight();
 
         $flight->fill([
             'departure' => $request->departure,
             'arrival'   => $request->arrival,
             'aircraft'  => $request->aircraft
         ]);
-        $flight->user_id = Auth::user()->id;
+        $flight->requestee_id = Auth::user()->id;
 
         $flight->save();
 
