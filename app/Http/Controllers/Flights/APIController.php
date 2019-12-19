@@ -2,32 +2,14 @@
 
 namespace App\Http\Controllers\Flights;
 
-use \Auth as Auth;
+use App\Models\Users\User;
 use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
-class FlightController extends Controller
+class APIController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth')->except('index', 'search');
-    }
-    
-    /**
-     * Display table of flights
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('flights.index'//,
-            //['flights' => FlightRequest::all()]
-        );
-    }
-
     /**
      * Search the database for flights, based on a query parameter if given in the request
      * Method can be called either in ajax or PHP, see below
@@ -40,9 +22,12 @@ class FlightController extends Controller
     public function search(Request $request)
     {  
         $output = '';
-        
-        $query = $request->get('query');
-        
+        if($request->path() == 'api/search'){
+            $query = $request->get('query')[0];
+        }
+        else{
+            $query = $request->get('query');
+        }
         if($query != '')
         {
             $data =
@@ -71,16 +56,6 @@ class FlightController extends Controller
     }
 
     /**
-     * Returns the form for adding a new flight to the database
-     *
-     * @return     View     Form to make a new flight
-     */
-    public function create()
-    {
-        return view('flights.create');
-    }
-
-    /**
      * Create a new flight
      *
      * @param      \Illuminate\Http\Request     $request
@@ -89,31 +64,18 @@ class FlightController extends Controller
     public function store(Request $request)
     {
         $flight = new Flight();
+        $user = User::where('discord_id', $request->discord_id)->firstOrFail();
 
         $flight->fill([
             'departure' => $request->departure,
             'arrival'   => $request->arrival,
             'aircraft'  => $request->aircraft
         ]);
-        $flight->requestee_id = Auth::user()->id;
-        $flight->public = $request->public == 'on';
+        $flight->requestee_id = $user->id;
+        $flight->public = true;
         $flight->save();
-
-        return view('flights.index');
-    }
-
-    /**
-     * Generate a code.
-     *
-     * @param \App\Models\Flights\Flight $flight
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function generateCode(Flight $flight)
-    {
-        $flight->code = Flight::generatePublicId();
-        $flight->save();
-        return redirect()->back();
+        
+        $flight = $flight->fresh();
+        return $flight;
     }
 }
-

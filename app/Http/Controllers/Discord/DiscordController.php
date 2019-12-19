@@ -50,7 +50,7 @@ class DiscordController extends Controller
 				$user->discord_id = $discordUser->getId();
 				$user->save();
 				//$user->notify(new DiscordSendData($message)); uncomment once message variable is set
-				return redirect()->route('home.home');
+				return redirect()->back();
 		
 			} catch (Exception $e) {
 		
