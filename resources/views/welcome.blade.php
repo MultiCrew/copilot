@@ -13,7 +13,7 @@
         <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
         <style>
             html, body {
-                background: url('img/background.png') no-repeat;
+                background: url('img/bg.jpeg') no-repeat;
                 color: #eee;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;

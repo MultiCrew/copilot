@@ -2,6 +2,7 @@
 
 namespace App\Models\Flights;
 
+use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Model;
 
 class FlightRequest extends Model
@@ -12,7 +13,7 @@ class FlightRequest extends Model
      * @var array
      */
     protected $fillable = [
-        'departure', 'arrival', 'acft'
+        'departure', 'arrival', 'aircraft'
     ];
     /**
      * The user that created the request.
@@ -21,13 +22,13 @@ class FlightRequest extends Model
      */
     public function requestee()
     {
-        return $this->belongsTo('Copilot\Models\User', 'user_id');
+        return $this->belongsTo('App\Models\Users\User', 'user_id');
     }
 
     /**
      * Get whether a user is the organiser of a flight.
      *
-     * @param \Concuflight\Models\User\User $user
+     * @param \App\Models\Users\User $user
      *
      * @return boolean
      */

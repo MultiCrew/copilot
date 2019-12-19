@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Users;
 
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -46,6 +46,6 @@ class User extends Authenticatable
      */
     public function flights()
     {
-        return $this->hasMany('Copilot\Models\Flights\FlightRequests', 'user_id');
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'user_id');
     }
 }
