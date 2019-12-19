@@ -64,7 +64,10 @@ class APIController extends Controller
     public function store(Request $request)
     {
         $flight = new Flight();
-        $user = User::where('discord_id', $request->discord_id)->firstOrFail();
+        $user = User::where('discord_id', $request->discord_id)->first();
+        if(!$user) {
+            return $user;
+        }
 
         $flight->fill([
             'departure' => $request->departure,
