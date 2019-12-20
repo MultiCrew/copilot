@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
 {
@@ -14,6 +15,9 @@ class FlightController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('index', 'search');
+
+        $this->middleware(['flight_role:requestee'])->only(['generateCode']);
+        $this->middleware(['flight_role:acceptee'])->only(['join']);
     }
     
     /**
@@ -99,6 +103,23 @@ class FlightController extends Controller
         $flight->save();
 
         return view('flights.index');
+    }
+
+    /**
+     * Accept a request
+     * 
+     * @param string $id
+     */
+    public function accept(string $id)
+    {
+        $flight = Flight::where('id', $id)->first();
+
+        if($flight == null) abort(404);
+
+        $flight->acceptee_id = Auth::user()->id;
+        $flight->save();
+        //return view('flights.', ['flight' => $flight]);
+
     }
 
     /**

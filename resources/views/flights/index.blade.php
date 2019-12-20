@@ -46,13 +46,15 @@
             {
                 for (i = 0; i < data.length; i++)
                 {
+                    var route = '{{ route('flights.accept', ":id") }}'
+                    route = route.replace(':id', data[i].id)
                     var htmlRow = '<tr>';
 
                     htmlRow +=  '<td>'+data[i].id+'</td>';
                     htmlRow +=  '<td>'+data[i].departure+'</td>';
                     htmlRow +=  '<td>'+data[i].arrival+'</td>';
                     htmlRow +=  '<td>'+data[i].aircraft+'</td>';
-                    htmlRow +=  '<td><a href="'+data[i].id+'" class="btn btn-sm btn-success">Join &raquo;</a></td>';
+                    htmlRow +=  '<td><a href="'+route+'" class="btn btn-sm btn-success">Accept &raquo;</a></td>';
 
                     $('tbody').append(htmlRow + '</tr>');
                 }

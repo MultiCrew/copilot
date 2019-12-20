@@ -25,6 +25,8 @@ Route::group([
         '/' => 'Flights\FlightController'
     ]);
     Route::get('search', 'Flights\FlightController@search')->name('search');
+
+    Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
 });
 
 
