@@ -58,5 +58,28 @@ class Flight extends Model
         return $flight->public;
     }
 
+    /**
+     * Check to see if user is the requestee
+     * 
+     * @param \App\Models\User\User $user
+     * 
+     * @return boolean
+     */
+    public function isRequestee(User $user) 
+    {
+        return $this->requestee_id == $user->id;
+    }
+
+    /**
+     * Check to see if user is the acceptee
+     * 
+     * @param \App\Models\User\User $user
+     * 
+     * @return boolean
+     */
+    public function isAcceptee(User $user) 
+    {
+        return $this->acceptee_id == $user->id;
+    }
 
 }
