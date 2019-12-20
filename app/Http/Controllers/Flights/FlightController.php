@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
 {
@@ -21,15 +20,30 @@ class FlightController extends Controller
     }
     
     /**
-     * Display table of flights
+     * Display the flights dashboard
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('flights.index'//,
-            //['flights' => FlightRequest::all()]
+        $flightRequests = Auth::user()->requests()->get();
+        $acceptedFlights = Auth::user()->accepts()->get();
+
+        return view('flights.index', [
+            'flightRequests' => $flightRequests,
+            'acceptedFlights' => $acceptedFlights
+            ]
         );
+    }
+
+    /**
+     * Display a table of flights
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        return view('flights.list');
     }
 
     /**
@@ -77,7 +91,7 @@ class FlightController extends Controller
      */
     public function create()
     {
-        return view('flights.create');
+        return view('flights.request.create');
     }
 
     /**
@@ -102,7 +116,8 @@ class FlightController extends Controller
         }
         $flight->save();
 
-        return view('flights.index');
+
+        return view('flights.info', ['flight' => $flight]);
     }
 
     /**
@@ -115,9 +130,10 @@ class FlightController extends Controller
         $flight = Flight::where('id', $id)->first();
 
         if($flight == null) abort(404);
+        if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user())) return redirect()->route('flights.info', ['flight' => $flight]);
 
         $flight->acceptee_id = Auth::user()->id;
-        $flight->save();
+        //$flight->save();
         //return view('flights.', ['flight' => $flight]);
 
     }

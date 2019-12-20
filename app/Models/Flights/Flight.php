@@ -55,7 +55,7 @@ class Flight extends Model
      */
     public function isPublic(Flight $flight)
     {
-        return $flight->public;
+        return $flight->public == 1 ? 'Yes' : 'No';
     }
 
     /**
