@@ -13,7 +13,7 @@ class FlightController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index', 'search');
+        $this->middleware('auth');
 
         $this->middleware(['flight_role:requestee'])->only(['generateCode']);
         $this->middleware(['flight_role:acceptee'])->only(['join']);
