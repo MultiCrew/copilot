@@ -2,19 +2,20 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700');
 $headings-font-family:Nunito;
 
-$primary:#FF550B;
-$secondary:#303030;
-$success:#015668;
-$danger:#FF304F;
-$info:#0F81C7;
-$warning:#0DE2EA;
-$light:#e8e8e8;
-$dark:#000000;
+$primary: #FF550B;
+$secondary: #303030;
+$secondary-lighter: #333333;
+$success: #015668;
+$danger: #FF304F;
+$info: #0F81C7;
+$warning: #0DE2EA;
+$light: #e8e8e8;
+$dark: #000000;
 $enable-shadows:true;
-$body-color:#cccccc;
-$link-color:#f0f0f0;
-$font-size-base:1.1rem;
-$input-disabled-bg: #ccc;
+$body-color: #cccccc;
+$link-color: #f0f0f0;
+$font-size-base: 1.1rem;
+$input-disabled-bg: #cccccc;
 
 /*! Import Bootstrap 4 variables */
 @import '~bootstrap/scss/functions';
@@ -25,9 +26,9 @@ $navbar-dark-hover-color:$white;
 $navbar-light-hover-color:$gray-400;
 $navbar-light-active-color:$gray-800;
 $input-bg:$gray-300;
-$card-border-color:rgba($black, 0.6);
+$card-border-color:rgba($black, 0);
 $card-cap-bg:lighten($gray-800, 10%);
-$card-bg:lighten($body-bg, 5%);
+$card-bg: $secondary-lighter;
 $list-group-bg:lighten($body-bg,5%);
 $list-group-border-color:rgba($black,0.6);
 $list-group-hover-bg:lighten($body-bg,10%);
@@ -45,7 +46,7 @@ h1,h2,h3,h4,h5,h6 {color: $primary;}
 .list-group-item {background-color:#111111 !important;}
 .sidebar-separator-title{background-color: #333 !important;}
 .list-group-item:last-child {border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
-.form-control {box-shadow: 0;background-color: #333333;border: 1px solid #888888;color: #fff;}
+.form-control {box-shadow: 0;background-color: $secondary-lighter; border: 1px solid #888888; color: #fff;}
 .form-control:disabled, .form-control[readonly] {background-color: #888888;color: #ccc;}
 .close,.close>a {color: #333;}
 
@@ -83,7 +84,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 #sidebar-container {
     min-height: 100vh;
-    background-color: #333;
+    background-color: $secondary-lighter;
     padding: 0;
 }
 
@@ -113,15 +114,15 @@ h1,h2,h3,h4,h5,h6 {
 
 /* Separators */
 .sidebar-separator-title {
-    background-color: #333;
+    background-color: $secondary-lighter;
     height: 35px;
 }
 .sidebar-separator {
-    background-color: #333;
+    background-color: $secondary-lighter;
     height: 25px;
 }
 .logo-separator {
-    background-color: #333;
+    background-color: $secondary-lighter;
     height: 60px;
 }
 
@@ -129,7 +130,7 @@ h1,h2,h3,h4,h5,h6 {
 #sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: " \f0da";
+    content: "\f0da";
     display: inline;
     text-align: right;
     padding-left: 10px;
@@ -138,7 +139,7 @@ h1,h2,h3,h4,h5,h6 {
 #sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: " \f0d7";
+    content: "\f0d7";
     display: inline;
     text-align: right;
     padding-left: 10px;
