@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class,
-            FlightSeeder::class
+            UserSeeder::class,      // TODO: REMOVE IN PRODUCTION
+            FlightSeeder::class     // TODO: REMOVE IN PRODUCTION
         ]);
     }
 }
