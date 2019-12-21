@@ -17,12 +17,15 @@ Route::group([
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
 });
 
+/**
+ * Flight routes
+ */
 Route::group([
-    'as' => 'flights.',
-    'prefix' => 'flights'
+    'as' => 'flights.',                     // routes are named 'flights.{}'
+    'prefix' => 'flights'                   // route URLs are '/flights/{}'
 ], function() {
     Route::resources([
-        '/' => 'Flights\FlightController'
+        '/' => 'Flights\FlightController'   // standard resource routes
     ]);
     Route::get('list', 'Flights\FlightController@list')->name('list');
     Route::get('search', 'Flights\FlightController@search')->name('search');
