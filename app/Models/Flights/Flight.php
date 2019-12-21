@@ -49,35 +49,35 @@ class Flight extends Model
 
     /**
      * Check to see if flight is public.
-     * 
+     *
      * @param Flight $flight
      * @return boolean
      */
-    public function isPublic(Flight $flight)
+    public static function isPublic(Flight $flight)
     {
-        return $flight->public == 1 ? 'Yes' : 'No';
+        return $flight->public == 1 ? true : false;
     }
 
     /**
      * Check to see if user is the requestee
-     * 
+     *
      * @param \App\Models\User\User $user
-     * 
+     *
      * @return boolean
      */
-    public function isRequestee(User $user) 
+    public function isRequestee(User $user)
     {
         return $this->requestee_id == $user->id;
     }
 
     /**
      * Check to see if user is the acceptee
-     * 
+     *
      * @param \App\Models\User\User $user
-     * 
+     *
      * @return boolean
      */
-    public function isAcceptee(User $user) 
+    public function isAcceptee(User $user)
     {
         return $this->acceptee_id == $user->id;
     }
