@@ -11,19 +11,19 @@ class FlightSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('flight_requests')->insert([
+        DB::table('flights')->insert([
 			'user_id' => '1',
 			'departure' => 'EGLL',
 			'arrival' => 'EGPD',
 			'aircraft' => 'A320'
 		]);
-		DB::table('flight_requests')->insert([
+		DB::table('flights')->insert([
 			'user_id' => '1',
 			'departure' => 'EGKK',
 			'arrival' => 'EHAM',
 			'aircraft' => 'A320'
 		]);
-		DB::table('flight_requests')->insert([
+		DB::table('flights')->insert([
 			'user_id' => '1',
 			'departure' => 'EGHI',
 			'arrival' => 'EHAM',
