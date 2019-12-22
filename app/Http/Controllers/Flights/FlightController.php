@@ -18,32 +18,43 @@ class FlightController extends Controller
         $this->middleware(['flight_role:requestee'])->only(['generateCode']);
         $this->middleware(['flight_role:acceptee'])->only(['join']);
     }
-    
+
     /**
-     * Display the flights dashboard
+     * Display all flights which a user can accept
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $flightRequests = Auth::user()->requests()->get();
-        $acceptedFlights = Auth::user()->accepts()->get();
+        // select flights where user_id is NOT the authed user
+        $acceptableRequests =   DB::table('flights')
+                                //->where('requestee_id', '<>', Auth::user()->id)
+                                ->get();
 
         return view('flights.index', [
-            'flightRequests' => $flightRequests,
-            'acceptedFlights' => $acceptedFlights
+            'title'     => 'All Flights',
+            'flights'   => $acceptableRequests
             ]
         );
     }
 
     /**
-     * Display a table of flights
+     * Display all a user's open requests
      *
      * @return \Illuminate\Http\Response
      */
-    public function list()
+    public function userRequests()
     {
-        return view('flights.list');
+        // select flights where user_id IS the authed user
+        $userRequests = DB::table('flights')
+                        ->where('requestee_id', '=', Auth::user()->id)
+                        ->get();
+
+        return view('flights.index', [
+            'title'     => 'My Requests',
+            'flights'   => $userRequests
+            ]
+        );
     }
 
     /**
@@ -91,7 +102,7 @@ class FlightController extends Controller
      */
     public function create()
     {
-        return view('flights.request.create');
+        return view('flights.create');
     }
 
     /**
@@ -116,13 +127,12 @@ class FlightController extends Controller
         }
         $flight->save();
 
-
-        return view('flights.info', ['flight' => $flight]);
+        return view('flights.show', ['flight' => $flight]);
     }
 
     /**
      * Accept a request
-     * 
+     *
      * @param string $id
      */
     public function accept(string $id)
@@ -130,12 +140,12 @@ class FlightController extends Controller
         $flight = Flight::where('id', $id)->first();
 
         if($flight == null) abort(404);
-        if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user())) return redirect()->route('flights.info', ['flight' => $flight]);
+        if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()))
+            return redirect()->route('flights.info', ['flight' => $flight]);
 
         $flight->acceptee_id = Auth::user()->id;
         //$flight->save();
         //return view('flights.', ['flight' => $flight]);
-
     }
 
     /**
@@ -149,6 +159,7 @@ class FlightController extends Controller
     {
         $flight->code = Flight::generatePublicId();
         $flight->save();
+
         return redirect()->back();
     }
 }

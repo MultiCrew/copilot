@@ -2,93 +2,46 @@
 
 @section('content')
 
-<section class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="body">
-                        <h5 class="card-title">Flight Requests</h5>
-                        <table class="card-table table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Departure</th>
-                                    <th>Arrival</th>
-                                    <th>Aircraft</th>
-                                    <th>Public</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($flightRequests as $request)
-                                    <tr>
-                                        <td>
-                                            {{$request->id}}
-                                        </td>
-                                        <td>
-                                            {{$request->departure}}
-                                        </td>
-                                        <td>
-                                            {{$request->arrival}}
-                                        </td>
-                                        <td>
-                                            {{$request->aircraft}}
-                                        </td>
-                                        <td>
-                                            {{$request->isPublic($request)}}
-                                        </td>
-                                        <td>
-                                            <a href="{{route('flights.update', ['id' => $request->id])}}" class="btn btn-primary">Edit</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="body">
-                        <h5 class="card-title">Accepted Flights</h5>
-                        <table class="card-table table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Departure</th>
-                                    <th>Arrival</th>
-                                    <th>Aircraft</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($acceptedFlights as $accepted)
-                                    <tr>
-                                        <td>
-                                            {{$accepted->id}}
-                                        </td>
-                                        <td>
-                                            {{$accepted->departure}}
-                                        </td>
-                                        <td>
-                                            {{$accepted->arrival}}
-                                        </td>
-                                        <td>
-                                            {{$accepted->aircraft}}
-                                        </td>
-                                        <td>
-                                            <a href="{{route('flights.show', ['id' => $accepted->id])}}" class="btn btn-primary">Show</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            @if(isset($title))
+                {{ $title }}
+            @else
+                Flights
+            @endif
+        </h5>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Aircraft</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($flights as $flight)
+                    @if($flight->public)
+                        <tr>
+                            <td>{{ App\Models\Users\User::find($flight->requestee_id)->username }}</td>
+                            <td>{{ $flight->departure }}</td>
+                            <td>{{ $flight->arrival }}</td>
+                            <td>{{ $flight->aircraft }}</td>
+                            <td class="p-0">
+                                <a href="{{route('flights.accept', ['id' => $flight->id])}}" class="btn btn-sm m-2 btn-success">
+                                    Accept &raquo;
+                                </a>
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
     </div>
-</section>
+</div>
 
 @endsection
