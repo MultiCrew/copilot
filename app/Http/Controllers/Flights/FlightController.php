@@ -26,9 +26,9 @@ class FlightController extends Controller
      */
     public function index()
     {
-        // select flights where user_id is NOT the authed user
+        // select flights where requestee_id is NOT the authed user
         $acceptableRequests =   DB::table('flights')
-                                //->where('requestee_id', '<>', Auth::user()->id)
+                                ->where('requestee_id', '<>', Auth::user()->id)
                                 ->get();
 
         return view('flights.index', [
@@ -45,7 +45,7 @@ class FlightController extends Controller
      */
     public function userRequests()
     {
-        // select flights where user_id IS the authed user
+        // select flights where requestee_id IS the authed user
         $userRequests = DB::table('flights')
                         ->where('requestee_id', '=', Auth::user()->id)
                         ->get();
