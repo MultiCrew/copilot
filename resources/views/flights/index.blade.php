@@ -12,8 +12,8 @@
             @endif
         </h5>
 
-        <table class="table">
-            <thead>
+        <table class="table table-hover card-text border">
+            <thead class="thead-light">
                 <tr>
                     <th>User</th>
                     <th>Departure</th>
