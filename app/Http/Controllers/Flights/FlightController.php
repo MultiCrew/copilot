@@ -124,21 +124,29 @@ class FlightController extends Controller
     }
 
     /**
-     * Accept a request
+     * Accept a request where the requestee is the authed user
      *
-     * @param string $id
+     * @param      \Illuminate\Http\Request     $request
      */
-    public function accept(string $id)
+    public function accept(Request $request)
     {
-        $flight = Flight::where('id', $id)->first();
+        // get the flight to accept
+        $flight = Flight::findOrFail($request->id);
 
-        if($flight == null) abort(404);
-        if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()))
-            return redirect()->route('flights.info', ['flight' => $flight]);
+        // if the user is the requestee or has already accepted the flight
+        if( $flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()) )
+        {   // redirect them to the flight
+            return  redirect()
+                    ->route('flights.show', ['flight' => $flight])
+                    ->withErrors(['You have already accepted this request!']);
+        }
 
+        // accept the flight
         $flight->acceptee_id = Auth::user()->id;
-        //$flight->save();
-        //return view('flights.', ['flight' => $flight]);
+        $flight->save();
+
+        // show the flight
+        return view('flights.show', ['flight' => $flight]);
     }
 
     /**
