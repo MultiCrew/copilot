@@ -5,6 +5,7 @@ namespace App\Models\Flights;
 use Illuminate\Support\Str;
 use App\Models\Flights\Flight;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Users\User as User;
 
 class Flight extends Model
 {
