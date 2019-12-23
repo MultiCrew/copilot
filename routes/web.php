@@ -35,6 +35,15 @@ Route::group([
     //Route::get('search', 'Flights\FlightController@search')->name('search');
 });
 
+/**
+ * Dispatch routes
+ */
+Route::group([
+    'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
+    'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
+], function() {
+    Route::get('plan', 'Flights\DispatchController@plan')->name('plan');
+});
 
 /*
  * Auth, account and profile routes
