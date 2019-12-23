@@ -14,6 +14,7 @@
 Route::group([
     'as' => 'home.'
 ], function() {
+    Route::get('/')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
 });
 
