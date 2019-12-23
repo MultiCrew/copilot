@@ -29,6 +29,7 @@ class FlightController extends Controller
         // select flights where requestee_id is NOT the authed user
         $acceptableRequests =   DB::table('flights')
                                 ->where('requestee_id', '<>', Auth::user()->id)
+                                ->where('public', '=', 1)
                                 ->get();
 
         return view('flights.index', [

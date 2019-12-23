@@ -32,21 +32,19 @@
 
             <tbody>
                 @foreach ($flights as $flight)
-                    @if($flight->public)
-                        <tr>
-                            <td>{{ App\Models\Users\User::find($flight->requestee_id)->username }}</td>
-                            <td>{{ $flight->departure }}</td>
-                            <td>{{ $flight->arrival }}</td>
-                            <td>{{ $flight->aircraft }}</td>
-                            <td class="p-0">
-                                <a
-                                href="{{route('flights.accept', ['id' => $flight->id])}}"
-                                class="btn btn-sm m-2 btn-success">
-                                    Accept &raquo;
-                                </a>
-                            </td>
-                        </tr>
-                    @endif
+                    <tr>
+                        <td>{{ App\Models\Users\User::find($flight->requestee_id)->username }}</td>
+                        <td>{{ $flight->departure }}</td>
+                        <td>{{ $flight->arrival }}</td>
+                        <td>{{ $flight->aircraft }}</td>
+                        <td class="p-0">
+                            <a
+                            href="{{route('flights.accept', ['id' => $flight->id])}}"
+                            class="btn btn-sm m-2 btn-success">
+                                Accept &raquo;
+                            </a>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
