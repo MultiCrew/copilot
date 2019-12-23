@@ -45,7 +45,7 @@
                     <a href="{{ route('flights.user-requests') }}" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed"><i class="fas fa-folder-open fa-fw mr-2"></i>Open Requests</span>
                     </a>
-                    <a href="{{ route('flights.create' )}}" class="list-group-item list-group-item-action bg-dark text-white">
+                    <a href="{{ url('/flights/my-flights#createRequestModal' )}}" class="list-group-item list-group-item-action bg-dark text-white">
                         <span class="menu-collapsed"><i class="fas fa-plus fa-fw mr-2"></i>New Request</span>
                     </a>
                 </div>

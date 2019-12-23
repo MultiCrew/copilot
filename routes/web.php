@@ -24,8 +24,10 @@ Route::group([
     'as' => 'flights.',                     // routes are named 'flights.{}'
     'prefix' => 'flights'                   // route URLs are '/flights/{}'
 ], function() {
-    Route::resources([
-        '/' => 'Flights\FlightController'   // standard resource routes
+    Route::resource(
+        '/', 'Flights\FlightController'   // standard resource routes
+    )->except([
+        'create'
     ]);
     Route::get('my-flights', 'Flights\FlightController@userRequests')->name('user-requests');
     Route::get('search', 'Flights\FlightController@search')->name('search');
