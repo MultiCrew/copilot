@@ -34,7 +34,7 @@ class FlightController extends Controller
                                 ->get();
 
         return view('flights.index', [
-            'title'     => 'All Flights',
+            'title'     => 'All Requests',
             'flights'   => $acceptableRequests
             ]
         );
