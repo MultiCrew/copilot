@@ -2,6 +2,58 @@
 
 @section('content')
 
+@if(isset($acceptedRequests))
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Accepted Flights</h5>
+
+            <table class="table table-hover card-text border">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Acceptee</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Aircraft</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach($acceptedRequests as $flight)
+                        <tr>
+                            <td>
+                                @if($flight->acceptee_id == \Auth::user()->id)
+                                    You!
+                                @else
+                                    {{ App\Models\Users\User::find($flight->acceptee_id)->username }}
+                                @endif
+                            </td>
+                            <td>{{ $flight->departure }}</td>
+                            <td>{{ $flight->arrival }}</td>
+                            <td>{{ $flight->aircraft }}</td>
+                            <td class="p-0">
+                                <a
+                                href="{{ route('dispatch.plan', ['flight' => $flight]) }}"
+                                class="btn btn-sm m-2 btn-success">
+                                    Plan &raquo;
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if(!count($acceptedRequests))
+                        <tr>
+                            <td colspan="5">No flights!</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+@endif
+
 <div class="card">
     <div class="card-body">
         <div class="card-title mb-0 d-flex justify-content-between align-items-baseline">
@@ -46,11 +98,16 @@
                         </td>
                     </tr>
                 @endforeach
+
+                @if(!count($flights))
+                    <tr>
+                        <td colspan="5">No flights!</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
 </div>
-
 
 <div
 class="modal fade"

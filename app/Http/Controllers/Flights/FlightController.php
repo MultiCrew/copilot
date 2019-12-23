@@ -41,21 +41,29 @@ class FlightController extends Controller
     }
 
     /**
-     * Display all a user's open requests
+     * Display all a user's accepted and open requests
      *
      * @return \Illuminate\Http\Response
      */
-    public function userRequests()
+    public function userFlights()
     {
-        // select flights where requestee_id IS the authed user
+        // select flights where an involved user IS the authed user and the flights ARE accepted
+        $acceptedRequests = Flight::
+                          where('requestee_id', '=', Auth::user()->id)
+                        ->orWhere('acceptee_id', '=', Auth::user()->id)
+                        ->whereNotNull('acceptee_id')
+                        ->get();
+
+        // select flights where requestee_id IS the authed user and the flights are NOT accepted
         $userRequests = Flight::
                           where('requestee_id', '=', Auth::user()->id)
                         ->whereNull('acceptee_id')
                         ->get();
 
         return view('flights.index', [
-            'title'     => 'My Requests',
-            'flights'   => $userRequests
+            'title'             => 'My Requests',
+            'acceptedRequests'  => $acceptedRequests,
+            'flights'           => $userRequests
             ]
         );
     }

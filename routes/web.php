@@ -22,18 +22,17 @@ Route::group([
  * Flight routes
  */
 Route::group([
-    'as' => 'flights.',                     // routes are named 'flights.{}'
-    'prefix' => 'flights'                   // route URLs are '/flights/{}'
+    'as'        => 'flights.',              // routes are named 'flights.{}'
+    'prefix'    => 'flights'                // route URLs are '/flights/{}'
 ], function() {
     Route::resource(
-        '/', 'Flights\FlightController'   // standard resource routes
+        '/', 'Flights\FlightController'     // standard resource routes
     )->except([
         'create'
     ]);
-    Route::get('my-flights', 'Flights\FlightController@userRequests')->name('user-requests');
-    Route::get('search', 'Flights\FlightController@search')->name('search');
-
     Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
+    Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
+    //Route::get('search', 'Flights\FlightController@search')->name('search');
 });
 
 
