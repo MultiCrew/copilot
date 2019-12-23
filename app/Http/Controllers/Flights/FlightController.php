@@ -97,16 +97,6 @@ class FlightController extends Controller
     }
 
     /**
-     * Returns the form for adding a new flight to the database
-     *
-     * @return     View     Form to make a new flight
-     */
-    public function create()
-    {
-        return view('flights.create');
-    }
-
-    /**
      * Create a new flight
      *
      * @param      \Illuminate\Http\Request     $request
