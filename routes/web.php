@@ -14,8 +14,35 @@
 Route::group([
     'as' => 'home.'
 ], function() {
-    Route::get('/', 'Home\HomeController@index')->name('home');
+    Route::get('/')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
+});
+
+/**
+ * Flight routes
+ */
+Route::group([
+    'as'        => 'flights.',              // routes are named 'flights.{}'
+    'prefix'    => 'flights'                // route URLs are '/flights/{}'
+], function() {
+    Route::resource(
+        '/', 'Flights\FlightController'     // standard resource routes
+    )->except([
+        'create'
+    ]);
+    Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
+    Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
+    //Route::get('search', 'Flights\FlightController@search')->name('search');
+});
+
+/**
+ * Dispatch routes
+ */
+Route::group([
+    'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
+    'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
+], function() {
+    Route::get('plan', 'Flights\DispatchController@plan')->name('plan');
 });
 
 /*
