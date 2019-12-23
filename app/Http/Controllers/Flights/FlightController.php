@@ -30,6 +30,7 @@ class FlightController extends Controller
         $acceptableRequests =   Flight::
                                   where('requestee_id', '<>', Auth::user()->id)
                                 ->where('public', '=', 1)
+                                ->whereNull('acceptee_id')
                                 ->get();
 
         return view('flights.index', [
@@ -49,6 +50,7 @@ class FlightController extends Controller
         // select flights where requestee_id IS the authed user
         $userRequests = Flight::
                           where('requestee_id', '=', Auth::user()->id)
+                        ->whereNull('acceptee_id')
                         ->get();
 
         return view('flights.index', [
