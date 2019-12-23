@@ -51,6 +51,7 @@ h1,h2,h3,h4,h5,h6 {color: $primary;}
 .close,.close>a {color: #333;}
 .modal-header, .modal-footer {background-color: $secondary;}
 .modal-body {background-color: $secondary-lighter;}
+.sidebar-submenu a.active {background-color: $primary !important;}
 
 // Font Awesome
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
