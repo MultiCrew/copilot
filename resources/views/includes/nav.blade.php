@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
     <a class="navbar-brand" href="{{ url('/') }}">
         <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="MultiCrew logo">
         <span class="menu-collapsed">{{ config('app.name', 'MultiCrew') }}</span>
