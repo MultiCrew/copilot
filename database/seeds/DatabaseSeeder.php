@@ -1,6 +1,5 @@
 <?php
 
-use RoleSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RoleSeeder::class);
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,      // TODO: REMOVE IN PRODUCTION
+            FlightSeeder::class     // TODO: REMOVE IN PRODUCTION
+        ]);
     }
 }

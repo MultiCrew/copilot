@@ -44,8 +44,18 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function flights()
+    public function requests()
     {
-        return $this->hasMany('App\Models\Flights\FlightRequests', 'user_id');
+        return $this->hasMany('App\Models\Flights\Flight', 'requestee_id')->where('acceptee_id', null);
+    }
+
+    /**
+     * The flights the user has accepted.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function accepts()
+    {
+        return $this->hasMany('App\Models\Flights\Flight', 'acceptee_id');
     }
 }

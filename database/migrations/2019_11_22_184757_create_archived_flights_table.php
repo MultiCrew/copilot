@@ -15,10 +15,10 @@ class CreateArchivedFlightsTable extends Migration
     {
         Schema::create('archived_flights', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('copilot');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('copilot')->references('id')->on('users');
+            $table->unsignedInteger('requestee_id');
+            $table->unsignedInteger('acceptee_id');
+            $table->foreign('requestee_id')->references('id')->on('users');
+            $table->foreign('acceptee_id')->references('id')->on('users');
             $table->string('departure');
             $table->string('arrival');
             $table->string('aircraft');
