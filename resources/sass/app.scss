@@ -61,12 +61,14 @@ h1,h2,h3,h4,h5,h6 {color: $primary;}
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
+$navbar-height: 56px;
+
 body {
-    padding-top: 56px;
+    padding-top: $navbar-height;
 }
 
 .sticky-offset {
-    top: 56px;
+    top: $navbar-height;
 }
 
 #body-row {
@@ -74,7 +76,7 @@ body {
     margin-right:0;
 }
 #sidebar-container {
-    min-height: 100vh;
+    min-height: calc(100vh - #{$navbar-height});
     background-color: #333;
     padding: 0;
 }
@@ -99,7 +101,7 @@ body {
     padding-left: 30px;
 }
 .sidebar-submenu {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 /* Separators */
@@ -113,7 +115,7 @@ body {
 }
 .logo-separator {
     background-color: #333;
-    height: 60px;
+    height: navbar-height;
 }
 
 /* Closed submenu icon */
