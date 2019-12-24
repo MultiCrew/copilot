@@ -83,14 +83,5 @@
                     </div>
                 </a>
             </li>
-
-            <li>
-                <a href="#top" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span id="collapse-icon" class="fa fa-lg mr-3"></span>
-                        <span id="collapse-text" class="menu-collapsed">Collapse</span>
-                    </div>
-                </a>
-            </li>
         </ul>
     </div>
