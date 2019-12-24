@@ -4,9 +4,9 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <h5 class="card-title">Plan Flight</h5>
         <div class="row">
             <div class="col-md-9 text-justify">
+                <h5 class="card-title">Plan Flight</h5>
                 <p class="card-text">
                     The following form makes use of the SimBrief API to generate a draft flight plan which both
                     pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
@@ -106,7 +106,7 @@
 
                         <!-- callsign options -->
                         <div class="form-row">
-                            <div class="col-sm-3 form-group">
+                            <div class="col-sm-3 form-group mb-0">
                                 <label>Flight Number</label>
                                 <input type="hidden" name="airline" value="MC">
                                 <div class="input-group">
@@ -117,12 +117,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-3 form-group">
+                            <div class="col-sm-3 form-group  mb-0">
                                 <label>Callsign</label>
                                 <input type="text" name="callsign" class="form-control" placeholder="MTC12AB" required>
                             </div>
 
-                            <div class="col-sm-3 form-group">
+                            <div class="col-sm-3 form-group  mb-0">
                                 <label>Aircraft Reg</label>
                                 <input type="text" name="reg" class="form-control" placeholder="G-MTXX" required>
                             </div>
