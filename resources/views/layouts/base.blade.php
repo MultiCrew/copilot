@@ -18,7 +18,7 @@
 
         @auth
             @include('includes.sidebar')
-            	<div class="p-4 col">
+        		<div class="p-4 col">
                     @yield('content')
                 </div>
             </main>
