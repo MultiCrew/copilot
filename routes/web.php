@@ -42,7 +42,7 @@ Route::group([
     'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
     'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
 ], function() {
-    Route::get('plan', 'Flights\DispatchController@plan')->name('plan');
+    Route::get('plan/{flight}', 'Flights\DispatchController@plan')->name('plan');
 });
 
 /*
