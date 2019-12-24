@@ -68,12 +68,6 @@
                     <span class="menu-collapsed">Help</span>
                 </div>
             </a>
-            <a href="#" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i id="collapse-icon" class="fa fa-2x mr-3"></i>
-                    <span id="collapse-text" class="menu-collapsed">Collapse</span>
-                </div>
-            </a>
             <!-- Logo -->
             <li class="list-group-item logo-separator d-flex justify-content-center">
                 <img src="/img/icon_circle_light.png" width="30" height="30">
