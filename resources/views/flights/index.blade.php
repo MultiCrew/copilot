@@ -33,9 +33,7 @@
                             <td>{{ $flight->arrival }}</td>
                             <td>{{ $flight->aircraft }}</td>
                             <td class="p-0">
-                                <a
-                                href="{{ route('dispatch.plan', ['flight' => $flight]) }}"
-                                class="btn btn-sm m-2 btn-success">
+                                <a href="{{ route('dispatch.plan', $flight->id) }}" class="btn btn-sm m-2 btn-success">
                                     Plan &raquo;
                                 </a>
                             </td>
