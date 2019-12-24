@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary shadow">
     <a class="navbar-brand" href="{{ url('/') }}">
         <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="MultiCrew logo">
         <span class="menu-collapsed">{{ config('app.name', 'MultiCrew') }}</span>
@@ -11,7 +11,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
-
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('flights.index') }}">
+                    <i class="fas fa-paper-plane fa-fw mr-2"></i>{{ _('Copilot') }}
+                </a>
+            </li>
         </ul>
 
         <!-- Right Side Of Navbar -->
@@ -33,7 +37,7 @@
             @else
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ Auth::user()->name }} <span class="caret"></span>
+                        <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }} <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
