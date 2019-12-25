@@ -9,11 +9,25 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto">
+        <!-- left nav (with sidebar) -->
+        <ul class="navbar-nav mr-auto d-none d-lg-block">
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('flights.index') }}">
-                    <i class="fas fa-paper-plane fa-fw mr-2"></i>{{ _('Copilot') }}
+                    <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
+                </a>
+            </li>
+        </ul>
+
+        <!-- left nav (without sidebar) -->
+        <ul class="navbar-nav mr-auto d-block d-lg-none">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('flights.index') }}">
+                    <i class="fas fa-search fa-fw mr-2"></i>Find Flights
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('flights.user-flights') }}">
+                    <i class="fas fa-user fa-fw mr-2"></i>My Flights
                 </a>
             </li>
         </ul>
@@ -41,11 +55,11 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item disabled" href="#">
+                            <i class="fas fa-user fa-fw mr-3"></i>Profile
+                        </a>
                         <a class="dropdown-item" href="{{ route('account.index') }}">
                             <i class="fas fa-cog fa-fw mr-3"></i>Account
-                        </a>
-                        <a class="dropdown-item" href="{{ route('profile.index') }}">
-                            <i class="fas fa-user fa-fw mr-3"></i>Profile
                         </a>
 
                         <div class="dropdown-divider"></div>
