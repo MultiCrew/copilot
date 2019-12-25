@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Flights;
 
-use \Auth as Auth;
-use Illuminate\Http\Request;
-use App\Models\Flights\Flight;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Flights\Flight;
+use Illuminate\Http\Request;
+use Auth;
 
 class FlightController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -38,6 +36,76 @@ class FlightController extends Controller
             'flights'   => $acceptableRequests
             ]
         );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $flight = new Flight();
+
+        $flight->fill([
+            'departure' => $request->departure,
+            'arrival'   => $request->arrival,
+            'aircraft'  => $request->aircraft
+        ]);
+        $flight->requestee_id = Auth::user()->id;
+        $flight->public = $request->public == 'on';
+        if($request->public != 'on') {
+            $flight->code = Flight::generatePublicId();
+        }
+        $flight->save();
+
+        return view('flights.show', ['flight' => Flight::findOrFail($id)]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Flights\Flight  $flight
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Flight $flight)
+    {
+        return view('flights.show', ['flight' => $flight]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Flights\Flight  $flight
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Flight $flight)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Flights\Flight  $flight
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Flight $flight)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Flights\Flight  $flight
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Flight $flight)
+    {
+        //
     }
 
     /**
@@ -107,31 +175,6 @@ class FlightController extends Controller
     }
 
     /**
-     * Create a new flight
-     *
-     * @param      \Illuminate\Http\Request     $request
-     * @return     JSON Array | PHP array       Array of flights found based on request
-     */
-    public function store(Request $request)
-    {
-        $flight = new Flight();
-
-        $flight->fill([
-            'departure' => $request->departure,
-            'arrival'   => $request->arrival,
-            'aircraft'  => $request->aircraft
-        ]);
-        $flight->requestee_id = Auth::user()->id;
-        $flight->public = $request->public == 'on';
-        if($request->public != 'on') {
-            $flight->code = Flight::generatePublicId();
-        }
-        $flight->save();
-
-        return view('flights.show', ['flight' => $flight]);
-    }
-
-    /**
      * Accept a request where the requestee is the authed user
      *
      * @param      \Illuminate\Http\Request     $request
@@ -145,7 +188,7 @@ class FlightController extends Controller
         if( $flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()) )
         {   // redirect them to the flight
             return  redirect()
-                    ->route('flights.show', ['flight' => $flight])
+                    ->route('flights.show', $flight->id)
                     ->withErrors(['You have already accepted this request!']);
         }
 
@@ -154,7 +197,7 @@ class FlightController extends Controller
         $flight->save();
 
         // show the flight
-        return view('flights.show', ['flight' => $flight]);
+        return redirect()->route('flights.show', ['flight' => Flight::findOrFail($request->id)]);
     }
 
     /**
@@ -172,4 +215,3 @@ class FlightController extends Controller
         return redirect()->back();
     }
 }
-
