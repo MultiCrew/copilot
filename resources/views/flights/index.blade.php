@@ -23,10 +23,10 @@
                     @foreach($acceptedRequests as $flight)
                         <tr class="d-flex">
                             <td class="col-2">
-                                @if($flight->acceptee_id == \Auth::user()->id)
+                                @if($flight->acceptee_id == Auth::user()->id)
                                     You!
                                 @else
-                                    {{ App\Models\Users\User::find($flight->acceptee_id)->username }}
+                                    {{ User::find($flight->acceptee_id)->username }}
                                 @endif
                             </td>
                             <td class="col-3">{{ $flight->departure }}</td>
@@ -86,7 +86,7 @@
             <tbody>
                 @foreach ($flights as $flight)
                     <tr class="d-flex">
-                        <td  class="col-2">{{ App\Models\Users\User::find($flight->requestee_id)->username }}</td>
+                        <td  class="col-2">{{ User::find($flight->requestee_id)->username }}</td>
                         <td  class="col-3">{{ $flight->departure }}</td>
                         <td  class="col-3">{{ $flight->arrival }}</td>
                         <td  class="col-2">{{ $flight->aircraft }}</td>
