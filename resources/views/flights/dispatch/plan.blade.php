@@ -220,7 +220,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row card-text">
+                    <div class="form-group row card-text mb-0">
                         <label class="col-sm-7 col-form-label">Reserve</label>
                         <div class="col-sm-5">
                             <select name="resvrule" class="custom-select" required>
