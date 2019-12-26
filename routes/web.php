@@ -71,8 +71,4 @@ Route::group([
     Route::patch('/account', 'Auth\AccountController@update')->name('update');
 });
 
-Route::resource('profile', 'Auth\ProfileController')->only([
-    'index', 'update'
-]);
-
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
