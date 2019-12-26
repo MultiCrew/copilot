@@ -22,6 +22,16 @@ class AccountController extends Controller
         return view('auth.account');
     }
 
+    public function validator(array $data = [])
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+    }
+
     /**
      * Updates the authenticated user's account details
      *
@@ -42,7 +52,7 @@ class AccountController extends Controller
         }
         else
         {
-            if ($input['password'] === $input['password_conf'])
+            if ($input['password'] === $input['password_confirmation'])
             {
                 $request->user()->fill([
                     'username'  => $request->username,

@@ -57,11 +57,11 @@
         </div>
 
         <div class="form-group col-md-6">
-            <label for="password_conf">Confirm Password</label>
+            <label for="password_confirmation">Confirm Password</label>
             <input
             type="password"
-            id="password_conf"
-            name="password_conf"
+            id="password_confirmation"
+            name="password_confirmation"
             class="form-control"
             autocomplete="new-password">
         </div>
