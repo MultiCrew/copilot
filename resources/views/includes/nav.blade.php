@@ -12,7 +12,7 @@
         <!-- left nav (with sidebar) -->
         <ul class="navbar-nav mr-auto d-none d-lg-block">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('flights.index') }}">
+                <a class="nav-link @if (strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif" href="{{ route('flights.index') }}">
                     <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
                 </a>
             </li>
@@ -49,16 +49,16 @@
                     </li>
                 @endif
             @else
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown @if (strpos(Route::currentRouteName(), 'account') !== false) active @endif">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }} <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item disabled" href="#">
+                        <a class="dropdown-item disabled @if (Route::currentRouteName() === 'account.profile') active @endif" href="#">
                             <i class="fas fa-user fa-fw mr-3"></i>Profile
                         </a>
-                        <a class="dropdown-item" href="{{ route('account.index') }}">
+                        <a class="dropdown-item @if (Route::currentRouteName() === 'account.index') active @endif" href="{{ route('account.index') }}">
                             <i class="fas fa-cog fa-fw mr-3"></i>Account
                         </a>
 
