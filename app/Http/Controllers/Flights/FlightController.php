@@ -46,6 +46,12 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'departure' => 'required|size:4|airport',
+            'arrival' => 'required|size:4|airport',
+            'aircraft' => 'required|size:4'
+        ]);
+
         $flight = new Flight();
 
         $flight->fill([
