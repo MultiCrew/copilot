@@ -4,11 +4,11 @@
 * By Derek Mayer - contact@simbrief.com
 *
 * Any individual wishing to make use of this class must first contact me
-* to obtain a unique API key; without which it will be impossible to connect
+* to obtain a unique API key; without which it will be impossible to connect 
 * to the API.
 *
-* Any attempt to circumvent the API authorization, steal another
-* developer's API key, hack, compromise, or gain unauthorized access to
+* Any attempt to circumvent the API authorization, steal another 
+* developer's API key, hack, compromise, or gain unauthorized access to 
 * the SimBrief website or it's web systems, or bypass or allow others to bypass
 * the SimBrief.com login screen will result in immediate revocation of the
 * associated API key, and in serious situations, legal action at my discretion.
@@ -20,7 +20,7 @@
 * same directory as your Dispatch Options page.
 */
 
-var api_dir = '/simbrief/'; //Ex. "some/directory/";
+var api_dir = ''; //Ex. "some/directory/";
 
 
 
@@ -52,7 +52,7 @@ var api_code;
 /*
 * These functions collect the data submitted via the Dispatch Form and submit it
 * to the SimBrief website via a small popup window. Once there, the data is first
-* validated, and if it checks out, the flight plan is generated. Once complete,
+* validated, and if it checks out, the flight plan is generated. Once complete, 
 * the popup window is closed and the main browser window is redirected to the
 * desired output page, as defined by the VA's dispatch system.
 */
@@ -61,28 +61,28 @@ var api_code;
 
 function simbriefsubmit(outputpage)
 	{
-
+	
 	/*
 	* Ensure any prior requests are cleaned up before continuing..
 	*/
-
+	
 	if (sbworker)
 		{
 		sbworker.close();
 		}
-
+		
 	if (SBloop)
 		{
 		window.clearInterval(SBloop);
 		}
-
+		
 	api_code = null;
 	ofp_id = null;
 	fe_result = null;
 	timestamp = null;
 	outputpage_save = null;
 	outputpage_calc = null;
-
+	
 	do_simbriefsubmit(outputpage);
 	}
 
@@ -90,108 +90,108 @@ function simbriefsubmit(outputpage)
 
 function do_simbriefsubmit(outputpage)
 	{
-
+	
 	//CATCH UNDEFINED OUTPUT PAGE, SET IT TO THE CURRENT PAGE
-
+	
 	if (outputpage == null || outputpage == false)
 		{
 		outputpage = location.href;
 		}
-
+		
 	if (timestamp == null || timestamp == false)
 		{
 		timestamp = Math.round(+new Date()/1000);
 		}
-
+			
 	outputpage_save = outputpage;
 	outputpage_calc = outputpage.replace("https://","");
-
-
-
+	
+	
+	
 	//MAKESHIFT LOOP IN CASE IT TAKES A MOMENT TO LOAD THE API_CODE VARIABLE
-
+	
 	if (api_code == null || api_code == false || typeof(api_code) == 'undefined')
 		{
 		api_code = 'notset';
 		sb_res_load(api_dir+'simbrief.apiv1.php?api_req='+document.getElementsByName('orig')[0].value+document.getElementsByName('dest')[0].value+document.getElementsByName('type')[0].value+timestamp+outputpage_calc);
 		setTimeout(function(){do_simbriefsubmit(outputpage);},500);
 		return;
-		}
+		}	
 	else if (api_code == 'notset')
 		{
 		setTimeout(function(){do_simbriefsubmit(outputpage);},500);
 		return;
 		}
+		
 
-
-
-
+		
+		
 	//IF API_CODE IS SET, FINALIZE FORM
-
+	
 	var apiform = document.getElementById(sbform);
 	apiform.setAttribute("method", "get");
 	apiform.setAttribute("action", sbworkerurl);
 	apiform.setAttribute("target", sbworkerid);
-
+	
 	var input = document.createElement("input");
 	input.setAttribute("type", "hidden");
 	input.setAttribute("name", "apicode");
 	input.setAttribute("value", api_code);
 	apiform.appendChild(input);
-
-
+	
+	
 	var input = document.createElement("input");
 	input.setAttribute("type", "hidden");
 	input.setAttribute("name", "outputpage");
 	input.setAttribute("value", outputpage_calc);
 	apiform.appendChild(input);
-
-
+	
+	
 	var input = document.createElement("input");
 	input.setAttribute("type", "hidden");
 	input.setAttribute("name", "timestamp");
 	input.setAttribute("value", timestamp);
 	apiform.appendChild(input);
-
-
-
+	
+		
+	
 	//LAUNCH FORM
-
+	
 	window.name = sbcallerid;
 	LaunchSBworker();
 	apiform.submit();
-
-
-
+	
+	
+	
 	//DETERMINE OFP_ID
-
+	
 	ofp_id = timestamp+'_'+md5(document.getElementsByName('orig')[0].value+document.getElementsByName('dest')[0].value+document.getElementsByName('type')[0].value);
-
-
-
+	
+	
+	
 	//LOOP TO DETECT WHEN THE WORKER PROCESS IS CLOSED
-
+	
 	SBloop = window.setInterval(checkSBworker, 500);
-
-
+	
+	
 	}
-
-
-
+	
+	
+	
 /*
 * Other related functions
 */
-
+	
 function LaunchSBworker()
 	{
 	sbworker = window.open('about:blank',sbworkerid,sbworkerstyle)
-
+	
 	//TEST FOR POPUP BLOCKERS
-
+	
 	if (sbworker == null || typeof(sbworker) == 'undefined')
-		{
-		alert('Please disable your pop-up blocker to generate a flight plan!');
-		}
+		{ 	
+		alert('Please disable your pop-up blocker to generate a flight plan!'); 
+		} 
 	else
 		{
 		if (window.focus)
@@ -200,21 +200,21 @@ function LaunchSBworker()
 			}
 		}
 	}
-
-
+	
+	
 function checkSBworker()
 	{
-    if (sbworker && sbworker.closed)
+    if (sbworker && sbworker.closed) 
 		{
         window.clearInterval(SBloop);
 		Redirect_caller();
 		}
 	}
-
-
+	
+	
 function Redirect_caller()
 	{
-
+	
 	/*
 	* First check that the file actually exists.
 	* It might not if the window was closed before completion.
@@ -222,7 +222,7 @@ function Redirect_caller()
 	* An external PHP file is used so as to avoid any "Same
 	* Origin" errors.
 	*/
-
+	
 	if (fe_result == null || fe_result == false || typeof(fe_result) == 'undefined')
 		{
 		fe_result = 'notset';
@@ -235,28 +235,28 @@ function Redirect_caller()
 		setTimeout(function(){Redirect_caller();},500);
 		return;
 		}
-
-
-	//IF FE_RESULT IS SET, CONTINUE
-
+		
+		
+	//IF FE_RESULT IS SET, CONTINUE		
+	
 	if (fe_result == 'true')
 		{
-
+		
 		/*
 		* If the file exists, redirect to the specified Output Page.
 		*/
-
+		
 		var apiform = document.createElement("form");
 		apiform.setAttribute("method", "get");
 		apiform.setAttribute("action", outputpage_save);
-
-
+		
+		
 		/*
 		* Analyse link to see if there are any prior GET params.
 		* If so, append them to the form
 		*/
-
-		var urlinfo = urlObject({'url':outputpage_save});
+	
+		var urlinfo = urlObject({'url':outputpage_save});	
 		for (var key in urlinfo['parameters'])
 			{
 			var input = document.createElement("input");
@@ -265,23 +265,23 @@ function Redirect_caller()
 			input.setAttribute("value", urlinfo['parameters'][key]);
 			apiform.appendChild(input);
 			}
-
+			
 		var input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "ofp_id");
 		input.setAttribute("value", ofp_id);
 		apiform.appendChild(input);
-
+			
 		document.body.appendChild(apiform);
-
+			
 		apiform.submit();
-
+		
 		}
-
+		
 	}
+	
 
-
-
+	
 function sb_res_load(url)
 	{
 	var fileref = document.createElement( 'script' );
@@ -293,8 +293,8 @@ function sb_res_load(url)
 
 
 
-
-
+	
+	
 /*
 * URLOBJECT function
 * Courtesy Ayman Farhat
@@ -677,4 +677,4 @@ function utf8_encode(argString) {
   return utftext;
 }
 
-
+	
