@@ -60,7 +60,7 @@ class FlightController extends Controller
         }
         $flight->save();
 
-        return view('flights.show', ['flight' => Flight::findOrFail($id)]);
+        return view('flights.show', ['flight' => $flight]);
     }
 
     /**
