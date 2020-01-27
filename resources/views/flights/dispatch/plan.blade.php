@@ -305,5 +305,5 @@
     }
     startTime();
 </script>
-<script type="text/javascript" src="/js/simbrief.js"></script>
+<script type="text/javascript" src="{{ asset('simbrief/simbrief.apiv1.js') }}"></script>
 @endsection
