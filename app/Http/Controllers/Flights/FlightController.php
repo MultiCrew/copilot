@@ -54,13 +54,15 @@ class FlightController extends Controller
             'aircraft'  => $request->aircraft
         ]);
         $flight->requestee_id = Auth::user()->id;
+
+        // if request is private, generate a code
         $flight->public = $request->public == 'on';
-        if($request->public != 'on') {
+        if (!$request->public)
             $flight->code = Flight::generatePublicId();
-        }
+
         $flight->save();
 
-        return view('flights.show', ['flight' => Flight::findOrFail($id)]);
+        return view('flights.show', ['flight' => $flight->fresh()]);
     }
 
     /**
