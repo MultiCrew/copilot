@@ -119,10 +119,10 @@ class FlightController extends Controller
     {
         // select flights where an involved user IS the authed user and the flights ARE accepted
         $acceptedRequests = Flight::
-                          where('requestee_id', '=', Auth::user()->id)
-                        ->orWhere('acceptee_id', '=', Auth::user()->id)
-                        ->whereNotNull('acceptee_id')
-                        ->get();
+                              where('requestee_id', '=', Auth::user()->id)
+                            ->orWhere('acceptee_id', '=', Auth::user()->id)
+                            ->whereNotNull('acceptee_id')
+                            ->get();
 
         // select flights where requestee_id IS the authed user and the flights are NOT accepted
         $userRequests = Flight::
