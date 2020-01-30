@@ -118,6 +118,8 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+    'airport' => 'You must enter a valid airport ICAO code.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

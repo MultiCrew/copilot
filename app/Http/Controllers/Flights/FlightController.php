@@ -46,6 +46,12 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'departure' => 'required|size:4|airport',
+            'arrival' => 'required|size:4|airport',
+            'aircraft' => 'required|size:4'
+        ]);
+
         $flight = new Flight();
 
         $flight->fill([
@@ -57,12 +63,12 @@ class FlightController extends Controller
 
         // if request is private, generate a code
         $flight->public = $request->public == 'on';
-        if (!$request->public)
+        if (!$flight->public)
             $flight->code = Flight::generatePublicId();
 
         $flight->save();
 
-        return view('flights.show', ['flight' => $flight->fresh()]);
+        return view('flights.show', ['flight' => $flight]);
     }
 
     /**
@@ -118,11 +124,13 @@ class FlightController extends Controller
     public function userFlights()
     {
         // select flights where an involved user IS the authed user and the flights ARE accepted
+
         $acceptedRequests = Flight::
-                              where('requestee_id', '=', Auth::user()->id)
-                            ->orWhere('acceptee_id', '=', Auth::user()->id)
-                            ->whereNotNull('acceptee_id')
-                            ->get();
+                            whereNotNull('acceptee_id')
+                            ->where(function($query) {
+                                $query->where('requestee_id', '=', Auth::user()->id)
+                                	  ->orWhere('acceptee_id', '=', Auth::user()->id);
+                            })->get();
 
         // select flights where requestee_id IS the authed user and the flights are NOT accepted
         $userRequests = Flight::
