@@ -8,7 +8,7 @@
 
     <div class="d-flex justify-content-between align-items-baseline">
         <h3>Edit Flight</h3>
-        <a href="/flight/{{ $flight->id }}" class="btn btn-secondary mb-3">
+        <a href="/flights/{{ $flight->id }}" class="btn btn-secondary mb-3">
             &times; Cancel
         </a>
     </div>
