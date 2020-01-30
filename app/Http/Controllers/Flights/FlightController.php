@@ -102,7 +102,19 @@ class FlightController extends Controller
      */
     public function update(Request $request, Flight $flight)
     {
-        //
+        if ($flight->requestee_id === Auth::user()->id)
+        {
+            $flight->fill([
+                'departure' => $request->departure,
+                'arrival'   => $request->arrival,
+                'aircraft'  => $request->aircraft
+            ]);
+            $flight->save();
+        }
+        else
+        {
+            // TODO: flight does not belong to user
+        }
     }
 
     /**

@@ -2,9 +2,9 @@
 
 @section('content')
 
-<form method="post" action="/flights" class="w-50">
+<form method="post" action="/flights/{{ $flight->id }}" class="w-50">
     @csrf
-    @method('patch')
+    @method('put')
 
     <div class="d-flex justify-content-between align-items-baseline">
         <h3>Edit Flight</h3>
