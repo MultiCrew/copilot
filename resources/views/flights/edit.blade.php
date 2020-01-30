@@ -15,36 +15,42 @@
 
     <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="departure">Departure</label>
-        <input
-        type="text"
-        name="departure"
-        id="departure"
-        class="form-control col-sm-10"
-        placeholder="Departure"
-        required
-        value="{{ $flight->departure }}">
+        <div class="col-sm-10">
+            <input
+            type="text"
+            name="departure"
+            id="departure"
+            class="form-control"
+            placeholder="Departure"
+            required
+            value="{{ $flight->departure }}">
+        </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="arrival">Arrival</label>
-        <input
-        type="text"
-        name="arrival"
-        id="arrival"
-        class="form-control col-sm-10"
-        placeholder="Arrival"
-        required
-        value="{{ $flight->arrival }}">
+        <div class="col-sm-10">
+            <input
+            type="text"
+            name="arrival"
+            id="arrival"
+            class="form-control"
+            placeholder="Arrival"
+            required
+            value="{{ $flight->arrival }}">
+        </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label" for="aircraft">Aircraft</label>
-        <input
-        type="text"
-        name="aircraft"
-        id="aircraft"
-        class="form-control col-sm-10"
-        placeholder="Aircraft"
-        required
-        value="{{ $flight->aircraft }}">
+        <div class="col-sm-10">
+            <input
+            type="text"
+            name="aircraft"
+            id="aircraft"
+            class="form-control"
+            placeholder="Aircraft"
+            required
+            value="{{ $flight->aircraft }}">
+        </div>
     </div>
 
     <div class="form-group align-self-center">
