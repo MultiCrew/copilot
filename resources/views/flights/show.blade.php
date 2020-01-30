@@ -4,7 +4,15 @@
 
 <div class="card">
     <div class="card-body">
-        <a href="#" class="btn btn-secondary float-right"><i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back</a>
+        <a
+        @if($flight->requestee_id == Auth::user()->id)
+            href="{{ route('flights.user-flights') }}"
+        @else
+            href="{{ route('flights.index') }}"
+        @endif
+        class="btn btn-secondary float-right">
+            <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
+        </a>
         <h5 class="card-title">Flight Information</h5>
 
         <div class="row">
@@ -45,10 +53,10 @@
                 </dl>
 
                 <dl class="row card-text">
-                    <dt class="col-sm-3 card-text">Planned</dt>
+                    <dt class="col-sm-3 card-text">Flight Plan</dt>
                     <dd class="col-sm-9 card-text">
                         @if(empty($flight->plan_id))
-                            Not yet
+                            Not planned
                         @else
                             <!-- logic to link to FlightPlan model -->
                         @endif
@@ -58,9 +66,12 @@
         </div>
 
         <p class="card-text mt-4 d-flex justify-content-between">
-            <a href="{{ route('flights.edit', $flight->id) }}" class="btn btn-info">
+            <a
+            href="@if($flight->requestee_id == Auth::user()->id) {{ route('flights.edit', $flight->id) }} @else # @endif"
+            class="btn btn-info @if($flight->requestee_id != Auth::user()->id) disabled @endif">
                 <i class="fas fa-fw mr-2 fa-edit"></i>Edit
             </a>
+
             @if(empty($flight->plan_id))
                 <a href="{{ route('dispatch.plan', $flight->id) }}" class="btn btn-success">
                     Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
