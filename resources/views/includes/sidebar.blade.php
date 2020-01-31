@@ -42,6 +42,12 @@
                     <span class="menu-collapsed"><i class="fas fa-fw mr-2 fa-plus"></i>New Request</span>
                 </a>
             </div>
+            <a href="{{ route('dispatch.index') }}" class="bg-dark list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="far fa-map fa-fw mr-3"></i>
+                    <span class="menu-collapsed">Dispatch</span>
+                </div>
+            </a>
             <!-- Separator with title -->
             <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
                 <small>OPTIONS</small>
