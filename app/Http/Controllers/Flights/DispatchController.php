@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Flights;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
+use \Auth;
 
 class DispatchController extends Controller
 {
@@ -12,9 +13,9 @@ class DispatchController extends Controller
      * Show the flight planning index page, or redirect to an appropriate stage of the
      * flight planning process, if a flight ID is specified
      *
-     * @param       int     $id (optional)    Flight ID, if redirect logic required
+     * @param      int    $id     The identifier
      *
-     * @return      \Illuminate\Http\Response
+     * @return     \Illuminate\Http\Response
      */
     public function index($id = null)
     {
@@ -27,7 +28,14 @@ class DispatchController extends Controller
             }
         }
 
-        return view('dispatch.index');
+        // no Flight specified, show the index of the planning page
+        $flights =  Flight::whereNotNull('acceptee_id')
+                            ->where(function($query) {
+                                $query->where('requestee_id', '=', Auth::user()->id)
+                                      ->orWhere('acceptee_id', '=', Auth::user()->id);
+                            })->get();
+
+        return view('flights.dispatch.index', ['flights' => $flights]);
     }
 
     /**
