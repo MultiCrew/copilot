@@ -33,11 +33,11 @@ class DispatchController extends Controller
     /**
      * Show the form for planning a flight, or redirect if at another stage
      *
-     * @param      <type>  $id     The identifier
+     * @param      int    $id     The identifier
      *
-     * @return     <type>  ( description_of_the_return_value )
+     * @return     \Illuminate\Http\Response
      */
-    public function plan($id)
+    public function create($id)
     {
         $flight = Flight::findOrFail($id);
 
