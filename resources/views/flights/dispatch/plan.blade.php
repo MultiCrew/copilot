@@ -274,7 +274,10 @@
 
                 <input type="hidden" name="reqid" value="">
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-success" onclick="simbriefsubmit('/dispatch/review');">
+                    <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick="simbriefsubmit({{ route('dispatch.store') }});">
                         Create Plan &raquo;
                     </button>
                     <button type="reset" class="btn btn-danger">
