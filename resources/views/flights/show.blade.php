@@ -13,6 +13,7 @@
         class="btn btn-secondary float-right">
             <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
         </a>
+
         <h5 class="card-title">Flight Information</h5>
 
         <div class="row">
@@ -37,6 +38,7 @@
                             Requestee
                         @endif
                     </dt>
+
                     <dd class="col-sm-9 card-text">
                         @if($flight->requestee_id == Auth::user()->id)
                             <a href="#" class="text-decoration-none">

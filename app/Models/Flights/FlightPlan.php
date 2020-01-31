@@ -12,7 +12,7 @@ class FlightPlan extends Model
      * @var array
      */
     protected $fillable = [
-        'ofp_json'
+        'plan_id', 'ofp_json'
     ];
 
     /**
