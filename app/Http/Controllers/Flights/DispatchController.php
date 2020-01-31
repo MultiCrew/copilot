@@ -46,4 +46,62 @@ class DispatchController extends Controller
 
         return view('flights.dispatch.plan', ['flight' => $flight]);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param      \Illuminate\Http\Request  $request  The request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        /**
+         * @var $simbrief
+         */
+        include('simbrief/simbrief.apiv1.php');
+
+        $data = $simbrief->ofp_array;
+        dd($data);
+
+        // $plan = new FlightPlan();
+        // $plan->fill($data, $simbrief->ofp_json);
+
+        // $data = $simbrief->ofp_array;
+        // $participant = $flight->userParticipant(Auth::user());
+        // $participant->flight_plan_url = $data['files']['directory'] . $data['files']['pdf']['link'];
+
+        // if ($flight->isOrganiser(Auth::user()) && $flight->route == null)
+        //     $flight->route = $data['atc']['route'];
+
+        // if ($flight->isOrganiser(Auth::user()) && $flight->ete == null)
+        //     $flight->ete = gmdate("H:i", $data['times']['est_time_enroute']);
+
+        // if ($flight->isOrganiser(Auth::user()))
+        // {
+        //     $routeData = array(); $i = 0;
+        //     foreach($data['navlog']['fix'] as $fix)
+        //     {
+        //         $routeData[$i]['ident'] = $fix['ident'];
+        //         $routeData[$i]['lat'] = $fix['pos_lat'];
+        //         $routeData[$i]['long'] = $fix['pos_long'];
+        //         $i++;
+        //     }
+        //     $flight->simbrief_route_data = json_encode($routeData);
+        // }
+
+        // $flight->save();
+        // $participant->save();
+
+        // return redirect()->route('flights.view', ['flight' => $flight]);
+    }
+
+    /**
+     * { function_description }
+     *
+     * @param      \App\Models\Flights\Flight  $flight  The flight
+     */
+    public function show(Flight $flight)
+    {
+
+    }
 }
