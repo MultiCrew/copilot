@@ -29,13 +29,21 @@ class DispatchController extends Controller
         }
 
         // no Flight specified, show the index of the planning page
-        $flights =  Flight::whereNotNull('acceptee_id')
+        $plannedFlights =   Flight::whereNotNull('acceptee_id')
                             ->where(function($query) {
                                 $query->where('requestee_id', '=', Auth::user()->id)
                                       ->orWhere('acceptee_id', '=', Auth::user()->id);
-                            })->get();
+                            })->whereNotNull('plan_id')->get();
+        $unplannedFlights = Flight::whereNotNull('acceptee_id')
+                            ->where(function($query) {
+                                $query->where('requestee_id', '=', Auth::user()->id)
+                                      ->orWhere('acceptee_id', '=', Auth::user()->id);
+                            })->whereNull('plan_id')->get();;
 
-        return view('flights.dispatch.index', ['flights' => $flights]);
+        return view('flights.dispatch.index', [
+            'plannedFlights' => $plannedFlights,
+            'unplannedFlights' => $unplannedFlights
+        ]);
     }
 
     /**
