@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,      // TODO: REMOVE IN PRODUCTION
+            FlightSeeder::class     // TODO: REMOVE IN PRODUCTION
+        ]);
     }
 }
