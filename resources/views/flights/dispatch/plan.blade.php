@@ -4,7 +4,7 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-9 text-justify">
                 <h5 class="card-title">Plan Flight</h5>
                 <p class="card-text">
@@ -14,6 +14,9 @@
                 </p>
             </div>
             <div class="col-md-3 text-center">
+                <a href="{{ route('flights.show', $flight->id) }}" class="btn btn-secondary btn-sm mb-3">
+                    <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
+                </a>
                 <h5 class="card-title">Current UTC Time:</h5>
                 <p class="card-text text-center mt-3"><span id="time" class="border rounded p-2"></span></p>
             </div>
@@ -274,14 +277,14 @@
 
                 <input type="hidden" name="reqid" value="">
                 <div class="d-flex justify-content-between">
+                    <button type="reset" class="btn btn-danger">
+                        Reset <i class="fas fa-fw ml-2 fa-undo"></i>
+                    </button>
                     <button
                     type="button"
                     class="btn btn-success"
                     onclick="simbriefsubmit({{ route('dispatch.store') }});">
                         Create Plan &raquo;
-                    </button>
-                    <button type="reset" class="btn btn-danger">
-                        Cancel <i class="fas fa-fw ml-2 fa-times"></i>
                     </button>
                 </div>
             </div>
