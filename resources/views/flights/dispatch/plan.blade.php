@@ -277,7 +277,7 @@
                     <button
                     type="button"
                     class="btn btn-success"
-                    onclick="simbriefsubmit({{ route('dispatch.store') }});">
+                    onclick="simbriefsubmit('{{ route('dispatch.store') }}');">
                         Create Plan &raquo;
                     </button>
                     <button type="reset" class="btn btn-danger">
