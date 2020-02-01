@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Flights;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
+use App\Models\Flights\FlightPlan;
 use \Auth;
 
 class DispatchController extends Controller
@@ -13,18 +14,17 @@ class DispatchController extends Controller
      * Show the flight planning index page, or redirect to an appropriate stage of the
      * flight planning process, if a flight ID is specified
      *
-     * @param      int    $id     The identifier
+     * @param int $id (Optional) Flight plan ID
      *
-     * @return     \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index($id = null)
     {
-        if (!empty($id))
-        {
-            if ($flight = Flight::find($id))
-            {
-                if (!$flight->plan_id)
+        if (!empty($id)) {
+            if ($flight = Flight::find($id)) {
+                if (!$flight->plan_id) {
                     return redirect()->route('dispatch.plan', $flight->id);
+                }
             }
         }
 
@@ -38,7 +38,7 @@ class DispatchController extends Controller
                             ->where(function($query) {
                                 $query->where('requestee_id', '=', Auth::user()->id)
                                       ->orWhere('acceptee_id', '=', Auth::user()->id);
-                            })->whereNull('plan_id')->get();;
+                            })->whereNull('plan_id')->get();
 
         return view('flights.dispatch.index', [
             'plannedFlights' => $plannedFlights,
@@ -49,16 +49,17 @@ class DispatchController extends Controller
     /**
      * Show the form for planning a flight, or redirect if at another stage
      *
-     * @param      int    $id     The identifier
+     * @param int $id Flight ID
      *
-     * @return     \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function create($id)
     {
         $flight = Flight::findOrFail($id);
 
-        if ($flight->plan_id)
+        if ($flight->plan_id) {
             return redirect()->route('dispatch.review', $flight->plan_id);
+        }
 
         return view('flights.dispatch.plan', ['flight' => $flight]);
     }
@@ -66,7 +67,8 @@ class DispatchController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param      \Illuminate\Http\Request  $request  The request
+     * @param \Illuminate\Http\Request $request Form data
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -112,11 +114,11 @@ class DispatchController extends Controller
     }
 
     /**
-     * { function_description }
+     * Displays the flight plan for the given ID
      *
-     * @param      \App\Models\Flights\Flight  $flight  The flight
+     * @param \App\Models\Flights\FlightPlan $flight The flight
      */
-    public function show(Flight $flight)
+    public function show(FlightPlan $plan)
     {
 
     }
