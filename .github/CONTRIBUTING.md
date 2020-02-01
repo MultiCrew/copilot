@@ -164,7 +164,7 @@ Please open an issue on `MultiCrew/copilot` if you have suggestions for new labe
 | `bug` | [search][search-copilot-label-bug] | [search][search-multicrew-label-bug] | Confirmed bugs or reports that are very likely to be bugs. |
 | `question` | [search][search-copilot-label-question] | [search][search-multicrew-label-question] | Questions more than bug reports or feature requests (e.g. how do I do X). |
 | `feedback` | [search][search-copilot-label-feedback] | [search][search-multicrew-label-feedback] | General feedback more than bug reports or feature requests. |
-| `help-wanted` | [search][search-copilot-label-help-wanted] | [search][search-multicrew-label-help-wanted] | The MultiCrew core team would appreciate help from the community in resolving these issues. |
+| `help-wanted` | [search][search-copilot-label-help-wanted] | [search][search-multicrew-label-help-wanted] | The MultiCrew team would appreciate help from the community in resolving these issues. |
 | `beginner` | [search][search-copilot-label-beginner] | [search][search-multicrew-label-beginner] | Less complex issues which would be good first issues to work on for users who want to contribute to MultiCrew. |
 | `more-information-needed` | [search][search-copilot-label-more-information-needed] | [search][search-multicrew-label-more-information-needed] | More information needs to be collected about these problems or feature requests (e.g. steps to reproduce). |
 | `needs-reproduction` | [search][search-copilot-label-needs-reproduction] | [search][search-multicrew-label-needs-reproduction] | Likely bugs, but haven't been reliably reproduced. |
@@ -175,22 +175,15 @@ Please open an issue on `MultiCrew/copilot` if you have suggestions for new labe
 
 #### Topic Categories
 
-| Label name | `MultiCrew/copilot` :mag_right: | `atom`‑org :mag_right: | Description |
+| Label name | `MultiCrew/copilot` :mag_right: | `MultiCrew` :mag_right: | Description |
 | --- | --- | --- | --- |
-| `windows` | [search][search-copilot-label-windows] | [search][search-multicrew-label-windows] | Related to MultiCrew running on Windows. |
-| `linux` | [search][search-copilot-label-linux] | [search][search-multicrew-label-linux] | Related to MultiCrew running on Linux. |
-| `mac` | [search][search-copilot-label-mac] | [search][search-multicrew-label-mac] | Related to MultiCrew running on macOS. |
-| `documentation` | [search][search-copilot-label-documentation] | [search][search-multicrew-label-documentation] | Related to any type of documentation (e.g. [API documentation](https://atom.io/docs/api/latest/) and the [flight manual](https://flight-manual.atom.io/)). |
+| `documentation` | [search][search-copilot-label-documentation] | [search][search-multicrew-label-documentation] | Related to any type of documentation (e.g. PHPDoc comments or the help pages). |
 | `performance` | [search][search-copilot-label-performance] | [search][search-multicrew-label-performance] | Related to performance. |
 | `security` | [search][search-copilot-label-security] | [search][search-multicrew-label-security] | Related to security. |
 | `ui` | [search][search-copilot-label-ui] | [search][search-multicrew-label-ui] | Related to visual design. |
 | `api` | [search][search-copilot-label-api] | [search][search-multicrew-label-api] | Related to MultiCrew's public APIs. |
-| `uncaught-exception` | [search][search-copilot-label-uncaught-exception] | [search][search-multicrew-label-uncaught-exception] | Issues about uncaught exceptions, normally created from the [Notifications package](https://github.com/atom/notifications). |
+| `uncaught-exception` | [search][search-copilot-label-uncaught-exception] | [search][search-multicrew-label-uncaught-exception] | Issues about uncaught exceptions. |
 | `crash` | [search][search-copilot-label-crash] | [search][search-multicrew-label-crash] | Reports of MultiCrew completely crashing. |
-| `auto-indent` | [search][search-copilot-label-auto-indent] | [search][search-multicrew-label-auto-indent] | Related to auto-indenting text. |
-| `encoding` | [search][search-copilot-label-encoding] | [search][search-multicrew-label-encoding] | Related to character encoding. |
-| `network` | [search][search-copilot-label-network] | [search][search-multicrew-label-network] | Related to network problems or working with remote files (e.g. on network drives). |
-| `git` | [search][search-copilot-label-git] | [search][search-multicrew-label-git] | Related to Git functionality (e.g. problems with gitignore files or with showing the correct file status). |
 | `laravel` | [search][search-copilot-label-laravel] | [search][search-multicrew-label-laravel] | Issues that require changes to [Laravel](https://laravel.com/) to fix or implement. |
 
 #### Pull Request Labels
