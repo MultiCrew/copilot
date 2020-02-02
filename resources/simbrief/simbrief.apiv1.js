@@ -20,7 +20,7 @@
 * same directory as your Dispatch Options page.
 */
 
-var api_dir = ''; //Ex. "some/directory/";
+var api_dir = '/simbrief/'; //Ex. "some/directory/";
 
 
 
