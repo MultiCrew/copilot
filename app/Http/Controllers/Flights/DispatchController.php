@@ -71,7 +71,7 @@ class DispatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Flight $flight, Request $request)
     {
         /**
          * @var $simbrief

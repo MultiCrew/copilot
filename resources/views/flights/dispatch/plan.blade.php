@@ -283,7 +283,7 @@
                     <button
                     type="button"
                     class="btn btn-success"
-                    onclick="simbriefsubmit('{{ route('dispatch.store') }}');">
+                    onclick="simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');">
                         Create Plan &raquo;
                     </button>
                 </div>

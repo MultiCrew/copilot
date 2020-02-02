@@ -57,7 +57,7 @@ Route::group([
 ], function() {
     Route::get('', 'Flights\DispatchController@index')->name('index');
     Route::get('plan/{flight}', 'Flights\DispatchController@create')->name('plan');
-    Route::post('', 'Flights\DispatchController@store')->name('store');
+    Route::get('', 'Flights\DispatchController@store')->name('store');
     Route::get('review/{plan}', 'Flights\DispatchController@show')->name('review');
 });
 
