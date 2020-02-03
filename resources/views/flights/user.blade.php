@@ -3,7 +3,6 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <
         <h5 class="card-title">My Requests</h5>
 
         <ul class="nav nav-tabs card-text" id="myTab" role="tablist">

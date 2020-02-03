@@ -103,8 +103,8 @@ function do_simbriefsubmit(outputpage)
 		timestamp = Math.round(+new Date()/1000);
 		}
 			
-	outputpage_save = outputpage;
-	outputpage_calc = outputpage.replace("https://","");
+  outputpage_save = outputpage;
+  outputpage_calc = outputpage.replace("https://", "");
 	
 	
 	
@@ -184,7 +184,7 @@ function do_simbriefsubmit(outputpage)
 	
 function LaunchSBworker()
 	{
-	sbworker = window.open('about:blank',sbworkerid,sbworkerstyle)
+	sbworker = window.open('about:blank',sbworkerid,sbworkerstyle);
 	
 	//TEST FOR POPUP BLOCKERS
 	
@@ -676,5 +676,3 @@ function utf8_encode(argString) {
 
   return utftext;
 }
-
-	
