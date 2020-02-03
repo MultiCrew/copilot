@@ -108,6 +108,9 @@ class DispatchController extends Controller
      */
     public function show(FlightPlan $plan)
     {
-
+        return view('flights.dispatch.show', [
+            'plan' => $plan,
+            'fpl' => json_decode($plan->ofp_json, true)
+        ]);
     }
 }
