@@ -28,11 +28,15 @@ Route::group([
     Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     // Route::get('search', 'Flights\FlightController@search')->name('search');
+
     // Route::resource('', 'Flights\FlightController');
-    // TODO:
-    // For some unknown reason, the resource routes are not working properly
-    // The show action route below works fine, but the show action route invoked
-    // through the resource routes doesn't. Pending further investigation...
+    /**
+     * TODO
+     * For some unknown reason, the resource routes are not working properly
+     *
+     * The show action route below works fine, but the show action route invoked
+     * through the resource routes doesn't. Pending further investigation.
+     */
     Route::get('', 'Flights\FlightController@index')->name('index');
     Route::post('', 'Flights\FlightController@store')->name('store');
     Route::get('/{flight}', 'Flights\FlightController@show')->name('show');
@@ -55,9 +59,8 @@ Route::group([
     'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
     'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
 ], function() {
-    Route::get('', 'Flights\DispatchController@index')->name('index');
     Route::get('plan/{flight}', 'Flights\DispatchController@create')->name('plan');
-    Route::get('', 'Flights\DispatchController@store')->name('store');
+    Route::get('plan', 'Flights\DispatchController@store')->name('store');
     Route::get('review/{plan}', 'Flights\DispatchController@show')->name('review');
 });
 
