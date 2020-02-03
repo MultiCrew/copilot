@@ -10,6 +10,11 @@ use \Auth;
 
 class DispatchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Show the flight planning index page, or redirect to an appropriate stage of the
      * flight planning process, if a flight ID is specified
