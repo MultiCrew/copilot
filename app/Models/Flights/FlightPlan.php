@@ -32,7 +32,7 @@ class FlightPlan extends Model
     {
         $flight = $this->getFlight();
 
-        if (Auth::user()->id === $flight->requestee)
+        if (Auth::id() === $flight->requestee)
             $this->requestee_accept = 1;
         else
             $this->accepttee_accept = 1;
@@ -47,11 +47,21 @@ class FlightPlan extends Model
     {
         $flight = $this->getFlight();
 
-        if (Auth::user()->id === $flight->requestee)
+        if (Auth::id() === $flight->requestee)
             $this->requestee_accept = 0;
         else
             $this->accepttee_accept = 0;
 
         $this->save();
+    }
+
+    /**
+     * Checks whether the plan is approved or not (both pilots have reviewed accepted)
+     *
+     * @return boolean true if both pilots have accepted the plan, otherwise false
+     */
+    public function isApproved()
+    {
+        return ($this->requestee_accept && $this->acceptee_accept);
     }
 }
