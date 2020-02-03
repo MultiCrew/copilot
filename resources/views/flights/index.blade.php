@@ -136,9 +136,15 @@ aria-hidden="true">
                         type="text"
                         name="departure"
                         id="departure"
-                        class="form-control"
+                        class="form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
                         placeholder="Departure"
+                        value="{{ is_null(old('departure')) ? '' : old('departure') }}"
                         required>
+                        @if($errors->has('departure'))
+                            <p class="help text-danger">
+                                {{ $errors->first('departure') }}
+                            </p>
+                        @endif
                     </div>
                     <div class="form-group mr-2">
                         <label class="sr-only" for="arrival">Arrival</label>
@@ -146,9 +152,15 @@ aria-hidden="true">
                         type="text"
                         name="arrival"
                         id="arrival"
-                        class="form-control"
+                        class="form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
                         placeholder="Arrival"
+                        value="{{ is_null(old('arrival')) ? '' : old('arrival') }}"
                         required>
+                        @if($errors->has('arrival'))
+                            <p class="help text-danger">
+                                {{ $errors->first('arrival') }}
+                            </p>
+                        @endif
                     </div>
                     <div class="form-group mr-2">
                         <label class="sr-only" for="aircraft">Aircraft</label>
@@ -156,9 +168,15 @@ aria-hidden="true">
                         type="text"
                         name="aircraft"
                         id="aircraft"
-                        class="form-control"
+                        class="form-control {{ $errors->has('aircraft') ? 'border-danger' : '' }}"
                         placeholder="Aircraft"
+                        value="{{ is_null(old('aircraft')) ? '' : old('aircraft') }}"
                         required>
+                        @if($errors->has('aircraft'))
+                            <p class="help text-danger">
+                                {{ $errors->first('aircraft') }}
+                            </p>
+                        @endif
                     </div>
 
                     <div class="form-group align-self-center">
@@ -189,5 +207,9 @@ aria-hidden="true">
             $('#createRequestModal').modal('show');
         }
     });
+
+    @if (count($errors) > 0)
+        $('#createRequestModal').modal('show');
+    @endif
 </script>
 @endsection
