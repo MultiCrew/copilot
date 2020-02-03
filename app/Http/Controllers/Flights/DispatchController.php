@@ -71,46 +71,34 @@ class DispatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Flight $flight, Request $request)
+    public function store(Request $request)
     {
+        $flight = Flight::findOrFail($request->flight);
+
         /**
          * @var $simbrief
          */
         include('simbrief/simbrief.apiv1.php');
 
-        $data = $simbrief->ofp_array;
-        dd($data);
+        /**
+         * Perform some checks to ensure this plan is valid
+         */
+        if ($flight->requestee_id !== Auth::id() || $flight->acceptee_id !== Auth::id()) {
+            // user not authorised to plan flight
+        }
 
-        // $plan = new FlightPlan();
-        // $plan->fill($data, $simbrief->ofp_json);
+        if (!empty($flight->plan_id)) {
+            // flight already has a plan of some sort (accepted or in review)
+        }
 
-        // $data = $simbrief->ofp_array;
-        // $participant = $flight->userParticipant(Auth::user());
-        // $participant->flight_plan_url = $data['files']['directory'] . $data['files']['pdf']['link'];
+        $plan = new FlightPlan();
+        $plan->ofp_json = $simbrief->ofp_json;
+        $plan->save();
 
-        // if ($flight->isOrganiser(Auth::user()) && $flight->route == null)
-        //     $flight->route = $data['atc']['route'];
+        $flight->plan_id = $plan->id;
+        $flight->save();
 
-        // if ($flight->isOrganiser(Auth::user()) && $flight->ete == null)
-        //     $flight->ete = gmdate("H:i", $data['times']['est_time_enroute']);
-
-        // if ($flight->isOrganiser(Auth::user()))
-        // {
-        //     $routeData = array(); $i = 0;
-        //     foreach($data['navlog']['fix'] as $fix)
-        //     {
-        //         $routeData[$i]['ident'] = $fix['ident'];
-        //         $routeData[$i]['lat'] = $fix['pos_lat'];
-        //         $routeData[$i]['long'] = $fix['pos_long'];
-        //         $i++;
-        //     }
-        //     $flight->simbrief_route_data = json_encode($routeData);
-        // }
-
-        // $flight->save();
-        // $participant->save();
-
-        // return redirect()->route('flights.view', ['flight' => $flight]);
+        return redirect()->route('dispatch.review', ['plan' => $plan]);
     }
 
     /**

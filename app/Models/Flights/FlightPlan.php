@@ -12,7 +12,16 @@ class FlightPlan extends Model
      * @var array
      */
     protected $fillable = [
-        'plan_id', 'ofp_json'
+        'ofp_json'
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'ofp_json' => 'array',
     ];
 
     /**
