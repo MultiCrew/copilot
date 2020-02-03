@@ -29,11 +29,11 @@
             <div class="tab-pane fade show active" id="open-requests" role="tabpanel">
                 <table class="table table-hover border mb-2">
                     <thead class="thead-light">
-                        <tr class="d-flex">
-                            <th class="col-3">Departure</th>
-                            <th class="col-3">Arrival</th>
-                            <th class="col-3">Aircraft</th>
-                            <th class="col-3"></th>
+                        <tr>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Aircraft</th>
+                            <th></th>
                         </tr>
                     </thead>
 

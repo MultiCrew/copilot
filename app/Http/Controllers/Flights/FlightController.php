@@ -49,15 +49,15 @@ class FlightController extends Controller
         $request->validate([
             'departure' => 'required|size:4|airport',
             'arrival' => 'required|size:4|airport',
-            'aircraft' => 'required|size:4'
+            'aircraft' => 'required|size:4|aircraft'
         ]);
 
         $flight = new Flight();
 
         $flight->fill([
-            'departure' => $request->departure,
-            'arrival'   => $request->arrival,
-            'aircraft'  => $request->aircraft
+            'departure' => strtoupper($request->departure),
+            'arrival'   => strtoupper($request->arrival),
+            'aircraft'  => strtoupper($request->aircraft)
         ]);
         $flight->requestee_id = Auth::user()->id;
 

@@ -32,7 +32,7 @@
             <div class="col-md-6">
                 <dl class="row card-text">
                     <dt class="col-sm-3 card-text">
-                        @if($flight->requestee_id == Auth::user()->id)
+                        @if($flight->requestee_id != Auth::user()->id)
                             Acceptee
                         @else
                             Requestee
@@ -40,7 +40,7 @@
                     </dt>
 
                     <dd class="col-sm-9 card-text">
-                        @if($flight->requestee_id == Auth::user()->id)
+                        @if($flight->requestee_id != Auth::user()->id)
                             <a href="#" class="text-decoration-none">
                                 <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                 {{ User::findOrFail($flight->acceptee_id)->username }}
