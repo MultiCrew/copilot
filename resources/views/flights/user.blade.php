@@ -52,7 +52,7 @@
                         @endforeach
                         @if(!count($openRequests))
                             <tr>
-                                <td class="text-center lead p-2">
+                                <td class="text-center lead p-2" colspan="4">
                                     You have no open requests. Maybe you want to
                                     <a href="#">create a new one</a>?
                                 </td>
