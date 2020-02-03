@@ -49,7 +49,7 @@ class FlightController extends Controller
         $request->validate([
             'departure' => 'required|size:4|airport',
             'arrival' => 'required|size:4|airport',
-            'aircraft' => 'required|size:4'
+            'aircraft' => 'required|size:4|aircraft'
         ]);
 
         $flight = new Flight();

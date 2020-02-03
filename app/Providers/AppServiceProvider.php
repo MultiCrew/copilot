@@ -31,5 +31,10 @@ class AppServiceProvider extends ServiceProvider
             'airport',
             'App\Rules\Airport@passes'
         );
+        
+        Validator::extend(
+            'aircraft',
+            'App\Rules\Aircraft@passes'
+        );
     }
 }
