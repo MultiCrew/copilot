@@ -13,6 +13,8 @@ class FlightPlanController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware(['flight_role:guest'])->only(['store']);
     }
 
     /**
@@ -66,13 +68,6 @@ class FlightPlanController extends Controller
          * @var $simbrief
          */
         include('simbrief/simbrief.apiv1.php');
-
-        /**
-         * Perform some checks to ensure this plan is valid
-         */
-        if ($flight->requestee_id !== Auth::id() || $flight->acceptee_id !== Auth::id()) {
-            // user not authorised to plan flight
-        }
 
         if (!empty($flight->plan_id)) {
             // flight already has a plan of some sort (accepted or in review)
