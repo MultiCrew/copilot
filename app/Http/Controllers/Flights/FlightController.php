@@ -13,8 +13,8 @@ class FlightController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware(['flight_role:requestee'])->only(['generateCode']);
-        $this->middleware(['flight_role:acceptee'])->only(['join']);
+        $this->middleware(['flight_role:requestee'])->only(['generateCode', 'edit', 'update', 'destroy']);
+        $this->middleware(['flight_role:acceptee'])->only(['accept']);
     }
 
     /**
@@ -102,19 +102,13 @@ class FlightController extends Controller
      */
     public function update(Request $request, Flight $flight)
     {
-        if ($flight->requestee_id === Auth::user()->id)
-        {
-            $flight->fill([
-                'departure' => $request->departure,
-                'arrival'   => $request->arrival,
-                'aircraft'  => $request->aircraft
-            ]);
-            $flight->save();
-        }
-        else
-        {
-            // TODO: flight does not belong to user
-        }
+        $flight->fill([
+            'departure' => $request->departure,
+            'arrival'   => $request->arrival,
+            'aircraft'  => $request->aircraft
+        ]);
+        
+        $flight->save();
 
         return redirect()->back();
     }
