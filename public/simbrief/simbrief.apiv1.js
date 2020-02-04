@@ -103,7 +103,8 @@ function do_simbriefsubmit(outputpage)
 		timestamp = Math.round(+new Date()/1000);
 		}
 			
-	outputpage_save = outputpage;
+  outputpage_save = outputpage;
+  outputpage_calc = outputpage.replace("https://", "");
 	
 	
 	
