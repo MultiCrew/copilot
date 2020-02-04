@@ -25,13 +25,13 @@ class FlightPlan extends Model
     ];
 
     /**
-     * Gets the flight associated with the plan
+     * The flight that belongs to the plan.
      *
-     * @return     Flight   The flight which references this plan
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getFlight()
+    public function flight()
     {
-        return Flight::where('plan_id', $this->id)->firstOrFail();
+        return $this->belongsTo('App\Models\Flights\Flight', 'id', 'plan_id');
     }
 
     /**
