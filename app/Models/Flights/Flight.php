@@ -84,13 +84,23 @@ class Flight extends Model
     }
 
     /**
+     * The plan that belongs to the flight.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function plan()
+    {
+        return $this->belongsTo('App\Models\Flights\FlightPlan', 'plan_id');
+    }
+
+    /**
      * Scope a query to only include public flights.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePublic($query)
     {
-        return $query->where('public', 1);
+        return $query->where('public', 1)->get();
     }
 
     /**
@@ -100,7 +110,7 @@ class Flight extends Model
      */
     public function scopeOpenRequest($query)
     {
-        return $query->where('requestee_id', Auth::id())->whereNull('acceptee_id');
+        return $query->where('requestee_id', Auth::id())->whereNull('acceptee_id')->get();
     }
 
     /**
@@ -110,16 +120,30 @@ class Flight extends Model
      */
     public function scopeAcceptedRequest($query)
     {
-        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id');
+        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id')->get();
     }
 
     /**
-     * Scope a query to only include unplanned requests.
+     * Scope a query to only include unplanned flights.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeUnplannedRequest($query)
+    public function scopeUnplannedFlight($query)
     {
-        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id')->whereNull('plan_id');
+        return $query->whereNull('plan_id')->where(function ($q) {
+            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
+        })->get();
+    }
+
+    /**
+     * Scope a query to only include users plans.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUserPlans($query)
+    {
+        return $query->whereNotNull('plan_id')->where(function ($q) {
+            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
+        })->get()->pluck('plan')->flatten();
     }
 }
