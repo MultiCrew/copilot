@@ -59,9 +59,9 @@ Route::group([
     'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
     'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
 ], function() {
-    Route::get('plan/{flight}', 'Flights\DispatchController@create')->name('plan');
-    Route::get('plan', 'Flights\DispatchController@store')->name('store');
-    Route::get('review/{plan}', 'Flights\DispatchController@show')->name('review');
+    Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('plan');
+    Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
+    Route::get('review/{plan}', 'Flights\FlightPlanController@show')->name('review');
 });
 
 /*
