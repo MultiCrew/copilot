@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Flights;
 
 use App\Http\Controllers\Controller;
 use App\Models\Flights\Flight;
+use App\Notifications\RequestAccepted;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -208,6 +209,11 @@ class FlightController extends Controller
         // accept the flight
         $flight->acceptee_id = Auth::user()->id;
         $flight->save();
+
+        // send notification
+
+        $requestee = $flight->requestee;
+        $requestee->notify(new RequestAccepted(Auth::user(), $flight));
 
         // show the flight
         return redirect()->route('flights.show', ['flight' => Flight::findOrFail($request->id)]);
