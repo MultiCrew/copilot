@@ -283,7 +283,7 @@
 
         <p class="card-text text-danger mb-2 text-center">DRAFT PLAN! Not operational paperwork.</p>
         <div class="card-text border rounded mx-auto" style="width: 600px; height:600px; overflow:auto;">
-            <pre>{{ $fpl['text']['plan_html'].'<br>' }}</pre>
+            <pre>{{ strip_tags($fpl['text']['plan_html'].'<br>') }}</pre>
         </div>
     </div>
 </div>
