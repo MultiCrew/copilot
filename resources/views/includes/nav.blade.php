@@ -57,12 +57,16 @@
                     aria-expanded="false">
                     <span class="fas fa-bell fa-lg"></span>
                 </button>
-                <span class="badge badge-notify">2</span>
+                <span class="badge badge-notify" id="notify-count">2</span>
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
-                    <button class="dropdown-item">TestUser has accepted your flight request</button>
-                    <button class="dropdown-item">Something happened</button>
+                <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
+                    id="notificationDropdownMenu">
+                    <button id="1" onclick="removeNotification(this.id)" class="dropdown-item">TestUser has accepted
+                        your flight request</button>
+                    <button id="2" onclick="removeNotification(this.id)" class="dropdown-item">Something
+                        happened</button>
                 </div>
+
             </li>
             <li class="nav-item dropdown @if (strpos(Route::currentRouteName(), 'account') !== false) active @endif">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"

@@ -51,6 +51,24 @@
 		$('#cookieAlert').on('closed.bs.alert', function () {
 			window.location.href = '{{ route('cookie-consent')}}'
 		})
+
+        $('.dropdown-menu.keep-open').on('click', function (e) {
+            e.stopPropagation();
+        });
+        
+        function removeNotification(id) {
+            var elem = document.getElementById(id);
+            elem.parentElement.removeChild(elem);
+            var count = $('#notify-count').text();
+            count--;
+            $('#notify-count').text(count);
+            if ($('#notify-count').text() == 0) {
+                $('#notify-count').text('')
+            }
+            if ($('#notificationDropdownMenu').children().length === 0) {
+                $('#notificationDropdownMenu').attr("hidden", "hidden");
+            }
+        }
     </script>
     @yield('scripts')
 
