@@ -8,7 +8,7 @@ use App\Models\Flights\Flight;
 use App\Models\Flights\FlightPlan;
 use \Auth;
 
-class DispatchController extends Controller
+class FlightPlanController extends Controller
 {
     public function __construct()
     {

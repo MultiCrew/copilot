@@ -28,29 +28,14 @@ Route::group([
     Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     // Route::get('search', 'Flights\FlightController@search')->name('search');
-
-    // Route::resource('', 'Flights\FlightController');
-    /**
-     * TODO
-     * For some unknown reason, the resource routes are not working properly
-     *
-     * The show action route below works fine, but the show action route invoked
-     * through the resource routes doesn't. Pending further investigation.
-     */
-    Route::get('', 'Flights\FlightController@index')->name('index');
-    Route::post('', 'Flights\FlightController@store')->name('store');
-    Route::get('/{flight}', 'Flights\FlightController@show')->name('show');
-    Route::get('/{flight}/edit', 'Flights\FlightController@edit')->name('edit');
-    Route::put('/{flight}', 'Flights\FlightController@update')->name('update');
-    Route::delete('/{flight}', 'Flights\FlightController@destroy')->name('destroy');
-    /*
-    Route::resource(
-        '', 'Flights\FlightController'     // standard resource routes
-    )->except([
-        'create'
-    ]);
-    */
+    // Route::delete('/{flight}', 'Flights\FlightController@destroy')->name('destroy');
 });
+
+Route::resource(
+    'flights', 'Flights\FlightController'     // standard resource routes
+)->except([
+    'create'
+]);
 
 /**
  * Dispatch routes
