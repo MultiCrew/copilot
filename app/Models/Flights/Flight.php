@@ -3,9 +3,9 @@
 namespace App\Models\Flights;
 
 use Illuminate\Support\Str;
-use App\Models\Flights\Flight;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Users\User as User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class Flight extends Model
 {
@@ -83,4 +83,43 @@ class Flight extends Model
         return $this->acceptee_id == $user->id;
     }
 
+    /**
+     * Scope a query to only include public flights.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('public', 1);
+    }
+
+    /**
+     * Scope a query to only include open requests.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOpenRequest($query)
+    {
+        return $query->where('requestee_id', Auth::id())->whereNull('acceptee_id');
+    }
+
+    /**
+     * Scope a query to only include accepted requests.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAcceptedRequest($query)
+    {
+        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id');
+    }
+
+    /**
+     * Scope a query to only include unplanned requests.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUnplannedRequest($query)
+    {
+        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id')->whereNull('plan_id');
+    }
 }
