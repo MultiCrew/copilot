@@ -23,32 +23,14 @@ class DispatchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id = null)
+    public function index(FlightPlan $plan)
     {
-        if (!empty($id)) {
-            if ($flight = Flight::find($id)) {
-                if (!$flight->plan_id) {
-                    return redirect()->route('dispatch.plan', $flight->id);
-                }
-            }
+        if ($plan->isApproved()) {
+            return redirect()->route('dispatch.show', $plan);
         }
-
-        // no Flight specified, show the index of the planning page
-        $plannedFlights =   Flight::whereNotNull('acceptee_id')
-                            ->where(function($query) {
-                                $query->where('requestee_id', '=', Auth::user()->id)
-                                      ->orWhere('acceptee_id', '=', Auth::user()->id);
-                            })->whereNotNull('plan_id')->get();
-        $unplannedFlights = Flight::whereNotNull('acceptee_id')
-                            ->where(function($query) {
-                                $query->where('requestee_id', '=', Auth::user()->id)
-                                      ->orWhere('acceptee_id', '=', Auth::user()->id);
-                            })->whereNull('plan_id')->get();
-
-        return view('flights.dispatch.index', [
-            'plannedFlights' => $plannedFlights,
-            'unplannedFlights' => $unplannedFlights
-        ]);
+        else {
+            return redirect()->route('dispatch.review', $plan);
+        }
     }
 
     /**
