@@ -60,7 +60,9 @@
                         @if(empty($flight->plan_id))
                             Not planned
                         @else
-                            <!-- logic to link to FlightPlan model -->
+                            <a href="{{ route('dispatch.review', $flight->plan_id) }}">
+                                View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
+                            </a>
                         @endif
                     </dd>
                 </dl>
