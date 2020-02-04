@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\Auth;
 
 class CheckFlightRole
@@ -19,6 +20,9 @@ class CheckFlightRole
     {
         /** @var \App\Models\Flights\Flight $flight */
         $flight = $request->route('flight');
+        
+        /** @var string $id */
+        $id = $request->route('id');
 
         switch($role){
             case 'requestee':
@@ -28,7 +32,8 @@ class CheckFlightRole
                 if(!$flight->isAcceptee(Auth::user())) abort(403);
                 break;
             case 'guest':
-                if(!$flight->isRequestee(Auth::user()) || !$flight->isAcceptee(Auth::user())) abort(403);
+                $flight = Flight::find($id);
+                if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user())) abort(403);
                 break;
         }
         return $next($request);
