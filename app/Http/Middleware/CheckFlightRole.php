@@ -27,6 +27,9 @@ class CheckFlightRole
             case 'acceptee':
                 if(!$flight->isAcceptee(Auth::user())) abort(403);
                 break;
+            case 'guest':
+                if(!$flight->isRequestee(Auth::user()) || !$flight->isAcceptee(Auth::user())) abort(403);
+                break;
         }
         return $next($request);
     }
