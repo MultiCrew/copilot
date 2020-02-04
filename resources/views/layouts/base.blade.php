@@ -34,6 +34,16 @@
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+    @if (!auth()->guest())
+        <script>
+            window.Laravel.userId = {!! auth()->user()->id !!};
+        </script>
+    @endif
     @auth
         <script>
             function logout() {
@@ -55,6 +65,17 @@
         $('.dropdown-menu.keep-open').on('click', function (e) {
             e.stopPropagation();
         });
+
+        $(document).ready(function() {
+            $.get('/notifications', function($data) {
+                for (const $notification of $data) {
+                    console.log($notification);
+                }
+            })
+            window.Echo.private(`App.User.${Laravel.userId}`).notification((notification) => {
+                console.log(notification);
+            })
+        })
 
         function removeNotification(id) {
             var elem = document.getElementById(id);

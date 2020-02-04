@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use \App\Http\Controllers\Controller as Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\Controller as Controller;
 
 class AccountController extends Controller
 {
@@ -68,5 +69,15 @@ class AccountController extends Controller
         }
 
         return view('auth.account');
+    }
+
+    /**
+     * Get all unread notifications belonging to a user
+     * 
+     * @return array
+     */
+    public function notifications()
+    {
+        return Auth::user()->unreadNotifications()->get()->toArray();
     }
 }

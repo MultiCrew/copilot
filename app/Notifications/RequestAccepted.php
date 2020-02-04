@@ -34,7 +34,7 @@ class RequestAccepted extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -43,24 +43,15 @@ class RequestAccepted extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
-    {
-        return [
-            'user_name' => $this->acceptee->username,
-            'flight' => $this->flight,
-        ];
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [
-            //
+            'id' => $this->id,
+            'read_at' => null,
+            'data' => [
+                'user_name' => $this->acceptee->username,
+                'flight' => $this->flight,
+            ],
         ];
     }
 }
