@@ -115,6 +115,8 @@ class FlightController extends Controller
         {
             // TODO: flight does not belong to user
         }
+
+        return redirect()->back();
     }
 
     /**
