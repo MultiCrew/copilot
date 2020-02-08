@@ -25,14 +25,9 @@ class FlightPlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FlightPlan $plan)
+    public function index()
     {
-        if ($plan->isApproved()) {
-            return redirect()->route('dispatch.show', $plan);
-        }
-        else {
-            return redirect()->route('dispatch.review', $plan);
-        }
+        return;
     }
 
     /**
