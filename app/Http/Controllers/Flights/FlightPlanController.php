@@ -27,7 +27,7 @@ class FlightPlanController extends Controller
      */
     public function index()
     {
-        return;
+        return view('dispatch.index');
     }
 
     /**
@@ -45,7 +45,7 @@ class FlightPlanController extends Controller
             return redirect()->route('dispatch.review', $flight->plan_id);
         }
 
-        return view('flights.dispatch.plan', ['flight' => $flight]);
+        return view('dispatch.plan', ['flight' => $flight]);
     }
 
     /**
@@ -85,7 +85,7 @@ class FlightPlanController extends Controller
      */
     public function show(FlightPlan $plan)
     {
-        return view('flights.dispatch.show', [
+        return view('dispatch.show', [
             'plan' => $plan,
             'fpl' => json_decode($plan->ofp_json, true)
         ]);
