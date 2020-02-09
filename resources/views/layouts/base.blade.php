@@ -83,7 +83,9 @@
         })
 
         function removeNotification(id) {
-            if ($(`#${id}`).index() !== 0) {
+            if ($(`#${id}`).index() === 0) {
+                $(`#${id}`).next().remove()
+            } else {
                 $(`#${id}`).prev().remove()
             }
             $(`#${id}`).remove()
@@ -99,7 +101,15 @@
         }
 
         function viewNotification(id, notification) {
-            console.log(notification)
+            removeNotification(id)
+            switch (notification.title) {
+                case 'Request Accepted':
+                    window.location.href = `/flights/${notification.flight.id}`
+                    break;
+            
+                default:
+                    break;
+            }
         }
 
         function newNotification(id, notification) {
@@ -133,7 +143,7 @@
             $('<button />', {
                 'html': notification.text,
                 'id': id,
-                'onclick': 'viewNotification(this.id, this.notification)',
+                'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
                 'class': 'dropdown-item',
             }).append(
                 $('<button/>', {
