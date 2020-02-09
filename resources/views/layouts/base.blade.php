@@ -98,6 +98,10 @@
             }
         }
 
+        function viewNotification(id, notification) {
+            console.log(notification)
+        }
+
         function newNotification(id, notification) {
             $('#notification-div').append(
                 $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
@@ -129,12 +133,12 @@
             $('<button />', {
                 'html': notification.text,
                 'id': id,
-                'onclick': '',
+                'onclick': 'viewNotification(this.id, this.notification)',
                 'class': 'dropdown-item',
             }).append(
                 $('<button/>', {
                     'type': 'button',
-                    'class': 'ml-2 mb-1 close', 
+                    'class': 'btn btn-sm', 
                     'onclick': 'removeNotification("' + id + '")', 
                     }).append(
                         $('<span/>', {'aria-hidden': 'true'}).html('&times;')
