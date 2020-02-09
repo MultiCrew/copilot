@@ -69,7 +69,7 @@ class FlightController extends Controller
 
         $flight->save();
 
-        return view('flights.show', ['flight' => $flight]);
+        return redirect()->route('flights.show', [$flight]);
     }
 
     /**
@@ -108,7 +108,7 @@ class FlightController extends Controller
             'arrival'   => $request->arrival,
             'aircraft'  => $request->aircraft
         ]);
-        
+
         $flight->save();
 
         return redirect()->back();
@@ -122,7 +122,7 @@ class FlightController extends Controller
      */
     public function destroy(Flight $flight)
     {
-        //
+        // TODO
     }
 
     /**
