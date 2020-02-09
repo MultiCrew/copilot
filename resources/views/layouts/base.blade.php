@@ -83,8 +83,10 @@
         })
 
         function removeNotification(id) {
-            var elem = document.getElementById(id);
-            elem.parentElement.removeChild(elem);
+            if ($(`#${id}`).index() !== 0) {
+                $(`#${id}`).prev().remove()
+            }
+            $(`#${id}`).remove()
             var count = $('#notify-count').text();
             count--;
             $('#notify-count').text(count);
@@ -125,11 +127,19 @@
                 $('<div/>', {'class': 'dropdown-divider'}).appendTo('#notificationDropdownMenu')
             }
             $('<button />', {
-                html: notification.text,
-                id: id,
-                onclick: 'removeNotification(this.id)',
-                class: 'dropdown-item',
-            }).appendTo('#notificationDropdownMenu');
+                'html': notification.text,
+                'id': id,
+                'onclick': '',
+                'class': 'dropdown-item',
+            }).append(
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'ml-2 mb-1 close', 
+                    'onclick': 'removeNotification("' + id + '")', 
+                    }).append(
+                        $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                    )
+            ).appendTo('#notificationDropdownMenu');
             var count = $('#notify-count').text();
             count++;
             $('#notify-count').text(count);
