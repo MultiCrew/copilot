@@ -78,6 +78,8 @@
             })
         })
 
+        $('.toast').toast('show');
+
         function removeNotification(id) {
             var elem = document.getElementById(id);
             elem.parentElement.removeChild(elem);
