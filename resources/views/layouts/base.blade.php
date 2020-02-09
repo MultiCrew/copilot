@@ -70,13 +70,12 @@
             $.get('/notifications', function(data) {
                 for (const notification of data) {
                     const nData = notification.data
-                    addNotification(notification.id, `${nData.user_name} just accepted your request from ${nData.flight.departure} to ${nData.flight.arrival}`);
+                    addNotification(notification.id, notification.text);
                 }
             })
-            var chan = window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
-                console.log(notification);
+            window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
+                addNotification(notification.id, notification.text)
             })
-            console.log(chan);
         })
 
         function removeNotification(id) {
