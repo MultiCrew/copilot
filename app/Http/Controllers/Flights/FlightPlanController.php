@@ -90,15 +90,10 @@ class FlightPlanController extends Controller
     {
         // helpful debugging line to view contents of plan JSON
         // dd(json_decode($plan->ofp_json, true));
-        if ($plan->acceptee_accept == 0 && $plan->requestee_accept == 0) {
-            $review = true;
-        } else {
-            $review = false;
-        }
+
         return view('dispatch.show', [
-            'flight'    => $this->getFlight(),
             'plan'      => $plan,
-            'review'    => $review,
+            'flight'    => $plan->flight,
             'fpl'       => json_decode($plan->ofp_json, true)
         ]);
     }

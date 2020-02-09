@@ -7,24 +7,24 @@
         <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-secondary float-right">
             <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Flight Details
         </a>
-        <h3 class="card-title">Flight Plan @if($review) Review @endif</h3>
+        <h3 class="card-title">Flight Plan @if(!$plan->isApproved()) Review @endif</h3>
         <p class="lead text-muted">
             Flight {{ $fpl['general']['icao_airline'].$fpl['general']['flight_number'] }}
             from {{ $fpl['origin']['iata_code'] }} ({{ $fpl['origin']['name'] }})
             to {{ $fpl['destination']['iata_code'] }} ({{ $fpl['destination']['name'] }})
         </p>
         <p class="card-text">
-            @if($review)
+            @if($plan->isApproved())
+                Your OFP is ready to use! Enjoy your flight.
+            @else
                 Your draft OFP has been generated. Both pilots are required to review and
                 accept the flight plan before cockpit preparation can begin.
-            @else
-                Your OFP is ready to use! Enjoy your flight.
             @endif
         </p>
     </div>
 </div>
 
-@if($review)
+@if(!$plan->isApproved())
     <div class="alert alert-danger mb-4">
         <strong>Do not operate with this flight plan!</strong>
         Please review and choose "Accept" or "Reject" at the bottom of this page.
@@ -41,11 +41,11 @@
                     <div class="form-row">
                         <div class="col-md-4 form-group card-text">
                             <label>Planned with</label>
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="AIRAC {{ $fpl['params']['airac'] }}"></pre>
+                            value="AIRAC {{ $fpl['params']['airac'] }}"></code>
                         </div>
 
                         <div class="col-md-4 form-group card-text">
@@ -65,40 +65,40 @@
 
                         <div class="col-md-4 form-group card-text">
                             <label>Callsign</label>
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['atc']['callsign'] }}"></pre>
+                            value="{{ $fpl['atc']['callsign'] }}"></code>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="col-md-4 form-group card-text">
                             <label>ADEP</label>
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['origin']['icao_code'].' / '.$fpl['origin']['iata_code'] }}"></pre>
+                            value="{{ $fpl['origin']['icao_code'].' / '.$fpl['origin']['iata_code'] }}"></code>
                         </div>
 
                         <div class="col-md-4 form-group card-text">
                             <label>ADES</label>
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['destination']['icao_code'].' / '.$fpl['destination']['iata_code'] }}"></pre>
+                            value="{{ $fpl['destination']['icao_code'].' / '.$fpl['destination']['iata_code'] }}"></code>
                         </div>
 
                         <div class="col-md-4 form-group card-text">
                             <label>ALTN</label>
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['alternate']['icao_code'].' / '.$fpl['alternate']['iata_code'] }}"></pre>
+                            value="{{ $fpl['alternate']['icao_code'].' / '.$fpl['alternate']['iata_code'] }}"></code>
                         </div>
                     </div>
                 </div>
@@ -111,32 +111,48 @@
                 <div class="card-text">
                     <div class="form-group card-text">
                         <label>ATC Route</label>
-                        <pre class="card-text"><textarea class="form-control card-text" readonly rows="3">{{ $fpl['atc']['route'] }}</textarea></pre>
+                        <code>
+                            <textarea class="form-control card-text" readonly rows="3">{{ $fpl['atc']['route'] }}</textarea>
+                        </code>
                     </div>
 
                     <div class="form-group card-text">
                         <label>ATC Remarks</label>
-                        <pre class="card-text"><textarea class="form-control card-text" readonly rows="3">{{ $fpl['atc']['section18'] }}</textarea></pre>
+                        <code>
+                            <textarea class="form-control card-text" readonly rows="3">{{ $fpl['atc']['section18'] }}</textarea>
+                        </code>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group card-text col-lg-4">
                             <label>Cruise System</label>
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['general']['cruise_profile'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['general']['cruise_profile'] }}">
+                            </code>
                         </div>
 
                         <div class="form-group card-text col-lg-4">
                             <label>Fuel Burn</label>
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['general']['total_burn'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['general']['total_burn'] }}">
+                            </code>
                         </div>
 
                         <div class="form-group card-text col-lg-4">
                             <label>Init CRZ Alt</label>
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['general']['initial_altitude'] }}"></pre>
+                            value="{{ $fpl['general']['initial_altitude'] }}"></code>
                         </div>
                     </div>
                 </div>
@@ -164,25 +180,37 @@
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">Block / Max</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['fuel']['plan_ramp'] }} / {{ $fpl['fuel']['max_tanks'] }}"></pre>
+                            value="{{ $fpl['fuel']['plan_ramp'] }} / {{ $fpl['fuel']['max_tanks'] }}"></code>
                         </div>
                     </div>
 
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">Burn</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['fuel']['enroute_burn'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['fuel']['enroute_burn'] }}">
+                            </code>
                         </div>
                     </div>
 
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">Landing</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['fuel']['plan_landing'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['fuel']['plan_landing'] }}">
+                            </code>
                         </div>
                     </div>
                 </div>
@@ -197,32 +225,50 @@
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">ICAO</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['aircraft']['icaocode'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['aircraft']['icaocode'] }}">
+                            </code>
                         </div>
                     </div>
 
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">Type</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['aircraft']['name'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['aircraft']['name'] }}">
+                            </code>
                         </div>
                     </div>
 
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">Registration</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['aircraft']['reg'] }}"></pre>
+                            <code>
+                                <input
+                                type="text"
+                                class="form-control card-text"
+                                readonly
+                                value="{{ $fpl['aircraft']['reg'] }}">
+                            </code>
                         </div>
                     </div>
 
                     <div class="form-group card-text row mb-2">
                         <label class="col-md-6 col-form-label">PAX</label>
                         <div class="col-md-6">
-                            <pre class="card-text"><input
+                            <code><input
                             type="text"
                             class="form-control card-text"
                             readonly
-                            value="{{ $fpl['general']['passengers'] }} / {{ $fpl['aircraft']['max_passengers'] }}"></pre>
+                            value="{{ $fpl['general']['passengers'] }} / {{ $fpl['aircraft']['max_passengers'] }}"></code>
                         </div>
                     </div>
                 </div>
@@ -254,74 +300,125 @@
             <div class="form-row">
                 <div class="form-group card-text col-md-3">
                     <label>PAX</label>
-                    <pre class="card-text"><input
+                    <code><input
                     type="text"
                     class="form-control card-text"
                     readonly
-                    value="{{ $fpl['weights']['pax_count'] }} / {{ $fpl['aircraft']['max_passengers'] }}"></pre>
+                    value="{{ $fpl['weights']['pax_count'] }} / {{ $fpl['aircraft']['max_passengers'] }}"></code>
                 </div>
 
                 <div class="form-group card-text col-md-3">
                     <label>Est. ZFW / Max</label>
-                    <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['weights']['est_zfw'] }} / {{ $fpl['weights']['max_zfw'] }}"></pre>
+                    <code>
+                        <input
+                        type="text"
+                        class="form-control card-text"
+                        readonly
+                        value="{{ $fpl['weights']['est_zfw'] }} / {{ $fpl['weights']['max_zfw'] }}">
+                    </code>
                 </div>
 
                 <div class="form-group card-text col-md-3">
                     <label>Est. TOW / Max</label>
-                    <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['weights']['est_tow'] }} / {{ $fpl['weights']['max_tow'] }}"></pre>
+                    <code>
+                        <input
+                        type="text"
+                        class="form-control card-text"
+                        readonly
+                        value="{{ $fpl['weights']['est_tow'] }} / {{ $fpl['weights']['max_tow'] }}">
+                    </code>
                 </div>
 
                 <div class="form-group card-text col-md-3">
                     <label>Est. LAW / Max</label>
-                    <pre class="card-text"><input type="text" class="form-control card-text" readonly value="{{ $fpl['weights']['est_ldw'] }} / {{ $fpl['weights']['max_ldw'] }}"></pre>
+                    <code>
+                        <input
+                        type="text"
+                        class="form-control card-text"
+                        readonly
+                        value="{{ $fpl['weights']['est_ldw'] }} / {{ $fpl['weights']['max_ldw'] }}">
+                    </code>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card mb-4">
-    <div class="card-body">
-        <h5 class="card-title">Paperwork Preview</h5>
+@if($plan->isApproved())
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Export Options</h5>
 
-        <p class="card-text text-danger mb-2 text-center"><strong>DRAFT PLAN! Not operational paperwork.</strong></p>
-        <div class="card-text border rounded mx-auto" style="width: 1200px; height:600px; overflow:auto;">
-            <pre class="card-text">{{ strip_tags($fpl['text']['plan_html'].'<br>') }}</pre>
+            <table class="card-text table table-striped border" style="max-width: 50%; margin: auto;">
+                <tbody>
+                    @foreach($fpl['fms_downloads'] as $download)
+                        @if(!$loop->first)
+                            <tr>
+                                <td class="align-middle">{{ $download['name'] }}</td>
+                                <td class="align-middle text-right">
+                                    <a
+                                    class="btn btn-success btn-sm m-0"
+                                    href="{{ $fpl['fms_downloads']['directory'].$download['link']}}">
+                                        <i class="fas fa-fw mr-2 fa-download"></i>Download
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
+@else
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Paperwork Preview</h5>
 
+            <p class="card-text text-danger mb-2 text-center">
+                <strong>DRAFT PLAN! Not operational paperwork.</strong>
+            </p>
+            <pre>
+                <div class="card-text border rounded mx-auto" style="width: 1200px; height:600px; overflow:auto;">{{ strip_tags($fpl['text']['plan_html'].'<br>') }}</div>
+            </pre>
+        </div>
+    </div>
 
-<div class="card mb-4">
-    <div class="card-body">
-        @if($review)
+    <div class="card mb-4">
+        <div class="card-body">
             <h5 class="card-title">Review</h5>
 
-            <div class="card-text">
+            @if($plan->hasAccepted())
                 <p>
-                    Please select one of the following options to indicate whether you have reviewed,
-                    and are happy to continue with, the <strong>draft</strong> flight plan detailed above.
+                    You have already accepted this flight plan. Your copilot has yet to review the plan, so
+                    sit tight for now.
                 </p>
-                <p>
-                    Upon accepting the flight plan, and providing your copilot also accepts the flight plan,
-                    a PDF document of the plan, and other export options, will become available on this page.
-                </p>
-                <p>
-                    If either you or your copilot reject this <strong>draft</strong> flight plan, this draft will
-                    be permanently deleted and you will be able to create a new draft.
-                </p>
+            @else
+                <div class="card-text">
+                    <p>
+                        Please select one of the following options to indicate whether you have reviewed,
+                        and are happy to continue with, the <strong>draft</strong> flight plan detailed above.
+                    </p>
+                    <p>
+                        Upon accepting the flight plan, and providing your copilot also accepts the flight plan,
+                        a PDF document of the plan, and other export options, will become available on this page.
+                    </p>
+                    <p>
+                        If either you or your copilot reject this <strong>draft</strong> flight plan, this draft will
+                        be permanently deleted and you will be able to create a new draft.
+                    </p>
 
-                <div class="text-center card-text">
-                    <button type="submit" name="accept" value="true" class="btn btn-success btn-block card-text">
-                        <i class="fas fa-5x fa-check"></i><br>Accept
-                    </button>
-                    <button type="submit" name="reject" value="true" class="btn btn-danger btn-block card-text">
-                        <i class="fas fa-5x fa-times"></i><br>Reject
-                    </button>
+                    <div class="text-center card-text">
+                        <a class="btn btn-success btn-block card-text" href="{{ route('dispatch.accept', [$plan]) }}">
+                            <i class="fas fa-5x fa-check"></i><br>Accept
+                        </a>
+                        <a class="btn btn-danger btn-block card-text" href="{{ route('dispatch.reject', [$plan]) }}">
+                            <i class="fas fa-5x fa-times"></i><br>Reject
+                        </a>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
     </div>
-</div>
+@endif
 
 @endsection

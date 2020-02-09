@@ -47,8 +47,8 @@ Route::group([
     Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
     Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
     Route::get('{plan}', 'Flights\FlightPlanController@show')->name('show');
-    Route::post('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
-    Route::post('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
+    Route::get('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
+    Route::get('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
 });
 
 /*

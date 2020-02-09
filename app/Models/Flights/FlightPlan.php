@@ -3,6 +3,7 @@
 namespace App\Models\Flights;
 
 use Illuminate\Database\Eloquent\Model;
+use \Auth;
 
 class FlightPlan extends Model
 {
@@ -39,12 +40,12 @@ class FlightPlan extends Model
      */
     public function accept()
     {
-        $flight = $this->getFlight();
+        $flight = $this->flight;
 
-        if (Auth::id() === $flight->requestee)
-            $this->requestee_accept = 1;
+        if (Auth::id() === $flight->requestee_id)
+            $this->requestee_accept = Auth::id();
         else
-            $this->acceptee_accept = 1;
+            $this->acceptee_accept = Auth::id();
 
         $this->save();
     }
@@ -54,20 +55,30 @@ class FlightPlan extends Model
      */
     public function reject()
     {
-        $flight = $this->getFlight();
+        $flight = $this->flight;
 
-        if (Auth::id() === $flight->requestee)
-            $this->requestee_accept = 0;
+        if (Auth::id() === $flight->requestee_id)
+            $this->requestee_accept = Auth::id();
         else
-            $this->acceptee_accept = 0;
+            $this->acceptee_accept = Auth::id();
 
         $this->save();
     }
 
     /**
+     * Checks whether the authed user has accepted the plan already
+     *
+     * @return booelan true if both the suer has accepted the plan, otherwise false
+     */
+    public function hasAccepted()
+    {
+        return ($this->requestee_accept === Auth::id() || $this->acceptee_accept === Auth::id());
+    }
+
+    /**
      * Checks whether the plan is approved or not (both pilots have reviewed accepted)
      *
-     * @return boolean true if both pilots have accepted the plan, otherwise false
+     * @return booelan true if both pilots have accepted the plan, otherwise false
      */
     public function isApproved()
     {
