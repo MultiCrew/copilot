@@ -4,6 +4,9 @@
 
 <div class="card mb-4">
     <div class="card-body">
+        <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-secondary float-right">
+            <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Flight Details
+        </a>
         <h3 class="card-title">Flight Plan @if($review) Review @endif</h3>
         <p class="card-text">
             @if($review)
