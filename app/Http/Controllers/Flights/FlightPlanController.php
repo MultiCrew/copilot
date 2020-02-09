@@ -96,10 +96,34 @@ class FlightPlanController extends Controller
             $review = false;
         }
         return view('dispatch.show', [
-            'flight'    => Flight::where('plan_id', $plan->id)->first(),
+            'flight'    => $this->getFlight(),
             'plan'      => $plan,
             'review'    => $review,
             'fpl'       => json_decode($plan->ofp_json, true)
         ]);
+    }
+
+    /**
+     * Method to accept a flight plan as the authed user
+     *
+     * @param FlightPlan to accept
+     * @return Redirect to flight plan
+     */
+    public function accept(FlightPlan $plan)
+    {
+        $plan->accept();
+        return redirect()->route('dispatch.show', [$plan]);
+    }
+
+    /**
+     * Method to reject a flight plan as the authed user
+     *
+     * @param FlightPlan to reject
+     * @return Redirect to flight plan
+     */
+    public function reject(FlightPlan $plan)
+    {
+        $plan->reject();
+        return redirect()->route('dispatch.show', [$plan]);
     }
 }
