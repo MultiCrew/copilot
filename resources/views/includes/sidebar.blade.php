@@ -61,7 +61,7 @@
 
             <li class="list-group-item sidebar-separator menu-collapsed"></li>
 
-            <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
+            <a href="#" class="bg-dark list-group-item list-group-item-action" data-toggle="modal" data-target="#helpModal">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="fa fa-question-circle fa-fw mr-3"></i>
                     <span class="menu-collapsed">Help</span>
