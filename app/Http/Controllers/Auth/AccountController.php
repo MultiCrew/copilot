@@ -70,14 +70,4 @@ class AccountController extends Controller
 
         return view('auth.account');
     }
-
-    /**
-     * Get all unread notifications belonging to a user
-     * 
-     * @return array
-     */
-    public function notifications()
-    {
-        return Auth::user()->unreadNotifications()->get()->toArray();
-    }
 }
