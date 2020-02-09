@@ -44,7 +44,7 @@ class FlightPlan extends Model
         if (Auth::id() === $flight->requestee)
             $this->requestee_accept = 1;
         else
-            $this->accepttee_accept = 1;
+            $this->acceptee_accept = 1;
 
         $this->save();
     }
@@ -59,7 +59,7 @@ class FlightPlan extends Model
         if (Auth::id() === $flight->requestee)
             $this->requestee_accept = 0;
         else
-            $this->accepttee_accept = 0;
+            $this->acceptee_accept = 0;
 
         $this->save();
     }
