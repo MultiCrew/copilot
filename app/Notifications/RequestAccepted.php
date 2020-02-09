@@ -49,8 +49,9 @@ class RequestAccepted extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'user_name' => $this->acceptee->username,
+            'acceptee' => $this->acceptee,
             'flight' => $this->flight,
+            'text' => $this->acceptee->username.' has just accepted your flight request from '.$this->flight->departure.' to '.$this->flight->arrival
         ];
     }
 
@@ -64,8 +65,9 @@ class RequestAccepted extends Notification
     {
         return new BroadcastMessage([
             'id' => $this->id,
-            'user_name' => $this->acceptee->username,
+            'acceptee' => $this->acceptee,
             'flight' => $this->flight,
+            'text' => $this->acceptee->username.' has just accepted your flight request from '.$this->flight->departure.' to '.$this->flight->arrival
         ]);
     }
 }

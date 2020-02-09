@@ -73,7 +73,7 @@
                     addNotification(notification.id, `${nData.user_name} just accepted your request from ${nData.flight.departure} to ${nData.flight.arrival}`);
                 }
             })
-            var chan = window.Echo.private(`App.Models.User.User.${Laravel.userId}`).notification((notification) => {
+            var chan = window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
                 console.log(notification);
             })
             console.log(chan);
