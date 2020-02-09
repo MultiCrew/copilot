@@ -121,13 +121,15 @@
         }
 
         function addNotification(id, notification) {
+            if ($('#notificationDropdownMenu').children().length >= 1 ) {
+                $('<div/>', {'class': 'dropdown-divider'}).appendTo('#notificationDropdownMenu')
+            }
             $('<button />', {
                 html: notification.text,
                 id: id,
                 onclick: 'removeNotification(this.id)',
                 class: 'dropdown-item',
             }).appendTo('#notificationDropdownMenu');
-
             var count = $('#notify-count').text();
             count++;
             $('#notify-count').text(count);
@@ -136,6 +138,11 @@
                 $('#notificationDropdownMenu').removeAttr("hidden");
             }
         }
+
+        // for marking notification as read
+        //$.post('/NotifMarkAsRead', {'notif_id': notif_id}, function (data) {
+        //    data.success ? (window.location.href = targetHref) : false;
+        //}, 'json');
     </script>
     @yield('scripts')
 
