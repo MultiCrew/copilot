@@ -48,7 +48,7 @@ class FlightPlanController extends Controller
             return redirect()->route('dispatch.review', $flight->plan_id);
         }
 
-        return view('dispatch.plan', ['flight' => $flight]);
+        return view('dispatch.create', ['flight' => $flight]);
     }
 
     /**
