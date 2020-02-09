@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Notification;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Notifications\Notification;
 
 class NotificationController extends Controller
 {
@@ -21,11 +20,12 @@ class NotificationController extends Controller
     /**
      * Mark notification as read
      * 
-     * @param \Illuminate\Notifications\Notification $notification
+     * @param string id
      * @return \Illuminate\Http\Response
      */
-    public function read(Notification $notification)
+    public function read(string $id)
     {
+        $notification = auth()->user()->notifications()->find($id);
         $notification->markAsRead();
     }
 }

@@ -17,7 +17,7 @@ Route::group([
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
     Route::get('/notifications', 'Notification\NotificationController@notifications');
-    Route::get('{notification}', 'Notification\NotificationController@read');
+    Route::get('/notifications/{id}', 'Notification\NotificationController@read');
 });
 
 /**

@@ -98,6 +98,7 @@
             if ($('#notificationDropdownMenu').children().length === 0) {
                 $('#notificationDropdownMenu').attr("hidden", "hidden");
             }
+            $.get(`/notifications/${id}`)
         }
 
         function viewNotification(id, notification) {
