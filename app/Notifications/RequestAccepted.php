@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use App\Models\Flights\Flight;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class RequestAccepted extends Notification
@@ -45,15 +46,26 @@ class RequestAccepted extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            'id' => $this->id,
-            'read_at' => null,
-            'data' => [
-                'user_name' => $this->acceptee->username,
-                'flight' => $this->flight,
-            ],
+            'user_name' => $this->acceptee->username,
+            'flight' => $this->flight,
         ];
+    }
+
+    /**
+     * Broadcast the notification
+     * 
+     * @param mixed $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'id' => $this->id,
+            'user_name' => $this->acceptee->username,
+            'flight' => $this->flight,
+        ]);
     }
 }

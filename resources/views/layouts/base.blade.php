@@ -17,17 +17,17 @@
         @include('includes.nav')
 
         @auth
-            @include('includes.sidebar')
-        		<div class="p-4 col">
-                    @yield('content')
-                </div>
-            </main>
+        @include('includes.sidebar')
+        <div class="p-4 col">
+            @yield('content')
+        </div>
+        </main>
         @endauth
 
         @guest
-            <main class="py-4 container">
-                @yield('content')
-            </main>
+        <main class="py-4 container">
+            @yield('content')
+        </main>
         @endguest
 
         @include('includes.cookies')
@@ -40,16 +40,16 @@
         ]) !!};
     </script>
     @if (!auth()->guest())
-        <script>
-            window.Laravel.userId = {!! auth()->user()->id !!};
-        </script>
+    <script>
+        window.Laravel.userId = {!! auth()->user()->id !!};
+    </script>
     @endif
     @auth
-        <script>
-            function logout() {
+    <script>
+        function logout() {
                 $("#logout-form").submit();
             }
-        </script>
+    </script>
     @endauth
     <script>
         function toggleBurger() {
@@ -67,14 +67,16 @@
         });
 
         $(document).ready(function() {
-            $.get('/notifications', function($data) {
-                for (const $notification of $data) {
-                    console.log($notification);
+            $.get('/notifications', function(data) {
+                for (const notification of data) {
+                    const nData = notification.data
+                    addNotification(notification.id, `${nData.user_name} just accepted your request from ${nData.flight.departure} to ${nData.flight.arrival}`);
                 }
             })
-            window.Echo.private(`App.User.${Laravel.userId}`).notification((notification) => {
+            var chan = window.Echo.private(`App.Models.User.User.${Laravel.userId}`).notification((notification) => {
                 console.log(notification);
             })
+            console.log(chan);
         })
 
         function removeNotification(id) {
@@ -91,18 +93,20 @@
             }
         }
 
-        function addNotification(id, notification) {
-            var largestId = 0;
-            var dropdown = document.getElementById('notificationDropdownMenu')
-            for (const elem of dropdown.children) {
-                if (elem.id >= largestId) {
-                    largestId = Number(elem.id) + 1;
+        function addNotification(id=null, notification) {
+            if (id == null) {
+                var id = 0;
+                var dropdown = document.getElementById('notificationDropdownMenu')
+                for (const elem of dropdown.children) {
+                    if (elem.id >= id) {
+                        id = Number(elem.id) + 1;
+                    }
                 }
             }
             
             $('<button />', {
                 html: notification,
-                id: largestId,
+                id: id,
                 onclick: 'removeNotification(this.id)',
                 class: 'dropdown-item',
             }).appendTo('#notificationDropdownMenu');
@@ -120,4 +124,5 @@
 
     @yield('footer')
 </body>
+
 </html>

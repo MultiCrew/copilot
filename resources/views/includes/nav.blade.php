@@ -57,14 +57,10 @@
                     aria-expanded="false">
                     <span class="fas fa-bell fa-lg"></span>
                 </button>
-                <span class="badge badge-notify" id="notify-count">2</span>
+                <span class="badge badge-notify" id="notify-count"></span>
 
                 <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
-                    id="notificationDropdownMenu">
-                    <button id="1" onclick="removeNotification(this.id)" class="dropdown-item">TestUser has accepted
-                        your flight request</button>
-                    <button id="2" onclick="removeNotification(this.id)" class="dropdown-item">Something
-                        happened</button>
+                    id="notificationDropdownMenu" hidden>
                 </div>
 
             </li>
