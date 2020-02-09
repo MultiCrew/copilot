@@ -39,7 +39,7 @@
                             <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-sm my-2 btn-info">
                                 Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
                             </a>
-                            <a href="{{ route('dispatch.create', [$flight->id]) }}" class="btn btn-sm my-2 btn-success">
+                            <a href="{{ route('dispatch.show', [$flight->plan_id]) }}" class="btn btn-sm my-2 btn-success">
                                 View Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                             </a>
                         </td>

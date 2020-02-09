@@ -60,7 +60,7 @@
                         @if(empty($flight->plan_id))
                             Not planned
                         @else
-                            <a href="{{ route('dispatch.show', $flight->plan_id) }}">
+                            <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-success m-0">
                                 View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                             </a>
                         @endif
