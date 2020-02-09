@@ -4,18 +4,24 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <h3 class="card-title">Review</h3>
+        <h3 class="card-title">Flight Plan @if($review) Review @endif</h3>
         <p class="card-text">
-            Your draft OFP has been generated. Both pilots are required to review and
-            accept the flight plan before cockpit preparation can begin.
+            @if($review)
+                Your draft OFP has been generated. Both pilots are required to review and
+                accept the flight plan before cockpit preparation can begin.
+            @else
+                Your OFP is ready to use! Enjoy your flight.
+            @endif
         </p>
     </div>
 </div>
 
-<div class="alert alert-danger mb-4">
-    <strong>Do not operate with this flight plan!</strong>
-    Please review and choose "Accept" or "Reject" at the bottom of this page.
-</div>
+@if($review)
+    <div class="alert alert-danger mb-4">
+        <strong>Do not operate with this flight plan!</strong>
+        Please review and choose "Accept" or "Reject" at the bottom of this page.
+    </div>
+@endif
 
 <div class="row">
     <div class="col-lg-8">
@@ -288,26 +294,29 @@
     </div>
 </div>
 
+
 <div class="card mb-4">
     <div class="card-body">
-        <h5 class="card-title">Review</h5>
+        @if($review)
+            <h5 class="card-title">Review</h5>
 
-        <div class="card-text">
-            <p>Please select one of the following options to indicate whether you have reviewed, and are happy to continue with, the flight plan detailed above.</p>
-            <p>Upon accepting the flight plan, a PDF document and other export options will become available.</p>
-            <p>Upon rejecting the flight plan, another will have to be generated.</p>
+            <div class="card-text">
+                <p>Please select one of the following options to indicate whether you have reviewed, and are happy to continue with, the flight plan detailed above.</p>
+                <p>Upon accepting the flight plan, a PDF document and other export options will become available.</p>
+                <p>Upon rejecting the flight plan, another will have to be generated.</p>
 
-            <div class="text-center mb-3">
-                <form action="" method="post">
-                   <button type="submit" name="proceed" value="true" class="btn button-accept"><i class="fas fa-5x fa-check"></i><br>Proceed</button>
-                </form>
+                <div class="text-center mb-3">
+                    <form action="" method="post">
+                       <button type="submit" name="proceed" value="true" class="btn button-accept"><i class="fas fa-5x fa-check"></i><br>Proceed</button>
+                    </form>
+                </div>
+
+                <div class="text-center mb-3">
+                    <button type="submit" name="accept" value="true" class="btn button-accept"><i class="fas fa-5x fa-check"></i><br>Accept</button>
+                    <button type="submit" name="reject" value="true" class="btn button-reject"><i class="fas fa-5x fa-times"></i><br>Reject</button>
+                </div>
             </div>
-
-            <div class="text-center mb-3">
-                <button type="submit" name="accept" value="true" class="btn button-accept"><i class="fas fa-5x fa-check"></i><br>Accept</button>
-                <button type="submit" name="reject" value="true" class="btn button-reject"><i class="fas fa-5x fa-times"></i><br>Reject</button>
-            </div>
-        </div>
+        @endif
     </div>
 </div>
 

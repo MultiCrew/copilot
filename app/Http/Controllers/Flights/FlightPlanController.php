@@ -88,9 +88,15 @@ class FlightPlanController extends Controller
      */
     public function show(FlightPlan $plan)
     {
+        if ($plan->acceptee_accept == 0 && $plan->requestee_accept == 0) {
+            $review = true;
+        } else {
+            $review = false;
+        }
         return view('dispatch.show', [
-            'plan' => $plan,
-            'fpl' => json_decode($plan->ofp_json, true)
+            'plan'      => $plan,
+            'review'    => $review,
+            'fpl'       => json_decode($plan->ofp_json, true)
         ]);
     }
 }
