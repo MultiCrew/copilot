@@ -74,7 +74,7 @@
             $.get('/notifications', function(data) {
                 for (const notification of data) {
                     const nData = notification.data
-                    addNotification(notification.id, notification.text);
+                    addNotification(notification.id, nData);
                 }
             })
             window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
@@ -122,7 +122,7 @@
 
         function addNotification(id, notification) {
             $('<button />', {
-                html: notification,
+                html: notification.text,
                 id: id,
                 onclick: 'removeNotification(this.id)',
                 class: 'dropdown-item',
