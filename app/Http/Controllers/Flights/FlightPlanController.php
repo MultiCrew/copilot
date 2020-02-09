@@ -27,7 +27,10 @@ class FlightPlanController extends Controller
      */
     public function index()
     {
-        return view('dispatch.index');
+        return view('dispatch.index', [
+            'plannedFlights'    => Flight::plannedFlight()->all(),
+            'unplannedFlights'  => Flight::unplannedFlight()->all()
+        ]);
     }
 
     /**
