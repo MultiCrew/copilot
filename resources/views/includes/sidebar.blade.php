@@ -7,7 +7,8 @@
 
             <a
             href="{{ route('flights.index') }}"
-            class="bg-dark list-group-item list-group-item-action">
+            class="bg-dark list-group-item list-group-item-action
+            @if(Route::currentRouteName() === 'flights.index')) active @endif">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <span class="menu-collapsed">
                         <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
@@ -17,10 +18,22 @@
 
             <a
             href="{{ route('flights.user-flights') }}"
-            class="bg-dark list-group-item list-group-item-action">
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <span class="menu-collapsed">
                         <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+                    </span>
+                </div>
+            </a>
+
+            <a
+            href="{{ route('dispatch.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
                     </span>
                 </div>
             </a>
@@ -36,7 +49,10 @@
                 </div>
             </a>
 
-            <a href="{{ route('account.index') }}" class="bg-dark list-group-item list-group-item-action">
+            <a
+            href="{{ route('account.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="fa fa-user-cog fa-fw mr-3"></i>
                     <span class="menu-collapsed">Account</span>
