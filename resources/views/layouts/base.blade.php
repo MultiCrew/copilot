@@ -19,7 +19,10 @@
         @auth
         <main class="row" id="body-row">
             @include('includes.sidebar')
-            <div class="p-4 col">
+            <div class="p-4 col" id="content-div">
+                <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
+                    <div class="notify-toast-position" id="notification-div"></div>
+                </div>
                 @yield('content')
             </div>
         </main>
@@ -75,11 +78,9 @@
                 }
             })
             window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
-                addNotification(notification.id, notification.text)
+                newNotification(notification.id, notification)
             })
         })
-
-        $('.toast').toast('show');
 
         function removeNotification(id) {
             var elem = document.getElementById(id);
@@ -95,17 +96,31 @@
             }
         }
 
-        function addNotification(id=null, notification) {
-            if (id == null) {
-                var id = 0;
-                var dropdown = document.getElementById('notificationDropdownMenu')
-                for (const elem of dropdown.children) {
-                    if (elem.id >= id) {
-                        id = Number(elem.id) + 1;
-                    }
-                }
-            }
-            
+        function newNotification(id, notification) {
+            $('#notification-div').append(
+                $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
+                    $('<div/>', {'class': 'toast-header'}).append(
+                        $('<strong/>', {'class': 'mr-auto'}).text(notification.title)
+                    ).append(
+                        $('<small/>').text('Just now')
+                    ).append(
+                        $('<button/>', {
+                            'type': 'button', 
+                            'class': 'ml-2 mb-1 close', 
+                            'data-dismiss': 'toast', 
+                            'aria-label': 'Close'}).append(
+                                $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                            )
+                    )
+                ).append(
+                    $('<div/>', {'class': 'toast-body'}).text(notification.text)
+                )
+            )
+            $(`#${id}`).toast('show');
+            addNotification(id, notification)
+        }
+
+        function addNotification(id, notification) {
             $('<button />', {
                 html: notification,
                 id: id,
