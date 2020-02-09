@@ -17,10 +17,11 @@
         @include('includes.nav')
 
         @auth
-        @include('includes.sidebar')
-        <div class="p-4 col">
-            @yield('content')
-        </div>
+        <main class="row" id="body-row">
+            @include('includes.sidebar')
+            <div class="p-4 col">
+                @yield('content')
+            </div>
         </main>
         @endauth
 
