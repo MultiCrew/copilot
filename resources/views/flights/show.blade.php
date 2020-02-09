@@ -60,8 +60,8 @@
                         @if(empty($flight->plan_id))
                             Not planned
                         @else
-                            <a href="{{ route('dispatch.review', $flight->plan_id) }}">
-                                View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
+                            <a href="{{ route('dispatch.show', $flight->plan_id) }}">
+                                View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                             </a>
                         @endif
                     </dd>
