@@ -123,7 +123,7 @@
                     ).append(
                         $('<button/>', {
                             'type': 'button', 
-                            'class': 'ml-2 mb-1 close', 
+                            'class': 'ml-2 mb-1 close',
                             'data-dismiss': 'toast', 
                             'aria-label': 'Close'}).append(
                                 $('<span/>', {'aria-hidden': 'true'}).html('&times;')
@@ -141,12 +141,14 @@
             if ($('#notificationDropdownMenu').children().length >= 1 ) {
                 $('<div/>', {'class': 'dropdown-divider'}).appendTo('#notificationDropdownMenu')
             }
-            $('<button />', {
-                'html': notification.text,
-                'id': id,
-                'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
-                'class': 'dropdown-item',
-            }).append(
+            $('<li/>', {'class': 'dropdown-item', 'id': id,}).append(
+                $('<button />', {
+                    'html': notification.text,
+                    'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
+                    'class': 'btn',
+                    'type': 'button'
+                })
+            ).append(
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-sm', 
