@@ -77,7 +77,7 @@
             </a>
 
             @if(empty($flight->plan_id))
-                <a href="{{ route('dispatch.plan', $flight->id) }}" class="btn btn-success">
+                <a href="{{ route('dispatch.create', $flight->id) }}" class="btn btn-success">
                     Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                 </a>
             @endif
