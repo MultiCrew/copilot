@@ -16,7 +16,7 @@ class FlightPlanController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware(['flight_role:guest'])->only(['store']);
+        $this->middleware(['flight_role:member']);
     }
 
     /**

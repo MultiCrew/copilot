@@ -22,7 +22,11 @@ class CheckFlightRole
         $flight = $request->route('flight');
         
         /** @var string $id */
-        $id = $request->route('id');
+        if ($request->has('id')) {
+            $id = $request->route('id');
+        } else if ($request->has('flight')) {
+            $id = $request->input('flight');
+        }
 
         switch($role){
             case 'requestee':
@@ -30,6 +34,10 @@ class CheckFlightRole
                 break;
             case 'acceptee':
                 if(!$flight->isAcceptee(Auth::user())) abort(403);
+                break;
+            case 'member':
+                $flight = Flight::find($id);
+                if(!$flight->isRequestee(Auth::user()) && !$flight->isAcceptee(Auth::user())) abort(403);
                 break;
             case 'guest':
                 $flight = Flight::find($id);
