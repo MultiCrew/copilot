@@ -67,7 +67,10 @@
                     <span class="badge badge-notify" id="notify-count"></span>
 
                     <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
-                        id="notificationDropdownMenu" hidden>
+                        id="notificationDropdownMenu">
+                        <button class="dropdown-item" id="noNotifications">
+                            You have no unread notifications
+                        </button>
                     </div>
                 </li>
 
