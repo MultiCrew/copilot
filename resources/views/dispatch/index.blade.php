@@ -39,9 +39,16 @@
                             <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-sm my-2 btn-info">
                                 Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
                             </a>
-                            <a href="{{ route('dispatch.show', [$flight->plan_id]) }}" class="btn btn-sm my-2 btn-success">
-                                View Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
-                            </a>
+
+                            @if($flight->plan->isApproved())
+                                <a href="{{ route('dispatch.show', [$flight->plan_id]) }}" class="btn btn-sm my-2 btn-success">
+                                    View Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('dispatch.show', [$flight->plan_id]) }}" class="btn btn-sm my-2 btn-warning">
+                                    Review Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
