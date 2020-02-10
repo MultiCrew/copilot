@@ -53,7 +53,7 @@
             @endif
             @else
             <li class="nav-item dropdown">
-                <button class="btn btn-link" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true"
+                <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <span class="fas fa-bell fa-lg"></span>
                 </button>
