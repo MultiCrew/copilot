@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary shadow">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark shadow">
     <a class="navbar-brand" href="{{ url('/') }}">
         <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2"
             alt="MultiCrew logo">
