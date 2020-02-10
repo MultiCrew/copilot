@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
 use App\Models\Flights\FlightPlan;
+use App\Notifications\PlanAccepted;
+use App\Notifications\PlanRejected;
 use \Auth;
 
 class FlightPlanController extends Controller
@@ -107,6 +109,7 @@ class FlightPlanController extends Controller
     public function accept(FlightPlan $plan)
     {
         $plan->accept();
+        $plan->flight->otherUser()->notify(new PlanAccepted(Auth::user(), $plan->flight));
         return redirect()->route('dispatch.show', [$plan]);
     }
 
@@ -119,6 +122,7 @@ class FlightPlanController extends Controller
     public function reject(FlightPlan $plan)
     {
         $plan->reject();
+        $plan->flight->otherUser()->notify(new PlanRejected(Auth::user(), $plan->flight));
         return redirect()->route('dispatch.show', [$plan]);
     }
 }

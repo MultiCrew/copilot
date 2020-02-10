@@ -39,6 +39,23 @@ class Flight extends Model
     }
 
     /**
+     * Return the user that is a member of the flight but not the authed user
+     *  
+     * @return \App\Models\User\User $user
+     */
+    public function otherUser()
+    {
+        if ($this->isRequestee(Auth::user()))
+        {
+            return $this->acceptee;
+
+        } else if ($this->isAcceptee(Auth::user()))
+        {
+            return $this->requestee;
+        }
+    }
+
+    /**
      * Generate a public ID for a flight.
      *
      * @return string
