@@ -107,11 +107,12 @@
                 case 'Request Accepted':
                     window.location.href = `/flights/${notification.flight.id}`
                     break;
-                case 'Flight Plan Rejected':
-                    window.location.href = `/dispatch/review/${notification.plan_id}`
-                    break;
                 case 'Flight Plan Accepted':
                     window.location.href = `/dispatch/review/${notification.plan_id}`
+                    break;
+                case 'Flight Plan Rejected':
+                    window.location.href = `/flights/${notification.flight_id}`
+                    break;
                 default:
                     break;
             }

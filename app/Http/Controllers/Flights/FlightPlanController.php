@@ -16,7 +16,8 @@ class FlightPlanController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware(['plan_role:member'])->except('index');
+        $this->middleware(['plan_role:member'])->except('index', 'create');
+        $this->middleware(['flight_role:member'])->only('create');
     }
 
     /**
