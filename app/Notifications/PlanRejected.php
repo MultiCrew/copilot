@@ -50,6 +50,7 @@ class PlanRejected extends Notification
     {
         return [
             'user' => $this->user->username,
+            'flight_id' => $this->flight->id,
             'text' => $this->user->username.' has just rejected your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
             'title' => 'Flight Plan Rejected'
         ];
@@ -66,6 +67,7 @@ class PlanRejected extends Notification
         return new BroadcastMessage([
             'id' => $this->id,
             'user' => $this->user->username,
+            'flight_id' => $this->flight->id,
             'text' => $this->user->username.' has just rejected your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
             'title' => 'Flight Plan Rejected'
         ]);
