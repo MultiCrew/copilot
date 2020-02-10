@@ -1,96 +1,94 @@
-<!-- Bootstrap row -->
-<main class="row" id="body-row">
-    <!-- Sidebar -->
-    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
-        <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
-        <!-- Bootstrap List Group -->
-        <ul class="list-group">
-            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small>COPILOT</small>
-            </li>
+<div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-2">
+    <!-- hidden on <=md -->
+    <ul class="list-group sticky-top sticky-offset">
+        <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+            <small class="text-uppercase">Flights</small>
+        </li>
 
-            <!-- item with submenu -->
-            <li>
-                <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <i class="fas fa-lg fa-search fa-fw mr-3"></i>
-                        <span class="menu-collapsed">Find Flights</span>
-                        <span class="submenu-icon ml-auto"></span>
-                    </div>
-                </a>
-                <!-- submenu -->
-                <div id='submenu1' class="collapse sidebar-submenu">
-                    <a href="{{ route('flights.index') }}" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed"><i class="fas fa-table fa-fw mr-2"></i>All</span>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed"><i class="fas fa-filter fa-fw mr-2"></i>My Filters</span>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed"><i class="fas fa-plus fa-fw mr-2"></i>New Filter</span>
-                    </a>
+            <a
+            href="{{ route('flights.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(Route::currentRouteName() === 'flights.index')) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
+                    </span>
                 </div>
-            </li>
+            </a>
 
-            <li>
-                <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fas fa-lg fa-plane fa-fw mr-3"></span>
-                        <span class="menu-collapsed">My Flights</span>
-                        <span class="submenu-icon ml-auto"></span>
-                    </div>
-                </a>
-                <!-- submenu -->
-                <div id='submenu2' class="collapse sidebar-submenu">
-                    <a href="{{ route('flights.user-flights') }}" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed"><i class="fas fa-folder-open fa-fw mr-2"></i>Open Requests</span>
-                    </a>
-                    <a href="{{ url('/flights/my-flights#createRequestModal' )}}" class="list-group-item list-group-item-action bg-dark text-white">
-                        <span class="menu-collapsed"><i class="fas fa-plus fa-fw mr-2"></i>New Request</span>
-                    </a>
+            <a
+            href="{{ route('flights.user-flights') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+                    </span>
                 </div>
-            </li>
+            </a>
+
+            <a
+            href="{{ route('dispatch.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+                    </span>
+                </div>
+            </a>
 
             <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small>OPTIONS</small>
+                <small class="text-uppercase">Options</small>
             </li>
 
-            <li>
-                <a href="#" class="bg-dark list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <i class="fas fa-lg fa-user fa-fw mr-3"></i>
-                            <span class="menu-collapsed">Profile</span>
-                    </div>
+        <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fa fa-id-card fa-fw mr-3"></i>
+                <span class="menu-collapsed">Profile</span>
+            </div>
+        </a>
+
+            <a
+            href="{{ route('account.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="fa fa-user-cog fa-fw mr-3"></i>
+                    <span class="menu-collapsed">Account</span>
+                </div>
+            </a>
+
+
+        <li class="list-group-item sidebar-separator menu-collapsed"></li>
+
+            <a href="#" class="bg-dark list-group-item list-group-item-action" data-toggle="modal" data-target="#helpModal">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="fa fa-question-circle fa-fw mr-3"></i>
+                    <span class="menu-collapsed">Help</span>
+                </div>
+            </a>
+
+        <li class="list-group-item logo-separator d-flex justify-content-center">
+            <img src="/img/icon_circle_light.png" width="30" height="30">
+        </li>
+
+        <!-- Menu with submenu example
+            <a href="#flightsSubmenu" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="fa fa-search fa-fw mr-3"></i>
+                    <span class="menu-collapsed">Find Flights</span>
+                    <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
+
+            <div id="flightsSubmenu" class="collapse sidebar-submenu">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-table"></i>All Flights
+                    </span>
                 </a>
-            </li>
-
-            <li>
-                <a href="#" class="bg-dark list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <i class="fas fa-lg fa-bell fa-fw mr-3"></i>
-                        <span class="menu-collapsed">Notifications <span class="badge badge-pill badge-success ml-2">5</span></span>
-                    </div>
-                </a>
-            </li>
-
-            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"></li>
-
-            <li>
-                <a href="#" class="bg-dark list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <i class="fas fa-lg fa-question-circle fa-fw mr-3"></i>
-                        <span class="menu-collapsed">Help</span>
-                    </div>
-                </a>
-            </li>
-
-            <li>
-                <a href="#top" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span id="collapse-icon" class="fa fa-lg mr-3"></span>
-                        <span id="collapse-text" class="menu-collapsed">Collapse</span>
-                    </div>
-                </a>
-            </li>
-        </ul>
-    </div>
+            </div>
+            -->
+    </ul>
+</div>

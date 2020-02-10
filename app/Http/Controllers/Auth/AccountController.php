@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use \App\Http\Controllers\Controller as Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\Controller as Controller;
 
 class AccountController extends Controller
 {
@@ -20,6 +21,16 @@ class AccountController extends Controller
     public function index()
     {
         return view('auth.account');
+    }
+
+    public function validator(array $data = [])
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
     }
 
     /**
@@ -42,7 +53,7 @@ class AccountController extends Controller
         }
         else
         {
-            if ($input['password'] === $input['password_conf'])
+            if ($input['password'] === $input['password_confirmation'])
             {
                 $request->user()->fill([
                     'username'  => $request->username,
