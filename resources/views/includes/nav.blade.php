@@ -39,59 +39,72 @@
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
             @guest
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">
-                    <i class="fas fa-key fa-fw mr-2"></i>{{ __('Login') }}
-                </a>
-            </li>
-            @if (Route::has('register'))
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">
-                    <i class="fas fa-user-plus fa-fw mr-2"></i>{{ __('Register') }}
-                </a>
-            </li>
-            @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">
+                        <i class="fas fa-key fa-fw mr-2"></i>{{ __('Login') }}
+                    </a>
+                </li>
+
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">
+                            <i class="fas fa-user-plus fa-fw mr-2"></i>{{ __('Register') }}
+                        </a>
+                    </li>
+                @endif
+
             @else
-            <li class="nav-item dropdown">
-                <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true"
+                <li class="nav-item dropdown">
+                    <button
+                    class="btn btn-outline-warning dropdown-toggle dropdown-toggle-split"
+                    type="button"
+                    id="notificationDropdown"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
                     aria-expanded="false">
-                    <span class="fas fa-bell fa-lg"></span>
-                </button>
-                <span class="badge badge-notify" id="notify-count"></span>
+                        <i class="fas fa-bell fa-fw mr-2"></i>
+                    </button>
+                    <span class="badge badge-notify" id="notify-count"></span>
 
-                <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
-                    id="notificationDropdownMenu" hidden>
-                </div>
+                    <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
+                        id="notificationDropdownMenu" hidden>
+                    </div>
+                </li>
 
-            </li>
-            <li class="nav-item dropdown @if (strpos(Route::currentRouteName(), 'account') !== false) active @endif">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }} <span
-                        class="caret"></span>
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item disabled @if (Route::currentRouteName() === 'account.profile') active @endif"
-                        href="#">
-                        <i class="fas fa-user fa-fw mr-3"></i>Profile
-                    </a>
-                    <a class="dropdown-item @if (Route::currentRouteName() === 'account.index') active @endif"
-                        href="{{ route('account.index') }}">
-                        <i class="fas fa-cog fa-fw mr-3"></i>Account
+                <li class="nav-item dropdown @if (strpos(Route::currentRouteName(), 'account') !== false) active @endif">
+                    <a
+                    id="navbarDropdown"
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                        <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }}
+                        <span class="caret"></span>
                     </a>
 
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
-                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item disabled @if (Route::currentRouteName() === 'account.profile') active @endif"
+                            href="#">
+                            <i class="fas fa-user fa-fw mr-3"></i>Profile
+                        </a>
+                        <a class="dropdown-item @if (Route::currentRouteName() === 'account.index') active @endif"
+                            href="{{ route('account.index') }}">
+                            <i class="fas fa-cog fa-fw mr-3"></i>Account
+                        </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
-            </li>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
             @endguest
         </ul>
     </div>
