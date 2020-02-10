@@ -25,14 +25,12 @@ class FlightPlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(FlightPlan $plan)
+    public function index()
     {
-        if ($plan->isApproved()) {
-            return redirect()->route('dispatch.show', $plan);
-        }
-        else {
-            return redirect()->route('dispatch.review', $plan);
-        }
+        return view('dispatch.index', [
+            'plannedFlights'    => Flight::plannedFlight()->all(),
+            'unplannedFlights'  => Flight::unplannedFlight()->all()
+        ]);
     }
 
     /**
@@ -50,7 +48,7 @@ class FlightPlanController extends Controller
             return redirect()->route('dispatch.review', $flight->plan_id);
         }
 
-        return view('flights.dispatch.plan', ['flight' => $flight]);
+        return view('dispatch.create', ['flight' => $flight]);
     }
 
     /**
@@ -90,9 +88,37 @@ class FlightPlanController extends Controller
      */
     public function show(FlightPlan $plan)
     {
-        return view('flights.dispatch.show', [
-            'plan' => $plan,
-            'fpl' => json_decode($plan->ofp_json, true)
+        // helpful debugging line to view contents of plan JSON
+        // dd(json_decode($plan->ofp_json, true));
+
+        return view('dispatch.show', [
+            'plan'      => $plan,
+            'flight'    => $plan->flight,
+            'fpl'       => json_decode($plan->ofp_json, true)
         ]);
+    }
+
+    /**
+     * Method to accept a flight plan as the authed user
+     *
+     * @param FlightPlan to accept
+     * @return Redirect to flight plan
+     */
+    public function accept(FlightPlan $plan)
+    {
+        $plan->accept();
+        return redirect()->route('dispatch.show', [$plan]);
+    }
+
+    /**
+     * Method to reject a flight plan as the authed user
+     *
+     * @param FlightPlan to reject
+     * @return Redirect to flight plan
+     */
+    public function reject(FlightPlan $plan)
+    {
+        $plan->reject();
+        return redirect()->route('dispatch.show', [$plan]);
     }
 }

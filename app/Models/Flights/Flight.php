@@ -136,14 +136,26 @@ class Flight extends Model
     }
 
     /**
-     * Scope a query to only include users plans.
+     * Scope a query to only include unplanned flights.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
+    public function scopePlannedFlight($query)
+    {
+        return $query->whereNotNull('plan_id')->where(function ($q) {
+            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
+        })->get();
+    }
+
+    /**
+     * Scope a query to only include users plans.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
     public function scopeUserPlans($query)
     {
         return $query->whereNotNull('plan_id')->where(function ($q) {
             $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
         })->get()->pluck('plan')->flatten();
     }
+     */
 }

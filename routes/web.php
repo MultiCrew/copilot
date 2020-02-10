@@ -32,7 +32,6 @@ Route::group([
     // Route::get('search', 'Flights\FlightController@search')->name('search');
     // Route::delete('/{flight}', 'Flights\FlightController@destroy')->name('destroy');
 });
-
 Route::resource(
     'flights', 'Flights\FlightController'     // standard resource routes
 )->except([
@@ -46,9 +45,12 @@ Route::group([
     'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
     'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
 ], function() {
-    Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('plan');
+    Route::get('', 'Flights\FlightPlanController@index')->name('index');
+    Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
     Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
-    Route::get('review/{plan}', 'Flights\FlightPlanController@show')->name('review');
+    Route::get('{plan}', 'Flights\FlightPlanController@show')->name('show');
+    Route::get('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
+    Route::get('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
 });
 
 /*

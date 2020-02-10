@@ -5,25 +5,42 @@
             <small class="text-uppercase">Flights</small>
         </li>
 
-        <a href="{{ route('flights.index') }}" class="bg-dark list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-start align-items-center">
-                <span class="menu-collapsed">
-                    <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
-                </span>
-            </div>
-        </a>
+            <a
+            href="{{ route('flights.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(Route::currentRouteName() === 'flights.index')) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
+                    </span>
+                </div>
+            </a>
 
-        <a href="{{ route('flights.user-flights') }}" class="bg-dark list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-start align-items-center">
-                <span class="menu-collapsed">
-                    <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
-                </span>
-            </div>
-        </a>
+            <a
+            href="{{ route('flights.user-flights') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+                    </span>
+                </div>
+            </a>
 
-        <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-            <small class="text-uppercase">Options</small>
-        </li>
+            <a
+            href="{{ route('dispatch.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <span class="menu-collapsed">
+                        <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+                    </span>
+                </div>
+            </a>
+
+            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                <small class="text-uppercase">Options</small>
+            </li>
 
         <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
             <div class="d-flex w-100 justify-content-start align-items-center">
@@ -32,21 +49,25 @@
             </div>
         </a>
 
-        <a href="{{ route('account.index') }}" class="bg-dark list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fa fa-user-cog fa-fw mr-3"></i>
-                <span class="menu-collapsed">Account</span>
-            </div>
-        </a>
+            <a
+            href="{{ route('account.index') }}"
+            class="bg-dark list-group-item list-group-item-action
+            @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="fa fa-user-cog fa-fw mr-3"></i>
+                    <span class="menu-collapsed">Account</span>
+                </div>
+            </a>
+
 
         <li class="list-group-item sidebar-separator menu-collapsed"></li>
 
-        <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
-            <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fa fa-question-circle fa-fw mr-3"></i>
-                <span class="menu-collapsed">Help</span>
-            </div>
-        </a>
+            <a href="#" class="bg-dark list-group-item list-group-item-action" data-toggle="modal" data-target="#helpModal">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                    <i class="fa fa-question-circle fa-fw mr-3"></i>
+                    <span class="menu-collapsed">Help</span>
+                </div>
+            </a>
 
         <li class="list-group-item logo-separator d-flex justify-content-center">
             <img src="/img/icon_circle_light.png" width="30" height="30">

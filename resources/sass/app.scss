@@ -101,6 +101,11 @@ body {
     font-size: 0.8rem;
 }
 
+#sidebar-container a.list-group-item.active {
+    background-color: $secondary !important;
+    border: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
 /* Separators */
 .sidebar-separator-title {
     background-color: #333;
