@@ -80,7 +80,7 @@ class FlightPlanController extends Controller
         $flight->plan_id = $plan->id;
         $flight->save();
 
-        return redirect()->route('dispatch.review', ['plan' => $plan]);
+        return redirect()->route('dispatch.show', ['plan' => $plan]);
     }
 
     /**
