@@ -125,7 +125,9 @@
                             'type': 'button', 
                             'class': 'ml-2 mb-1 close',
                             'data-dismiss': 'toast', 
-                            'aria-label': 'Close'}).append(
+                            'aria-label': 'Close',
+                            'onclick': `removeNotification('${id}')`
+                            }).append(
                                 $('<span/>', {'aria-hidden': 'true'}).html('&times;')
                             )
                     )
@@ -152,7 +154,7 @@
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-sm', 
-                    'onclick': 'removeNotification("' + id + '")', 
+                    'onclick': `removeNotification('${id}')`, 
                     }).append(
                         $('<span/>', {'aria-hidden': 'true'}).html('&times;')
                     )
