@@ -167,11 +167,6 @@
                 $('#notificationDropdownMenu').removeAttr("hidden");
             }
         }
-
-        // for marking notification as read
-        //$.post('/NotifMarkAsRead', {'notif_id': notif_id}, function (data) {
-        //    data.success ? (window.location.href = targetHref) : false;
-        //}, 'json');
     </script>
     @yield('scripts')
 
