@@ -101,6 +101,16 @@ class FlightPlanController extends Controller
     }
 
     /**
+     * Destroys the resource instance
+     *
+     * @param $plan FlightPlan object instance to remove
+     */
+    public function destroy(FlightPlan $plan)
+    {
+        $plan->delete();
+    }
+
+    /**
      * Method to accept a flight plan as the authed user
      *
      * @param FlightPlan to accept
@@ -121,8 +131,10 @@ class FlightPlanController extends Controller
      */
     public function reject(FlightPlan $plan)
     {
-        $plan->reject();
+        $flight = $plan->flight;
+        $this->destroy($plan);
+
         $plan->flight->otherUser()->notify(new PlanRejected(Auth::user(), $plan->flight));
-        return redirect()->route('dispatch.show', [$plan]);
+        return redirect()->route('dispatch.create', [$flight]);
     }
 }

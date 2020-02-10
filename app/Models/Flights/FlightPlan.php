@@ -51,21 +51,6 @@ class FlightPlan extends Model
     }
 
     /**
-     * Rejects the flight plan as the logged in user
-     */
-    public function reject()
-    {
-        $flight = $this->flight;
-
-        if (Auth::id() === $flight->requestee_id)
-            $this->requestee_accept = Auth::id();
-        else
-            $this->acceptee_accept = Auth::id();
-
-        $this->save();
-    }
-
-    /**
      * Checks whether the authed user has accepted the plan already
      *
      * @return booelan true if both the suer has accepted the plan, otherwise false
