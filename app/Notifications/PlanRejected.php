@@ -8,6 +8,7 @@ use App\Models\Flights\Flight;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class PlanRejected extends Notification
 {
@@ -48,9 +49,9 @@ class PlanRejected extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'acceptee' => $this->acceptee->username,
+            'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->acceptee->username.' has just rejected your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
+            'text' => $this->user->username.' has just rejected your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
             'title' => 'Flight Plan Rejected'
         ];
     }
@@ -65,9 +66,9 @@ class PlanRejected extends Notification
     {
         return new BroadcastMessage([
             'id' => $this->id,
-            'acceptee' => $this->acceptee->username,
+            'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->acceptee->username.' has just rejected your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
+            'text' => $this->user->username.' has just rejected your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
             'title' => 'Flight Plan Rejected'
         ]);
     }
