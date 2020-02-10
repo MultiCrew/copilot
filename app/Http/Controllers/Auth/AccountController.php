@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use \App\Http\Controllers\Controller as Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\Controller as Controller;
 
 class AccountController extends Controller
 {

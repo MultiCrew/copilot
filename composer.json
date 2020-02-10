@@ -12,7 +12,9 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/passport": "^8.0",
+        "laravel/telescope": "^2.1",
         "laravel/tinker": "^1.0",
+        "pusher/pusher-php-server": "^4.1",
         "sentry/sentry-laravel": "1.5.0",
         "spatie/laravel-permission": "^3.3",
         "wohali/oauth2-discord-new": "^1.0"

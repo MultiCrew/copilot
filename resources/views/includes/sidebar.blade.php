@@ -1,9 +1,9 @@
-<main class="row" id="body-row">
-    <div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-2"><!-- hidden on <=md -->
-        <ul class="list-group sticky-top sticky-offset">
-            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small class="text-uppercase">Flights</small>
-            </li>
+<div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-2">
+    <!-- hidden on <=md -->
+    <ul class="list-group sticky-top sticky-offset">
+        <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+            <small class="text-uppercase">Flights</small>
+        </li>
 
             <a
             href="{{ route('flights.index') }}"
@@ -42,12 +42,12 @@
                 <small class="text-uppercase">Options</small>
             </li>
 
-            <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fa fa-id-card fa-fw mr-3"></i>
-                    <span class="menu-collapsed">Profile</span>
-                </div>
-            </a>
+        <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fa fa-id-card fa-fw mr-3"></i>
+                <span class="menu-collapsed">Profile</span>
+            </div>
+        </a>
 
             <a
             href="{{ route('account.index') }}"
@@ -59,7 +59,8 @@
                 </div>
             </a>
 
-            <li class="list-group-item sidebar-separator menu-collapsed"></li>
+
+        <li class="list-group-item sidebar-separator menu-collapsed"></li>
 
             <a href="#" class="bg-dark list-group-item list-group-item-action" data-toggle="modal" data-target="#helpModal">
                 <div class="d-flex w-100 justify-content-start align-items-center">
@@ -68,11 +69,11 @@
                 </div>
             </a>
 
-            <li class="list-group-item logo-separator d-flex justify-content-center">
-                <img src="/img/icon_circle_light.png" width="30" height="30">
-            </li>
+        <li class="list-group-item logo-separator d-flex justify-content-center">
+            <img src="/img/icon_circle_light.png" width="30" height="30">
+        </li>
 
-            <!-- Menu with submenu example
+        <!-- Menu with submenu example
             <a href="#flightsSubmenu" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="fa fa-search fa-fw mr-3"></i>
@@ -89,5 +90,5 @@
                 </a>
             </div>
             -->
-        </ul>
-    </div>
+    </ul>
+</div>

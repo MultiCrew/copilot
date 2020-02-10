@@ -17,29 +17,43 @@
         @include('includes.nav')
 
         @auth
+        <main class="row" id="body-row">
             @include('includes.sidebar')
-        		<div class="p-4 col">
-                    @yield('content')
+            <div class="p-4 col" id="content-div">
+                <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
+                    <div class="notify-toast-position" id="notification-div"></div>
                 </div>
-            </main>
+                @yield('content')
+            </div>
+        </main>
         @endauth
 
         @guest
-            <main class="py-4 container">
-                @yield('content')
-            </main>
+        <main class="py-4 container">
+            @yield('content')
+        </main>
         @endguest
 
         @include('includes.cookies')
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+    @if (!auth()->guest())
+    <script>
+        window.Laravel.userId = {!! auth()->user()->id !!};
+    </script>
+    @endif
     @auth
-        <script>
-            function logout() {
+    <script>
+        function logout() {
                 $("#logout-form").submit();
             }
-        </script>
+    </script>
     @endauth
     <script>
         function toggleBurger() {
@@ -51,6 +65,112 @@
 		$('#cookieAlert').on('closed.bs.alert', function () {
 			window.location.href = '{{ route('cookie-consent')}}'
 		})
+
+        $('.dropdown-menu.keep-open').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        $(document).ready(function() {
+            $.get('/notifications', function(data) {
+                for (const notification of data) {
+                    const nData = notification.data
+                    addNotification(notification.id, nData);
+                }
+            })
+            window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
+                newNotification(notification.id, notification)
+            })
+        })
+
+        function removeNotification(id) {
+            if ($(`#${id}`).index() === 0) {
+                $(`#${id}`).next().remove()
+            } else {
+                $(`#${id}`).prev().remove()
+            }
+            $(`#${id}`).remove()
+            var count = $('#notify-count').text();
+            count--;
+            $('#notify-count').text(count);
+            if ($('#notify-count').text() == 0) {
+                $('#notify-count').text('')
+            }
+            if ($('#notificationDropdownMenu').children().length === 0) {
+                $('#notificationDropdownMenu').attr("hidden", "hidden");
+            }
+            $.get(`/notifications/${id}`)
+        }
+
+        function viewNotification(id, notification) {
+            removeNotification(id)
+            switch (notification.title) {
+                case 'Request Accepted':
+                    window.location.href = `/flights/${notification.flight.id}`
+                    break;
+                case 'Flight Plan Rejected':
+                    window.location.href = `/dispatch/review/${notification.plan_id}`
+                    break;
+                case 'Flight Plan Accepted':
+                    window.location.href = `/dispatch/review/${notification.plan_id}`
+                default:
+                    break;
+            }
+        }
+
+        function newNotification(id, notification) {
+            $('#notification-div').append(
+                $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
+                    $('<div/>', {'class': 'toast-header'}).append(
+                        $('<strong/>', {'class': 'mr-auto'}).text(notification.title)
+                    ).append(
+                        $('<small/>').text('Just now')
+                    ).append(
+                        $('<button/>', {
+                            'type': 'button', 
+                            'class': 'ml-2 mb-1 close',
+                            'data-dismiss': 'toast', 
+                            'aria-label': 'Close',
+                            'onclick': `removeNotification('${id}')`
+                            }).append(
+                                $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                            )
+                    )
+                ).append(
+                    $('<div/>', {'class': 'toast-body'}).text(notification.text)
+                )
+            )
+            $(`#${id}`).toast('show');
+            addNotification(id, notification)
+        }
+
+        function addNotification(id, notification) {
+            if ($('#notificationDropdownMenu').children().length >= 1 ) {
+                $('<div/>', {'class': 'dropdown-divider'}).appendTo('#notificationDropdownMenu')
+            }
+            $('<li/>', {'class': 'dropdown-item', 'id': id,}).append(
+                $('<button />', {
+                    'html': notification.text,
+                    'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
+                    'class': 'btn',
+                    'type': 'button'
+                })
+            ).append(
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'btn btn-sm', 
+                    'onclick': `removeNotification('${id}')`, 
+                    }).append(
+                        $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                    )
+            ).appendTo('#notificationDropdownMenu');
+            var count = $('#notify-count').text();
+            count++;
+            $('#notify-count').text(count);
+
+            if ($('#notificationDropdownMenu').children().length !== 0 && $('#notificationDropdownMenu').has("hidden")) {
+                $('#notificationDropdownMenu').removeAttr("hidden");
+            }
+        }
     </script>
     @yield('scripts')
     @yield('footer')

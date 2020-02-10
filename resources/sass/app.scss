@@ -138,3 +138,28 @@ body {
     text-align: right;
     padding-left: 10px;
 }
+/* Notification count */
+.badge-notify{
+    background:red;
+    color: white;
+    position:relative;
+    top: -13px;
+    left: -20px;
+}
+/* Change bell icon colour */
+.fa-bell{
+    color: white;
+}
+
+/* Notification toast parent */
+.notify-toast-parent{
+    position: relative; 
+    z-index: 1060
+}
+
+/* Notification toast positioning */
+.notify-toast-position{
+    position: absolute; 
+    top: -15px; 
+    right: -15px;
+}
