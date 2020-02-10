@@ -48,7 +48,7 @@ class FlightPlanController extends Controller
         $flight = Flight::findOrFail($id);
 
         if ($flight->plan_id) {
-            return redirect()->route('dispatch.review', $flight->plan_id);
+            return redirect()->route('dispatch.show', $flight->plan_id);
         }
 
         return view('dispatch.create', ['flight' => $flight]);
@@ -78,7 +78,7 @@ class FlightPlanController extends Controller
         $plan->ofp_json = $simbrief->ofp_json;
         $plan->save();
 
-        $flight->plan_id = $plan->id;
+        $flight->plan()->associate($plan);
         $flight->save();
 
         return redirect()->route('dispatch.show', ['plan' => $plan]);
@@ -108,6 +108,7 @@ class FlightPlanController extends Controller
      */
     public function destroy(FlightPlan $plan)
     {
+        $plan->dissociate();
         $plan->delete();
     }
 
