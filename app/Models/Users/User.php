@@ -58,4 +58,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Flights\Flight', 'acceptee_id');
     }
+
+    /**
+     * The notifications the user has subscribed to.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function notificationSubscription()
+    {
+        return $this->belongsTo('App\Models\Users\UserNotifications', 'user_id');
+    }
 }
