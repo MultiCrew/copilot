@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use \App\Http\Controllers\Controller as Controller;
+use App\Models\Users\UserNotification;
 
 class AccountController extends Controller
 {
@@ -21,7 +22,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('auth.account');
+        $userNotifications = UserNotification::where('user_id', Auth::id())->first();
+
+        return view('auth.account', ['userNotifications' => $userNotifications]);
     }
 
     /**

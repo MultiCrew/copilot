@@ -6,20 +6,20 @@
 
 <ul class="nav nav-tabs card-text" id="account" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#accountTab" role="tab">
+        <a class="nav-link" data-toggle="tab" href="#accountTab" role="tab">
             <i class="fas fa-fw mr-2 fa-user"></i>Account
         </a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#notificationTab" role="tab">
+        <a class="nav-link active" data-toggle="tab" href="#notificationTab" role="tab">
             <i class="fas fa-fw mr-2 fa-bell"></i>Notification Settings
         </a>
     </li>
 </ul>
 
 <div class="tab-content card-text" id="account">
-    <div class="tab-pane fade show active" id="accountTab" role="tabpanel">
+    <div class="tab-pane fade" id="accountTab" role="tabpanel">
         <form method="post" action="">
             @method('patch')
             @csrf
@@ -97,21 +97,20 @@
         </form>
     </div>
 
-    <div class="tab-pane fade" id="notificationTab" role="tabpanel">
+    <div class="tab-pane fade  show active" id="notificationTab" role="tabpanel">
         <form method="post" action="{{route('notifications.store')}}">
             @method('patch')
             @csrf
 
             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="username">New Request</label>
+                <div class="form-check">
                     <input
                     type="checkbox"
-                    id="newRequest"
-                    name="newRequest"
-                    class="form-control"
-                    readonly
-                    value="">
+                    id="requestAccepted"
+                    name="requestAccepted"
+                    class="form-check-input"
+                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                    <label class="form-check-label" for="requestAccepted">Request Accepted</label>
                 </div>
             </div>
         </form>
