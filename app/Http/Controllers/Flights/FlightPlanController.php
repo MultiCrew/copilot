@@ -16,7 +16,8 @@ class FlightPlanController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware(['plan_role:member'])->except('index');
+        $this->middleware(['plan_role:member'])->except('index', 'create', 'store');
+        $this->middleware(['flight_role:member'])->only('create', 'store');
     }
 
     /**
@@ -47,7 +48,7 @@ class FlightPlanController extends Controller
         $flight = Flight::findOrFail($id);
 
         if ($flight->plan_id) {
-            return redirect()->route('dispatch.review', $flight->plan_id);
+            return redirect()->route('dispatch.show', $flight->plan_id);
         }
 
         return view('dispatch.create', ['flight' => $flight]);
@@ -77,7 +78,7 @@ class FlightPlanController extends Controller
         $plan->ofp_json = $simbrief->ofp_json;
         $plan->save();
 
-        $flight->plan_id = $plan->id;
+        $flight->plan()->associate($plan);
         $flight->save();
 
         return redirect()->route('dispatch.show', ['plan' => $plan]);
@@ -101,6 +102,21 @@ class FlightPlanController extends Controller
     }
 
     /**
+     * Destroys the resource instance
+     *
+     * @param $plan FlightPlan object instance to remove
+     */
+    public function destroy(FlightPlan $plan)
+    {
+        $flight = $plan->flight;
+        $flight->plan()->dissociate();
+        $flight->save();
+
+        $plan->delete();
+        return;
+    }
+
+    /**
      * Method to accept a flight plan as the authed user
      *
      * @param FlightPlan to accept
@@ -121,8 +137,10 @@ class FlightPlanController extends Controller
      */
     public function reject(FlightPlan $plan)
     {
-        $plan->reject();
+        $flight = $plan->flight;
+        $this->destroy($plan);
+
         $plan->flight->otherUser()->notify(new PlanRejected(Auth::user(), $plan->flight));
-        return redirect()->route('dispatch.show', [$plan]);
+        return redirect()->route('dispatch.create', [$flight]);
     }
 }

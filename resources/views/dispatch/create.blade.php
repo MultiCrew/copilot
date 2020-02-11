@@ -4,21 +4,26 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <div class="row align-items-center">
-            <div class="col-md-9 text-justify">
-                <h5 class="card-title">Plan Flight</h5>
-                <p class="card-text">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">Plan Flight</h5>
+            <a href="{{ route('flights.show', $flight->id) }}" class="btn btn-secondary mb-3">
+                <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9">
+                <p class="card-text text-justify">
                     The following form makes use of the SimBrief API to generate a draft flight plan which both
                     pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
                     plan you will be prompted to sign in to or create your SimBrief account.
                 </p>
             </div>
-            <div class="col-md-3 text-center">
-                <a href="{{ route('flights.show', $flight->id) }}" class="btn btn-secondary btn-sm mb-3">
-                    <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
-                </a>
-                <h5 class="card-title">Current UTC Time:</h5>
-                <p class="card-text text-center mt-3"><span id="time" class="border rounded p-2"></span></p>
+
+            <div class="col-md-3">
+                <p class="card-text text-right mt-3 lead">
+                    Current UTC Time: &nbsp;<strong><span id="time" class="border rounded p-2 text-"></span></strong>
+                </p>
             </div>
         </div>
     </div>
@@ -39,7 +44,7 @@
                             <input
                             type="text"
                             name="type"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             readonly
                             value="{{ $flight->aircraft }}">
                         </div>
@@ -49,7 +54,7 @@
                             <input
                             type="text"
                             name="orig"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             maxlength="4"
                             readonly
                             value="{{ $flight->departure }}">
@@ -60,7 +65,7 @@
                             <input
                             type="text"
                             name="dest"
-                            class="form-control"
+                            class="form-control form-control-sm"
                             maxlength="4"
                             readonly
                             value="{{ $flight->arrival }}">
@@ -68,7 +73,7 @@
 
                         <div class="col-sm-3 form-group">
                             <label>Alternate</label>
-                            <input type="text" name="altn" class="form-control" maxlength="4" required>
+                            <input type="text" name="altn" class="form-control form-control-sm" maxlength="4" required>
                         </div>
                     </div>
 
@@ -76,7 +81,7 @@
                     <div class="form-row">
                         <div class="col-md form-group">
                             <label>Date of Flight</label>
-                            <select class="custom-select" name="date" required>
+                            <select class="custom-select custom-select-sm card-text" name="date" required>
                                 @php
                                 // will default to today
                                 for ($i=0; $i < 7; $i++) {
@@ -96,7 +101,7 @@
                         <div class="col-md form-group">
                             <label>Departure Time (UTC)</label>
                                 <div class="form-inline">
-                                <select class="custom-select mr-2" name="dephour" required>
+                                <select class="custom-select custom-select-sm card-text mr-2" name="dephour" required>
                                     @php
                                     // add options for all hours of day
                                     for ($i=0; $i < 24; $i++) {
@@ -105,7 +110,7 @@
                                     }
                                     @endphp
                                 </select> : &nbsp;
-                                <select class="custom-select" name="depmin" required>
+                                <select class="custom-select custom-select-sm card-text" name="depmin" required>
                                     @php
                                     // add options for all minutes of hour
                                     for ($i=0; $i < 60; $i++) {
@@ -126,7 +131,7 @@
                         <div class="col-sm-3 form-group mb-0">
                             <label>Flight Number</label>
                             <input type="hidden" name="airline" value="MC">
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">MC</span>
                                 </div>
@@ -136,12 +141,12 @@
 
                         <div class="col-sm-3 form-group  mb-0">
                             <label>Callsign</label>
-                            <input type="text" name="callsign" class="form-control" placeholder="MTC12AB" required>
+                            <input type="text" name="callsign" class="form-control form-control-sm" placeholder="MTC12AB" required>
                         </div>
 
                         <div class="col-sm-3 form-group  mb-0">
                             <label>Aircraft Reg</label>
-                            <input type="text" name="reg" class="form-control" placeholder="G-MTXX" required>
+                            <input type="text" name="reg" class="form-control form-control-sm" placeholder="G-MTXX" required>
                         </div>
                     </div>
                 </div>
@@ -153,9 +158,9 @@
             <div class="card-body">
                 <h5 class="card-title">OFP Options</h5>
                 <div class="form-group row card-text mb-1">
-                    <label class="col-sm-7 col-form-label">Plan Format</label>
+                    <label class="col-sm-7 col-form-label card-text">Plan Format</label>
                     <div class="col-sm-5">
-                        <select name="planformat" class="custom-select" required>
+                        <select name="planformat" class="custom-select custom-select-sm card-text" required>
                             <option value="lido" selected>LIDO</option>
                             <option value="aal">AAL</option>
                             <option value="aca">ACA</option>
@@ -184,9 +189,9 @@
                 </div>
 
                 <div class="form-group row card-text">
-                    <label class="col-sm-7 col-form-label">Units</label>
+                    <label class="col-sm-7 col-form-label card-text">Units</label>
                     <div class="col-sm-5">
-                        <select name="units" class="custom-select" required>
+                        <select name="units" class="custom-select custom-select-sm card-text" required>
                             <option value="KGS" selected>KGS</option>
                             <option value="LBS">LBS</option>
                         </select>
@@ -195,9 +200,9 @@
 
                 <h5 class="card-title">Fuel Options</h5>
                 <div class="form-group row card-text mb-1">
-                    <label class="col-sm-7 col-form-label">Contingency</label>
+                    <label class="col-sm-7 col-form-label card-text">Contingency</label>
                     <div class="col-sm-5">
-                        <select name="contpct" class="custom-select" required>
+                        <select name="contpct" class="custom-select custom-select-sm card-text" required>
                             <option value="auto" selected>AUTO</option>
                             <option value="0">NONE</option>
                             <option value disabled>- - - - - -</option>
@@ -236,9 +241,9 @@
                 </div>
 
                 <div class="form-group row card-text mb-0">
-                    <label class="col-sm-7 col-form-label">Reserve</label>
+                    <label class="col-sm-7 col-form-label card-text">Reserve</label>
                     <div class="col-sm-5">
-                        <select name="resvrule" class="custom-select" required>
+                        <select name="resvrule" class="custom-select custom-select-sm card-text" required>
                             <option value="auto" selected>AUTO</option>
                             <option value="0">0 MIN</option>
                             <option value="15">15 MIN</option>
@@ -270,7 +275,7 @@
                     <label>Custom Route</label>
                     <textarea
                     name="route"
-                    class="form-control"
+                    class="form-control form-control-sm"
                     placeholder="LEAVE BLANK TO GENERATE AUTOMATICALLY"
                     rows="3"></textarea>
                 </div>
