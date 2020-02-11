@@ -18,6 +18,7 @@ Route::group([
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
     Route::get('/notifications', 'Notification\NotificationController@notifications');
     Route::get('/notifications/{id}', 'Notification\NotificationController@read');
+    Route::post('/notifications', 'Notification\NotificationController@store');
 });
 
 /**
