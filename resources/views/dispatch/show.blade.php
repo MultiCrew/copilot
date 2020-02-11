@@ -4,9 +4,18 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-secondary float-right">
-            <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Flight Details
-        </a>
+        <div class="float-right">
+            @if(url()->previous() == env('APP_URL').'/dispatch')
+                <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-info">
+                    Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
+                </a>
+            @endif
+
+            <a class="btn btn-secondary" href="{{ url()->previous() }}">
+                <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
+            </a>
+        </div>
+
         <h3 class="card-title">Flight Plan @if(!$plan->isApproved()) Review @endif</h3>
         <p class="lead text-muted">
             Flight {{ $fpl['general']['icao_airline'].$fpl['general']['flight_number'] }}
