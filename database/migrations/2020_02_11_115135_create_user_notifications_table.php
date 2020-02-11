@@ -17,8 +17,8 @@ class CreateUserNotificationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->json('new_request');
-            $table->boolean('request_accepted');
-            $table->boolean('plan_accepted');
+            $table->boolean('request_accepted')->default(1);
+            $table->boolean('plan_accepted')->default(1);
             $table->boolean('plan_rejected')->default(1);
             $table->timestamps();
         });
