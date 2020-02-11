@@ -16,7 +16,7 @@ class CreateUserNotificationsTable extends Migration
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->json('new_request');
+            $table->json('new_request')->nullable();
             $table->boolean('request_accepted')->default(1);
             $table->boolean('plan_accepted')->default(1);
             $table->boolean('plan_rejected')->default(1);
