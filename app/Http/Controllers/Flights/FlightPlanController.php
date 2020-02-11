@@ -108,8 +108,12 @@ class FlightPlanController extends Controller
      */
     public function destroy(FlightPlan $plan)
     {
-        $plan->dissociate();
+        $flight = $plan->flight;
+        $flight->plan()->dissociate();
+        $flight->save();
+
         $plan->delete();
+        return;
     }
 
     /**
