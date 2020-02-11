@@ -64,8 +64,8 @@ class User extends Authenticatable
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function notification()
+    public function userNotifications()
     {
-        return $this->belongsTo('App\Models\Users\UserNotifications', 'user_id');
+        return $this->belongsTo('App\Models\Users\UserNotification', 'user_id');
     }
 }
