@@ -55,16 +55,17 @@
 
             @else
                 <li class="nav-item dropdown">
-                    <button
-                    class="btn btn-outline-warning dropdown-toggle dropdown-toggle-split"
-                    type="button"
+                    <a
+                    class="nav-link mr-2"
+                    href="#"
                     id="notificationDropdown"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                        <i class="fas fa-bell fa-fw mr-2"></i>
-                    </button>
-                    <span class="badge badge-notify" id="notify-count"></span>
+                    data-toggle="dropdown">
+                        <i class="fas fa-bell notification-bell"></i>
+                        <span
+                        class="badge badge-notify"
+                        id="notify-count"
+                        ></span>
+                    </a>
 
                     <div
                     class="dropdown-menu keep-open dropdown-menu-right"

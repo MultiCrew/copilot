@@ -141,25 +141,30 @@ body {
 /* Notification count */
 .badge-notify{
     background:red;
-    color: white;
-    position:relative;
-    top: -13px;
-    left: -20px;
-}
-/* Change bell icon colour */
-.fa-bell{
-    color: white;
+    padding: 3px 5px 2px;
+    position: absolute;
+    top: 3px;
+    left: 16px;
+    min-width: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 10px;
 }
 
 /* Notification toast parent */
 .notify-toast-parent{
-    position: relative; 
+    position: relative;
     z-index: 1060
 }
 
 /* Notification toast positioning */
 .notify-toast-position{
-    position: absolute; 
-    top: -15px; 
+    position: absolute;
+    top: -15px;
     right: -15px;
 }
