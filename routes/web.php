@@ -16,10 +16,20 @@ Route::group([
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
-    Route::get('/notifications', 'Notification\NotificationController@notifications');
-    Route::get('/notifications/{id}', 'Notification\NotificationController@read');
-    Route::post('/notifications', 'Notification\NotificationController@store');
 });
+
+/**
+ * Notification routes
+ */
+
+ Route::group([
+     'as' => 'notifications',
+     'prefix' => 'notifications',
+ ], function() {
+    Route::get('/', 'Notification\NotificationController@notifications');
+    Route::get('/{id}', 'Notification\NotificationController@read');
+    Route::post('/', 'Notification\NotificationController@store');
+ });
 
 /**
  * Flight routes
