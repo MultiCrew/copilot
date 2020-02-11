@@ -46,6 +46,9 @@
                     class="form-control"
                     value="{{ Auth::user()->name }}"
                     autocomplete="name">
+                    @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
         
@@ -58,6 +61,9 @@
                 class="form-control"
                 value="{{ Auth::user()->email }}"
                 autocomplete="email">
+                @error('email')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
         
             <div class="form-row">
@@ -69,7 +75,9 @@
                     name="password"
                     class="form-control"
                     autocomplete="new-password">
-                    <small class="form-text">Leave blank to keep current password!</small>
+                    @error('password')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
         
                 <div class="form-group col-md-6">
