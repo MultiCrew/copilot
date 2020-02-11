@@ -90,11 +90,22 @@
     </div>
 
     <div class="tab-pane fade" id="notificationTab" role="tabpanel">
-        <form method="post" action="">
-            @method('post')
+        <form method="post" action="{{route('notifications.store')}}">
+            @method('patch')
             @csrf
 
-            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="username">New Request</label>
+                    <input
+                    type="checkbox"
+                    id="newRequest"
+                    name="newRequest"
+                    class="form-control"
+                    readonly
+                    value="">
+                </div>
+            </div>
         </form>
     </div>
 

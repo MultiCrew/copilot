@@ -22,10 +22,6 @@ class CreateUserNotificationsTable extends Migration
             $table->boolean('plan_rejected')->default(1);
             $table->timestamps();
         });
-
-        Schema::table('user_notifications', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
     }
 
     /**

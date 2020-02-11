@@ -23,12 +23,12 @@ Route::group([
  */
 
  Route::group([
-     'as' => 'notifications',
+     'as' => 'notifications.',
      'prefix' => 'notifications',
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
     Route::get('/{id}', 'Notification\NotificationController@read');
-    Route::post('/', 'Notification\NotificationController@store');
+    Route::patch('/', 'Notification\NotificationController@update')->name('update');
  });
 
 /**
