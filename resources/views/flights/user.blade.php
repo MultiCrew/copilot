@@ -26,7 +26,7 @@
         </ul>
 
         <div class="tab-content card-text" id="myTabContent">
-            <div class="tab-pane fade show active" id="open-requests" role="tabpanel">
+            <div class="tab-pane fade show active" id="open-flights" role="tabpanel">
                 <table class="table table-hover border mb-2">
                     <thead class="thead-light">
                         <tr>
@@ -38,14 +38,14 @@
                     </thead>
 
                     <tbody>
-                        @foreach($openRequests as $request)
+                        @foreach($openRequests as $flight)
                             <tr>
-                                <td class="align-middle">{{ $request->departure }}</td>
-                                <td class="align-middle">{{ $request->arrival }}</td>
-                                <td class="align-middle">{{ $request->aircraft }}</td>
-                                <td class="align-middle">
-                                    <a href="{{ route('flights.show', $request) }}" class="btn btn-sm btn-info">
-                                        View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
+                                <td class="align-middle">{{ $flight->departure }}</td>
+                                <td class="align-middle">{{ $flight->arrival }}</td>
+                                <td class="align-middle">{{ $flight->aircraft }}</td>
+                                <td class="align-middle text-right">
+                                    <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
+                                        View Flight<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -53,7 +53,7 @@
                         @if(!count($openRequests))
                             <tr>
                                 <td class="text-center lead p-2" colspan="4">
-                                    You have no open requests. Maybe you want to
+                                    You have no open flights. Maybe you want to
                                     <a href="#">create a new one</a>?
                                 </td>
                             </tr>
@@ -62,7 +62,7 @@
                 </table>
             </div>
 
-            <div class="tab-pane fade" id="accepted-requests" role="tabpanel">
+            <div class="tab-pane fade" id="accepted-flights" role="tabpanel">
                 <table class="table table-hover border">
                     <thead class="thead-light">
                         <tr>
@@ -75,26 +75,36 @@
                     </thead>
 
                     <tbody>
-                        @foreach($acceptedRequests as $request)
+                        @foreach($acceptedRequests as $flight)
                             <tr>
                                 <td class="align-middle">
-                                    @if($request->acceptee_id === Auth::id())
+                                    @if($flight->acceptee_id === Auth::id())
                                         <a href="#" class="text-decoration-none">
                                             <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                            {{ User::find($request->acceptee_id)->username }}
+                                            {{ User::find($flight->acceptee_id)->username }}
                                         </a>
                                     @else
                                         <a href="#" class="text-decoration-none">
                                             <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                            {{ User::find($request->requestee_id)->username }}
+                                            {{ User::find($flight->flightee_id)->username }}
                                         </a>
                                     @endif
                                 </td>
-                                <td class="align-middle">{{ $request->departure }}</td>
-                                <td class="align-middle">{{ $request->arrival }}</td>
-                                <td class="align-middle">{{ $request->aircraft }}</td>
-                                <td class="align-middle">
-                                    <a href="{{ route('flights.show', $request) }}" class="btn btn-sm btn-info">
+                                <td class="align-middle">{{ $flight->departure }}</td>
+                                <td class="align-middle">{{ $flight->arrival }}</td>
+                                <td class="align-middle">{{ $flight->aircraft }}</td>
+                                <td class="align-middle text-right">
+                                    @if($flight->plan)
+                                        <a href="{{ route('dispatch.show', $flight->plan) }}" class="btn btn-sm btn-success">
+                                            <i class="fas fa-fw mr-2 fa-search"></i>@if($flight->plan->isApproved()) View Plan @else Review Plan @endif
+                                        </a>
+                                    @else
+                                        <a href="{{ route('dispatch.create', $flight) }}" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-fw mr-2 fa-file-signature"></i>Create Plan
+                                        </a>
+                                    @endif
+
+                                    <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
                                 </td>
@@ -103,8 +113,8 @@
                         @if(!count($acceptedRequests))
                             <tr>
                                 <td class="text-center">
-                                    You have no accepted requests. Maybe you want to
-                                    <a href="{{ route('flights.index') }}#">search open requests</a>?
+                                    You have no accepted flights. Maybe you want to
+                                    <a href="{{ route('flights.index') }}#">search open flights</a>?
                                 </td>
                             </tr>
                         @endif
