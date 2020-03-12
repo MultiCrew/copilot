@@ -20,6 +20,7 @@
         "wohali/oauth2-discord-new": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.6",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "guzzlehttp/guzzle": "^6.4",
