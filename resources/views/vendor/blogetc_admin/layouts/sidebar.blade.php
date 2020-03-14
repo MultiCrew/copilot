@@ -5,131 +5,61 @@
     use WebDevEtc\BlogEtc\Models\Post;
     // todo - this needs lots of work
 @endphp
-<h2>
-    <a href="https://webdevetc.com/">
-        WebDevEtc.com BlogEtc Admin Panel
-    </a>
+
+<h2 class="mb-3">
+    Blog Admin
 </h2>
-<p>Welcome to the admin panel for your blog posts.</p>
 
-<ul class="list-group mb-3">
-    <li class="list-group-item justify-content-between lh-condensed">
-        <div>
-            <h6 class="my-0">
-                <a href="{{ route('blogetc.admin.index') }}">
-                    BlogEtc Admin Home
-                </a>
-                <span class="text-muted">
-                    ({{ $postCount }} {{ Str::plural('Post', $postCount) }})
-                </span>
-            </h6>
-            <small class="text-muted">Overview of your posts</small>
-
-            <div class="list-group ">
-
-                <a href="{{ route('blogetc.admin.index') }}"
-                   class="list-group-item list-group-item-action @if(Request::routeIs('blogetc.admin.index')) active @endif">
-                    <i class="fa fa-th fa-fw" aria-hidden="true"></i>
-                    All Posts
-                </a>
-                <a href="{{ route('blogetc.admin.create_post') }}"
-                   class="list-group-item list-group-item-action @if(Request::routeIs('blogetc.admin.create_post')) active @endif">
-                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    Add Post
-                </a>
-            </div>
-        </div>
-
+<ul class="nav nav-pills flex-column">
+    <h6 class="text-uppercase text-muted">Posts</h6>
+    <li class="nav-item">
+        <a class="nav-link @if(Request::routeIs('blogetc.admin.index')) active @endif" href="{{ route('blogetc.admin.index') }}">
+            <i class="fas fa-table fa-fw mr-2"></i>All Posts
+            <span class="badge badge-pill badge-info">{{ $postCount }}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @if(Request::routeIs('blogetc.admin.create_post')) active @endif" href="{{ route('blogetc.admin.create_post') }}">
+            <i class="fas fa-plus fa-fw mr-2"></i>Add Post
+        </a>
     </li>
 
-    <li class="list-group-item justify-content-between lh-condensed">
-        <div>
-            <h6 class="my-0"><a href="{{ route('blogetc.admin.comments.index') }}">Comments</a>
-
-                <span class="text-muted">
-                    ({{ $commentCount }} {{ Str::plural('Comment', $commentCount) }})
-                </span>
-
-            </h6>
-            <small class="text-muted">Manage your comments</small>
-
-            <div class="list-group ">
-                <a href="{{ route('blogetc.admin.comments.index') }}"
-                   class="list-group-item list-group-item-action
-                        @if(Request::routeIs('blogetc.admin.comments.index') && !Request::get('waiting_for_approval'))
-                            active
-                        @endif">
-                    <i class="fa fa-fw fa-comments" aria-hidden="true"></i>
-                    All Comments
-                </a>
-
-                <a href="{{ route('blogetc.admin.comments.index') }}?waiting_for_approval=true"
-                   class="list-group-item list-group-item-action
-                        @if(Request::routeIs( 'blogetc.admin.comments.index') && Request::get('waiting_for_approval'))
-                            active
-                        @elseif($commentApprovalCount>0)
-                            list-group-item-warning
-                        @endif">
-                    <i class="fa  fa-fw fa-comments" aria-hidden="true"></i>
-                    {{ $commentApprovalCount }}
-                    Waiting for approval
-                </a>
-            </div>
-        </div>
+    <h6 class="text-uppercase mt-3 text-muted">Comments</h6>
+    <li class="nav-item">
+        <a
+        class="nav-link @if(Request::routeIs('blogetc.admin.comments.index') && !Request::get('waiting_for_approval')) active @endif"
+        href="{{ route('blogetc.admin.comments.index') }}">
+            <i class="fas fa-table fa-fw mr-2"></i>All Comments
+            <span class="badge badge-pill badge-info">{{ $commentCount }}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link
+        @if(Request::routeIs('blogetc.admin.comments.index') && Request::get('waiting_for_approval'))
+            active
+        @elseif($commentApprovalCount>0)
+            list-group-item-warning
+        @endif"
+        href="{{ route('blogetc.admin.comments.index') }}?waiting_for_approval=true">
+            <i class="fas fa-comments fa-fw mr-2"></i>Pending Comments
+            <span class="badge badge-pill badge-warning">{{ $commentApprovalCount }}</span>
+        </a>
     </li>
 
-    <li class="list-group-item justify-content-between lh-condensed">
-        <div>
-            <h6 class="my-0"><a href="{{ route('blogetc.admin.categories.index') }}">Categories</a>
-                <span class="text-muted">
-                    ({{ $categoryCount }} {{ Str::plural('Category', $categoryCount) }})
-                </span>
-            </h6>
-
-            <small class="text-muted">Blog post categories</small>
-
-            <div class="list-group ">
-                <a href="{{ route('blogetc.admin.categories.index') }}"
-                   class="list-group-item list-group-item-action @if(Request::routeIs( 'blogetc.admin.categories.index')) active @endif">
-                    <i class="fa fa-object-group fa-fw" aria-hidden="true"></i>
-                    All Categories
-                </a>
-                <a href="{{ route('blogetc.admin.categories.create_category') }}"
-                   class="list-group-item list-group-item-action @if(Request::routeIs('blogetc.admin.categories.create_category')) active @endif">
-                    <i class="fa fa-plus fa-fw" aria-hidden="true"></i>
-                    Add Category
-                </a>
-            </div>
-        </div>
-
+    <h6 class="text-uppercase mt-3 text-muted">Categories</h6>
+    <li class="nav-item">
+        <a
+        class="nav-link @if(Request::routeIs( 'blogetc.admin.categories.index')) active @endif"
+        href="{{ route('blogetc.admin.categories.index') }}">
+            <i class="fas fa-layer-group fa-fw mr-2"></i>All Categories
+            <span class="badge badge-pill badge-info">{{ $categoryCount }}</span>
+        </a>
     </li>
-
-    @if(config('blogetc.image_upload_enabled'))
-        <li class="list-group-item  justify-content-between lh-condensed">
-            <div>
-                <h6 class="my-0">
-                    <a href="{{ route('blogetc.admin.images.upload') }}">Upload images</a>
-                    <span class="text-muted">
-                        ({{ $imageCount }} {{ Str::plural('Image', $imageCount) }})
-                    </span>
-                </h6>
-
-                <div class="list-group ">
-                    <a href="{{ route('blogetc.admin.images.all') }}"
-                       class="list-group-item list-group-item-action
-                       {{ Request::routeIs('blogetc.admin.images.all') ? 'active' : '' }}"
-                    >
-                        <i class="fa fa-picture-o fa-fw" aria-hidden="true"></i>
-                        View All
-                    </a>
-
-                    <a href="{{ route('blogetc.admin.images.upload') }}"
-                       class="list-group-item list-group-item-action
-                        {{ Request::routeIs('blogetc.admin.images.upload') ? 'active' : '' }} ">
-                        <i class="fa fa-upload fa-fw" aria-hidden="true"></i>
-                        Upload</a>
-                </div>
-            </div>
-        </li>
-    @endif
+    <li class="nav-item">
+        <a
+        class="nav-link @if(Request::routeIs('blogetc.admin.categories.create_category')) active @endif"
+        href="{{ route('blogetc.admin.categories.create_category') }}">
+            <i class="fas fa-plus fa-fw mr-2"></i>Add Category
+        </a>
+    </li>
 </ul>

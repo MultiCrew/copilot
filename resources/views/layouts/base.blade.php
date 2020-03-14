@@ -18,7 +18,9 @@
 
         @auth
         <main class="row" id="body-row">
-            @include('includes.sidebar')
+            @if(!(strpos(Route::currentRouteName(), 'blog') !== false))
+                @include('includes.sidebar')
+            @endif
             <div class="p-4 col" id="content-div">
                 <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
                     <div class="notify-toast-position" id="notification-div"></div>
