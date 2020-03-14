@@ -59,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Flights\Flight', 'acceptee_id');
     }
 
-     /**
+    /**
      * Required for the WebDevEtc\BlogEtc package.
      * Enter your own logic (e.g. if ($this->id === 1) to
      *   enable this user to be able to add/edit blog posts
@@ -69,7 +69,7 @@ class User extends Authenticatable
      */
     public function canManageBlogEtcPosts()
     {
-        if (App::environment('local')) {
+        if (\App::environment('local')) {
             return $this->username === 'DoverEightMike';
         } else {
             return false;
