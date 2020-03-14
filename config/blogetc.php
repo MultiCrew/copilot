@@ -1,6 +1,6 @@
 <?php
 
-use App\User;
+use App\Models\Users\User;
 use WebDevEtc\BlogEtc\Captcha\Basic;
 use WebDevEtc\BlogEtc\Services\CommentsService;
 
