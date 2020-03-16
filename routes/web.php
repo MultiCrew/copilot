@@ -27,16 +27,12 @@ Route::group([
     'as'        => 'flights.',              // routes are named 'flights.{}'
     'prefix'    => 'flights'                // route URLs are '/flights/{}'
 ], function() {
+    // Route::get('search', 'Flights\FlightController@search')->name('search');
     Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
-    // Route::get('search', 'Flights\FlightController@search')->name('search');
-    // Route::delete('/{flight}', 'Flights\FlightController@destroy')->name('destroy');
+    Route::get('{flight}/archive', 'Flights\FlightController@archive')->name('archive');
 });
-Route::resource(
-    'flights', 'Flights\FlightController'     // standard resource routes
-)->except([
-    'create'
-]);
+Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
 
 /**
  * Dispatch routes

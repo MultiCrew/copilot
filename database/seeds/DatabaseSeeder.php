@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class
         ]);
 
-        if (App::environment('local'))
-        {
+        if (App::environment('local')) {
             $this->call([
                 UserSeeder::class,
                 FlightSeeder::class
