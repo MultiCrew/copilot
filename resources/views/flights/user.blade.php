@@ -5,40 +5,38 @@
     <div class="card-body">
         <h5 class="card-title">My Requests</h5>
 
-        <ul class="nav nav-tabs card-text" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#open-requests" role="tab">
+        <nav>
+            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="open-requests-tab" data-toggle="tab" href="#open-requests" role="tab">
                     <i class="fas fa-fw mr-2 fa-plus"></i>Open Requests
                 </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#accepted-requests" role="tab">
+                <a class="nav-link" id="accepted-requests-tab" data-toggle="tab" href="#accepted-requests" role="tab">
                     <i class="fas fa-fw mr-2 fa-check"></i>Accepted Requests
                 </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#logbook" role="tab">
+                <a class="nav-link" id="logbook-tab" data-toggle="tab" href="#logbook" role="tab">
                     <i class="fas fa-fw mr-2 fa-book"></i>Logbook
                 </a>
-            </li>
-        </ul>
-
-        <div class="tab-content card-text" id="myTabContent">
-            <div class="tab-pane fade show active" id="open-flights" role="tabpanel">
-                <table class="table table-hover border mb-2">
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="open-requests" role="tabpanel">
+                <table class="table table-hover border card-text">
                     <thead class="thead-light">
                         <tr>
                             <th>Departure</th>
                             <th>Arrival</th>
                             <th>Aircraft</th>
-                            <th></th>
+
+                            <th class="text-right p-2">
+                                <button type="button" class="btn btn-primary btn-sm m-0" data-toggle="modal" data-target="#createRequestModal">
+                                    <i class="fas fa-fw mr-2 fa-plus"></i> New Request
+                                </button>
+                            </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach($openRequests as $flight)
+                        @forelse($openRequests as $flight)
                             <tr>
                                 <td class="align-middle">{{ $flight->departure }}</td>
                                 <td class="align-middle">{{ $flight->arrival }}</td>
@@ -49,21 +47,20 @@
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
-                        @if(!count($openRequests))
+                        @empty
                             <tr>
                                 <td class="text-center lead p-2" colspan="4">
                                     You have no open flights. Maybe you want to
-                                    <a href="#">create a new one</a>?
+                                    <a href="#" data-toggle="modal" data-target="#createRequestModal">create a new one</a>?
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <div class="tab-pane fade" id="accepted-flights" role="tabpanel">
-                <table class="table table-hover border">
+            <div class="tab-pane fade" id="accepted-requests" role="tabpanel">
+                <table class="table table-hover border card-text">
                     <thead class="thead-light">
                         <tr>
                             <th>Copilot</th>
@@ -75,28 +72,33 @@
                     </thead>
 
                     <tbody>
-                        @foreach($acceptedRequests as $flight)
+                        @forelse($acceptedRequests as $flight)
                             <tr>
                                 <td class="align-middle">
-                                    @if($flight->acceptee_id === Auth::id())
-                                        <a href="#" class="text-decoration-none">
-                                            <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                        @if($flight->acceptee_id === Auth::id())
                                             {{ User::find($flight->acceptee_id)->username }}
-                                        </a>
-                                    @else
-                                        <a href="#" class="text-decoration-none">
-                                            <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                        @else
                                             {{ User::find($flight->flightee_id)->username }}
-                                        </a>
-                                    @endif
+                                        @endif
+                                    </a>
                                 </td>
+
                                 <td class="align-middle">{{ $flight->departure }}</td>
                                 <td class="align-middle">{{ $flight->arrival }}</td>
                                 <td class="align-middle">{{ $flight->aircraft }}</td>
+
                                 <td class="align-middle text-right">
                                     @if($flight->plan)
                                         <a href="{{ route('dispatch.show', $flight->plan) }}" class="btn btn-sm btn-success">
-                                            <i class="fas fa-fw mr-2 fa-search"></i>@if($flight->plan->isApproved()) View Plan @else Review Plan @endif
+                                            <i class="fas fa-fw mr-2 fa-search"></i>
+
+                                            @if($flight->plan->isApproved())
+                                                View Plan
+                                            @else
+                                                Review Plan
+                                            @endif
                                         </a>
                                     @else
                                         <a href="{{ route('dispatch.create', $flight) }}" class="btn btn-sm btn-warning">
@@ -109,21 +111,57 @@
                                     </a>
                                 </td>
                             </tr>
-                        @endforeach
-                        @if(!count($acceptedRequests))
+                        @empty
                             <tr>
                                 <td class="text-center">
                                     You have no accepted flights. Maybe you want to
                                     <a href="{{ route('flights.index') }}#">search open flights</a>?
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="tab-pane fade" id="logbook" role="tabpanel">
-                <h5>To do</h5>
+                <table class="table table-hover border card-text">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Aircraft</th>
+                            <th>Copilot</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse ($archivedFlights as $flight)
+                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($flight->created_at)->format('H:i, D j M Y') }}</td>
+                                <td>{{ $flight->departure }}</td>
+                                <td>{{ $flight->arrival }}</td>
+                                <td>{{ $flight->aircraft }}</td>
+                                <td>{{ $flight->arrival }}</td>
+                                <td>
+                                    <a href="#" class="text-decoration-none">
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                        @if($flight->acceptee_id === Auth::id())
+                                            {{ User::find($flight->acceptee_id)->username }}
+                                        @else
+                                            {{ User::find($flight->flightee_id)->username }}
+                                        @endif
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6">No flights!</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
