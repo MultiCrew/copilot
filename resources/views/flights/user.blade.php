@@ -129,4 +129,6 @@
     </div>
 </div>
 
+@include('flights.create')
+
 @endsection
