@@ -80,7 +80,7 @@ class FlightController extends Controller
      * @param  \App\Models\Flights\MasterFlight $flight
      * @return \Illuminate\Http\Response
      */
-    public function show(MasterFlight $flight)
+    public function show(Flight $flight)
     {
         return view('flights.show', ['flight' => $flight]);
     }
@@ -144,7 +144,9 @@ class FlightController extends Controller
                                 $query->where('requestee_id', '=', Auth::user()->id)
                                 	  ->orWhere('acceptee_id', '=', Auth::user()->id);
                             })->get();
-        $archivedFlights = ArchivedFlight::where('user_id', '=', Auth::user()->id);
+        $archivedFlights = ArchivedFlight::where('requestee_id', '=', Auth::user()->id)
+                                         ->orWhere('acceptee_id', '=', Auth::user()->id)
+                                         ->get();
 
         return view('flights.user', [
             'openRequests'      => $openRequests,
