@@ -236,16 +236,4 @@ class FlightController extends Controller
 
         return redirect()->back();
     }
-
-    /**
-     * Change the flight to archived
-     *
-     * @param \App\Models\Flights\Flight $flight
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function archive(Flight $flight)
-    {
-        return redirect()->action('Flights\ArchivedFlightController@store', ['flight' => $flight]);
-    }
 }

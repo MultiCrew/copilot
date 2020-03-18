@@ -30,9 +30,10 @@ Route::group([
     // Route::get('search', 'Flights\FlightController@search')->name('search');
     Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
-    Route::get('{flight}/archive', 'Flights\FlightController@archive')->name('archive');
+    Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
 });
 Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
+Route::resource('archive', 'Flights\ArchivedFlightController');
 
 /**
  * Dispatch routes

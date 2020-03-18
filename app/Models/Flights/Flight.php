@@ -49,6 +49,16 @@ class Flight extends MasterFlight
     }
 
     /**
+     * Checks if a plan exists for the flight
+     *
+     * @return boolean
+     */
+    public function isPlanned()
+    {
+        return !empty($this->plan_id);
+    }
+
+    /**
      * Scope a query to only include public flights.
      *
      * @return \Illuminate\Database\Eloquent\Builder

@@ -52,17 +52,18 @@
                             </a>
                         @endif
                     </dd>
-                </dl>
 
-                <dl class="row card-text">
-                    <dt class="col-sm-3 card-text">Flight Plan</dt>
+                    <dt class="col-sm-3 card-text">Status</dt>
                     <dd class="col-sm-9 card-text">
-                        @if(empty($flight->plan_id))
-                            Not planned
+                        @if($flight->isPlanned())
+                            <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
+                                <input type="hidden" name="flight" value="{{ $flight->id }}">
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    <i class="fas fa-check fa-fw mr-2"></i>Mark Complete
+                                </button>
+                            </form>
                         @else
-                            <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-success m-0">
-                                View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
-                            </a>
+                            Not planned
                         @endif
                     </dd>
                 </dl>
