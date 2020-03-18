@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-body">
         <a
-        @if($flight->requestee_id == Auth::user()->id)
+        @if(strpos(url()->previous(), 'my-flights'))
             href="{{ route('flights.user-flights') }}"
         @else
             href="{{ route('flights.index') }}"
@@ -31,24 +31,23 @@
             </div>
             <div class="col-md-6">
                 <dl class="row card-text">
-                    <dt class="col-sm-3 card-text">
-                        @if($flight->requestee_id != Auth::user()->id)
-                            Acceptee
-                        @else
-                            Requestee
-                        @endif
-                    </dt>
-
+                    <dt class="col-sm-3 card-text">Copilot</dt>
                     <dd class="col-sm-9 card-text">
-                        @if($flight->requestee_id != Auth::user()->id)
-                            <a href="#" class="text-decoration-none">
-                                <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                {{ User::findOrFail($flight->acceptee_id)->username }}
+                        <a href="#" class="text-decoration-none">
+                            <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                            {{ $flight->otherUser()->username }}
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-3 card-text">Flight Plan</dt>
+                    <dd class="col-sm-9 card-text">
+                        @if($flight->isPlanned())
+                            <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
+                                View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                             </a>
                         @else
-                            <a href="#" class="text-decoration-none">
-                                <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                {{ User::findOrFail($flight->requestee_id)->username }}
+                            <a href="{{ route('dispatch.create', $flight->id) }}" class="btn btn-sm btn-success">
+                                Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                             </a>
                         @endif
                     </dd>
@@ -70,18 +69,12 @@
             </div>
         </div>
 
-        <p class="card-text mt-4 d-flex justify-content-between">
+        <p class="card-text mt-4">
             <a
-            href="@if($flight->requestee_id == Auth::user()->id) {{ route('flights.edit', $flight->id) }} @else # @endif"
-            class="btn btn-info @if($flight->requestee_id != Auth::user()->id) disabled @endif">
+            href="@if($flight->isRequestee(Auth::user())) {{ route('flights.edit', $flight->id) }} @else # @endif"
+            class="btn btn-info @if($flight->isAcceptee(Auth::user())) disabled @endif">
                 <i class="fas fa-fw mr-2 fa-edit"></i>Edit
             </a>
-
-            @if(empty($flight->plan_id))
-                <a href="{{ route('dispatch.create', $flight->id) }}" class="btn btn-success">
-                    Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
-                </a>
-            @endif
         </p>
     </div>
 </div>

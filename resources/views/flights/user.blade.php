@@ -137,7 +137,7 @@
                     </thead>
 
                     <tbody>
-                        @forelse ($archivedFlights as $flight)
+                        @forelse($archivedFlights as $flight)
                             <tr>
                                 <td>{{ \Carbon\Carbon::parse($flight->created_at)->format('H:i, D j M Y') }}</td>
                                 <td>{{ $flight->departure }}</td>
