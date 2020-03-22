@@ -52,7 +52,7 @@ return [
     'image_store_full_size' => true,
 
     // The user model - this is often moved to \App\Models namespace
-    'user_model' => \App\Models\User::class,
+    'user_model' => \App\Models\Users\User::class,
 
     // Memory limit - used when uploading images. Set to a high value to avoid out of memory issues
     // Set to false to not set any value
