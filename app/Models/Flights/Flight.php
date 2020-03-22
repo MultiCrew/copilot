@@ -3,11 +3,10 @@
 namespace App\Models\Flights;
 
 use Illuminate\Support\Str;
-use App\Models\Users\User as User;
+use App\Models\Users\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 
-class Flight extends Model
+class Flight extends MasterFlight
 {
     /**
      * Attributes that are mass assignable
@@ -17,43 +16,6 @@ class Flight extends Model
     protected $fillable = [
         'departure', 'arrival', 'aircraft', 'requestee_id', 'acceptee_id', 'plan_id', 'public'
     ];
-
-    /**
-     * The user that created the request.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function requestee()
-    {
-        return $this->belongsTo('App\Models\Users\User', 'requestee_id');
-    }
-
-    /**
-     * The user that accepted the request.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function acceptee()
-    {
-        return $this->belongsTo('App\Models\Users\User', 'acceptee_id');
-    }
-
-    /**
-     * Return the user that is a member of the flight but not the authed user
-     *  
-     * @return \App\Models\User\User $user
-     */
-    public function otherUser()
-    {
-        if ($this->isRequestee(Auth::user()))
-        {
-            return $this->acceptee;
-
-        } else if ($this->isAcceptee(Auth::user()))
-        {
-            return $this->requestee;
-        }
-    }
 
     /**
      * Generate a public ID for a flight.
@@ -77,30 +39,6 @@ class Flight extends Model
     }
 
     /**
-     * Check to see if user is the requestee
-     *
-     * @param \App\Models\User\User $user
-     *
-     * @return boolean
-     */
-    public function isRequestee(User $user)
-    {
-        return $this->requestee_id == $user->id;
-    }
-
-    /**
-     * Check to see if user is the acceptee
-     *
-     * @param \App\Models\User\User $user
-     *
-     * @return boolean
-     */
-    public function isAcceptee(User $user)
-    {
-        return $this->acceptee_id == $user->id;
-    }
-
-    /**
      * The plan that belongs to the flight.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -108,6 +46,16 @@ class Flight extends Model
     public function plan()
     {
         return $this->belongsTo('App\Models\Flights\FlightPlan', 'plan_id');
+    }
+
+    /**
+     * Checks if a plan exists for the flight
+     *
+     * @return boolean
+     */
+    public function isPlanned()
+    {
+        return !empty($this->plan_id);
     }
 
     /**
@@ -168,11 +116,11 @@ class Flight extends Model
      * Scope a query to only include users plans.
      *
      * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeUserPlans($query)
     {
         return $query->whereNotNull('plan_id')->where(function ($q) {
             $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
         })->get()->pluck('plan')->flatten();
     }
-     */
 }

@@ -12,11 +12,18 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- left nav (with sidebar) -->
-        <ul class="navbar-nav mr-auto d-none d-lg-block">
+        <ul class="navbar-nav mr-auto d-none d-lg-flex">
             <li class="nav-item">
                 <a class="nav-link @if (strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
                     href="{{ route('flights.index') }}">
                     <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link @if (strpos(Route::currentRouteName(), 'blog') !== false) active @endif"
+                    href="{{ route('blogetc.index') }}">
+                    <i class="fas fa-newspaper fa-fw mr-2"></i>Blog
                 </a>
             </li>
         </ul>

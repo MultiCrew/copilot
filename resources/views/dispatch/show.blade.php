@@ -354,28 +354,49 @@
 </div>
 
 @if($plan->isApproved())
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Export Options</h5>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Export Options</h5>
 
-            <table class="card-text table table-striped border" style="max-width: 50%; margin: auto;">
-                <tbody>
-                    @foreach($fpl['fms_downloads'] as $download)
-                        @if(!$loop->first)
-                            <tr>
-                                <td class="align-middle">{{ $download['name'] }}</td>
-                                <td class="align-middle text-right">
-                                    <a
-                                    class="btn btn-success btn-sm m-0"
-                                    href="{{ $fpl['fms_downloads']['directory'].$download['link']}}">
-                                        <i class="fas fa-fw mr-2 fa-download"></i>Download
-                                    </a>
-                                </td>
-                            </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
+                    <table class="card-text table table-striped border">
+                        <tbody>
+                            @foreach($fpl['fms_downloads'] as $download)
+                                @if(!$loop->first)
+                                    <tr>
+                                        <td class="align-middle">{{ $download['name'] }}</td>
+                                        <td class="align-middle text-right">
+                                            <a
+                                            class="btn btn-success btn-sm m-0"
+                                            href="{{ $fpl['fms_downloads']['directory'].$download['link']}}">
+                                                <i class="fas fa-fw mr-2 fa-download"></i>Download
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Complete Flight</h5>
+
+                    <p class="lead">Done with your flight? Mark it as completed and it will appear in your logbook!</p>
+                    <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}" class="text-center">
+                        @csrf
+                        <input type="hidden" name="flight" value="{{ $flight->id }}">
+                        <button type="submit" class="btn btn-lg btn-success">
+                            <i class="fas fa-check fa-fw mr-2"></i>Complete
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @else
