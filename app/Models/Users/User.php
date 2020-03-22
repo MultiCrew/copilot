@@ -70,7 +70,7 @@ class User extends Authenticatable
     public function canManageBlogEtcPosts()
     {
         if (\App::environment('local')) {
-            return $this->hasRole('admin')
+            return $this->hasRole('admin');
         } else {
             return false;
         }
