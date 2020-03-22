@@ -52,7 +52,7 @@ return [
     'image_store_full_size' => true,
 
     // The user model - this is often moved to \App\Models namespace
-    'user_model' => User::class,
+    'user_model' => \App\Models\User::class,
 
     // Memory limit - used when uploading images. Set to a high value to avoid out of memory issues
     // Set to false to not set any value
@@ -78,7 +78,7 @@ return [
     // This will load scripts from https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js
     // echo_html must be set to true for this to have an effect.
     // Default: true
-    'use_wysiwyg' => true,
+    'use_wysiwyg' => false,
 
     // what image quality to use when saving images. higher = better + bigger sizes. Around 80 is normal.
     // Default: 80
@@ -279,6 +279,6 @@ return [
         // Is search enabled? By default this is disabled, but you can easily turn it on.
         // Default: false
         // [Search is temporarily completely disabled - will return in a future version soon. Sorry!]
-        'search_enabled' => false,
+        'search_enabled' => true,
     ],
 ];
