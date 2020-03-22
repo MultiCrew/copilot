@@ -42,11 +42,19 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title" style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;">
+                                <h5 class="card-title m-1" style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;">
                                     <a href="{{ $post->url() }}">{{ $post->title }}</a>
                                 </h5>
-                                <p class="card-text">{{ $post->subtitle }}</p>
-                                <p class="card-text"><small class="text-muted">Posted {{ $post->posted_at->diffForHumans() }}</small></p>
+                                <p class="card-text mt-1 mx-1">{{ $post->subtitle }}</p>
+                                <p class="card-text mb-1 mx-1"><small class="text-muted">Posted {{ $post->posted_at->diffForHumans() }}</small></p>
+                                <p class="card-text m-1">
+                                    @forelse($post->categories as $category)
+                                        <a class="badge badge-secondary" href="{{ $category->url() }}">
+                                            {{ $category->category_name }}
+                                        </a>
+                                    @empty
+                                    @endforelse
+                                </p>
                             </div>
                         </div>
                     </div>
