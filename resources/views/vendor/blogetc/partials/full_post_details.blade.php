@@ -1,29 +1,44 @@
-<div class="d-flex justify-content-between align-items-baseline">
-    <h2 class="blog_title">
-        {{ $post->title }}
-    </h2>
-    @if($post->subtitle)
-        <h5 class="blog_subtitle">
-            {{ $post->subtitle }}
-        </h5>
-    @endif
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+        <h2 class="blog_title">
+            {{ $post->title }}
+        </h2>
 
-    @can('blog-etc-admin')
-        <a href="{{ $post->editUrl() }}" class="btn btn-outline-secondary btn-sm pull-right float-right">
-            Edit Post
-        </a>
-    @endcan
+        <p class="mb-1">
+            By {{ User::find($post->user_id)->name }}
+            &middot;
+            {{ $post->posted_at }}
+            &middot;
+
+            @forelse($post->categories as $category)
+                <a class="badge badge-secondary" href="{{ $category->url() }}">
+                    {{ $category->category_name }}
+                </a>
+            @empty
+            @endforelse
+        </p>
+    </div>
+
+    <div class="text-right">
+        @can('blog-etc-admin')
+            <p class="mb-1">
+                <a href="{{ $post->editUrl() }}" class="btn btn-outline-warning btn-sm">
+                    <i class="fas fa-fw mr-2 fa-pencil-alt"></i>Edit Post
+                </a>
+            </p>
+        @endcan
+        <p>
+            <a href="{{ route('blogetc.index') }}" class="btn btn-secondary btn-sm">
+                <i class="fas fa-fw mr-2 fa-angle-double-left"></i>Back
+            </a>
+        </p>
+    </div>
 </div>
 
-{{ $post->imageTag('medium', false, 'd-block mx-auto') }}
+<hr>
 
 <p class="blog_body_content">
     {!! $post->renderBody() !!}
 </p>
 
-<hr/>
-
-Posted <strong>{{ $post->posted_at->diffForHumans() }}</strong>
-
-@includeWhen($post->author, 'blogetc::partials.author', ['post'=>$post])
-@includeWhen($post->categories, 'blogetc::partials.categories', ['post'=>$post])
+<hr>

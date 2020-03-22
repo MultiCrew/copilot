@@ -14,7 +14,7 @@
                 {{ $post->title }}
             </h2>
             <small class="text-muted">
-                By {{ $post->user_id }}
+                By {{ User::find($post->user_id)->name }}
                 &middot;
                 {{ $post->posted_at }}
             </small>
