@@ -98,6 +98,7 @@
     </div>
 
     <div class="tab-pane fade" id="notificationTab" role="tabpanel">
+        <p>Select the notifications which you wish to subscribe to here.</p>
         <form method="post" action="{{route('notifications.update')}}" id='notificationForm'>
             @method('patch')
             @csrf
@@ -114,6 +115,30 @@
                     value="1"
                     {{$userNotifications->request_accepted ? 'checked' : ''}}>
                     <label class="form-check-label" for="requestAccepted">Request Accepted</label>
+                </div>
+                <div class="form-check">
+                    <input type="hidden" name="planAccepted" value="0" />
+                    <input
+                    type="checkbox"
+                    id="planAccepted"
+                    name="planAccepted"
+                    class="form-check-input"
+                    onchange="document.getElementById('notificationForm').submit()"
+                    value="1"
+                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                    <label class="form-check-label" for="planAccepted">Flight Plan Accepted</label>
+                </div>
+                <div class="form-check">
+                    <input type="hidden" name="planRejected" value="0" />
+                    <input
+                    type="checkbox"
+                    id="planRejected"
+                    name="planRejected"
+                    class="form-check-input"
+                    onchange="document.getElementById('notificationForm').submit()"
+                    value="1"
+                    {{$userNotifications->plan_rejected ? 'checked' : ''}}>
+                    <label class="form-check-label" for="planRejected">Flight Plan Rejected</label>
                 </div>
             </div>
         </form>
