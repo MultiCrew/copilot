@@ -13,15 +13,24 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- left nav (with sidebar) -->
         <ul class="navbar-nav mr-auto d-none d-lg-flex">
-            <li class="nav-item">
-                <a class="nav-link @if (strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
-                    href="{{ route('flights.index') }}">
-                    <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
-                </a>
-            </li>
+            @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('beta-tester'))
+                <li class="nav-item">
+                    <a class="nav-link @if(strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
+                        href="{{ route('flights.index') }}">
+                        <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
+                    </a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link @if(Route::currentRouteName() == 'account.apply') active @endif"
+                        href="{{ route('account.apply') }}">
+                        <i class="fas fa-check fa-fw mr-2"></i>Apply
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item">
-                <a class="nav-link @if (strpos(Route::currentRouteName(), 'blog') !== false) active @endif"
+                <a class="nav-link @if(strpos(Route::currentRouteName(), 'blog') !== false) active @endif"
                     href="{{ route('blogetc.index') }}">
                     <i class="fas fa-newspaper fa-fw mr-2"></i>Blog
                 </a>
@@ -47,14 +56,18 @@
             <!-- Authentication Links -->
             @guest
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">
+                    <a
+                    class="nav-link @if(Route::currentRouteName() == 'login') active @endif"
+                    href="{{ route('login') }}">
                         <i class="fas fa-key fa-fw mr-2"></i>{{ __('Login') }}
                     </a>
                 </li>
 
                 @if (Route::has('register'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">
+                        <a
+                        class="nav-link @if(Route::currentRouteName() == 'register') active @endif"
+                        href="{{ route('register') }}">
                             <i class="fas fa-user-plus fa-fw mr-2"></i>{{ __('Register') }}
                         </a>
                     </li>
@@ -70,8 +83,8 @@
                         <i class="fas fa-bell notification-bell"></i>
                         <span
                         class="badge badge-notify"
-                        id="notify-count"
-                        ></span>
+                        id="notify-count">
+                        </span>
                     </a>
 
                     <div
@@ -84,7 +97,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item dropdown @if (strpos(Route::currentRouteName(), 'account') !== false) active @endif">
+                <li class="nav-item dropdown @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
                     <a
                     id="navbarDropdown"
                     class="nav-link dropdown-toggle"
@@ -98,11 +111,11 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item disabled @if (Route::currentRouteName() === 'account.profile') active @endif"
+                        <a class="dropdown-item disabled @if(Route::currentRouteName() === 'account.profile') active @endif"
                             href="#">
                             <i class="fas fa-user fa-fw mr-3"></i>Profile
                         </a>
-                        <a class="dropdown-item @if (Route::currentRouteName() === 'account.index') active @endif"
+                        <a class="dropdown-item @if(Route::currentRouteName() === 'account.index') active @endif"
                             href="{{ route('account.index') }}">
                             <i class="fas fa-cog fa-fw mr-3"></i>Account
                         </a>
