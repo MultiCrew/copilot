@@ -59,6 +59,9 @@ Route::group([
 ], function () {
     Route::get('/account', 'Auth\AccountController@index')->name('index');
     Route::patch('/account', 'Auth\AccountController@update')->name('update');
+    Route::get('/account/apply', 'Auth\ApplicationController@create')->name('apply');
 });
+
+Route::resource('/application', 'Auth\ApplicationController')->except('create');
 
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
