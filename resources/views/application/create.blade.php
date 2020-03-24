@@ -14,6 +14,7 @@
     </div>
 
     <form method="post" action="{{ route('application.store') }}">
+    @csrf
         <div class="form-group">
             <label>
                 Please describe any relevant web and/or development experience you
