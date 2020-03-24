@@ -33,21 +33,21 @@
 
         <div class="form-group">
             <label>Do you fly online?</label>
-            <div class="custom-control custom-radio">
-                <input type="radio" id="online1" name="online" value="0" class="custom-control-input" checked>
-                <label class="custom-control-label">No</label>
+            <div class="form-check">
+                <input type="radio" id="online1" name="online" value="0" class="form-check-input" checked>
+                <label class="form-check-label">No</label>
             </div>
-            <div class="custom-control custom-radio">
-                <input type="radio" id="online2" name="online" value="vatsim" class="custom-control-input">
-                <label class="custom-control-label">Yes, on VATSIM</label>
+            <div class="form-check">
+                <input type="radio" id="online2" name="online" value="vatsim" class="form-check-input">
+                <label class="form-check-label">Yes, on VATSIM</label>
             </div>
-            <div class="custom-control custom-radio">
-                <input type="radio" id="online2" name="online" value="ivao" class="custom-control-input">
-                <label class="custom-control-label">Yes, on IVAO</label>
+            <div class="form-check">
+                <input type="radio" id="online2" name="online" value="ivao" class="form-check-input">
+                <label class="form-check-label">Yes, on IVAO</label>
             </div>
-            <div class="custom-control custom-radio">
-                <input type="radio" id="online2" name="online" value="pe" class="custom-control-input">
-                <label class="custom-control-label">Yes, on PilotEdge</label>
+            <div class="form-check">
+                <input type="radio" id="online2" name="online" value="pe" class="form-check-input">
+                <label class="form-check-label">Yes, on PilotEdge</label>
             </div>
         </div>
 
