@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:new']);
+    }
+
     /**
      * Display a listing of the resource.
      *
