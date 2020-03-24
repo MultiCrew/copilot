@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Users\ApplicationForm;
 
 class ApplicationController extends Controller
 {
@@ -41,7 +43,24 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'software_dev' => 'required',
+            'flight_sim' => 'required',
+            'online' => 'required'
+        ]);
+
+        $application = new ApplicationForm();
+
+        $application->user_id = Auth::user()->id;
+        $application->software_dev = $request->software_dev;
+        $application->flight_sim = $request->flight_sim;
+        $application->network = $request->online;
+        
+        $application->status = 'pending';
+
+        $application->save();
+
+        return;
     }
 
     /**

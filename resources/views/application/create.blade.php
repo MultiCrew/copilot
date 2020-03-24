@@ -20,7 +20,7 @@
                 Please describe any relevant web and/or development experience you
                 have, giving evidence of participation where appropriate.
             </label>
-            <textarea name="software-dev" class="form-control"></textarea>
+            <textarea name="software_dev" class="form-control"></textarea>
         </div>
 
         <div class="form-group">
@@ -28,7 +28,7 @@
                 Please describe your flight simulation experience, particularly in
                 relation to shared cockpit flying.
             </label>
-            <textarea name="flight-sim" class="form-control"></textarea>
+            <textarea name="flight_sim" class="form-control"></textarea>
         </div>
 
         <div class="form-group">
