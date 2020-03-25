@@ -89,7 +89,7 @@
     <div class="col-md-6">
         <div class="card">
             <h3 class="card-header">
-                <i class="fas mr-2 fa-bell"></i>Notification Settings
+                <i class="fas mr-3 fa-bell"></i>Notification Settings
             </h3>
             <div class="card-body">
                 <p class="card-text">
@@ -101,6 +101,15 @@
                     @csrf
 
                     <table class="table border">
+                        <thead class="thead-light">
+                            <tr>
+                                <td></td>
+                                <td><i class="fas mx-auto fa-bell"></i></td>
+                                <td><i class="fas mx-auto fa-envelope"></i></td>
+                                <td><i class="fas mx-auto fa-mobile-alt"></i></td>
+                            </tr>
+                        </thead>
+
                         <tbody>
                             <tr>
                                 <td>My flight request is accepted</td>
@@ -109,7 +118,27 @@
                                     type="checkbox"
                                     id="requestAccepted"
                                     name="requestAccepted"
-                                    class="form-check-input"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()"
+                                    value="1"
+                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                </td>
+                                <td>
+                                    <input
+                                    type="checkbox"
+                                    id="requestAcceptedEmail"
+                                    name="requestAcceptedEmail"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()"
+                                    value="1"
+                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                </td>
+                                <td>
+                                    <input
+                                    type="checkbox"
+                                    id="requestAcceptedPush"
+                                    name="requestAcceptedPush"
+                                    class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
                                     {{$userNotifications->request_accepted ? 'checked' : ''}}>
@@ -123,7 +152,27 @@
                                     type="checkbox"
                                     id="planAccepted"
                                     name="planAccepted"
-                                    class="form-check-input"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()"
+                                    value="1"
+                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                </td>
+                                <td>
+                                    <input
+                                    type="checkbox"
+                                    id="planAcceptedEmail"
+                                    name="planAcceptedEmail"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()"
+                                    value="1"
+                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                </td>
+                                <td>
+                                    <input
+                                    type="checkbox"
+                                    id="planAcceptedPush"
+                                    name="planAcceptedPush"
+                                    class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
                                     {{$userNotifications->plan_accepted ? 'checked' : ''}}>
