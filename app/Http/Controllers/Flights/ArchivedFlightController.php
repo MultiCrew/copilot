@@ -10,6 +10,12 @@ use Auth;
 
 class ArchivedFlightController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:user']);
+    }
+
     /**
      * Create a new ArchivedFlight from a Flight
      *
