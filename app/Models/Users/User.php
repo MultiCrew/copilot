@@ -60,6 +60,22 @@ class User extends Authenticatable
     }
 
     /**
+
+     * Required for the WebDevEtc\BlogEtc package.
+     * Enter your own logic (e.g. if ($this->id === 1) to
+     *   enable this user to be able to add/edit blog posts
+     *
+     * @return bool - true = they can edit / manage blog posts,
+     *        false = they have no access to the blog admin panel
+     */
+    public function canManageBlogEtcPosts()
+    {
+        if (\App::environment('local')) {
+            return $this->username === 'DoverEightMike';
+        } else {
+            return false;
+        }
+    /**
      * The notifications the user has subscribed to.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

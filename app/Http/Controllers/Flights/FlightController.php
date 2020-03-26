@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Flights;
 
 use App\Http\Controllers\Controller;
+use App\Models\Flights\MasterFlight;
 use App\Models\Flights\Flight;
+use App\Models\Flights\ArchivedFlight;
 use App\Notifications\RequestAccepted;
 use Illuminate\Http\Request;
 use Auth;
@@ -26,7 +28,7 @@ class FlightController extends Controller
      */
     public function index()
     {
-        // select flights where requestee_id is NOT the authed user
+        // select flights the user can accept
         $acceptableRequests =   Flight::
                                   where('requestee_id', '<>', Auth::user()->id)
                                 ->where('public', '=', 1)
@@ -36,14 +38,13 @@ class FlightController extends Controller
         return view('flights.index', [
             'title'     => 'All Requests',
             'flights'   => $acceptableRequests
-            ]
-        );
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -76,10 +77,10 @@ class FlightController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Flights\Flight  $flight
+     * @param  \App\Models\Flights\MasterFlight $flight
      * @return \Illuminate\Http\Response
      */
-    public function show(Flight $flight)
+    public function show(MasterFlight $flight)
     {
         return view('flights.show', ['flight' => $flight]);
     }
@@ -87,7 +88,7 @@ class FlightController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Flights\Flight  $flight
+     * @param  \App\Models\Flights\Flight $flight
      * @return \Illuminate\Http\Response
      */
     public function edit(Flight $flight)
@@ -98,8 +99,8 @@ class FlightController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Flights\Flight  $flight
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Flights\Flight $flight
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Flight $flight)
@@ -143,12 +144,13 @@ class FlightController extends Controller
                                 $query->where('requestee_id', '=', Auth::user()->id)
                                 	  ->orWhere('acceptee_id', '=', Auth::user()->id);
                             })->get();
+        $archivedFlights = ArchivedFlight::where('user_id', '=', Auth::user()->id);
 
         return view('flights.user', [
             'openRequests'      => $openRequests,
-            'acceptedRequests'  => $acceptedRequests
-            ]
-        );
+            'acceptedRequests'  => $acceptedRequests,
+            'archivedFlights' => $archivedFlights
+        ]);
     }
 
     /**
@@ -233,5 +235,17 @@ class FlightController extends Controller
         $flight->save();
 
         return redirect()->back();
+    }
+
+    /**
+     * Change the flight to archived
+     *
+     * @param \App\Models\Flights\Flight $flight
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function archive(Flight $flight)
+    {
+        return redirect()->action('Flights\ArchivedFlightController@store', ['flight' => $flight]);
     }
 }
