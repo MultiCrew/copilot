@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use \App\Http\Controllers\Controller as Controller;
+use App\Models\Users\UserNotification;
 
 class AccountController extends Controller
 {
@@ -20,17 +22,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('auth.account');
-    }
+        $userNotifications = UserNotification::where('user_id', Auth::id())->first();
 
-    public function validator(array $data = [])
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        return view('auth.account', ['userNotifications' => $userNotifications]);
     }
 
     /**
@@ -40,34 +34,22 @@ class AccountController extends Controller
      */
     public function update(Request $request)
     {
-        $user = \Auth::user();
+        $user = Auth::user();
 
-        $input = $request->input();
-        if ($input['password'] == null)
-        {
-            $request->user()->fill([
-                'username'  => $request->username,
-                'name'      => $request->name,
-                'email'      => $request->email,
-            ])->save();
-        }
-        else
-        {
-            if ($input['password'] === $input['password_confirmation'])
-            {
-                $request->user()->fill([
-                    'username'  => $request->username,
-                    'name'      => $request->name,
-                    'email'      => $request->email,
-                    'password' => \Hash::make($request->password)
-                ])->save();
-            }
-            else
-            {
-                return view('auth.account', ['error' => 'password_mismatch']);
-            }
-        }
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
 
-        return view('auth.account');
+        $user->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $user->save();
+
+        return redirect()->route('account.index');
     }
 }

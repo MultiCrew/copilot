@@ -60,6 +60,7 @@ class User extends Authenticatable
     }
 
     /**
+
      * Required for the WebDevEtc\BlogEtc package.
      * Enter your own logic (e.g. if ($this->id === 1) to
      *   enable this user to be able to add/edit blog posts
@@ -74,5 +75,13 @@ class User extends Authenticatable
         } else {
             return false;
         }
+    /**
+     * The notifications the user has subscribed to.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function userNotifications()
+    {
+        return $this->belongsTo('App\Models\Users\UserNotification', 'user_id');
     }
 }
