@@ -131,7 +131,7 @@
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                    {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
                                 </td>
                                 <td>
                                     <input
@@ -141,7 +141,7 @@
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                    {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
                                 </td>
                             </tr>
 
@@ -165,7 +165,7 @@
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                    {{$userNotifications->plan_accepted_email ? 'checked' : ''}}>
                                 </td>
                                 <td>
                                     <input
@@ -175,7 +175,7 @@
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                    {{$userNotifications->plan_accepted_push ? 'checked' : ''}}>
                                 </td>
                             </tr>
                         </tbody>
