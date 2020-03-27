@@ -5,76 +5,88 @@
             <small class="text-uppercase">Flights</small>
         </li>
 
-            <a
-            href="{{ route('flights.index') }}"
-            class="bg-dark list-group-item list-group-item-action
-            @if(Route::currentRouteName() === 'flights.index')) active @endif">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="menu-collapsed">
-                        <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
-                    </span>
-                </div>
-            </a>
-
-            <a
-            href="{{ route('flights.user-flights') }}"
-            class="bg-dark list-group-item list-group-item-action
-            @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="menu-collapsed">
-                        <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
-                    </span>
-                </div>
-            </a>
-
-            <a
-            href="{{ route('dispatch.index') }}"
-            class="bg-dark list-group-item list-group-item-action
-            @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="menu-collapsed">
-                        <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
-                    </span>
-                </div>
-            </a>
-
-            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small class="text-uppercase">Options</small>
-            </li>
-
-        <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
+        <a
+        href="{{ route('flights.index') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(Route::currentRouteName() === 'flights.index')) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fa fa-id-card fa-fw mr-3"></i>
-                <span class="menu-collapsed">Profile</span>
+                <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
             </div>
         </a>
 
+        <a
+        href="{{ route('flights.user-flights') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+            </div>
+        </a>
+
+        <a
+        href="{{ route('dispatch.index') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+            </div>
+        </a>
+
+        <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+            <small class="text-uppercase">Options</small>
+        </li>
+
+        <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fa fa-id-card fa-fw mr-3"></i>Profile
+            </div>
+        </a>
+
+        <a
+        href="{{ route('account.index') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(strpos(Route::currentRouteName(), 'account') !== false && !(strpos(Route::currentRouteName(), 'account.admin') !== false)) active @endif">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fa fa-user-cog fa-fw mr-3"></i>Account
+            </div>
+        </a>
+
+        @auth
+            @if(Auth::user()->hasRole('admin'))
             <a
-            href="{{ route('account.index') }}"
+            href="{{ route('account.admin.index') }}"
             class="bg-dark list-group-item list-group-item-action
-            @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
+            @if(strpos(Route::currentRouteName(), 'account.admin') !== false) active @endif">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fa fa-user-cog fa-fw mr-3"></i>
-                    <span class="menu-collapsed">Account</span>
+                    <i class="fa fa-user-shield fa-fw mr-3"></i>Admin
                 </div>
             </a>
+            @endif
+        @endauth
 
 
         <li class="list-group-item sidebar-separator menu-collapsed"></li>
 
-            <a href="#" class="bg-dark list-group-item list-group-item-action" data-toggle="modal" data-target="#helpModal">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <i class="fa fa-question-circle fa-fw mr-3"></i>
-                    <span class="menu-collapsed">Help</span>
-                </div>
-            </a>
+        <a
+        href="#"
+        class="bg-dark list-group-item list-group-item-action"
+        data-toggle="modal"
+        data-target="#helpModal">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fa fa-question-circle fa-fw mr-3"></i>
+                <span class="menu-collapsed">Help</span>
+            </div>
+        </a>
 
         <li class="list-group-item logo-separator d-flex justify-content-center">
             <img src="/img/icon_circle_light.png" width="30" height="30">
         </li>
 
         <!-- Menu with submenu example
-            <a href="#flightsSubmenu" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+            <a href="#flightsSubmenu"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="fa fa-search fa-fw mr-3"></i>
                     <span class="menu-collapsed">Find Flights</span>
@@ -89,6 +101,6 @@
                     </span>
                 </a>
             </div>
-            -->
+        -->
     </ul>
 </div>

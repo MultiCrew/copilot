@@ -60,6 +60,7 @@ Route::group([
     Route::get('/account', 'Auth\AccountController@index')->name('index');
     Route::patch('/account', 'Auth\AccountController@update')->name('update');
     Route::get('/account/apply', 'Auth\ApplicationController@create')->name('apply');
+    Route::resource('admin', 'Auth\Admin\UserController');
 });
 
 Route::resource('/application', 'Auth\ApplicationController')->except('create');

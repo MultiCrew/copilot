@@ -19,7 +19,7 @@
         @auth
             <main class="row" id="body-row">
                 @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('beta-tester'))
-                    @unless(strpos(Route::currentRouteName(), 'blog') !== false))
+                    @unless(strpos(Route::currentRouteName(), 'blog') !== false)
                         @include('includes.sidebar')
                     @endunless
                 @endif
