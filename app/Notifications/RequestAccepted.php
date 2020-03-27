@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Users\User;
 use Illuminate\Bus\Queueable;
 use App\Models\Flights\Flight;
+use App\Models\Users\UserNotification;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -37,7 +38,24 @@ class RequestAccepted extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+
+        $userNotifications = UserNotification::where('user_id', $this->user->id)->first();
+        
+        $channels = [];
+
+        if($userNotifications->request_accepted) {
+            array_push($channels, 'database', 'broadcast');
+            
+            if($userNotifications->request_accepted_push) {
+                array_push($channels, 'webhook');
+            }
+    
+            if($userNotifications->request_accepted_email) {
+                array_push($channels, 'email');
+            }
+        }
+
+        return $channels;
     }
 
     /**
