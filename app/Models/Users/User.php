@@ -75,6 +75,7 @@ class User extends Authenticatable
         } else {
             return false;
         }
+    }
     /**
      * The notifications the user has subscribed to.
      * 
