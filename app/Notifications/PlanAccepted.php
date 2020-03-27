@@ -37,7 +37,23 @@ class PlanAccepted extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+        $userNotifications = UserNotification::where('user_id', $this->user->id)->first();
+        
+        $channels = [];
+
+        if($userNotifications->plan_reviewed) {
+            array_push($channels, 'database', 'broadcast');
+            
+            if($userNotifications->plan_reviewed_push) {
+                array_push($channels, 'webhook');
+            }
+    
+            if($userNotifications->plan_reviewed_email) {
+                array_push($channels, 'email');
+            }
+        }
+
+        return $channels;
     }
 
     /**
