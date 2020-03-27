@@ -150,32 +150,32 @@
                                 <td>
                                     <input
                                     type="checkbox"
-                                    id="planAccepted"
-                                    name="planAccepted"
+                                    id="planReviewed"
+                                    name="planReviewed"
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                    {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
                                 </td>
                                 <td>
                                     <input
                                     type="checkbox"
-                                    id="planAcceptedEmail"
-                                    name="planAcceptedEmail"
+                                    id="planReviewedEmail"
+                                    name="planReviewedEmail"
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->plan_accepted_email ? 'checked' : ''}}>
+                                    {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
                                 </td>
                                 <td>
                                     <input
                                     type="checkbox"
-                                    id="planAcceptedPush"
-                                    name="planAcceptedPush"
+                                    id="planReviewedPush"
+                                    name="planReviewedPush"
                                     class="form-check-input mx-auto"
                                     onchange="document.getElementById('notificationForm').submit()"
                                     value="1"
-                                    {{$userNotifications->plan_accepted_push ? 'checked' : ''}}>
+                                    {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
                                 </td>
                             </tr>
                         </tbody>

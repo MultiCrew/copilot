@@ -40,12 +40,12 @@ class NotificationController extends Controller
         $userNotification = UserNotification::where('user_id', Auth::id())->first();
         
         $userNotification->request_accepted = $request->requestAccepted ? 1 : 0;
-        $userNotification->request_accepted_email = $request->requestAccepted_email ? 1 : 0;
-        $userNotification->request_accepted_push = $request->requestAccepted_push ? 1 : 0;
+        $userNotification->request_accepted_email = $request->requestAcceptedEmail ? 1 : 0;
+        $userNotification->request_accepted_push = $request->requestAcceptedPush ? 1 : 0;
 
         $userNotification->plan_reviewed = $request->planReviewed ? 1 : 0;
-        $userNotification->plan_reviewed_email = $request->planReviewed_email ? 1 : 0;
-        $userNotification->plan_reviewed_push = $request->planReviewed_push ? 1 : 0;
+        $userNotification->plan_reviewed_email = $request->planReviewedEmail ? 1 : 0;
+        $userNotification->plan_reviewed_push = $request->planReviewedPush ? 1 : 0;
 
         $userNotification->save();
 
