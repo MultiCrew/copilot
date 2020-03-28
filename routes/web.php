@@ -22,6 +22,9 @@ Route::group([
 
 /**
  * Flight routes
+ *
+ * These routes deal with the Flight and ArchivedFlight model resources
+ * All users interact with these controllers as part of their Copilot workflot
  */
 Route::group([
     'as'        => 'flights.',              // routes are named 'flights.{}'
@@ -33,10 +36,13 @@ Route::group([
     Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
 });
 Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
-Route::resource('archive', 'Flights\ArchivedFlightController');
+Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
 
 /**
  * Dispatch routes
+ *
+ * These routes deal with the SimBrief API integration: creation and reviewing
+ * of Flight plans (FlightPlan models).
  */
 Route::group([
     'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
@@ -52,6 +58,9 @@ Route::group([
 
 /*
  * Auth, account and profile routes
+ *
+ * These routes deal with authentication, user accounts, user management, application
+ * forms and user profiles
  */
 Auth::routes();
 Route::group([
@@ -59,10 +68,11 @@ Route::group([
 ], function () {
     Route::get('/account', 'Auth\AccountController@index')->name('index');
     Route::patch('/account', 'Auth\AccountController@update')->name('update');
-    Route::get('/account/apply', 'Auth\ApplicationController@create')->name('apply');
     Route::resource('admin', 'Auth\Admin\UserController');
+    Route::resource('/account/apply', 'Auth\Application\ApplicationController')
+         ->only(['create', 'store']);
+    Route::resource('/account/apply', 'Auth\Application\ApplicationAdminController')
+         ->except(['create', 'store']);
 });
-
-Route::resource('/application', 'Auth\ApplicationController')->except('create');
 
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
