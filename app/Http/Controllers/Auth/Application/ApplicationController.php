@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Application;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,17 +12,7 @@ class ApplicationController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['role:new']);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+        $this->middleware(['auth', 'role:new']);
     }
 
     /**
@@ -55,56 +45,11 @@ class ApplicationController extends Controller
         $application->software_dev = $request->software_dev;
         $application->flight_sim = $request->flight_sim;
         $application->network = $request->online;
-        
+
         $application->status = 'pending';
 
         $application->save();
 
         return;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
