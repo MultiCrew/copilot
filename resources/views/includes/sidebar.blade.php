@@ -51,8 +51,7 @@
             </div>
         </a>
 
-        @auth
-            @if(Auth::user()->hasRole('admin'))
+        @role('admin')
             <a
             href="{{ route('account.admin.index') }}"
             class="bg-dark list-group-item list-group-item-action
@@ -61,8 +60,7 @@
                     <i class="fa fa-user-shield fa-fw mr-3"></i>Admin
                 </div>
             </a>
-            @endif
-        @endauth
+        @endrole
 
 
         <li class="list-group-item sidebar-separator menu-collapsed"></li>
