@@ -13,67 +13,43 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="username">Username</label>
-                        <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-control"
-                        readonly
-                        value="{{ Auth::user()->username }}"
-                        autocomplete="username">
+                        <input type="text" id="username" name="username" class="form-control" readonly
+                            value="{{ Auth::user()->username }}" autocomplete="username">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="username">Full Name</label>
-                        <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="form-control"
-                        value="{{ Auth::user()->name }}"
-                        autocomplete="name">
+                        <input type="text" id="name" name="name" class="form-control" value="{{ Auth::user()->name }}"
+                            autocomplete="name">
                         @error('name')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    class="form-control"
-                    value="{{ Auth::user()->email }}"
-                    autocomplete="email">
+                    <input type="email" id="email" name="email" class="form-control" value="{{ Auth::user()->email }}"
+                        autocomplete="email">
                     @error('email')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                    <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="password">Password</label>
-                        <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        autocomplete="new-password">
+                        <input type="password" id="password" name="password" class="form-control"
+                            autocomplete="new-password">
                         @error('password')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="password_confirmation">Confirm Password</label>
-                        <input
-                        type="password"
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        class="form-control"
-                        autocomplete="new-password">
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            class="form-control" autocomplete="new-password">
                     </div>
                 </div>
 
@@ -96,7 +72,7 @@
                     Select the notifications which you wish to subscribe to
                 </p>
 
-                <form method="post" action="{{route('notifications.update')}}" id='notificationForm'>
+                <form method="post" action="" id='notificationForm'>
                     @method('patch')
                     @csrf
 
@@ -114,68 +90,44 @@
                             <tr>
                                 <td>My flight request is accepted</td>
                                 <td>
-                                    <input
-                                    type="checkbox"
-                                    id="requestAccepted"
-                                    name="requestAccepted"
-                                    class="form-check-input mx-auto"
-                                    onchange="document.getElementById('notificationForm').submit()"
-                                    value="1"
-                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                    <input type="checkbox" id="request_accepted" name="request_accepted"
+                                        class="form-check-input mx-auto"
+                                        onchange="postNotification()" value="1"
+                                        {{$userNotifications->request_accepted ? 'checked' : ''}}>
                                 </td>
                                 <td>
-                                    <input
-                                    type="checkbox"
-                                    id="requestAcceptedEmail"
-                                    name="requestAcceptedEmail"
-                                    class="form-check-input mx-auto"
-                                    onchange="document.getElementById('notificationForm').submit()"
-                                    value="1"
-                                    {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
+                                    <input type="checkbox" id="request_accepted_email" name="request_accepted_email"
+                                        class="form-check-input mx-auto"
+                                        onchange="postNotification()" value="1"
+                                        {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
                                 </td>
                                 <td>
-                                    <input
-                                    type="checkbox"
-                                    id="requestAcceptedPush"
-                                    name="requestAcceptedPush"
-                                    class="form-check-input mx-auto"
-                                    onchange="document.getElementById('notificationForm').submit()"
-                                    value="1"
-                                    {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
+                                    <input type="checkbox" id="request_accepted_push" name="request_accepted_push"
+                                        class="form-check-input mx-auto"
+                                        onchange="postNotification()" value="1"
+                                        {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>My flight plan has been reviewed</td>
                                 <td>
-                                    <input
-                                    type="checkbox"
-                                    id="planReviewed"
-                                    name="planReviewed"
-                                    class="form-check-input mx-auto"
-                                    onchange="document.getElementById('notificationForm').submit()"
-                                    value="1"
-                                    {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
+                                    <input type="checkbox" id="plan_reviewed" name="plan_reviewed"
+                                        class="form-check-input mx-auto"
+                                        onchange="postNotification()" value="1"
+                                        {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
                                 </td>
                                 <td>
-                                    <input
-                                    type="checkbox"
-                                    id="planReviewedEmail"
-                                    name="planReviewedEmail"
-                                    class="form-check-input mx-auto"
-                                    onchange="document.getElementById('notificationForm').submit()"
-                                    value="1"
-                                    {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
+                                    <input type="checkbox" id="plan_reviewed_email" name="plan_reviewed_email"
+                                        class="form-check-input mx-auto"
+                                        onchange="postNotification()" value="1"
+                                        {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
                                 </td>
                                 <td>
-                                    <input
-                                    type="checkbox"
-                                    id="planReviewedPush"
-                                    name="planReviewedPush"
-                                    class="form-check-input mx-auto"
-                                    onchange="document.getElementById('notificationForm').submit()"
-                                    value="1"
-                                    {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
+                                    <input type="checkbox" id="plan_reviewed_push" name="plan_reviewed_push"
+                                        class="form-check-input mx-auto"
+                                        onchange="postNotification()" value="1"
+                                        {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
                                 </td>
                             </tr>
                         </tbody>
@@ -185,4 +137,40 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+$(document).ready(function(){
+    $('#request_accepted').click(function(){
+        if($(this).is(":checked")){
+            $("#request_accepted_email").removeAttr('disabled');
+            $("#request_accepted_push").removeAttr('disabled');
+        }
+        else if($(this).is(":not(:checked)")){
+            $("#request_accepted_email").attr("disabled", true);
+            $("#request_accepted_push").attr("disabled", true);
+        }
+    });
+    $('#plan_reviewed').click(function(){
+        if($(this).is(":checked")){
+            $("#plan_reviewed_email").removeAttr('disabled');
+            $("#plan_reviewed_push").removeAttr('disabled');
+        }
+        else if($(this).is(":not(:checked)")){
+            $("#plan_reviewed_email").attr("disabled", true);
+            $("#plan_reviewed_push").attr("disabled", true);
+        }
+    });
+});
+function postNotification() {
+    $.ajax({
+        url: '{{route("notifications.update")}}',
+        type: 'POST',
+        data: new FormData(document.getElementById('notificationForm')),
+        processData: false,
+        contentType: false
+    })
+}
+</script>
 @endsection

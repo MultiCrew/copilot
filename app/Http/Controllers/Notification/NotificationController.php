@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Users\UserNotification;
+use App\Rules\RequiredNotification;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
@@ -37,18 +38,22 @@ class NotificationController extends Controller
      */
     public function update(Request $request)
     {
+        $request->validate([
+            'request_accepted' => 'required'
+        ]);
+
         $userNotification = UserNotification::where('user_id', Auth::id())->first();
         
-        $userNotification->request_accepted = $request->requestAccepted ? 1 : 0;
-        $userNotification->request_accepted_email = $request->requestAcceptedEmail ? 1 : 0;
-        $userNotification->request_accepted_push = $request->requestAcceptedPush ? 1 : 0;
+        $userNotification->request_accepted = $request->request_accepted ? 1 : 0;
+        $userNotification->request_accepted_email = $request->request_accepted_email ? 1 : 0;
+        $userNotification->request_accepted_push = $request->request_accepted_push ? 1 : 0;
 
-        $userNotification->plan_reviewed = $request->planReviewed ? 1 : 0;
-        $userNotification->plan_reviewed_email = $request->planReviewedEmail ? 1 : 0;
-        $userNotification->plan_reviewed_push = $request->planReviewedPush ? 1 : 0;
+        $userNotification->plan_reviewed = $request->plan_reviewed ? 1 : 0;
+        $userNotification->plan_reviewed_email = $request->plan_reviewed_email ? 1 : 0;
+        $userNotification->plan_reviewed_push = $request->plan_reviewed_push ? 1 : 0;
 
         $userNotification->save();
 
-        return redirect()->back();
+        return;
     }
 }
