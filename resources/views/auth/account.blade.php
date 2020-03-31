@@ -62,77 +62,92 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="card">
             <h3 class="card-header">
                 <i class="fas mr-3 fa-bell"></i>Notification Settings
             </h3>
-            <div class="card-body">
-                <p class="card-text">
-                    Select the notifications which you wish to subscribe to
-                </p>
-
-                <form method="post" action="" id='notificationForm'>
-                    @method('patch')
-                    @csrf
-
-                    <table class="table border">
-                        <thead class="thead-light">
-                            <tr>
-                                <td></td>
-                                <td><i class="fas mx-auto fa-bell"></i></td>
-                                <td><i class="fas mx-auto fa-envelope"></i></td>
-                                <td><i class="fas mx-auto fa-mobile-alt"></i></td>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td>My flight request is accepted</td>
-                                <td>
-                                    <input type="checkbox" id="request_accepted" name="request_accepted"
-                                        class="form-check-input mx-auto"
-                                        onchange="postNotification()" value="1"
-                                        {{$userNotifications->request_accepted ? 'checked' : ''}}>
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="request_accepted_email" name="request_accepted_email"
-                                        class="form-check-input mx-auto"
-                                        onchange="postNotification()" value="1"
-                                        {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="request_accepted_push" name="request_accepted_push"
-                                        class="form-check-input mx-auto"
-                                        onchange="postNotification()" value="1"
-                                        {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>My flight plan has been reviewed</td>
-                                <td>
-                                    <input type="checkbox" id="plan_reviewed" name="plan_reviewed"
-                                        class="form-check-input mx-auto"
-                                        onchange="postNotification()" value="1"
-                                        {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="plan_reviewed_email" name="plan_reviewed_email"
-                                        class="form-check-input mx-auto"
-                                        onchange="postNotification()" value="1"
-                                        {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
-                                </td>
-                                <td>
-                                    <input type="checkbox" id="plan_reviewed_push" name="plan_reviewed_push"
-                                        class="form-check-input mx-auto"
-                                        onchange="postNotification()" value="1"
-                                        {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <p class="card-text">
+                            Select the notifications which you wish to subscribe to
+                        </p>
+        
+                        <form method="post" action="" id='notificationForm'>
+                            @method('patch')
+                            @csrf
+        
+                            <table class="table border">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <td></td>
+                                        <td><i class="fas mx-auto fa-bell"></i></td>
+                                        <td><i class="fas mx-auto fa-envelope"></i></td>
+                                        <td><i class="fas mx-auto fa-mobile-alt"></i></td>
+                                    </tr>
+                                </thead>
+        
+                                <tbody>
+                                    <tr>
+                                        <td>My flight request is accepted</td>
+                                        <td>
+                                            <input type="checkbox" id="request_accepted" name="request_accepted"
+                                                class="form-check-input mx-auto"
+                                                onchange="postNotification()" value="1"
+                                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" id="request_accepted_email" name="request_accepted_email"
+                                                class="form-check-input mx-auto"
+                                                onchange="postNotification()" value="1"
+                                                {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" id="request_accepted_push" name="request_accepted_push"
+                                                class="form-check-input mx-auto"
+                                                onchange="postNotification()" value="1"
+                                                {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
+                                        </td>
+                                    </tr>
+        
+                                    <tr>
+                                        <td>My flight plan has been reviewed</td>
+                                        <td>
+                                            <input type="checkbox" id="plan_reviewed" name="plan_reviewed"
+                                                class="form-check-input mx-auto"
+                                                onchange="postNotification()" value="1"
+                                                {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" id="plan_reviewed_email" name="plan_reviewed_email"
+                                                class="form-check-input mx-auto"
+                                                onchange="postNotification()" value="1"
+                                                {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" id="plan_reviewed_push" name="plan_reviewed_push"
+                                                class="form-check-input mx-auto"
+                                                onchange="postNotification()" value="1"
+                                                {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
+                                <option>EGKK - London Gatwick</option>
+                                <option>EGLL - London Heathrow</option>
+                                <option>EGSS - London Stansted</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -141,6 +156,7 @@
 
 @section('scripts')
 <script>
+$('.airportSelect').selectpicker();
 $(document).ready(function(){
     if($('#request_accepted').prop('checked') !== true){
         $("#request_accepted_email").attr("disabled", true);
