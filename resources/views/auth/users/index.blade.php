@@ -2,7 +2,9 @@
 
 @section('content')
 
-<ul class="nav nav-pills">
+<h1>Admin</h1>
+
+<ul class="nav nav-pills mb-4">
     <li class="nav-item">
         <a class="nav-link active" href="#">
             <i class="fas fa-users mr-2"></i>
@@ -15,10 +17,11 @@
             Applications
         </a>
     </li>
+</ul>
 
 <div class="card">
     <div class="card-body">
-        <h1 class="card-title">User Management</h1>
+        <h3 class="card-title">All Users</h3>
 
         <table class="table table-hover table-striped border card-text">
             <thead class="thead-light">
@@ -26,6 +29,7 @@
                     <th>Username</th>
                     <th>Full Name</th>
                     <th>Email</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -36,6 +40,13 @@
                         <td>{{ $user->username }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>
+                            @if($user->hasRole('admin'))
+                                <span class="badge badge-danger">Admin</span>
+                            @elseif($user->hasRole('user'))
+                                <span class="badge badge-info">Beta Tester</span>
+                            @endif
+                        </td>
                         <td class="p-1 text-right">
                             <a class="btn btn-primary btn-sm m-1" href="#">
                                 View Profile
