@@ -22,12 +22,10 @@
 
             <tbody>
                 @forelse($pendingApplications as $application)
-                    @php($user = User::findOrFail($application->user_id))
-
                     <tr>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>{{ $user->created_at }}</td>
+                        <td>{{ $application->user->name }}</td>
+                        <td>{{ $application->user->email }}</td>
+                        <td>{{ $application->user->created_at }}</td>
                         <td>{{ $applicaton->created_at }}</td>
                         <td>
                             <a href="#" class="btn btn-primary">
