@@ -15,16 +15,28 @@ class DiscordSendData extends Notification implements ShouldQueue
     /**
      * @var string
      */
+    private $type;
+
+    /**
+     * @var string
+     */
     private $message;
+
+    /**
+     * @var User
+     */
+    private $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($type, $message, $user)
     {
+        $this->type = $type;
         $this->message = $message;
+        $this->user = $user;
     }
 
     /**
@@ -47,7 +59,9 @@ class DiscordSendData extends Notification implements ShouldQueue
     public function toWebhook($notifiable)
     {
         return [
+            'type' => $this->type,
             'message' => $this->message,
+            'id' => $this->user->discord_id,
         ];
     }
 

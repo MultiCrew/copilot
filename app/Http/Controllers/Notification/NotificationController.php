@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Notification;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,5 +34,14 @@ class NotificationController extends Controller
     {
         $notification = auth()->user()->notifications()->find($id);
         $notification->markAsRead();
+    }
+
+    /**
+     * Update Notifications
+     * @param \Illuminate\Http\Request $request
+     */
+    public function update(Request $request)
+    {
+        dd($request);
     }
 }
