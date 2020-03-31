@@ -184,7 +184,7 @@ $(document).ready(function(){
             $("#plan_reviewed_push").attr("disabled", true);
         }
     });
-    $('#airportSelect').on('keyup', function(e){
+    $('select').on('change', function(e) {
         console.log(e);
     })
 });
