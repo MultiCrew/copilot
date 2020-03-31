@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('auth.admin.index', ['users' => User::paginate(30)]);
+        return view('auth.users.index', ['users' => User::paginate(30)]);
     }
 
     /**
