@@ -72,6 +72,8 @@ Route::group([
     Route::resource('/account/apply', 'Auth\Application\ApplicationController')
          ->only(['create', 'store']);
     Route::resource('/account/apply', 'Auth\Application\ApplicationAdminController')
+
+Route::resource('profile', 'Auth\ProfileController');
          ->except(['create', 'store']);
 });
 
