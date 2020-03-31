@@ -2,6 +2,8 @@
 
 namespace App\Rules;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Users\UserNotification;
 use Illuminate\Contracts\Validation\Rule;
 
 class RequiredNotification implements Rule
@@ -25,7 +27,17 @@ class RequiredNotification implements Rule
      */
     public function passes($attribute, $value)
     {
-        explode('_', $attribute);
+        $arr = explode('_', $attribute);
+        unset($arr[2]);
+        $str = implode('_', $arr);
+
+        $requiredSetting = UserNotification::where($str, '1')->where('id', Auth::id())->first();
+
+        if($requiredSetting != null) {
+            return true;
+        } else {
+            return false;
+        }; 
     }
 
     /**
@@ -35,6 +47,6 @@ class RequiredNotification implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return ':attribute is required';
     }
 }

@@ -39,7 +39,10 @@ class NotificationController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'request_accepted' => 'required'
+            'request_accepted_email' => [new RequiredNotification],
+            'request_accepted_push' => [new RequiredNotification],
+            'plan_reviewed_email' => [new RequiredNotification],
+            'plan_reviewed_push' => [new RequiredNotification],
         ]);
 
         $userNotification = UserNotification::where('user_id', Auth::id())->first();

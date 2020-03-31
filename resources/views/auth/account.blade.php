@@ -142,6 +142,14 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
+    if($('#request_accepted').prop('checked') !== true){
+        $("#request_accepted_email").attr("disabled", true);
+        $("#request_accepted_push").attr("disabled", true);
+    }
+    if($('#plan_reviewed').prop('checked') !== true){
+        $("#plan_reviewed_email").attr("disabled", true);
+        $("#plan_reviewed_push").attr("disabled", true);
+    }
     $('#request_accepted').click(function(){
         if($(this).is(":checked")){
             $("#request_accepted_email").removeAttr('disabled');
