@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class ApplicationForm extends Model
 {
     /**
+     * Get the author that wrote the book.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Users\User');
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

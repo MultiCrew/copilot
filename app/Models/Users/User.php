@@ -62,11 +62,21 @@ class User extends Authenticatable
     /**
      * The notifications the user has subscribed to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function userNotifications()
     {
-        return $this->belongsTo('App\Models\Users\UserNotification', 'user_id');
+        return $this->hasOne('App\Models\Users\UserNotification', 'user_id');
+    }
+
+    /**
+     * The user's application form
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function application()
+    {
+        return $this->hasOne('App\Models\Users\ApplicationForm', 'user_id');
     }
 
     /**
@@ -79,10 +89,6 @@ class User extends Authenticatable
      */
     public function canManageBlogEtcPosts()
     {
-        if (\App::environment('local')) {
-            return $this->hasRole('admin');
-        } else {
-            return false;
-        }
+        return $this->hasRole('admin');
     }
 }
