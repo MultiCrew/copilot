@@ -31,6 +31,17 @@ Route::group([
     Route::patch('/', 'Notification\NotificationController@update')->name('update');
  });
 
+ /**
+  * Search Routes
+  */
+ Route::group([
+     'as' => 'search.',
+     'prefix' => 'search',
+ ], function() {
+     Route::get('airport', 'Search\SearchController@airport')->name('airport');
+     Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
+ });
+
 /**
  * Flight routes
  */

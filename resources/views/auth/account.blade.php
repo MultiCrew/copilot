@@ -141,9 +141,7 @@
                     <div class="card-body">
                         <div class="card-text">
                             <select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
-                                <option>EGKK - London Gatwick</option>
-                                <option>EGLL - London Heathrow</option>
-                                <option>EGSS - London Stansted</option>
+                                <option disabled>Start typing to search...</option>
                             </select>
                         </div>
                     </div>
@@ -186,6 +184,9 @@ $(document).ready(function(){
             $("#plan_reviewed_push").attr("disabled", true);
         }
     });
+    $('#airportSelect').on('keyup', function(e){
+        console.log(e);
+    })
 });
 function postNotification() {
     $.ajax({
