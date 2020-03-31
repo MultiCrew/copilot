@@ -64,16 +64,22 @@ Route::group([
  */
 Auth::routes();
 Route::group([
-    'as' => 'account.'
+    'as'        => 'account.',
+    'prefix'    => 'account'
 ], function () {
-    Route::get('/account', 'Auth\AccountController@index')->name('index');
-    Route::patch('/account', 'Auth\AccountController@update')->name('update');
-    Route::resource('admin', 'Auth\Admin\UserController');
-    Route::resource('/account/apply', 'Auth\Application\ApplicationController')
-         ->only(['create', 'store']);
-    Route::resource('/account/apply', 'Auth\Application\ApplicationAdminController')
+    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
+    Route::post('/apply'. 'Auth\Application\ApplicationController@store')->name('store');
+});
+Route::resource('account', 'Auth\AccountController')->only(['index', 'update']);
 
 Route::resource('profile', 'Auth\ProfileController');
+
+Route::group([
+    'as'        => 'admin.',
+    'prefix'    => 'admin'
+], function () {
+    Route::resource('users', 'Auth\Admin\UserController');
+    Route::resource('applications', 'Auth\Application\ApplicationAdminController')
          ->except(['create', 'store']);
 });
 
