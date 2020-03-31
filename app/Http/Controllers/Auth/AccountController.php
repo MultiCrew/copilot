@@ -20,7 +20,20 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('auth.account');
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $role = 'Admin';
+        } else if ($user->hasRole('user')) {
+            $role = 'Beta Tester';
+        } else {
+            $role = 'Regular User';
+        }
+
+        return view('auth.users.show', [
+            'user' => $user,
+            'role' => $role
+        ]);
     }
 
     public function validator(array $data = [])

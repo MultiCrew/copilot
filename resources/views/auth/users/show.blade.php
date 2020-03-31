@@ -17,7 +17,7 @@
             name="username"
             class="form-control"
             readonly
-            value="{{ Auth::user()->username }}"
+            value="{{ $user->username }}"
             autocomplete="username">
         </div>
 
@@ -28,7 +28,7 @@
             id="name"
             name="name"
             class="form-control"
-            value="{{ Auth::user()->name }}"
+            value="{{ $user->name }}"
             autocomplete="name">
         </div>
     </div>
@@ -41,7 +41,7 @@
             id="email"
             name="email"
             class="form-control"
-            value="{{ Auth::user()->email }}"
+            value="{{ $user->email }}"
             autocomplete="email">
         </div>
         <div class="col-md-6">
@@ -50,9 +50,9 @@
             type="text"
             id="username"
             name="username"
-            class="form-control"
+            class="form-control-plaintext"
             readonly
-            value="@foreach(Auth::user()->roles as $role) {{ $role->name.' ' }} @endforeach"
+            value="{{ $role }}"
             autocomplete="username">
         </div>
     </div>
@@ -84,7 +84,7 @@
         <i class="fas fa-fw fa-save mr-3"></i>Save
     </button>
 
-    @cannot('search')
+    @role('new')
         <hr>
         <h3>Beta Application</h3>
         <p class="lead">Join the Copilot beta testing program now!</p>
@@ -94,10 +94,10 @@
             generating new ideas. Interested?
         </p>
         <a class="btn btn-success btn-lg"
-        href="{{ route('account.apply') }}">
+        href="{{ route('account.apply.create') }}">
             Apply Now<i class="fas fa-angle-double-right ml-2"></i>
         </a>
-    @endcan
+    @endrole
 </form>
 
 @endsection
