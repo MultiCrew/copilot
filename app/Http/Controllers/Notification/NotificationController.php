@@ -35,6 +35,7 @@ class NotificationController extends Controller
     /**
      * Update Notifications
      * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
@@ -58,5 +59,26 @@ class NotificationController extends Controller
         $userNotification->save();
 
         return;
+    }
+
+    /**
+     * Update the new request airports
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function airport(Request $request) 
+    {
+        if($request->ajax()) {
+            $userNotification = UserNotification::where('user_id', Auth::id())->first();
+
+            $new_request = $userNotification->new_request;
+            $new_request['airports'] = $request->data;
+            $userNotification->new_request = $new_request; 
+
+            $userNotification->save();
+
+            return;
+        }
     }
 }

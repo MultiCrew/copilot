@@ -200,12 +200,19 @@ $(document).ready(function(){
                 }
             },
             locale: {
-                emptyTitle: 'Start typing to search...'
+                emptyTitle: 'Start typing to search...',
+                statusInitialized: '',
             },
             preprocessData: function(data){
                 var airports = [];
+                let count;
                 if(data.length > 0){
-                    for(var i = 0; i < data.length; i++){
+                    if(data.length >= 10) {
+                        count = 10;
+                    } else {
+                        count = data.length;
+                    }
+                    for(var i = 0; i < count; i++){
                         var curr = data[i];
                         airports.push(
                             {
@@ -218,10 +225,21 @@ $(document).ready(function(){
                 }
                 return airports;
             },
-            preserveSelected: false
+            preserveSelected: true
         });
     $('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
-        console.log(event);
+        console.log($('#airportSelect').selectpicker('val'));
+        $.ajax({
+            url: '{{route("notifications.airport")}}',
+            type: 'POST',
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'data': $('#airportSelect').selectpicker('val')
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        });
     })
 });
 function postNotification() {
@@ -233,5 +251,21 @@ function postNotification() {
         contentType: false
     })
 }
+function diffArray(arr1, arr2) { 
+    var newArr = []; // Same, same; but different. 
+
+    for(let i = 0; i< arr1.length;i++) { 
+        if(arr2.indexOf(arr1[i])==-1) { 
+            newArr.push(arr1[i]); 
+        } 
+    } 
+
+    for(let i = 0; i< arr2.length;i++) { 
+        if(arr1.indexOf(arr2[i])==-1) { 
+            newArr.push(arr2[i]); 
+        } 
+    } 
+    return newArr; 
+} 
 </script>
 @endsection

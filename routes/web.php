@@ -28,7 +28,8 @@ Route::group([
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
     Route::get('/{id}', 'Notification\NotificationController@read');
-    Route::patch('/', 'Notification\NotificationController@update')->name('update');
+    Route::post('/update', 'Notification\NotificationController@update')->name('update');
+    Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');
  });
 
  /**

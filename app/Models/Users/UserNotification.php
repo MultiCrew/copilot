@@ -15,5 +15,6 @@ class UserNotification extends Model
         'request_accepted' => 'boolean',
         'plan_accepted' => 'boolean',
         'plan_rejected' => 'boolean',
+        'new_request' => 'array'
     ];
 }
