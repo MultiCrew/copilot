@@ -13,7 +13,7 @@
         </p>
     </div>
 
-    <form method="post" action="{{ route('application.store') }}">
+    <form method="post" action="{{ route('account.apply.store') }}">
     @csrf
         <div class="form-group">
             <label>
