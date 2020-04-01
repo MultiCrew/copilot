@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Search;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Airports\Airport;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class SearchController extends Controller
 {
@@ -15,21 +17,10 @@ class SearchController extends Controller
     public function airport(Request $request)
     {
         if ($request->ajax()) {
-            $output = "";
 
-            $airports = Airport::where('icao', 'LIKE', '%'. $request->search.'%')->orWhere('icao', 'LIKE', '%'. $request->search.'%');
+            $airports = Airport::where('icao', 'LIKE', '%'. $request->query('q').'%')->orWhere('name', 'LIKE', '%'. $request->query('q').'%')->get();
 
-            if($airports) {
-                foreach ($airports as $key => $airport) {
-                    $output .= '<option>'.
-                    $airport->icao.
-                    ' - '.
-                    $airport->name.
-                    '</option>';
-                }
-            }
-
-            return $output;
+            return $airports;
 
         }
     }

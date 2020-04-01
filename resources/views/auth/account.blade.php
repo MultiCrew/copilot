@@ -1,5 +1,9 @@
 @extends('layouts.base')
 
+@section('header')
+        
+@endsection
+
 @section('content')
 
 <div class="card mb-4">
@@ -141,7 +145,7 @@
                     <div class="card-body">
                         <div class="card-text">
                             <select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
-                                <option disabled>Start typing to search...</option>
+                                
                             </select>
                         </div>
                     </div>
@@ -153,8 +157,8 @@
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js"></script>
 <script>
-$('.airportSelect').selectpicker();
 $(document).ready(function(){
     if($('#request_accepted').prop('checked') !== true){
         $("#request_accepted_email").attr("disabled", true);
@@ -184,9 +188,39 @@ $(document).ready(function(){
             $("#plan_reviewed_push").attr("disabled", true);
         }
     });
-    $('select').on('change', function(e) {
-        console.log(e);
-    })
+    $('#airportSelect')
+        .selectpicker({
+            liveSearch: true
+        })
+        .ajaxSelectPicker({
+            ajax: {
+                url: '{{route("search.airport")}}',
+                method: 'GET',
+                data: {
+                    q: '@{{{q}}}'
+                }
+            },
+            locale: {
+                emptyTitle: 'Start typing to search...'
+            },
+            preprocessData: function(data){
+                var airports = [];
+                if(data.length > 0){
+                    for(var i = 0; i < data.length; i++){
+                        var curr = data[i];
+                        airports.push(
+                            {
+                                'value': curr.icao,
+                                'text': curr.icao + ' - ' + curr.name,
+                                'disabled': false
+                            }
+                        );
+                    }
+                }
+                return airports;
+            },
+            preserveSelected: false
+        })
 });
 function postNotification() {
     $.ajax({
