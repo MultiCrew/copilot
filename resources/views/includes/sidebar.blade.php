@@ -55,7 +55,7 @@
             <a
             href="{{ route('admin.users.index') }}"
             class="bg-dark list-group-item list-group-item-action
-            @if(strpos(Route::currentRouteName(), 'admin.users') !== false) active @endif">
+            @if(strpos(Route::currentRouteName(), 'admin') !== false) active @endif">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="fa fa-user-shield fa-fw mr-3"></i>Admin
                 </div>
