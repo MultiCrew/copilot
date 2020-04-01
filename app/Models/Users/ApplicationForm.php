@@ -20,7 +20,7 @@ class ApplicationForm extends Model
      * @var array
      */
     protected $fillable = [
-        'software_dev', 'flight_sim', 'online', 'status',
+        'software_dev', 'flight_sim', 'network', 'status',
     ];
 
     /**
