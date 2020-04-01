@@ -12,7 +12,7 @@ class ApplicationController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'role:new']);
+        $this->middleware(['auth', 'can:apply to beta']);
     }
 
     /**
@@ -22,7 +22,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        return view('application.create');
+        return view('auth.applications.create');
     }
 
     /**
@@ -34,22 +34,23 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'software_dev' => 'required',
-            'flight_sim' => 'required',
-            'online' => 'required'
+            'software_dev'  => 'required',
+            'flight_sim'    => 'required',
+            'online'        => 'required'
         ]);
 
         $application = new ApplicationForm();
-
+        $application->fill([
+            'software_dev'  => $request->software_dev,
+            'flight_sim'    => $request->flight_sim,
+            'network'       => $request->online,
+            'status'        => 'pending'
+        ]);
         $application->user_id = Auth::user()->id;
-        $application->software_dev = $request->software_dev;
-        $application->flight_sim = $request->flight_sim;
-        $application->network = $request->online;
-
-        $application->status = 'pending';
-
         $application->save();
 
-        return;
+        Auth::user()->revokePermissionTo('apply to beta');
+
+        return redirect()->route('account.index');
     }
 }

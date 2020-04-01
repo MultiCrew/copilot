@@ -74,6 +74,7 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole('new');
+        $user->givePermissionTo('apply to beta');
 
         $userNotifications = new UserNotification();
         $userNotifications->user_id = $user->id;

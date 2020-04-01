@@ -49,6 +49,7 @@ class UserSeeder extends Seeder
         $userNotifications->user_id = $user->id;
         $userNotifications->save();
         $user->assignRole('new');
+        $user->givePermissionTo('apply to beta');
         $user->save();
     }
 }
