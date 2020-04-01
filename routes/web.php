@@ -79,7 +79,7 @@ Route::group([
     'prefix'    => 'account'
 ], function () {
     Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
-    Route::post('/apply'. 'Auth\Application\ApplicationController@store')->name('store');
+    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
 });
 Route::resource('account', 'Auth\AccountController')->only(['index', 'update']);
 
