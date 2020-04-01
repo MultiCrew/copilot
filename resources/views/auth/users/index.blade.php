@@ -2,22 +2,7 @@
 
 @section('content')
 
-<h1>Admin</h1>
-
-<ul class="nav nav-pills mb-4">
-    <li class="nav-item">
-        <a class="nav-link active" href="#">
-            <i class="fas fa-users mr-2"></i>
-            Users
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.applications.index') }}">
-            <i class="fas fa-file-signature mr-2"></i>
-            Applications
-        </a>
-    </li>
-</ul>
+@include('includes.admin-nav')
 
 <div class="card">
     <div class="card-body">
