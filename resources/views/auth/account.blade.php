@@ -188,8 +188,7 @@ $(document).ready(function(){
             $("#plan_reviewed_push").attr("disabled", true);
         }
     });
-    $('#airportSelect')
-        .selectpicker({
+    $('#airportSelect').selectpicker({
             liveSearch: true
         })
         .ajaxSelectPicker({
@@ -220,7 +219,10 @@ $(document).ready(function(){
                 return airports;
             },
             preserveSelected: false
-        })
+        });
+    $('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+        console.log(event);
+    })
 });
 function postNotification() {
     $.ajax({
