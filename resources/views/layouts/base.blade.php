@@ -17,19 +17,28 @@
         @include('includes.nav')
 
         @auth
-            <main class="row" id="body-row">
-                @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('beta-tester'))
+            @role('new')
+                <main class="container">
+                    <div class="p-4 col" id="content-div">
+                        <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
+                            <div class="notify-toast-position" id="notification-div"></div>
+                        </div>
+                        @yield('content')
+                    </div>
+                </main>
+            @else
+                <main class="row" id="body-row">
                     @unless(strpos(Route::currentRouteName(), 'blog') !== false)
                         @include('includes.sidebar')
                     @endunless
-                @endif
-                <div class="p-4 col" id="content-div">
-                    <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
-                        <div class="notify-toast-position" id="notification-div"></div>
+                    <div class="col p-4" id="content-div">
+                        <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
+                            <div class="notify-toast-position" id="notification-div"></div>
+                        </div>
+                        @yield('content')
                     </div>
-                    @yield('content')
-                </div>
-            </main>
+                </main>
+            @endrole
         @endauth
 
         @guest
