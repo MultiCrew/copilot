@@ -27,10 +27,12 @@
                     <tr>
                         <td>{{ $application->user->name }}</td>
                         <td>{{ $application->user->email }}</td>
-                        <td>{{ $application->user->created_at }}</td>
-                        <td>{{ $applicaton->created_at }}</td>
-                        <td>
-                            <a href="#" class="btn btn-primary">
+                        <td>{{ $application->user->created_at->toDayDateTimeString() }}</td>
+                        <td>{{ $application->created_at->toDayDateTimeString() }}</td>
+                        <td class="p-0">
+                            <a
+                            href="{{ route('admin.applications.show', $application) }}"
+                            class="btn btn-sm my-2 btn-primary">
                                 Review
                                 <i class="fas fa-angle-double-right ml-3"></i>
                             </a>
