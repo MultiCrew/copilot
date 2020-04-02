@@ -56,15 +56,15 @@
     </div>
 </div>
 
-<form method="post" action="">
+<form method="post" action="{{ route('admin.applications.edit', $application) }}">
     @method('patch')
     @csrf
 
     <p>
-        <button type="submit" class="btn btn-success" value="approved">
+        <button type="submit" class="btn btn-success" value="approve">
             Approve<i class="fas fa-check ml-3"></i>
         </button>
-        <button type="submit" class="btn btn-danger" value="rejected">
+        <button type="submit" class="btn btn-danger" value="reject">
             Reject<i class="fas fa-times ml-3"></i>
         </button>
     </p>

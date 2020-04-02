@@ -22,7 +22,31 @@ class ApplicationAdminController extends Controller
     public function index()
     {
         return view('auth.applications.index', [
-            'pendingApplications' => ApplicationForm::where('status', '=', '')->with('user')->get()
+            'pendingApplications' => ApplicationForm::where('status', '=', 'pending')->with('user')->get()
         ]);
+    }
+
+    /**
+     * Show the specified resource
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(ApplicationForm $application)
+    {
+        return view('auth.applications.show', ['application' => $application]);
+    }
+
+    public function edit(ApplicationForm $application)
+    {
+        if ($request->submit === 'approve') {
+            $application->approve();
+        } elseif ($request->submit === 'reject') {
+            $application->reject();
+        } else {
+            // RIP
+        }
+        $application->save();
+
+        return redirect()->route('admin.applications.index');
     }
 }
