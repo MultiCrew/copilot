@@ -90,7 +90,7 @@
     </div>
 </div>
 
-<form method="post" action="{{ route('admin.applications.edit', $application) }}">
+<form method="post" action="{{ route('admin.applications.update', $application) }}">
     @method('patch')
     @csrf
 

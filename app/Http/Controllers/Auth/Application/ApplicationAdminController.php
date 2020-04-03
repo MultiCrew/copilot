@@ -36,7 +36,7 @@ class ApplicationAdminController extends Controller
         return view('auth.applications.show', ['application' => $application]);
     }
 
-    public function edit(ApplicationForm $application)
+    public function update(Request $request, ApplicationForm $application)
     {
         if ($request->submit === 'approve') {
             $application->approve();
