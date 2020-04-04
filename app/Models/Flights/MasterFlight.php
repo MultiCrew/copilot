@@ -69,4 +69,15 @@ class MasterFlight extends Model
         return $this->acceptee_id == $user->id;
     }
 
+    /**
+     * Returns whether the given user is either requestee or acceptee
+     *
+     * @param \App\Models\User\User $user
+     *
+     * @return boolean
+     */
+    public function isInvolved(User $user)
+    {
+        return $this->isRequestee($user) || $this->isAcceptee($user);
+    }
 }

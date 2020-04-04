@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
 		$new_request['airports'] = [];
 		$userNotifications->new_request = $new_request; 
         $userNotifications->save();
+        $user->assignRole('user');
         $user->assignRole('admin');
         $user->save();
 
@@ -44,7 +45,7 @@ class UserSeeder extends Seeder
 		$new_request['airports'] = [];
 		$userNotifications->new_request = $new_request; 
         $userNotifications->save();
-        $user->assignRole('beta-tester');
+        $user->assignRole('user');
         $user->save();
 
         $user = User::create([
@@ -60,7 +61,8 @@ class UserSeeder extends Seeder
 		$new_request['airports'] = [];
 		$userNotifications->new_request = $new_request; 
         $userNotifications->save();
-        $user->assignRole('user');
+        $user->assignRole('new');
+        $user->givePermissionTo('apply to beta');
         $user->save();
     }
 }

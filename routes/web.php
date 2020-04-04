@@ -46,6 +46,9 @@ Route::group([
 
 /**
  * Flight routes
+ *
+ * These routes deal with the Flight and ArchivedFlight model resources
+ * All users interact with these controllers as part of their Copilot workflot
  */
 Route::group([
     'as'        => 'flights.',              // routes are named 'flights.{}'
@@ -54,12 +57,16 @@ Route::group([
     // Route::get('search', 'Flights\FlightController@search')->name('search');
     Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
-    Route::get('{flight}/archive', 'Flights\FlightController@archive')->name('archive');
+    Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
 });
 Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
+Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
 
 /**
  * Dispatch routes
+ *
+ * These routes deal with the SimBrief API integration: creation and reviewing
+ * of Flight plans (FlightPlan models).
  */
 Route::group([
     'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
@@ -75,13 +82,29 @@ Route::group([
 
 /*
  * Auth, account and profile routes
+ *
+ * These routes deal with authentication, user accounts, user management, application
+ * forms and user profiles
  */
 Auth::routes();
 Route::group([
-    'as' => 'account.'
+    'as'        => 'account.',
+    'prefix'    => 'account'
 ], function () {
-    Route::get('/account', 'Auth\AccountController@index')->name('index');
-    Route::patch('/account', 'Auth\AccountController@update')->name('update');
+    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
+    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
+});
+Route::resource('account', 'Auth\AccountController')->only(['index', 'update']);
+
+Route::resource('profile', 'Auth\ProfileController');
+
+Route::group([
+    'as'        => 'admin.',
+    'prefix'    => 'admin'
+], function () {
+    Route::resource('users', 'Auth\Admin\UserController');
+    Route::resource('applications', 'Auth\Application\ApplicationAdminController')
+         ->except(['create', 'store']);
 });
 
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');

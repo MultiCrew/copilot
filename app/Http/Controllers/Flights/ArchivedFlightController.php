@@ -4,11 +4,18 @@ namespace App\Http\Controllers\Flights;
 
 use App\Http\Controllers\Controller;
 use App\Models\Flights\Flight;
+use App\Models\Flights\ArchivedFlight;
 use Illuminate\Http\Request;
 use Auth;
 
 class ArchivedFlightController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:user']);
+    }
+
     /**
      * Create a new ArchivedFlight from a Flight
      *
@@ -28,6 +35,7 @@ class ArchivedFlightController extends Controller
         ]);
 
         $archived->save();
+        $flight->delete();
 
         return redirect()->route('flights.show', $archived);
     }

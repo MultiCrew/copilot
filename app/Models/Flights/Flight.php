@@ -18,6 +18,26 @@ class Flight extends MasterFlight
     ];
 
     /**
+     * The requestee on this flight
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function requestee()
+    {
+        return $this->belongsTo('App\Models\Users\User', 'id');
+    }
+
+    /**
+     * The acceptee on this flight
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function acceptee()
+    {
+        return $this->belongsTo('App\Models\Users\User', 'id');
+    }
+
+    /**
      * Generate a public ID for a flight.
      *
      * @return string
@@ -46,6 +66,16 @@ class Flight extends MasterFlight
     public function plan()
     {
         return $this->belongsTo('App\Models\Flights\FlightPlan', 'plan_id');
+    }
+
+    /**
+     * Checks if a plan exists for the flight
+     *
+     * @return boolean
+     */
+    public function isPlanned()
+    {
+        return !empty($this->plan_id);
     }
 
     /**
