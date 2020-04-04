@@ -75,7 +75,8 @@ class User extends Authenticatable
         } else {
             return false;
         }
-    }
+	}
+	
     /**
      * The notifications the user has subscribed to.
      * 
@@ -83,6 +84,6 @@ class User extends Authenticatable
      */
     public function userNotifications()
     {
-        return $this->belongsTo('App\Models\Users\UserNotification', 'user_id');
+        return $this->hasOne('App\Models\Users\UserNotification', 'user_id');
     }
 }
