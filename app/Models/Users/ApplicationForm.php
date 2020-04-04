@@ -32,14 +32,4 @@ class ApplicationForm extends Model
     {
         return $this->hasOne('App\Models\Users\User');
     }
-
-    public function approve()
-    {
-        $this->status = 'approved';
-    }
-
-    public function reject()
-    {
-        $this->status = 'rejected';
-    }
 }

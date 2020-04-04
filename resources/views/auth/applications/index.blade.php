@@ -29,7 +29,7 @@
                         <td>{{ $application->user->email }}</td>
                         <td>{{ $application->user->created_at->toDayDateTimeString() }}</td>
                         <td>{{ $application->created_at->toDayDateTimeString() }}</td>
-                        <td class="p-0">
+                        <td class="py-0 text-right">
                             <a
                             href="{{ route('admin.applications.show', $application) }}"
                             class="btn btn-sm my-2 btn-primary">

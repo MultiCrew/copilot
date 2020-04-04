@@ -38,14 +38,14 @@ class ApplicationAdminController extends Controller
 
     public function update(Request $request, ApplicationForm $application)
     {
-        if ($request->submit === 'approve') {
-            $application->approve();
-        } elseif ($request->submit === 'reject') {
-            $application->reject();
-        } else {
-            // RIP
-        }
+        $application->status = $request->status;
         $application->save();
+
+        if ($request->status === 'approved') {
+            $application->user->assignRole('user');
+        } else {
+            $application->user->givePermissionTo('apply to beta');
+        }
 
         return redirect()->route('admin.applications.index');
     }

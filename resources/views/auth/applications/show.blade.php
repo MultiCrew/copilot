@@ -90,18 +90,24 @@
     </div>
 </div>
 
-<form method="post" action="{{ route('admin.applications.update', $application) }}">
-    @method('patch')
-    @csrf
-
-    <p>
-        <button type="submit" class="btn btn-success" value="approve">
+<div class="d-flex">
+    <form method="post" action="{{ route('admin.applications.update', $application) }}">
+        @method('patch')
+        @csrf
+        <input type="hidden" name="status" value="approved">
+        <button type="submit" class="btn btn-success mr-2">
             Approve<i class="fas fa-check ml-3"></i>
         </button>
-        <button type="submit" class="btn btn-danger" value="reject">
+    </form>
+
+    <form method="post" action="{{ route('admin.applications.update', $application) }}">
+        @method('patch')
+        @csrf
+        <input type="hidden" name="status" value="rejected">
+        <button type="submit" class="btn btn-danger">
             Reject<i class="fas fa-times ml-3"></i>
         </button>
-    </p>
-</form>
+    </form>
+</div>
 
 @endsection
