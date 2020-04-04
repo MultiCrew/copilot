@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use \App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use \App\Http\Controllers\Controller as Controller;
+use Auth;
 use App\Models\Users\UserNotification;
 
 class AccountController extends Controller
@@ -22,9 +21,22 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $userNotifications = UserNotification::where('user_id', Auth::id())->first();
 
-        return view('auth.account', ['userNotifications' => $userNotifications]);
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $role = 'Admin';
+        } else if ($user->hasRole('user')) {
+            $role = 'Beta Tester';
+        } else {
+            $role = 'Regular User';
+        }
+
+        return view('auth.users.show', [
+            'user' => $user,
+            'role' => $role,
+            'userNotifications' => UserNotification::where('user_id', Auth::id())->first()
+        ]);
     }
 
     /**

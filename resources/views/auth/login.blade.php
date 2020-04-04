@@ -65,6 +65,13 @@
                             </div>
                         </div>
                     </form>
+
+                    <hr>
+                    <p class="card-text text-center text-muted lead">
+                        Creating a MultiCrew account is free and gives you
+                        access to all of our services!<br>
+                        <a href="{{ route('register') }}">Create Account</a>
+                    </p>
                 </div>
             </div>
         </div>

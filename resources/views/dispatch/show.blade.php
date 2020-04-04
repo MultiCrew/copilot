@@ -388,13 +388,13 @@
                     <h5 class="card-title">Complete Flight</h5>
 
                     <p class="lead">Done with your flight? Mark it as completed and it will appear in your logbook!</p>
-                    <div class="text-center">
-                        <a
-                        href="{{ route('flights.archive', ['flight' => $flight]) }}"
-                        class="btn btn-lg btn-success">
+                    <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}" class="text-center">
+                        @csrf
+                        <input type="hidden" name="flight" value="{{ $flight->id }}">
+                        <button type="submit" class="btn btn-lg btn-success">
                             <i class="fas fa-check fa-fw mr-2"></i>Complete
-                        </a>
-                    </div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

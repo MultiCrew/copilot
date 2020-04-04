@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
         $userNotifications = new UserNotification();
         $userNotifications->user_id = $user->id;
         $userNotifications->save();
+        $user->assignRole('user');
         $user->assignRole('admin');
         $user->save();
 
@@ -35,7 +36,7 @@ class UserSeeder extends Seeder
         $userNotifications = new UserNotification();
         $userNotifications->user_id = $user->id;
         $userNotifications->save();
-        $user->assignRole('beta-tester');
+        $user->assignRole('user');
         $user->save();
 
         $user = User::create([
@@ -47,7 +48,8 @@ class UserSeeder extends Seeder
         $userNotifications = new UserNotification();
         $userNotifications->user_id = $user->id;
         $userNotifications->save();
-        $user->assignRole('user');
+        $user->assignRole('new');
+        $user->givePermissionTo('apply to beta');
         $user->save();
     }
 }

@@ -17,23 +17,34 @@
         @include('includes.nav')
 
         @auth
-        <main class="row" id="body-row">
-            @if(!(strpos(Route::currentRouteName(), 'blog') !== false))
-                @include('includes.sidebar')
-            @endif
-            <div class="p-4 col" id="content-div">
-                <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
-                    <div class="notify-toast-position" id="notification-div"></div>
-                </div>
-                @yield('content')
-            </div>
-        </main>
+            @role('new')
+                <main class="container">
+                    <div class="p-4 col" id="content-div">
+                        <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
+                            <div class="notify-toast-position" id="notification-div"></div>
+                        </div>
+                        @yield('content')
+                    </div>
+                </main>
+            @else
+                <main class="row" id="body-row">
+                    @unless(strpos(Route::currentRouteName(), 'blog') !== false)
+                        @include('includes.sidebar')
+                    @endunless
+                    <div class="col p-4" id="content-div">
+                        <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
+                            <div class="notify-toast-position" id="notification-div"></div>
+                        </div>
+                        @yield('content')
+                    </div>
+                </main>
+            @endrole
         @endauth
 
         @guest
-        <main class="py-4 container">
-            @yield('content')
-        </main>
+            <main class="py-4 container">
+                @yield('content')
+            </main>
         @endguest
 
         @if(strpos(Route::currentRouteName(), 'blogetc') !== false)
@@ -65,18 +76,19 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
-    @if (!auth()->guest())
-    <script>
-        window.Laravel.userId = {!! auth()->user()->id !!};
-    </script>
-    @endif
+
     @auth
-    <script>
-        function logout() {
-                $("#logout-form").submit();
-            }
-    </script>
+        <script>
+            window.Laravel.userId = {!! auth()->user()->id !!};
+        </script>
+
+        <script>
+            function logout() {
+                    $("#logout-form").submit();
+                }
+        </script>
     @endauth
+
     <script>
         function toggleBurger() {
             var burger = $('.burger');
@@ -93,6 +105,7 @@
         });
 
     </script>
+
     @yield('scripts')
     @yield('footer')
 
