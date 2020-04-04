@@ -77,8 +77,12 @@ class RegisterController extends Controller
         $user->givePermissionTo('apply to beta');
 
         $userNotifications = new UserNotification();
-        $userNotifications->user_id = $user->id;
-        $userNotifications->save();
+		$userNotifications->user_id = $user->id;
+		$new_request = $userNotifications->new_request;
+		$new_request['aircrafts'] = [];
+		$new_request['airports'] = [];
+		$userNotifications->new_request = $new_request; 
+		$userNotifications->save();
 
         return $user;
     }

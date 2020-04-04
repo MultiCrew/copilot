@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-
+require('bootstrap-select');
 
 window.Vue = require('vue');
 
@@ -41,6 +41,7 @@ $(document).ready(function() {
         }
     });
     window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
+		console.log(notification);
         newNotification(notification.id, notification);
     });
 });

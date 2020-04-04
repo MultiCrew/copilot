@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Flights;
 
+use Illuminate\Http\Request;
+use App\Models\Flights\Flight;
+use App\Notifications\NewRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Flights\MasterFlight;
-use App\Models\Flights\Flight;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\ArchivedFlight;
+use App\Models\Users\UserNotification;
 use App\Notifications\RequestAccepted;
-use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Notification;
 
 class FlightController extends Controller
 {
@@ -69,7 +73,17 @@ class FlightController extends Controller
         if (!$flight->public)
             $flight->code = Flight::generatePublicId();
 
-        $flight->save();
+		$flight->save();
+
+		$users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
+								->orWhereJsonContains('new_request->airports', $request->arrival)
+								->orWhereJsonContains('new_request->aircrafts', $request->airport)
+								->with('user')
+								->get()
+								->pluck('user')
+								->flatten();
+
+		Notification::send($users, new NewRequest(Auth::user(), $flight));	
 
         return redirect()->route('flights.show', [$flight]);
     }

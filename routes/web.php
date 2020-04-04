@@ -28,7 +28,20 @@ Route::group([
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
     Route::get('/{id}', 'Notification\NotificationController@read');
-    Route::patch('/', 'Notification\NotificationController@update')->name('update');
+    Route::post('/update', 'Notification\NotificationController@update')->name('update');
+    Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');
+    Route::post('/aircraft', 'Notification\NotificationController@aircraft')->name('aircraft');
+ });
+
+ /**
+  * Search Routes
+  */
+ Route::group([
+     'as' => 'search.',
+     'prefix' => 'search',
+ ], function() {
+     Route::get('airport', 'Search\SearchController@airport')->name('airport');
+     Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
  });
 
 /**

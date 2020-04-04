@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    @yield('header')
 </head>
 
 <body>
@@ -47,6 +48,26 @@
             </main>
         @endguest
 
+        @if(strpos(Route::currentRouteName(), 'blogetc') !== false)
+            <div class="bg-light text-dark py-5">
+                <div class="container">
+                    <h3 class="text-center display-4 mb-4">MultiCrew</h3>
+                    <p class="text-center lead mb-4">
+                        We're all about bringing people from the aviation industry and
+                        the flight simulation community together to enjoy flight
+                        simulators. We are a community-driven, non-profit organisation,
+                        which specialises in shared cockpit flying, training and
+                        support.
+                    </p>
+                    <p class="text-center">
+                        <a href="https://fb.me/flymulticrew"><i class="fab fa-facebook-square fa-2x mr-4"></i></a>
+                        <a href="https://twitter.com/flymulticrew"><i class="fab fa-twitter fa-2x mr-4"></i></a>
+                        <a href="https://discord.gg/3jHRAkE"><i class="fab fa-discord fa-2x mr-4"></i></a>
+                        <a href="https://github.com/MultiCrew"><i class="fab fa-github fa-2x"></i></a>
+                    </p>
+                </div>
+            </div>
+        @endif
         @include('includes.cookies')
     </div>
 

@@ -90,5 +90,5 @@ class User extends Authenticatable
     public function canManageBlogEtcPosts()
     {
         return $this->hasRole('admin');
-    }
+	}
 }

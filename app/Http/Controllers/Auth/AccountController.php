@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use \App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
+use App\Models\Airports\Airport;
+use App\Models\Aircraft\Aircraft;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Users\UserNotification;
+use \App\Http\Controllers\Controller as Controller;
 
 class AccountController extends Controller
 {
@@ -21,6 +24,33 @@ class AccountController extends Controller
      */
     public function index()
     {
+		$userNotifications = UserNotification::where('user_id', Auth::id())->first();
+		$airports = [];
+		$aircrafts = [];
+		
+		$userAirports = $userNotifications->new_request['airports'];
+		
+		if($userAirports) {
+			for ($i=0; $i < count($userAirports); $i++) { 
+				$airport = Airport::where('icao', $userAirports[$i])->first();
+				array_push($airports, $airport);
+			}
+		}
+
+		$userAircrafts = $userNotifications->new_request['aircrafts'];
+		
+		if($userAircrafts) {
+			for ($i=0; $i < count($userAircrafts); $i++) { 
+				$aircraft = Aircraft::where('icao', $userAircrafts[$i])->first();
+				array_push($aircrafts, $aircraft);
+			}
+		}
+
+        return view('auth.account', [
+			'userNotifications' => $userNotifications,
+			'airports' => $airports,
+			'aircrafts' => $aircrafts
+		]);
 
         $user = Auth::user();
 
