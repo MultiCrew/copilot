@@ -145,7 +145,6 @@
                     <div class="card-body">
                         <div class="card-text">
                             <select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
-                                
                             </select>
                         </div>
                     </div>
@@ -189,55 +188,51 @@ $(document).ready(function(){
         }
     });
     $('#airportSelect').selectpicker({
-            liveSearch: true
-        })
-        .ajaxSelectPicker({
-            ajax: {
-                url: '{{route("search.airport")}}',
-                method: 'GET',
-                data: {
-                    q: '@{{{q}}}'
+        liveSearch: true
+    })
+    .ajaxSelectPicker({
+        ajax: {
+            url: '{{route("search.airport")}}',
+            method: 'GET',
+            data: {
+                q: '@{{{q}}}'
+            }
+        },
+        locale: {
+            emptyTitle: 'Start typing to search...',
+            statusInitialized: '',
+        },
+        preprocessData: function(data){
+            var airports = [];
+            let count;
+            if(data.length > 0){
+                if(data.length >= 10) {
+                    count = 10;
+                } else {
+                    count = data.length;
                 }
-            },
-            locale: {
-                emptyTitle: 'Start typing to search...',
-                statusInitialized: '',
-            },
-            preprocessData: function(data){
-                var airports = [];
-                let count;
-                if(data.length > 0){
-                    if(data.length >= 10) {
-                        count = 10;
-                    } else {
-                        count = data.length;
-                    }
-                    for(var i = 0; i < count; i++){
-                        var curr = data[i];
-                        airports.push(
-                            {
-                                'value': curr.icao,
-                                'text': curr.icao + ' - ' + curr.name,
-                                'disabled': false
-                            }
-                        );
-                    }
+                for(var i = 0; i < count; i++){
+                    var curr = data[i];
+                    airports.push(
+                        {
+                            'value': curr.icao,
+                            'text': curr.icao + ' - ' + curr.name,
+                            'disabled': false
+                        }
+                    );
                 }
-                return airports;
-            },
-            preserveSelected: true
-        });
+            }
+            return airports;
+        },
+        preserveSelected: true
+    });
     $('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
-        console.log($('#airportSelect').selectpicker('val'));
         $.ajax({
             url: '{{route("notifications.airport")}}',
             type: 'POST',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'data': $('#airportSelect').selectpicker('val')
-            },
-            success: function(data) {
-                console.log(data);
             }
         });
     })
