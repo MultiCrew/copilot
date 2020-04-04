@@ -145,6 +145,9 @@
                     <div class="card-body">
                         <div class="card-text">
                             <select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
+								@foreach ($airports as $airport)
+									<option value="{{$airport->icao}}" selected>{{$airport->icao}} - {{$airport->name}}</option>
+								@endforeach
                             </select>
                         </div>
                     </div>

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Models\Airports\Airport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use \App\Http\Controllers\Controller as Controller;
 use App\Models\Users\UserNotification;
+use \App\Http\Controllers\Controller as Controller;
 
 class AccountController extends Controller
 {
@@ -22,9 +23,19 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $userNotifications = UserNotification::where('user_id', Auth::id())->first();
+		$userNotifications = UserNotification::where('user_id', Auth::id())->first();
+		
+		$userAirports = $userNotifications->new_request['airports'];
+		$airports = [];
+		for ($i=0; $i < count($userAirports); $i++) { 
+			$airport = Airport::where('icao', $userAirports[$i])->first();
+			array_push($airports, $airport);
+		}
 
-        return view('auth.account', ['userNotifications' => $userNotifications]);
+        return view('auth.account', [
+			'userNotifications' => $userNotifications,
+			'airports' => $airports
+			]);
     }
 
     /**
