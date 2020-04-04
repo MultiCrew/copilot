@@ -30,6 +30,7 @@ Route::group([
     Route::get('/{id}', 'Notification\NotificationController@read');
     Route::post('/update', 'Notification\NotificationController@update')->name('update');
     Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');
+    Route::post('/aircraft', 'Notification\NotificationController@aircraft')->name('aircraft');
  });
 
  /**

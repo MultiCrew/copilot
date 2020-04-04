@@ -80,5 +80,26 @@ class NotificationController extends Controller
 
             return;
         }
+	}
+	
+	/**
+     * Update the new request aircrafts
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function aircraft(Request $request) 
+    {
+        if($request->ajax()) {
+            $userNotification = UserNotification::where('user_id', Auth::id())->first();
+
+            $new_request = $userNotification->new_request;
+            $new_request['aircrafts'] = $request->data;
+            $userNotification->new_request = $new_request; 
+
+            $userNotification->save();
+
+            return;
+        }
     }
 }

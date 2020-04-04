@@ -144,11 +144,22 @@
                 <div class="col-md-6">
                     <div class="card-body">
                         <div class="card-text">
-                            <select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
-								@foreach ($airports as $airport)
-									<option value="{{$airport->icao}}" selected>{{$airport->icao}} - {{$airport->name}}</option>
-								@endforeach
-                            </select>
+                            <div class="row">
+								<div class="col-md-6">
+									<select name="airportSelect" id="airportSelect" class="selectpicker" data-live-search="true" multiple>
+										@foreach ($airports as $airport)
+											<option value="{{$airport->icao}}" selected>{{$airport->icao}} - {{$airport->name}}</option>
+										@endforeach
+									</select>
+								</div>
+								<div class="col-md-6">
+									<select name=aircraftSelect" id="aircraftSelect" class="selectpicker" data-live-search="true" multiple>
+										@foreach ($aircrafts as $aircraft)
+											<option value="{{$aircraft->icao}}" selected>{{$aircraft->icao}} - {{$aircraft->name}}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -238,7 +249,56 @@ $(document).ready(function(){
                 'data': $('#airportSelect').selectpicker('val')
             }
         });
+    });
+	$('#aircraftSelect').selectpicker({
+        liveSearch: true
     })
+    .ajaxSelectPicker({
+        ajax: {
+            url: '{{route("search.aircraft")}}',
+            method: 'GET',
+            data: {
+                q: '@{{{q}}}'
+            }
+        },
+        locale: {
+            emptyTitle: 'Start typing to search...',
+            statusInitialized: '',
+        },
+        preprocessData: function(data){
+            var aircrafts = [];
+            let count;
+            if(data.length > 0){
+                if(data.length >= 10) {
+                    count = 10;
+                } else {
+                    count = data.length;
+                }
+                for(var i = 0; i < count; i++){
+                    var curr = data[i];
+                    aircrafts.push(
+                        {
+                            'value': curr.icao,
+                            'text': curr.icao + ' - ' + curr.name,
+                            'disabled': false
+                        }
+                    );
+                }
+            }
+            return aircrafts;
+        },
+        preserveSelected: true
+    });
+    $('#aircraftSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+        $.ajax({
+            url: '{{route("notifications.aircraft")}}',
+            type: 'POST',
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'data': $('#aircraftSelect').selectpicker('val')
+            }
+        });
+    });
 });
 function postNotification() {
     $.ajax({
