@@ -41,6 +41,7 @@ $list-group-disabled-bg:$black;
 $list-group-action-color:$white;
 */
 @import "~bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap-select/sass/bootstrap-select.scss";
 
 /* Add SASS theme customizations here..
 .navbar-dark.bg-primary {background-color:#111111 !important;}

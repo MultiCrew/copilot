@@ -37,6 +37,7 @@ class AirportDatabaseUpdate implements ShouldQueue
         }
         for($i = 1; $i < count($s); $i++) {
             if(Airport::where('icao', $s[$i][1])->exists()) continue;
+            if($s[$i][2] == 'heliport' || $s[$i][2] == 'closed_airport') continue;
             $airport = new Airport(); 
             $airport->icao = $s[$i][1];
             $airport->name = $s[$i][3];

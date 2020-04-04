@@ -18,8 +18,11 @@ class CreateUserNotificationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->json('new_request')->nullable();
             $table->boolean('request_accepted')->default(1);
-            $table->boolean('plan_accepted')->default(1);
-            $table->boolean('plan_rejected')->default(1);
+            $table->boolean('request_accepted_email')->default(0);
+            $table->boolean('request_accepted_push')->default(0);
+            $table->boolean('plan_reviewed')->default(1);
+            $table->boolean('plan_reviewed_email')->default(0);
+            $table->boolean('plan_reviewed_push')->default(0);
             $table->timestamps();
         });
     }
