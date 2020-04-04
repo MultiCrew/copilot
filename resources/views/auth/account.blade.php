@@ -201,104 +201,104 @@ $(document).ready(function(){
             $("#plan_reviewed_push").attr("disabled", true);
         }
     });
-    $('#airportSelect').selectpicker({
-        liveSearch: true
-    })
-    .ajaxSelectPicker({
-        ajax: {
-            url: '{{route("search.airport")}}',
-            method: 'GET',
-            data: {
-                q: '@{{{q}}}'
-            }
-        },
-        locale: {
-            emptyTitle: 'Start typing to search...',
-            statusInitialized: '',
-        },
-        preprocessData: function(data){
-            var airports = [];
-            let count;
-            if(data.length > 0){
-                if(data.length >= 10) {
-                    count = 10;
-                } else {
-                    count = data.length;
-                }
-                for(var i = 0; i < count; i++){
-                    var curr = data[i];
-                    airports.push(
-                        {
-                            'value': curr.icao,
-                            'text': curr.icao + ' - ' + curr.name,
-                            'disabled': false
-                        }
-                    );
-                }
-            }
-            return airports;
-        },
-        preserveSelected: true
-    });
-    $('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
-        $.ajax({
-            url: '{{route("notifications.airport")}}',
-            type: 'POST',
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'data': $('#airportSelect').selectpicker('val')
-            }
-        });
-    });
+	$('#airportSelect').selectpicker({
+		liveSearch: true
+	})
+	.ajaxSelectPicker({
+		ajax: {
+			url: '{{route("search.airport")}}',
+			method: 'GET',
+			data: {
+				q: '@{{{q}}}'
+			}
+		},
+		locale: {
+			emptyTitle: 'Start typing to search...',
+			statusInitialized: '',
+		},
+		preprocessData: function(data){
+			var airports = [];
+			let count;
+			if(data.length > 0){
+				if(data.length >= 10) {
+					count = 10;
+				} else {
+					count = data.length;
+				}
+				for(var i = 0; i < count; i++){
+					var curr = data[i];
+					airports.push(
+						{
+							'value': curr.icao,
+							'text': curr.icao + ' - ' + curr.name,
+							'disabled': false
+						}
+					);
+				}
+			}
+			return airports;
+		},
+		preserveSelected: true
+	});
+	$('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+		$.ajax({
+			url: '{{route("notifications.airport")}}',
+			type: 'POST',
+			data: {
+				'_token': "{{ csrf_token() }}",
+				'data': $('#airportSelect').selectpicker('val')
+			}
+		});
+	});
 	$('#aircraftSelect').selectpicker({
-        liveSearch: true
-    })
-    .ajaxSelectPicker({
-        ajax: {
-            url: '{{route("search.aircraft")}}',
-            method: 'GET',
-            data: {
-                q: '@{{{q}}}'
-            }
-        },
-        locale: {
-            emptyTitle: 'Start typing to search...',
-            statusInitialized: '',
-        },
-        preprocessData: function(data){
-            var aircrafts = [];
-            let count;
-            if(data.length > 0){
-                if(data.length >= 10) {
-                    count = 10;
-                } else {
-                    count = data.length;
-                }
-                for(var i = 0; i < count; i++){
-                    var curr = data[i];
-                    aircrafts.push(
-                        {
-                            'value': curr.icao,
-                            'text': curr.icao + ' - ' + curr.name,
-                            'disabled': false
-                        }
-                    );
-                }
-            }
-            return aircrafts;
-        },
-        preserveSelected: true
-    });
-    $('#aircraftSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
-        $.ajax({
-            url: '{{route("notifications.aircraft")}}',
-            type: 'POST',
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'data': $('#aircraftSelect').selectpicker('val')
-            }
-        });
-    });
+		liveSearch: true
+	})
+	.ajaxSelectPicker({
+		ajax: {
+			url: '{{route("search.aircraft")}}',
+			method: 'GET',
+			data: {
+				q: '@{{{q}}}'
+			}
+		},
+		locale: {
+			emptyTitle: 'Start typing to search...',
+			statusInitialized: '',
+		},
+		preprocessData: function(data){
+			var aircrafts = [];
+			let count;
+			if(data.length > 0){
+				if(data.length >= 10) {
+					count = 10;
+				} else {
+					count = data.length;
+				}
+				for(var i = 0; i < count; i++){
+					var curr = data[i];
+					aircrafts.push(
+						{
+							'value': curr.icao,
+							'text': curr.icao + ' - ' + curr.name,
+							'disabled': false
+						}
+					);
+				}
+			}
+			return aircrafts;
+		},
+		preserveSelected: true
+	});
+	$('#aircraftSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+		$.ajax({
+			url: '{{route("notifications.aircraft")}}',
+			type: 'POST',
+			data: {
+				'_token': "{{ csrf_token() }}",
+				'data': $('#aircraftSelect').selectpicker('val')
+			}
+		});
+	});
 });
 function postNotification() {
     $.ajax({
@@ -309,21 +309,5 @@ function postNotification() {
         contentType: false
     })
 }
-function diffArray(arr1, arr2) { 
-    var newArr = []; // Same, same; but different. 
-
-    for(let i = 0; i< arr1.length;i++) { 
-        if(arr2.indexOf(arr1[i])==-1) { 
-            newArr.push(arr1[i]); 
-        } 
-    } 
-
-    for(let i = 0; i< arr2.length;i++) { 
-        if(arr1.indexOf(arr2[i])==-1) { 
-            newArr.push(arr2[i]); 
-        } 
-    } 
-    return newArr; 
-} 
 </script>
 @endsection
