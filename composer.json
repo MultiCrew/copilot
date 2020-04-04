@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "anhskohbo/no-captcha": "^3.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/passport": "^8.0",
@@ -17,8 +18,8 @@
         "pusher/pusher-php-server": "^4.1",
         "sentry/sentry-laravel": "1.5.0",
         "spatie/laravel-permission": "^3.3",
-        "wohali/oauth2-discord-new": "^1.0",
-        "webdevetc/blogetc": "dev-master"
+        "webdevetc/blogetc": "dev-master",
+        "wohali/oauth2-discord-new": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

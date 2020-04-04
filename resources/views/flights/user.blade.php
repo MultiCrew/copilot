@@ -77,11 +77,7 @@
                                 <td class="align-middle">
                                     <a href="#" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                        @if($flight->acceptee_id === Auth::id())
-                                            {{ User::find($flight->acceptee_id)->username }}
-                                        @else
-                                            {{ User::find($flight->flightee_id)->username }}
-                                        @endif
+                                        {{ $flight->otherUser()->username }}
                                     </a>
                                 </td>
 

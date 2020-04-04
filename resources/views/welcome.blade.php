@@ -83,18 +83,24 @@
             }
         </style>
     </head>
+
     <body>
         <div class="flex-center position-ref full-height" id="app">
             @if (Route::has('login'))
                 <div class="top-right text-links">
                     @auth
-                        <a href="{{ route('account.index') }}"><i class="fas fa-fw fa-home mr-2"></i>Account</a>
+                        <a href="{{ route('account.index') }}">
+                            <i class="fas fa-fw fa-home mr-2"></i>Account
+                        </a>
                     @else
-                        <a href="{{ route('login') }}"><i class="fas fa-fw fa-key mr-2"></i>Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"><i class="fas fa-fw fa-user-plus mr-2"></i>Register</a>
-                        @endif
+                        <a href="{{ route('login') }}">
+                            <i class="fas fa-fw fa-key mr-2"></i>
+                            Login
+                        </a>
+                        <a href="{{ route('register') }}">
+                            <i class="fas fa-fw fa-user-plus mr-2"></i>
+                            Register
+                        </a>
                     @endauth
                 </div>
             @endif
@@ -105,15 +111,30 @@
                 </div>
 
                 <div class="text-links">
-                    <a href="{{ route('flights.index') }}">Copilot</a>
-                    <a href="{{ route('account.index') }}">Account</a>
+                    @auth
+                        <a href="{{ route('flights.index') }}">Copilot</a>
+                        <a href="{{ route('account.index') }}">Account</a>
+                    @else
+                        <a href="{{ route('register') }}">
+                            <i class="fas fa-fw fa-user-plus mr-2"></i>
+                            Register
+                        </a>
+                    @endguest
                 </div>
 
                 <div class="icon-links mt-5">
-                    <a href="https://fb.me/flymulticrew"><i class="fab fa-facebook-square fa-2x"></i></a>
-                    <a href="https://twitter.com/flymulticrew"><i class="fab fa-twitter fa-2x"></i></a>
-                    <a href="https://discord.gg/3jHRAkE"><i class="fab fa-discord fa-2x"></i></a>
-                    <a href="https://github.com/MultiCrew"><i class="fab fa-github fa-2x"></i></a>
+                    <a href="https://fb.me/flymulticrew">
+                        <i class="fab fa-facebook-square fa-2x"></i>
+                    </a>
+                    <a href="https://twitter.com/flymulticrew">
+                        <i class="fab fa-twitter fa-2x"></i>
+                    </a>
+                    <a href="https://discord.gg/3jHRAkE">
+                        <i class="fab fa-discord fa-2x"></i>
+                    </a>
+                    <a href="https://github.com/MultiCrew">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
                 </div>
             </div>
         </div>

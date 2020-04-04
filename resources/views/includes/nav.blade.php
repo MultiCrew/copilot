@@ -13,15 +13,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- left nav (with sidebar) -->
         <ul class="navbar-nav mr-auto d-none d-lg-flex">
+            @auth
+            @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('beta-tester'))
             <li class="nav-item">
-                <a class="nav-link @if (strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
+                <a class="nav-link @if(strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
                     href="{{ route('flights.index') }}">
                     <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
                 </a>
             </li>
+            @else
+            <li class="nav-item">
+                <a class="nav-link @if(Route::currentRouteName() == 'account.apply') active @endif"
+                    href="{{ route('account.apply') }}">
+                    <i class="fas fa-check fa-fw mr-2"></i>Apply
+                </a>
+            </li>
+            @endif
+            @endauth
 
             <li class="nav-item">
-                <a class="nav-link @if (strpos(Route::currentRouteName(), 'blog') !== false) active @endif"
+                <a class="nav-link @if(strpos(Route::currentRouteName(), 'blog') !== false) active @endif"
                     href="{{ route('blogetc.index') }}">
                     <i class="fas fa-newspaper fa-fw mr-2"></i>Blog
                 </a>
@@ -46,78 +57,65 @@
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
             @guest
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">
-                        <i class="fas fa-key fa-fw mr-2"></i>{{ __('Login') }}
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link @if(Route::currentRouteName() == 'login') active @endif" href="{{ route('login') }}">
+                    <i class="fas fa-key fa-fw mr-2"></i>{{ __('Login') }}
+                </a>
+            </li>
 
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">
-                            <i class="fas fa-user-plus fa-fw mr-2"></i>{{ __('Register') }}
-                        </a>
-                    </li>
-                @endif
+            @if (Route::has('register'))
+            <li class="nav-item">
+                <a class="nav-link @if(Route::currentRouteName() == 'register') active @endif"
+                    href="{{ route('register') }}">
+                    <i class="fas fa-user-plus fa-fw mr-2"></i>{{ __('Register') }}
+                </a>
+            </li>
+            @endif
 
             @else
-                <li class="nav-item dropdown">
-                    <a
-                    class="nav-link mr-2"
-                    href="#"
-                    id="notificationDropdown"
-                    data-toggle="dropdown">
-                        <i class="fas fa-bell notification-bell"></i>
-                        <span
-                        class="badge badge-notify"
-                        id="notify-count"
-                        ></span>
-                    </a>
+            <li class="nav-item dropdown">
+                <a class="nav-link mr-2" href="#" id="notificationDropdown" data-toggle="dropdown">
+                    <i class="fas fa-bell notification-bell"></i>
+                    <span class="badge badge-notify" id="notify-count">
+                    </span>
+                </a>
 
-                    <div
-                    class="dropdown-menu keep-open dropdown-menu-right"
-                    aria-labelledby="notificationDropdown"
+                <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
                     id="notificationDropdownMenu">
-                        <button class="dropdown-item disabled" id="noNotifications">
-                            You have no unread notifications
-                        </button>
-                    </div>
-                </li>
+                    <button class="dropdown-item disabled" id="noNotifications">
+                        You have no unread notifications
+                    </button>
+                </div>
+            </li>
 
-                <li class="nav-item dropdown @if (strpos(Route::currentRouteName(), 'account') !== false) active @endif">
-                    <a
-                    id="navbarDropdown"
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                        <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }}
-                        <span class="caret"></span>
+            <li class="nav-item dropdown @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }}
+                    <span class="caret"></span>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item disabled @if(Route::currentRouteName() === 'account.profile') active @endif"
+                        href="#">
+                        <i class="fas fa-user fa-fw mr-3"></i>Profile
+                    </a>
+                    <a class="dropdown-item @if(Route::currentRouteName() === 'account.index') active @endif"
+                        href="{{ route('account.index') }}">
+                        <i class="fas fa-cog fa-fw mr-3"></i>Account
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item disabled @if (Route::currentRouteName() === 'account.profile') active @endif"
-                            href="#">
-                            <i class="fas fa-user fa-fw mr-3"></i>Profile
-                        </a>
-                        <a class="dropdown-item @if (Route::currentRouteName() === 'account.index') active @endif"
-                            href="{{ route('account.index') }}">
-                            <i class="fas fa-cog fa-fw mr-3"></i>Account
-                        </a>
-
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
-                        </a>
+                        <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
+                    </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            </li>
             @endguest
         </ul>
     </div>
