@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Users\User;
 use Illuminate\Bus\Queueable;
 use App\Models\Flights\Flight;
+use App\Models\Users\UserNotification;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
