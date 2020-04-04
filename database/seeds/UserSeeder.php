@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Users\User;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Users\UserNotification;
 
 class UserSeeder extends Seeder
@@ -21,7 +22,11 @@ class UserSeeder extends Seeder
             'password'  => Hash::make('test')
         ]);
         $userNotifications = new UserNotification();
-        $userNotifications->user_id = $user->id;
+		$userNotifications->user_id = $user->id;
+		$new_request = $userNotifications->new_request;
+		$new_request['aircrafts'] = [];
+		$new_request['airports'] = [];
+		$userNotifications->new_request = $new_request; 
         $userNotifications->save();
         $user->assignRole('admin');
         $user->save();
@@ -33,7 +38,11 @@ class UserSeeder extends Seeder
             'password'  => Hash::make('test')
         ]);
         $userNotifications = new UserNotification();
-        $userNotifications->user_id = $user->id;
+		$userNotifications->user_id = $user->id;
+		$new_request = $userNotifications->new_request;
+		$new_request['aircrafts'] = [];
+		$new_request['airports'] = [];
+		$userNotifications->new_request = $new_request; 
         $userNotifications->save();
         $user->assignRole('beta-tester');
         $user->save();
@@ -45,7 +54,11 @@ class UserSeeder extends Seeder
             'password'  => Hash::make('test')
         ]);
         $userNotifications = new UserNotification();
-        $userNotifications->user_id = $user->id;
+		$userNotifications->user_id = $user->id;
+		$new_request = $userNotifications->new_request;
+		$new_request['aircrafts'] = [];
+		$new_request['airports'] = [];
+		$userNotifications->new_request = $new_request; 
         $userNotifications->save();
         $user->assignRole('user');
         $user->save();
