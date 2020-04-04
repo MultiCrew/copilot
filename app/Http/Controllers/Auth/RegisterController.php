@@ -73,7 +73,11 @@ class RegisterController extends Controller
         ]);
 
         $userNotifications = new UserNotification();
-        $userNotifications->user_id = $user->id;
+		$userNotifications->user_id = $user->id;
+		$new_request = $userNotification->new_request;
+		$new_request['aircrafts'] = [];
+		$new_request['airports'] = [];
+		$userNotification->new_request = $new_request; 
         $userNotifications->save();
 
         return $user;
