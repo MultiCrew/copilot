@@ -11,6 +11,8 @@
                 @include('blogetc::partials.show_errors')
                 @include('blogetc::partials.full_post_details')
 
+                @php
+                /*
                 @if(config('blogetc.comments.type_of_comments_to_show') !== \WebDevEtc\BlogEtc\Services\CommentsService::COMMENT_TYPE_DISABLED)
                     <div id="maincommentscontainer">
                         <h2 class="text-center">
@@ -19,6 +21,8 @@
                         @include('blogetc::partials.show_comments')
                     </div>
                 @endif
+                */
+                @endphp
             </div>
         </div>
     </div>

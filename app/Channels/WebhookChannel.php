@@ -33,7 +33,7 @@ class WebhookChannel
         } else {
             $body = $notification->toArray($notifiable);
         }
-		$endpoint = "http://10.0.2.2:3000";
+		$endpoint = "http://10.0.2.2:4000/api/webhook";
 		$client = new \GuzzleHttp\Client();
 		$response = $client->request('POST', $endpoint, 
 		['form_params' => $body]);

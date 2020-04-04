@@ -16,65 +16,56 @@
     </div>
 
     <nav class="nav d-flex justify-content-between">
-        <a class="p-2 text-muted" href="#">All</a>
-        <a class="p-2 text-muted" href="#">Announcements</a>
-        <a class="p-2 text-muted" href="#">Development</a>
-        <a class="p-2 text-muted" href="#">Infrastructure</a>
-        <a class="p-2 text-muted" href="#">Copilot</a>
-        <a class="p-2 text-muted" href="#">Sponsorship</a>
+        <a
+        class="p-2 nav-link @if(Route::currentRouteName() === 'blogetc.index') active @endif"
+        href="{{ route('blogetc.index') }}">All</a>
+        @foreach($categories as $currentCategory)
+            <a
+            class="p-2 nav-link @if($category && ($category->slug === $currentCategory->slug)) active @endif"
+            href="{{ route('blogetc.view_category', $currentCategory->slug) }}">
+                {{ $currentCategory->category_name }}
+            </a>
+        @endforeach
     </nav>
 
     <hr class="mt-2 mb-3">
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-3 shadow-sm">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="https://via.placeholder.com/500" class="card-img" alt="Placeholder">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        @forelse($featuredPosts as $post)
+            <div class="col-md-6">
+                <div class="card mb-3 shadow-sm">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img
+                            src="https://nyc3.digitaloceanspaces.com/fselite/2019/10/FSLabs-A321-FSELite-1-1600x663.jpg"
+                            class="card-img" alt="Placeholder">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title m-1" style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;">
+                                    <a href="{{ $post->url() }}">{{ $post->title }}</a>
+                                </h5>
+                                <p class="card-text mt-1 mx-1">{{ $post->subtitle }}</p>
+                                <p class="card-text mb-1 mx-1"><small class="text-muted">Posted {{ $post->posted_at->diffForHumans() }}</small></p>
+                                <p class="card-text m-1">
+                                    @forelse($post->categories as $category)
+                                        <a class="badge badge-secondary" href="{{ $category->url() }}">
+                                            {{ $category->category_name }}
+                                        </a>
+                                    @empty
+                                    @endforelse
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-3 shadow-sm">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="https://via.placeholder.com/500" class="card-img" alt="Placeholder">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title" style="font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @empty
+        @endforelse
     </div>
 
     <div class="row">
         <div class="col-md-8">
-            @if(isset($blogetc_category) && $blogetc_category)
-                <h2 class="text-center">
-                    Viewing Category: {{ $blogetc_category->category_name }}
-                </h2>
-
-                @if($blogetc_category->category_description)
-                    <p class="text-center">
-                        {{ $blogetc_category->category_description }}
-                    </p>
-                @endif
-            @endif
-
             @forelse($posts as $post)
                 @include('blogetc::partials.index_loop')
             @empty
