@@ -18,7 +18,6 @@
         "pusher/pusher-php-server": "^4.1",
         "sentry/sentry-laravel": "1.5.0",
         "spatie/laravel-permission": "^3.3",
-        "webdevetc/blogetc": "dev-master",
         "wohali/oauth2-discord-new": "^1.0"
     },
     "require-dev": {

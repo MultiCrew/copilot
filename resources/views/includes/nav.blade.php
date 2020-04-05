@@ -30,13 +30,6 @@
             </li>
             @endif
             @endauth
-
-            <li class="nav-item">
-                <a class="nav-link @if(strpos(Route::currentRouteName(), 'blog') !== false) active @endif"
-                    href="{{ route('blogetc.index') }}">
-                    <i class="fas fa-newspaper fa-fw mr-2"></i>Blog
-                </a>
-            </li>
         </ul>
 
         <!-- left nav (without sidebar) -->
