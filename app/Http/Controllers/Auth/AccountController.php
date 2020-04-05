@@ -46,12 +46,6 @@ class AccountController extends Controller
 			}
 		}
 
-        return view('auth.account', [
-			'userNotifications' => $userNotifications,
-			'airports' => $airports,
-			'aircrafts' => $aircrafts
-		]);
-
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
@@ -65,7 +59,9 @@ class AccountController extends Controller
         return view('auth.users.show', [
             'user' => $user,
             'role' => $role,
-            'userNotifications' => UserNotification::where('user_id', Auth::id())->first()
+            'userNotifications' => $userNotifications,
+			'airports' => $airports,
+			'aircrafts' => $aircrafts
         ]);
     }
 
