@@ -3,6 +3,7 @@
 use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users\UserNotification;
 
@@ -15,6 +16,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $permission = Permission::create(['name' => 'apply to beta']);
+
         $user = User::create([
             'name'      => 'Admin User',
             'username'  => 'adminuser',
@@ -26,7 +29,7 @@ class UserSeeder extends Seeder
 		$new_request = $userNotifications->new_request;
 		$new_request['aircrafts'] = [];
 		$new_request['airports'] = [];
-		$userNotifications->new_request = $new_request; 
+		$userNotifications->new_request = $new_request;
         $userNotifications->save();
         $user->assignRole('user');
         $user->assignRole('admin');
@@ -43,7 +46,7 @@ class UserSeeder extends Seeder
 		$new_request = $userNotifications->new_request;
 		$new_request['aircrafts'] = [];
 		$new_request['airports'] = [];
-		$userNotifications->new_request = $new_request; 
+		$userNotifications->new_request = $new_request;
         $userNotifications->save();
         $user->assignRole('user');
         $user->save();
@@ -59,7 +62,7 @@ class UserSeeder extends Seeder
 		$new_request = $userNotifications->new_request;
 		$new_request['aircrafts'] = [];
 		$new_request['airports'] = [];
-		$userNotifications->new_request = $new_request; 
+		$userNotifications->new_request = $new_request;
         $userNotifications->save();
         $user->assignRole('new');
         $user->givePermissionTo('apply to beta');
