@@ -115,6 +115,10 @@
                         <a href="{{ route('flights.index') }}">Copilot</a>
                         <a href="{{ route('account.index') }}">Account</a>
                     @else
+                        <a href="{{ route('login') }}">
+                            <i class="fas fa-fw fa-key mr-2"></i>
+                            Login
+                        </a>
                         <a href="{{ route('register') }}">
                             <i class="fas fa-fw fa-user-plus mr-2"></i>
                             Register
