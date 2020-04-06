@@ -1,33 +1,35 @@
 /*! `Darkster` Bootstrap 4 theme */
 @import url('https://fonts.googleapis.com/css?family=Nunito:200,300,400,700');
 $headings-font-family:Nunito;
-
-$primary:#FF550B;
-$secondary:#303030;
-$success:#015668;
-$danger:#FF304F;
-$info:#0F81C7;
-$warning:#0DE2EA;
-$light:#e8e8e8;
-$dark:#000000;
+/*
+$primary: #FF550B;
+$secondary: #303030;
+$secondary-lighter: #333333;
+$success: #015668;
+$danger: #FF304F;
+$info: #0F81C7;
+$warning: #0DE2EA;
+$light: #e8e8e8;
+$dark: #000000;
 $enable-shadows:true;
-$body-color:#cccccc;
-$link-color:#f0f0f0;
-$font-size-base:1.1rem;
-$input-disabled-bg: #ccc;
-
+$body-color: #cccccc;
+$link-color: #f0f0f0;
+$font-size-base: 1.1rem;
+$input-disabled-bg: #cccccc;
+*/
 /*! Import Bootstrap 4 variables */
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
+//@import '~bootstrap/scss/functions';
+//@import '~bootstrap/scss/variables';
+/*
 $body-bg:$black;
 $link-hover-color:darken($link-color,20%);
 $navbar-dark-hover-color:$white;
 $navbar-light-hover-color:$gray-400;
 $navbar-light-active-color:$gray-800;
 $input-bg:$gray-300;
-$card-border-color:rgba($black, 0.6);
+$card-border-color:rgba($black, 0);
 $card-cap-bg:lighten($gray-800, 10%);
-$card-bg:lighten($body-bg, 5%);
+$card-bg: $secondary-lighter;
 $list-group-bg:lighten($body-bg,5%);
 $list-group-border-color:rgba($black,0.6);
 $list-group-hover-bg:lighten($body-bg,10%);
@@ -37,52 +39,45 @@ $list-group-active-border-color:$list-group-border-color;
 $list-group-disabled-color:$gray-800;
 $list-group-disabled-bg:$black;
 $list-group-action-color:$white;
-@import '~bootstrap/scss/bootstrap';
+*/
+@import "~bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap-select/sass/bootstrap-select.scss";
 
-// Add SASS theme customizations here..
+/* Add SASS theme customizations here..
 .navbar-dark.bg-primary {background-color:#111111 !important;}
 h1,h2,h3,h4,h5,h6 {color: $primary;}
 .list-group-item {background-color:#111111 !important;}
 .sidebar-separator-title{background-color: #333 !important;}
 .list-group-item:last-child {border-bottom-right-radius: 0;border-bottom-left-radius: 0;}
-.form-control {box-shadow: 0;background-color: #333333;border: 1px solid #888888;color: #fff;}
+.form-control {box-shadow: 0;background-color: $secondary-lighter; border: 1px solid #888888; color: #fff;}
 .form-control:disabled, .form-control[readonly] {background-color: #888888;color: #ccc;}
 .close,.close>a {color: #333;}
-
-
+.modal-header, .modal-footer {background-color: $secondary;}
+.modal-body {background-color: $secondary-lighter;}
+.sidebar-submenu a.active {background-color: $primary !important;}
+*/
 // Font Awesome
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/brands';
-/*
-p {
-    color: $primary;
+
+$navbar-height: 56px;
+
+body {
+    padding-top: $navbar-height;
 }
 
-#body {
-    background-color: $body-bg;
+.sticky-offset {
+    top: $navbar-height;
 }
 
-h1,h2,h3,h4,h5,h6 {
-    color: $tertiary;
-    font-weight: 600;
-}
-
-.text-muted {
-    color: $quaternary;
-}
-
-.display-1,.display-2,.display-3,.display-4 {
-    color: $quinary;
-}
-*/
 #body-row {
     margin-left:0;
     margin-right:0;
 }
 #sidebar-container {
-    min-height: 100vh;
+    min-height: calc(100vh - #{$navbar-height});
     background-color: #333;
     padding: 0;
 }
@@ -90,9 +85,6 @@ h1,h2,h3,h4,h5,h6 {
 /* Sidebar sizes when expanded and expanded */
 .sidebar-expanded {
     width: 230px;
-}
-.sidebar-collapsed {
-    width: 60px;
 }
 
 /* Menu item*/
@@ -106,9 +98,13 @@ h1,h2,h3,h4,h5,h6 {
     height: 45px;
     padding-left: 30px;
 }
-
 .sidebar-submenu {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+}
+
+#sidebar-container a.list-group-item.active {
+    background-color: $secondary !important;
+    border: 1px solid rgba(0, 0, 0, 0.125) !important;
 }
 
 /* Separators */
@@ -122,14 +118,14 @@ h1,h2,h3,h4,h5,h6 {
 }
 .logo-separator {
     background-color: #333;
-    height: 60px;
+    height: navbar-height;
 }
 
 /* Closed submenu icon */
 #sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: " \f0da";
+    content: "\f0da";
     display: inline;
     text-align: right;
     padding-left: 10px;
@@ -138,8 +134,59 @@ h1,h2,h3,h4,h5,h6 {
 #sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: " \f0d7";
+    content: "\f0d7";
     display: inline;
     text-align: right;
     padding-left: 10px;
+}
+/* Notification count */
+.badge-notify{
+    background:red;
+    padding: 3px 5px 2px;
+    position: absolute;
+    top: 3px;
+    left: 16px;
+    min-width: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Notification toast parent */
+.notify-toast-parent{
+    position: relative;
+    z-index: 1060
+}
+
+/* Notification toast positioning */
+.notify-toast-position{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+}
+
+.card-img {
+    width: 100%;
+    height: 10vw;
+    object-fit: cover;
+}
+
+.nav > a.nav-link {
+    color: rgba(0,0,0,.5);
+}
+
+.nav > a.nav-link:hover,
+.nav > a.nav-link:focus {
+    color: rgba(0,0,0,.7);
+}
+
+.nav > a.nav-link.active,
+.nav > a.nav-link.active:hover,
+.nav > a.nav-link.active:focus {
+    color: rgba(0,0,0,.9);
 }

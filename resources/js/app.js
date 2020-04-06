@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-
+require('bootstrap-select');
 
 window.Vue = require('vue');
 
@@ -32,34 +32,106 @@ const app = new Vue({
     el: '#app',
 });
 
-$(document).ready(function(){
-    // Hide submenus
-    $('#body-row .collapse').collapse('hide');
-
-    // Collapse/Expand icon
-    $('#collapse-icon').addClass('fa-angle-double-left');
-
-    // Collapse click
-    $('[data-toggle=sidebar-colapse]').click(function() {
-        SidebarCollapse();
-    });
-
-    function SidebarCollapse () {
-        $('.menu-collapsed').toggleClass('d-none');
-        $('.sidebar-submenu').toggleClass('d-none');
-        $('.submenu-icon').toggleClass('d-none');
-        $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
-
-        // Treating d-flex/d-none on separators with title
-        var SeparatorTitle = $('.sidebar-separator-title');
-        if ( SeparatorTitle.hasClass('d-flex') ) {
-            SeparatorTitle.removeClass('d-flex');
-        } else {
-            SeparatorTitle.addClass('d-flex');
+// notification functions
+$(document).ready(function() {
+    $.get('/notifications', function(data) {
+        for (const notification of data) {
+            const nData = notification.data;
+            addNotification(notification.id, nData);
         }
-
-        // Collapse/Expand icon
-        $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-    }
+    });
+    window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
+		console.log(notification);
+        newNotification(notification.id, notification);
+    });
 });
 
+window.removeNotification = function(id) {
+    if ($(`#${id}`).index() === 1) {
+        $(`#${id}`).next().remove();
+    } else {
+        $(`#${id}`).prev().remove();
+    }
+    $(`#${id}`).remove();
+    var count = $('#notify-count').text();
+    count--;
+    $('#notify-count').text(count);
+    if ($('#notify-count').text() == 0) {
+        $('#notify-count').text('');
+    }
+    if ($('#notificationDropdownMenu').children().length <= 1) {
+        $('#noNotifications').removeAttr('hidden');
+    }
+    $.get(`/notifications/${id}`);
+};
+
+window.viewNotification = function(id, notification) {
+    removeNotification(id);
+    switch (notification.title) {
+        case 'Request Accepted':
+            window.location.href = `/flights/${notification.flight.id}`;
+            break;
+        case 'Flight Plan Accepted':
+            window.location.href = `/dispatch/review/${notification.plan_id}`;
+            break;
+        case 'Flight Plan Rejected':
+            window.location.href = `/flights/${notification.flight_id}`;
+            break;
+        default:
+            break;
+    }
+};
+
+window.newNotification = function(id, notification) {
+    $('#notification-div').append(
+        $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
+            $('<div/>', {'class': 'toast-header'}).append(
+                $('<strong/>', {'class': 'mr-auto'}).text(notification.title)
+            ).append(
+                $('<small/>').text('Just now')
+            ).append(
+                $('<button/>', {
+                    'type': 'button', 
+                    'class': 'ml-2 mb-1 close',
+                    'data-dismiss': 'toast', 
+                    'aria-label': 'Close',
+                    'onclick': `removeNotification('${id}')`
+                    }).append(
+                        $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                    )
+            )
+        ).append(
+            $('<div/>', {'class': 'toast-body'}).text(notification.text)
+        )
+    );
+    $(`#${id}`).toast('show');
+    addNotification(id, notification);
+};
+
+window.addNotification = function(id, notification) {
+    if ($('#notificationDropdownMenu').children().length == 1 && $('#noNotifications').not("hidden")) {
+        $('#noNotifications').attr('hidden', 'hidden');
+    }
+    if ($('#notificationDropdownMenu').children().length >= 2 ) {
+        $('<div/>', {'class': 'dropdown-divider'}).appendTo('#notificationDropdownMenu');
+    }
+    $('<li/>', {'class': 'dropdown-item', 'id': id,}).append(
+        $('<button />', {
+            'html': notification.text,
+            'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
+            'class': 'btn',
+            'type': 'button'
+        })
+    ).append(
+        $('<button/>', {
+            'type': 'button',
+            'class': 'btn btn-sm', 
+            'onclick': `removeNotification('${id}')`, 
+            }).append(
+                $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+            )
+    ).appendTo('#notificationDropdownMenu');
+    var count = $('#notify-count').text();
+    count++;
+    $('#notify-count').text(count);
+};

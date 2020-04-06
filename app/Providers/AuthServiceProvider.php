@@ -25,7 +25,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('blog-etc-admin', function ($user) {
+            return $user->canManageBlogEtcPosts();
+        });
+
         Passport::routes();
-        //
     }
 }

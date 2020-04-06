@@ -3,10 +3,10 @@
 namespace App\Models\Flights;
 
 use Illuminate\Support\Str;
-use App\Models\Flights\Flight;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Users\User;
+use Illuminate\Support\Facades\Auth;
 
-class Flight extends Model
+class Flight extends MasterFlight
 {
     /**
      * Attributes that are mass assignable
@@ -18,23 +18,23 @@ class Flight extends Model
     ];
 
     /**
-     * The user that created the request.
+     * The requestee on this flight
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function requestee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'requestee_id');
+        return $this->belongsTo('App\Models\Users\User', 'id');
     }
 
     /**
-     * The user that accepted the request.
+     * The acceptee on this flight
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function acceptee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'acceptee_id');
+        return $this->belongsTo('App\Models\Users\User', 'id');
     }
 
     /**
@@ -49,14 +49,98 @@ class Flight extends Model
 
     /**
      * Check to see if flight is public.
-     * 
+     *
      * @param Flight $flight
      * @return boolean
      */
-    public function isPublic(Flight $flight)
+    public static function isPublic(Flight $flight)
     {
-        return $flight->public;
+        return $flight->public == 1 ? true : false;
     }
 
+    /**
+     * The plan that belongs to the flight.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function plan()
+    {
+        return $this->belongsTo('App\Models\Flights\FlightPlan', 'plan_id');
+    }
 
+    /**
+     * Checks if a plan exists for the flight
+     *
+     * @return boolean
+     */
+    public function isPlanned()
+    {
+        return !empty($this->plan_id);
+    }
+
+    /**
+     * Scope a query to only include public flights.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublic($query)
+    {
+        return $query->where('public', 1)->get();
+    }
+
+    /**
+     * Scope a query to only include open requests.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOpenRequest($query)
+    {
+        return $query->where('requestee_id', Auth::id())->whereNull('acceptee_id')->get();
+    }
+
+    /**
+     * Scope a query to only include accepted requests.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAcceptedRequest($query)
+    {
+        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id')->get();
+    }
+
+    /**
+     * Scope a query to only include unplanned flights.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUnplannedFlight($query)
+    {
+        return $query->whereNull('plan_id')->where(function ($q) {
+            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
+        })->get();
+    }
+
+    /**
+     * Scope a query to only include unplanned flights.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePlannedFlight($query)
+    {
+        return $query->whereNotNull('plan_id')->where(function ($q) {
+            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
+        })->get();
+    }
+
+    /**
+     * Scope a query to only include users plans.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUserPlans($query)
+    {
+        return $query->whereNotNull('plan_id')->where(function ($q) {
+            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
+        })->get()->pluck('plan')->flatten();
+    }
 }
