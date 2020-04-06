@@ -179,28 +179,32 @@ class FlightController extends Controller
      * @return     JSON Array | PHP array       Array of flights found based on request
      */
     public function search(Request $request)
-    {
+    {  
         $output = '';
+        
         $query = $request->get('query');
-
+        
         if($query != '')
         {
             $data =
                 DB::table('flights')
-                ->where('departure', 'like', '%'.$query.'%')
-                ->orWhere('arrival', 'like', '%'.$query.'%')
-                ->orWhere('aircraft', 'like', '%'.$query.'%')
+                ->where('public', 1)
+                ->where(function ($q) use ($query){
+                    $q->where('departure', 'like', '%'.$query.'%')
+                    ->orWhere('arrival', 'like', '%'.$query.'%')
+                    ->orWhere('aircraft', 'like', '%'.$query.'%')
+                    ->where('public', 1);
+                })
                 ->orderBy('id', 'asc')
                 ->get();
         }
         else
         {
             $data =
-                DB::table('flights')
-                ->orderBy('id', 'asc')
-                ->get();
+                Flight::get()
+                ->where('public', 1)
+                ->sortBy('id');
         }
-
         if($request->ajax())
             echo json_encode($data);
         else
