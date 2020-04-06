@@ -12,7 +12,7 @@ class ApplicationController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth', 'can:apply to beta']);
+        $this->middleware(['auth', 'permission:apply to beta']);
     }
 
     /**
