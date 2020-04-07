@@ -80,3 +80,19 @@
 </div>
 
 @endsection
+
+@section('help-content')
+
+<p>
+    Here you can see all the details about a flight you're involved with. You
+    can see who your Copilot is, as well as whether the flight has been planned
+    or not.
+</p>
+
+<p>
+    If the flight hasn't been planned, you can press "Create Plan" to be taken
+    to the dispatch form. If a flight plan is already available to review or
+    export, press "(Re)view Plan" to be taken to it.
+</p>
+
+@endsection
