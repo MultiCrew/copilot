@@ -70,15 +70,15 @@
                         autocomplete="email">
                     </div>
                     <div class="col-md-6">
-                        <label for="username">Role(s)</label>
+                        <label for="roles">Role(s)</label>
                         <input
                         type="text"
-                        id="username"
-                        name="username"
+                        id="roles"
+                        name="roles"
                         class="form-control-plaintext"
                         readonly
                         value="{{ $role }}"
-                        autocomplete="username">
+                        autocomplete="off">
                     </div>
                 </div>
 
@@ -111,12 +111,18 @@
             </form>
         </div>
 
-        <div class="tab-pane fade card-body" id="notifications" role="tabpanel">
+        <div class="tab-pane fade show card-text" id="notifications" role="tabpanel">
+            <h3 class="card-title">Channels</h3>
             <p class="card-text">
-                Select the notifications which you wish to subscribe to
+                You can customise how MultiCrew notifies you about particular
+                events.
             </p>
 
-            <form method="post" action="{{route('notifications.update')}}" id='notificationForm'>
+            <form
+            method="post"
+            action="{{route('notifications.update')}}"
+            id="notificationForm"
+            class="mb-4">
                 @method('patch')
                 @csrf
 
@@ -201,10 +207,49 @@
                     </tbody>
                 </table>
             </form>
+
+            <h3 class="card-title">Subscriptions</h3>
+            <p class="card-text">
+                You can subscribe to notifications for airports and aircraft, so
+                that when a new request is added for one of your subscriptions
+                you will be notified by your specified channel above!
+            </p>
+
+            <div class="form-group">
+                <label>Airports</label>
+                <select
+                name="airportSelect"
+                id="airportSelect"
+                class="selectpicker form-control"
+                data-live-search="true"
+                multiple>
+                    @foreach ($airports as $airport)
+                        <option value="{{$airport->icao}}" selected>
+                            {{$airport->icao}} - {{$airport->name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Aircraft</label>
+                <select
+                name="aircraftSelect"
+                id="aircraftSelect"
+                class="selectpicker form-control"
+                data-live-search="true"
+                multiple>
+                    @foreach ($aircrafts as $aircraft)
+                        <option value="{{$aircraft->icao}}" selected>
+                            {{$aircraft->icao}} - {{$aircraft->name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         @role('new')
-            <div class="card-body tab-pane fade" id="application" role="tabpanel">
+            <div class="tab-pane fade show card-text" id="application" role="tabpanel">
                 @can('apply to beta')
                     <p class="lead card-text">
                         Join the Copilot beta testing program now!
