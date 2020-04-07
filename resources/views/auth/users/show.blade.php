@@ -15,6 +15,11 @@
             <i class="fas fa-fw mr-2 fa-bell"></i>Notifications
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="discord-tab" data-toggle="pill" href="#discord" role="tab">
+            <i class="fab fa-fw mr-2 fa-discord"></i>Discord
+        </a>
+    </li>
 
     @role('new')
     <li class="nav-item">
@@ -159,13 +164,30 @@
                     @endforeach
                 </select>
                 <label>Aircraft</label>
-                <select name=aircraftSelect" id="aircraftSelect" class="selectpicker form-control"
+                <select name="aircraftSelect" id="aircraftSelect" class="selectpicker form-control"
                     data-live-search="true" multiple>
                     @foreach ($aircrafts as $aircraft)
                     <option value="{{$aircraft->icao}}" selected>{{$aircraft->icao}} - {{$aircraft->name}}</option>
                     @endforeach
                 </select>
             </div>
+        </div>
+
+        <div class="tab-pane fade card-body" id="discord" role="tabpanel">
+            <p class="card-text">
+                Some of MultiCrew's services are integrated with Discord. We
+                deliver push notifications to your Discord account, so you can
+                get these through your web broswer, desktop or mobile app.
+            </p>
+
+            <dl>
+                <dt>Status</dt>
+                <dd>Not connected</dd>
+            </dl>
+
+            <button class="btn btn-lg btn-primary">
+                <i class="fas fa-link mr-2"></i>Connect to Discord
+            </button>
         </div>
 
         @role('new')
