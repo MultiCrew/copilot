@@ -20,7 +20,7 @@ class Flight extends MasterFlight
     /**
      * The requestee on this flight
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function requestee()
     {
@@ -30,7 +30,7 @@ class Flight extends MasterFlight
     /**
      * The acceptee on this flight
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function acceptee()
     {
