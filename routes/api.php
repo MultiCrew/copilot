@@ -18,9 +18,9 @@ use Illuminate\Http\Request;
 // });
 
 Route::middleware('client')->group(function() {
-    Route::get('/test', function (Request $request) {
-        return 'test';
-    });
+    // Route::get('/test', function (Request $request) {
+    //     return 'test';
+    // });
     Route::get('/search', 'Flights\APIController@search');
     Route::post('/create', 'Flights\APIController@store');
     //add all API requests for the discord bot here

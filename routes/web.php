@@ -16,6 +16,7 @@ Route::group([
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
+    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect');
 });
 
 /**

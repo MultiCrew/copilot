@@ -12,7 +12,7 @@ class DiscordController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'role:user']);
+        $this->middleware(['auth']);
 	}
 	
 	/**
@@ -49,8 +49,9 @@ class DiscordController extends Controller
 				$user = Auth::user();
 				$user->discord_id = $discordUser->getId();
 				$user->save();
-				//$user->notify(new DiscordSendData($message)); uncomment once message variable is set
-				return redirect()->route('home.home');
+				$message = $user->username . ', this is a confirmation that your MultiCrew account is now connected to Discord.';
+				$user->notify(new DiscordSendData('connection', $message, $user));
+				return redirect()->route('account.index');
 		
 			} catch (Exception $e) {
 		
@@ -59,5 +60,19 @@ class DiscordController extends Controller
 		
 			}
 		}
+	}
+
+	/**
+	 * Disconnect a Discord Account
+	 * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+	 */
+	public function disconnect(Request $request)
+	{
+		$user = Auth::user();
+		$user->discord_id = null;
+		$user->save();
+
+		return redirect()->route('account.index');
 	}
 }

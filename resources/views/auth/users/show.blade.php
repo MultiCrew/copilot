@@ -179,15 +179,25 @@
                 deliver push notifications to your Discord account, so you can
                 get these through your web broswer, desktop or mobile app.
             </p>
-
+            @if (!$user->discord_id)
             <dl>
                 <dt>Status</dt>
                 <dd>Not connected</dd>
             </dl>
 
-            <button class="btn btn-lg btn-primary">
+            <a class="btn btn-lg btn-primary" role="button" href="{{route('home.connect')}}">
                 <i class="fas fa-link mr-2"></i>Connect to Discord
-            </button>
+            </a>
+            @else
+            <dl>
+                <dt>Status</dt>
+                <dd>Connected to Discord. ID: {{$user->discord_id}}</dd>
+            </dl>
+
+            <a class="btn btn-lg btn-danger" role="button" href="{{route('home.disconnect')}}">
+                <i class="fas fa-link mr-2"></i>Disconnect from Discord
+            </a>
+            @endif
         </div>
 
         @role('new')
