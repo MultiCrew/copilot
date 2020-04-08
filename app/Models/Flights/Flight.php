@@ -24,7 +24,7 @@ class Flight extends MasterFlight
      */
     public function requestee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'id');
+        return $this->belongsTo('App\Models\Users\User', 'requestee_id');
     }
 
     /**
@@ -34,7 +34,7 @@ class Flight extends MasterFlight
      */
     public function acceptee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'id');
+        return $this->belongsTo('App\Models\Users\User', 'acceptee_id');
     }
 
     /**
