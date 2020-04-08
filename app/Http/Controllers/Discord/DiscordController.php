@@ -71,6 +71,8 @@ class DiscordController extends Controller
 	{
 		$user = Auth::user();
 		$user->discord_id = null;
+		$user->request_accepted_push = 0;
+		$user->plan_reviewed_push = 0;
 		$user->save();
 
 		return redirect()->route('account.index');
