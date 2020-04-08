@@ -92,7 +92,7 @@
             </p>
 
             <form method="post" action="" id='notificationForm'>
-                @method('patch')
+                @method('post')
                 @csrf
 
                 <table class="table border">
