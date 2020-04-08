@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Discord;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Users\UserNotification;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\DiscordSendData;
 use Wohali\OAuth2\Client\Provider\Discord;
@@ -71,9 +72,12 @@ class DiscordController extends Controller
 	{
 		$user = Auth::user();
 		$user->discord_id = null;
-		$user->request_accepted_push = 0;
-		$user->plan_reviewed_push = 0;
 		$user->save();
+
+		$userNotification = UserNotification::where('user_id', Auth::id())->first();
+		$userNotification->request_accepted_push = 0;
+		$userNotification->plan_reviewed_push = 0;
+		$userNotification->save();
 
 		return redirect()->route('account.index');
 	}
