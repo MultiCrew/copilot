@@ -156,7 +156,7 @@
             <div class="form-group">
                 <label>Airports</label>
                 <select name="airportSelect" id="airportSelect" class="selectpicker form-control"
-                    data-live-search="true" multiple>
+                    data-live-search="true" data-dropup-auto="false" multiple>
                     @foreach ($airports as $airport)
                     <option value="{{$airport->icao}}" selected>
                         {{$airport->icao}} - {{$airport->name}}
@@ -165,7 +165,7 @@
                 </select>
                 <label>Aircraft</label>
                 <select name="aircraftSelect" id="aircraftSelect" class="selectpicker form-control"
-                    data-live-search="true" multiple>
+                    data-live-search="true" data-dropup-auto="false" multiple>
                     @foreach ($aircrafts as $aircraft)
                     <option value="{{$aircraft->icao}}" selected>{{$aircraft->icao}} - {{$aircraft->name}}</option>
                     @endforeach
