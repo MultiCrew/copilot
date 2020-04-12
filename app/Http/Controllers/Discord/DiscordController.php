@@ -51,7 +51,13 @@ class DiscordController extends Controller
 				$user->discord_id = $discordUser->getId();
 				$user->save();
 				$message = $user->username . ', this is a confirmation that your MultiCrew account is now connected to Discord.';
-				$user->notify(new DiscordSendData('connection', $message, $user));
+				$roleList = Auth::user()->with('roles')->get()->pluck('roles')->flatten();
+				$roles = array();
+				for ($i=0; $i < count($roleList); $i++) { 
+					$role = $roleList[$i];
+					array_push($roles, $role->discord_id);
+				}
+				$user->notify(new DiscordSendData('connection', $message, $user, $roles));
 				return redirect()->route('account.index');
 		
 			} catch (Exception $e) {

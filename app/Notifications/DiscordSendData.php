@@ -28,15 +28,21 @@ class DiscordSendData extends Notification implements ShouldQueue
     private $user;
 
     /**
+     * @var string
+     */
+    private $optional;
+
+    /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($type, $message, $user)
+    public function __construct($type, $message, $user, $optional=null)
     {
         $this->type = $type;
         $this->message = $message;
         $this->user = $user;
+        $this->optional = $optional;
     }
 
     /**
@@ -62,6 +68,7 @@ class DiscordSendData extends Notification implements ShouldQueue
             'type' => $this->type,
             'message' => $this->message,
             'id' => $this->user->discord_id,
+            'optional' => $this->optional,
         ];
     }
 
