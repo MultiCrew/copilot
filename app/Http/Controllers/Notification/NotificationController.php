@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Users\UserNotification;
 use App\Rules\RequiredNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
@@ -36,6 +37,14 @@ class NotificationController extends Controller
     {
         $notification = auth()->user()->notifications()->find($id);
         $notification->markAsRead();
+    }
+
+    /**
+     * Mark all notifications as read
+     */
+    public function markAllRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
     }
 
     /**

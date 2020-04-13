@@ -28,6 +28,7 @@ Route::group([
      'prefix' => 'notifications',
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
+    Route::get('/mark-all-read', 'Notification\NotificationController@markAllRead');
     Route::get('/{id}', 'Notification\NotificationController@read');
     Route::post('/update', 'Notification\NotificationController@update')->name('update');
     Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');

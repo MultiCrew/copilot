@@ -78,6 +78,9 @@
                     <button class="dropdown-item disabled" id="noNotifications">
                         You have no unread notifications
                     </button>
+                    <button class="dropdown-item" id="markAllRead" onclick="markAllRead()" hidden>
+                        Mark all as read
+                    </button>
                 </div>
             </li>
 
