@@ -81,7 +81,8 @@ class FlightController extends Controller
 
 		$users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
 								->orWhereJsonContains('new_request->airports', $request->arrival)
-								->orWhereJsonContains('new_request->aircrafts', $request->airport)
+                                ->orWhereJsonContains('new_request->aircrafts', $request->airport)
+                                ->where('user_id', '!=', Auth::id())
 								->with('user')
 								->get()
 								->pluck('user')
