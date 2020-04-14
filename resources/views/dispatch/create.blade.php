@@ -12,6 +12,7 @@ background-color: rgba(0,0,0,0.5);
 z-index: 2;">
       <div class="spinner-border mx-auto mt-5 text-light" style="width: 3rem; height: 3rem;"></div>
       <h4 class="text-light">Loading, please wait...</h4>
+      <p class="text-light">SimBrief will open in a new window</p>
 </div>
 
 <div class="card mb-4">
@@ -42,7 +43,6 @@ z-index: 2;">
 </div>
 
 <form id="sbapiform">
-
     <!-- flight options / ofp options -->
     <div class="card-deck mb-4">
         <!-- flight options -->
@@ -299,8 +299,8 @@ z-index: 2;">
                     </button>
                     <button
                     type="button"
-                    class="btn btn-success"
-                    onclick="showSpinner(); simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');">
+                    id="submitButton"
+                    class="btn btn-success">
                         Create Plan &raquo;
                     </button>
                 </div>
@@ -312,24 +312,32 @@ z-index: 2;">
 @endsection
 
 @section('scripts')
+
 <script>
-    function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        h = checkTime(h);
-        m = checkTime(m);
-        document.getElementById('time').innerHTML = h + "" + m + "Z";
-        var t = setTimeout(startTime, 500);
+    function addZeros(i) {
+        if (i < 10) {
+            return "0" + i;  // add zero in front of numbers < 10
+        } else {
+            return i;
+        }
     }
-    function checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
+
+    function updateTime() {
+        var time = new Date($.now());
+        var h = addZeros(time.getHours());
+        var m = addZeros(time.getMinutes());
+        $('#time').text(h + ":" + m + " Z");
     }
-    startTime();
-    function showSpinner() {
-        $('#loading-overlay').show();
-    }
+
+    $(document).ready(function() {
+        setInterval(updateTime, 1000);
+
+        $('#submitButton').click(function() {
+            $('#loading-overlay').show();
+            simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');
+        });
+    });
 </script>
 <script type="text/javascript" src="{{ asset('simbrief/simbrief.apiv1.js') }}"></script>
+
 @endsection
