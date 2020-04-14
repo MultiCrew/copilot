@@ -24,7 +24,7 @@ trait FlightTrait {
         // send notification
 
         $requestee = $flight->requestee;
-        $requestee->notify(new RequestAccepted(Auth::user(), $flight));
+        $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flight));
 
         return $flight;
     }
