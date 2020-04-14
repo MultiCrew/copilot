@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Flights;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
 use App\Models\Flights\FlightPlan;
 use App\Notifications\PlanAccepted;
 use App\Notifications\PlanRejected;
-use \Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class FlightPlanController extends Controller
 {
