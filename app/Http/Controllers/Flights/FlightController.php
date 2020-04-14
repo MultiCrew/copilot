@@ -90,7 +90,7 @@ class FlightController extends Controller
 
 		Notification::send($users, new NewRequest(Auth::user(), $flight));	
 
-        return redirect()->route('flights.show', [$flight]);
+        return redirect()->route('flights.show', ['flight' => $flight]);
     }
 
     /**

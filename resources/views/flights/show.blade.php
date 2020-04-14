@@ -82,9 +82,9 @@
             <div class="form-group mb-3">
                 <label>Join link</label>
                 <div class="input-group">
-                    <input type="text" readonly value="https://multicrew.test/flight/2/join/29gh73487gh3" class="form-control">
+                    <input type="text" readonly value={{ route('flights.accept.private', ['code' => $flight->code]) }} class="form-control" id="privateCode">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary">
+                        <button class="btn btn-outline-secondary" onclick="copyLink()">
                             <i class="fas fa-paste"></i>
                         </button>
                     </div>
@@ -102,4 +102,14 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        function copyLink() {
+            const link = document.getElementById('privateCode');
+            link.select();
+            document.execCommand('copy');
+        }
+    </script>
 @endsection
