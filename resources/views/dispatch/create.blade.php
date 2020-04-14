@@ -2,6 +2,18 @@
 
 @section('content')
 
+<div id="loading-overlay" class="text-center pt-5" style="position: absolute;
+display: none;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(0,0,0,0.5);
+z-index: 2;">
+      <div class="spinner-border mx-auto mt-5 text-light" style="width: 3rem; height: 3rem;"></div>
+      <h4 class="text-light">Loading, please wait...</h4>
+</div>
+
 <div class="card mb-4">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
@@ -288,7 +300,7 @@
                     <button
                     type="button"
                     class="btn btn-success"
-                    onclick="simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');">
+                    onclick="showSpinner(); simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');">
                         Create Plan &raquo;
                     </button>
                 </div>
@@ -315,6 +327,9 @@
         return i;
     }
     startTime();
+    function showSpinner() {
+        $('#loading-overlay').show();
+    }
 </script>
 <script type="text/javascript" src="{{ asset('simbrief/simbrief.apiv1.js') }}"></script>
 @endsection
