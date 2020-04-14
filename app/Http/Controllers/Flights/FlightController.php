@@ -13,9 +13,13 @@ use App\Models\Flights\ArchivedFlight;
 use App\Models\Users\UserNotification;
 use App\Notifications\RequestAccepted;
 use Illuminate\Support\Facades\Notification;
+use App\Http\Traits\FlightTrait;
 
 class FlightController extends Controller
 {
+
+    use FlightTrait;
+
     public function __construct()
     {
         $this->middleware(['auth', 'role:user']);
@@ -216,30 +220,29 @@ class FlightController extends Controller
      *
      * @param      \Illuminate\Http\Request     $request
      */
-    public function accept(Request $request)
+    public function acceptPublic(Request $request)
     {
         // get the flight to accept
         $flight = Flight::findOrFail($request->id);
 
-        // if the user is the requestee or has already accepted the flight
-        if( $flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()) )
-        {   // redirect them to the flight
-            return  redirect()
-                    ->route('flights.show', $flight->id)
-                    ->withErrors(['You have already accepted this request!']);
-        }
-
-        // accept the flight
-        $flight->acceptee_id = Auth::user()->id;
-        $flight->save();
-
-        // send notification
-
-        $requestee = $flight->requestee;
-        $requestee->notify(new RequestAccepted(Auth::user(), $flight));
+        $flight = $this->accept($flight);
 
         // show the flight
-        return redirect()->route('flights.show', ['flight' => Flight::findOrFail($request->id)]);
+        return redirect()->route('flights.show', ['flight' => $flight]);
+    }
+
+    /**
+     * Accept a private request
+     * 
+     * @param \Illuminate\Http\Request $request
+     */
+    public function acceptPrivate(Request $request)
+    {
+        $flight = Flight::where('code', $request->code)->first();
+
+        $flight = $this->accept($flight);
+
+        return redirect()->route('flights.show', ['flight' => $flight]);
     }
 
     /**
