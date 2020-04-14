@@ -17,11 +17,11 @@
     </li>
 
     @role('new')
-        <li class="nav-item">
-            <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab">
-                <i class="fas fa-fw mr-2 fa-check"></i>Beta Application
-            </a>
-        </li>
+    <li class="nav-item">
+        <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab">
+            <i class="fas fa-fw mr-2 fa-check"></i>Beta Application
+        </a>
+    </li>
     @endrole
 </ul>
 
@@ -36,72 +36,42 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="username">Username</label>
-                        <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-control"
-                        readonly
-                        value="{{ $user->username }}"
-                        autocomplete="username">
+                        <input type="text" id="username" name="username" class="form-control" readonly
+                            value="{{ $user->username }}" autocomplete="username">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="username">Full Name</label>
-                        <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="form-control"
-                        value="{{ $user->name }}"
-                        autocomplete="name">
+                        <input type="text" id="name" name="name" class="form-control" value="{{ $user->name }}"
+                            autocomplete="name">
                     </div>
                 </div>
 
                 <div class="form-group form-row">
                     <div class="col-md-6">
                         <label for="email">Email Address</label>
-                        <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-control"
-                        value="{{ $user->email }}"
-                        autocomplete="email">
+                        <input type="email" id="email" name="email" class="form-control" value="{{ $user->email }}"
+                            autocomplete="email">
                     </div>
                     <div class="col-md-6">
                         <label for="roles">Role(s)</label>
-                        <input
-                        type="text"
-                        id="roles"
-                        name="roles"
-                        class="form-control-plaintext"
-                        readonly
-                        value="{{ $role }}"
-                        autocomplete="off">
+                        <input type="text" id="roles" name="roles" class="form-control-plaintext" readonly
+                            value="{{ $role }}" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="password">New Password</label>
-                        <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        autocomplete="new-password">
+                        <input type="password" id="password" name="password" class="form-control"
+                            autocomplete="new-password">
                         <small class="form-text">Leave blank to keep current password!</small>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="password_confirmation">Confirm Password</label>
-                        <input
-                        type="password"
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        class="form-control"
-                        autocomplete="new-password">
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            class="form-control" autocomplete="new-password">
                     </div>
                 </div>
 
@@ -118,11 +88,7 @@
                 events.
             </p>
 
-            <form
-            method="post"
-            action="{{route('notifications.update')}}"
-            id="notificationForm"
-            class="mb-4">
+            <form method="post" action="{{route('notifications.update')}}" id="notificationForm" class="mb-4">
                 @method('patch')
                 @csrf
 
@@ -140,68 +106,44 @@
                         <tr>
                             <td>My flight request is accepted</td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="requestAccepted"
-                                name="requestAccepted"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="requestAccepted" name="requestAccepted"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()" value="1"
+                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="requestAcceptedEmail"
-                                name="requestAcceptedEmail"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="requestAcceptedEmail" name="requestAcceptedEmail"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()" value="1"
+                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="requestAcceptedPush"
-                                name="requestAcceptedPush"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="requestAcceptedPush" name="requestAcceptedPush"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()" value="1"
+                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
                             </td>
                         </tr>
 
                         <tr>
                             <td>My flight plan has been reviewed</td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="planAccepted"
-                                name="planAccepted"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="planAccepted" name="planAccepted"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()" value="1"
+                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="planAcceptedEmail"
-                                name="planAcceptedEmail"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="planAcceptedEmail" name="planAcceptedEmail"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()" value="1"
+                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="planAcceptedPush"
-                                name="planAcceptedPush"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="planAcceptedPush" name="planAcceptedPush"
+                                    class="form-check-input mx-auto"
+                                    onchange="document.getElementById('notificationForm').submit()" value="1"
+                                    {{$userNotifications->plan_accepted ? 'checked' : ''}}>
                             </td>
                         </tr>
                     </tbody>
@@ -217,66 +159,74 @@
 
             <div class="form-group">
                 <label>Airports</label>
-                <select
-                name="airportSelect"
-                id="airportSelect"
-                class="selectpicker form-control"
-                data-live-search="true"
-                multiple>
+                <select name="airportSelect" id="airportSelect" class="selectpicker form-control"
+                    data-live-search="true" multiple>
                     @foreach ($airports as $airport)
-                        <option value="{{$airport->icao}}" selected>
-                            {{$airport->icao}} - {{$airport->name}}
-                        </option>
+                    <option value="{{$airport->icao}}" selected>
+                        {{$airport->icao}} - {{$airport->name}}
+                    </option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Aircraft</label>
-                <select
-                name="aircraftSelect"
-                id="aircraftSelect"
-                class="selectpicker form-control"
-                data-live-search="true"
-                multiple>
+                <select name="aircraftSelect" id="aircraftSelect" class="selectpicker form-control"
+                    data-live-search="true" multiple>
                     @foreach ($aircrafts as $aircraft)
-                        <option value="{{$aircraft->icao}}" selected>
-                            {{$aircraft->icao}} - {{$aircraft->name}}
-                        </option>
+                    <option value="{{$aircraft->icao}}" selected>
+                        {{$aircraft->icao}} - {{$aircraft->name}}
+                    </option>
                     @endforeach
                 </select>
             </div>
         </div>
 
         @role('new')
-            <div class="tab-pane fade show card-text" id="application" role="tabpanel">
-                @can('apply to beta')
-                    <p class="lead card-text">
-                        Join the Copilot beta testing program now!
-                    </p>
-                    <p class="card-text">
-                        Did you know you are eligible to apply for the beta
-                        testing program for Copilot? You'll be part of the team
-                        testing new features and generating new ideas.
-                        Interested?
-                    </p>
-                    <a class="btn btn-success btn-lg card-text"
-                    href="{{ route('account.apply') }}">
-                        Apply Now<i class="fas fa-angle-double-right ml-2"></i>
-                    </a>
-                @endcan
-                @cannot('apply to beta')
-                    <div class="alert alert-info card-text">
-                        <strong>
-                            You have a pending application to the beta program
-                        </strong>
-                        <hr>
-                        Keep an eye on your email inbox for updates!
-                    </div>
-                @endcannot
+        <div class="tab-pane fade show card-text" id="application" role="tabpanel">
+            @can('apply to beta')
+            <p class="lead card-text">
+                Join the Copilot beta testing program now!
+            </p>
+            <p class="card-text">
+                Did you know you are eligible to apply for the beta
+                testing program for Copilot? You'll be part of the team
+                testing new features and generating new ideas.
+                Interested?
+            </p>
+            <a class="btn btn-success btn-lg card-text" href="{{ route('account.apply') }}">
+                Apply Now<i class="fas fa-angle-double-right ml-2"></i>
+            </a>
+            @endcan
+            @cannot('apply to beta')
+            <div class="alert alert-info card-text">
+                <strong>
+                    You have a pending application to the beta program
+                </strong>
+                <hr>
+                Keep an eye on your email inbox for updates!
             </div>
+            @endcannot
+        </div>
         @endrole
     </div>
 </div>
 
+@endsection
+
+@section('help-content')
+<p>
+    In the settings tab you can update your Full Name, Email Address, and password, if you would like to edit your
+    username, please send an email to <a
+        href="mailto:&#105;&#110;&#102;&#111;&#064;&#109;&#117;&#108;&#116;&#105;&#099;&#114;&#101;&#119;&#046;&#099;&#111;&#046;&#117;&#107;">&#105;&#110;&#102;&#111;&#064;&#109;&#117;&#108;&#116;&#105;&#099;&#114;&#101;&#119;&#046;&#099;&#111;&#046;&#117;&#107;</a>.
+    You can also view your roles in this tab.
+
+    In the notifications tab you can update your preferences on how you would like us to notify you about different
+    events relating to your flights or flight requests. Below that you can subscribe to receive notifications when any
+    user creates a new public request with one of your chosen aircraft/airports.
+
+    In the Discord tab you can connect your Discord account to MultiCrew. Pressing the connect button will redirect you
+    to Discord's login page where you can view the data that MultiCrew will receive, before redirecting you back to the
+    account page.
+</p>
 @endsection
