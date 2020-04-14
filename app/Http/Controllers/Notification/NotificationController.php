@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Users\UserNotification;
 use App\Rules\RequiredNotification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class NotificationController extends Controller
 {
