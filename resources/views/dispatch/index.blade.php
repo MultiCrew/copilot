@@ -26,11 +26,7 @@
                 @foreach($plannedFlights as $flight)
                     <tr class="d-flex">
                         <td class="col-3">
-                            @if($flight->requestee_id != Auth::id())
-                                {{ $flight->requestee->username }}
-                            @else
-                                {{ $flight->acceptee->username }}
-                            @endif
+                            {{ $flight->otherUser()->username }}
                         </td>
                         <td class="col-2">{{ $flight->departure }}</td>
                         <td class="col-2">{{ $flight->arrival }}</td>
@@ -87,11 +83,7 @@
                 @foreach($unplannedFlights as $flight)
                     <tr class="d-flex">
                         <td class="col-3">
-                            @if($flight->requestee_id != Auth::id())
-                                {{ $flight->requestee->username }}
-                            @else
-                                {{ $flight->acceptee->username }}
-                            @endif
+                            {{ $flight->otherUser()->username }}
                         </td>
                         <td class="col-2">{{ $flight->departure }}</td>
                         <td class="col-2">{{ $flight->arrival }}</td>
