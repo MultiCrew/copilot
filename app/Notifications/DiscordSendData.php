@@ -28,7 +28,8 @@ class DiscordSendData extends Notification implements ShouldQueue
     private $user;
 
     /**
-     * @var string
+     * An array of optional variables to be passed to the Discord Bot
+     * @var array
      */
     private $optional;
 
@@ -37,7 +38,7 @@ class DiscordSendData extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($type, $message, $user, $optional=null)
+    public function __construct($type, $message, $user, $optional = null)
     {
         $this->type = $type;
         $this->message = $message;
