@@ -6,6 +6,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users\UserNotification;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
 		$new_request['airports'] = [];
 		$userNotifications->new_request = $new_request;
         $userNotifications->save();
+        $user->email_verified_at = Carbon::now();
         $user->assignRole('user');
         $user->assignRole('admin');
         $user->save();
@@ -48,6 +50,7 @@ class UserSeeder extends Seeder
 		$new_request['airports'] = [];
 		$userNotifications->new_request = $new_request;
         $userNotifications->save();
+        $user->email_verified_at = Carbon::now();
         $user->assignRole('user');
         $user->save();
 
@@ -64,6 +67,7 @@ class UserSeeder extends Seeder
 		$new_request['airports'] = [];
 		$userNotifications->new_request = $new_request;
         $userNotifications->save();
+        $user->email_verified_at = Carbon::now();
         $user->assignRole('new');
         $user->givePermissionTo('apply to beta');
         $user->save();
