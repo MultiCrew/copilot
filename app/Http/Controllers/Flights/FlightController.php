@@ -243,9 +243,6 @@ class FlightController extends Controller
         $flight = Flight::where('code', $request->code)->first();
 
         $flight = $this->accept($flight);
-      
-        $requestee = User::where('id', $flight->requestee_id)->first();
-        $requestee->notify(new RequestAccepted(Auth::user(), $flight));
 
         return redirect()->route('flights.show', ['flight' => $flight]);
     }
