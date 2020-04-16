@@ -54,13 +54,15 @@
 
                     <dt class="col-sm-3 card-text">Status</dt>
                     <dd class="col-sm-9 card-text">
-                        @if($flight->isPlanned())
+                        @if($flight->planAccepted())
                             <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
                                 <input type="hidden" name="flight" value="{{ $flight->id }}">
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="fas fa-check fa-fw mr-2"></i>Mark Complete
                                 </button>
                             </form>
+                        @elseif($flight->isPlanned())
+                            Plan under review
                         @else
                             Not planned
                         @endif
