@@ -5,19 +5,39 @@
     <div class="card-body">
         <h5 class="card-title">My Requests</h5>
 
-        <nav>
-            <div class="nav nav-pills mb-3" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="open-requests-tab" data-toggle="tab" href="#open-requests" role="tab">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a
+                class="nav-link active"
+                id="open-requests-tab"
+                data-toggle="tab"
+                href="#open-requests"
+                role="tab">
                     <i class="fas fa-fw mr-2 fa-plus"></i>Open Requests
                 </a>
-                <a class="nav-link" id="accepted-requests-tab" data-toggle="tab" href="#accepted-requests" role="tab">
+            </li>
+            <li class="nav-item">
+                <a
+                class="nav-link"
+                id="accepted-requests-tab"
+                data-toggle="tab"
+                href="#accepted-requests"
+                role="tab">
                     <i class="fas fa-fw mr-2 fa-check"></i>Accepted Requests
                 </a>
-                <a class="nav-link" id="logbook-tab" data-toggle="tab" href="#logbook" role="tab">
+            </li>
+            <li class="nav-item">
+                <a
+                class="nav-link"
+                id="logbook-tab"
+                data-toggle="tab"
+                href="#logbook"
+                role="tab">
                     <i class="fas fa-fw mr-2 fa-book"></i>Logbook
                 </a>
-            </div>
-        </nav>
+            </li>
+        </ul>
+
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="open-requests" role="tabpanel">
                 <table class="table table-hover border card-text">

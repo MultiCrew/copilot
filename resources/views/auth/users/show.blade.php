@@ -59,9 +59,15 @@
                             autocomplete="email">
                     </div>
                     <div class="col-md-6">
-                        <label for="username">Role(s)</label>
-                        <input type="text" id="role" name="role" class="form-control-plaintext" readonly
-                            value="{{ $role }}" autocomplete="role">
+                        <label for="roles">Role(s)</label>
+                        <input
+                        type="text"
+                        id="roles"
+                        name="roles"
+                        class="form-control-plaintext"
+                        readonly
+                        value="{{ $role }}"
+                        autocomplete="off">
                     </div>
                 </div>
 
@@ -86,13 +92,19 @@
             </form>
         </div>
 
-        <div class="tab-pane fade card-body" id="notifications" role="tabpanel">
+        <div class="tab-pane fade show card-text" id="notifications" role="tabpanel">
+            <h3 class="card-title">Channels</h3>
             <p class="card-text">
-                Select the notifications which you wish to subscribe to
+                You can customise how MultiCrew notifies you about particular
+                events.
             </p>
 
-            <form method="post" action="" id='notificationForm'>
-                @method('post')
+            <form
+            method="post"
+            action="{{route('notifications.update')}}"
+            id="notificationForm"
+            class="mb-4">
+                @method('patch')
                 @csrf
 
                 <table class="table border">
@@ -146,6 +158,7 @@
                     </tbody>
                 </table>
             </form>
+
             <h3 class="card-title">Subscriptions</h3>
             <p class="card-text">
                 You can subscribe to notifications for airports and aircraft, so
@@ -155,19 +168,32 @@
 
             <div class="form-group">
                 <label>Airports</label>
-                <select name="airportSelect" id="airportSelect" class="selectpicker form-control"
-                    data-live-search="true" data-dropup-auto="false" multiple>
+                <select
+                name="airportSelect"
+                id="airportSelect"
+                class="selectpicker form-control"
+                data-live-search="true"
+                multiple>
                     @foreach ($airports as $airport)
-                    <option value="{{$airport->icao}}" selected>
-                        {{$airport->icao}} - {{$airport->name}}
-                    </option>
+                        <option value="{{$airport->icao}}" selected>
+                            {{$airport->icao}} - {{$airport->name}}
+                        </option>
                     @endforeach
                 </select>
+            </div>
+
+            <div class="form-group">
                 <label>Aircraft</label>
-                <select name="aircraftSelect" id="aircraftSelect" class="selectpicker form-control"
-                    data-live-search="true" data-dropup-auto="false" multiple>
+                <select
+                name="aircraftSelect"
+                id="aircraftSelect"
+                class="selectpicker form-control"
+                data-live-search="true"
+                multiple>
                     @foreach ($aircrafts as $aircraft)
-                    <option value="{{$aircraft->icao}}" selected>{{$aircraft->icao}} - {{$aircraft->name}}</option>
+                        <option value="{{$aircraft->icao}}" selected>
+                            {{$aircraft->icao}} - {{$aircraft->name}}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -201,28 +227,31 @@
         </div>
 
         @role('new')
-        <div class="card-body tab-pane fade" id="application" role="tabpanel">
-            @can('apply to beta')
-            <p class="lead card-text">
-                Join the Copilot beta testing program now!
-            </p>
-            <p class="card-text">
-                Did you know you are eligible to apply for the beta
-                testing program for Copilot? You'll be part of the team
-                testing new features and generating new ideas.
-                Interested?
-            </p>
-            <a class="btn btn-success btn-lg card-text" href="{{ route('account.apply') }}">
-                Apply Now<i class="fas fa-angle-double-right ml-2"></i>
-            </a>
-            @endcan
-            @cannot('apply to beta')
-            <div class="alert alert-info card-text">
-                <strong>
-                    You have a pending application to the beta program
-                </strong>
-                <hr>
-                Keep an eye on your email inbox for updates!
+            <div class="tab-pane fade show card-text" id="application" role="tabpanel">
+                @can('apply to beta')
+                    <p class="lead card-text">
+                        Join the Copilot beta testing program now!
+                    </p>
+                    <p class="card-text">
+                        Did you know you are eligible to apply for the beta
+                        testing program for Copilot? You'll be part of the team
+                        testing new features and generating new ideas.
+                        Interested?
+                    </p>
+                    <a class="btn btn-success btn-lg card-text"
+                    href="{{ route('account.apply') }}">
+                        Apply Now<i class="fas fa-angle-double-right ml-2"></i>
+                    </a>
+                @endcan
+                @cannot('apply to beta')
+                    <div class="alert alert-info card-text">
+                        <strong>
+                            You have a pending application to the beta program
+                        </strong>
+                        <hr>
+                        Keep an eye on your email inbox for updates!
+                    </div>
+                @endcannot
             </div>
             @endcannot
         </div>
