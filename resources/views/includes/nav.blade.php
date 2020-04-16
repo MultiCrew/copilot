@@ -75,9 +75,10 @@
             @else
             <li class="nav-item dropdown">
                 <a class="nav-link mr-2" href="#" id="notificationDropdown" data-toggle="dropdown">
-                    <i class="fas fa-bell notification-bell"></i>
+                    <i class="fas fa-bell notification-bell mr-lg-2"></i>
                     <span class="badge badge-notify" id="notify-count">
                     </span>
+                    <span class="d-lg-none">Notifications</span>
                 </a>
 
                 <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"

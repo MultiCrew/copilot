@@ -32,7 +32,7 @@
                     @unless(strpos(Route::currentRouteName(), 'blog') !== false)
                         @include('includes.sidebar')
                     @endunless
-                    <div class="col p-4" id="content-div">
+                    <div class="col-lg-10 p-4" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
                             <div class="notify-toast-position" id="notification-div"></div>
                         </div>
