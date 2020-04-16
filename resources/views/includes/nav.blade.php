@@ -14,21 +14,28 @@
         <!-- left nav (with sidebar) -->
         <ul class="navbar-nav mr-auto d-none d-lg-flex">
             @auth
-            @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('beta-tester'))
-            <li class="nav-item">
-                <a class="nav-link @if(strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
-                    href="{{ route('flights.index') }}">
-                    <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
-                </a>
-            </li>
-            @else
-            <li class="nav-item">
-                <a class="nav-link @if(Route::currentRouteName() == 'account.apply') active @endif"
-                    href="{{ route('account.apply') }}">
-                    <i class="fas fa-check fa-fw mr-2"></i>Apply
-                </a>
-            </li>
-            @endif
+                @role('new')
+                    @can('apply to beta')
+                        <li class="nav-item">
+                            <a class="nav-link @if(Route::currentRouteName() == 'apply.create') active @endif"
+                                href="{{ route('apply.create') }}">
+                                <i class="fas fa-check fa-fw mr-2"></i>Apply
+                            </a>
+                        </li>
+                    @endcan
+                @else
+                    <li class="nav-item">
+                        <a
+                        class="nav-link
+                        @if(strpos(Route::currentRouteName(), 'flights') !== false
+                         || strpos(Route::currentRouteName(), 'dispatch') !== false)
+                            active
+                        @endif"
+                        href="{{ route('flights.index') }}">
+                            <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
+                        </a>
+                    </li>
+                @endrole
             @endauth
         </ul>
 
@@ -78,6 +85,11 @@
                     <button class="dropdown-item disabled" id="noNotifications">
                         You have no unread notifications
                     </button>
+                    <div id="markAllRead">
+                        <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()">
+                            <i class="fas fa-check mr-2"></i>Mark all as read
+                        </button>
+                    </div>
                 </div>
             </li>
 

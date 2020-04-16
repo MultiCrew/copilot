@@ -39,6 +39,14 @@ class NotificationController extends Controller
     }
 
     /**
+     * Mark all notifications as read
+     */
+    public function markAllRead()
+    {
+        auth()->user()->unreadNotifications->markAsRead();
+    }
+
+    /**
      * Update Notifications
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
