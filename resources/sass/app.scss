@@ -198,14 +198,14 @@ body {
 }
 
 #markAllRead {
-    text-align: center;
-    background: none!important;
-  border: none;
-  padding: 0!important;
-  /*optional*/
-  font-family: arial, sans-serif;
-  /*input has OS specific font-family*/
-  color: #069;
-  text-decoration: underline;
-  cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
 }

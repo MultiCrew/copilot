@@ -16,8 +16,13 @@
             @auth
             @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('beta-tester'))
             <li class="nav-item">
-                <a class="nav-link @if(strpos(Route::currentRouteName(), 'flights') !== false || strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif"
-                    href="{{ route('flights.index') }}">
+                <a
+                class="nav-link
+                @if(strpos(Route::currentRouteName(), 'flights') !== false
+                 || strpos(Route::currentRouteName(), 'dispatch') !== false)
+                    active
+                @endif"
+                href="{{ route('flights.index') }}">
                     <i class="fas fa-paper-plane fa-fw mr-2"></i>Copilot
                 </a>
             </li>
@@ -78,9 +83,11 @@
                     <button class="dropdown-item disabled" id="noNotifications">
                         You have no unread notifications
                     </button>
-                    <button class="dropdown-item" id="markAllRead" onclick="markAllRead()" hidden>
-                        Mark all as read
-                    </button>
+                    <div id="markAllRead">
+                        <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()">
+                            <i class="fas fa-check mr-2"></i>Mark all as read
+                        </button>
+                    </div>
                 </div>
             </li>
 
