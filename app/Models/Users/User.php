@@ -99,8 +99,8 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return void
      */
-    public function sendEmailVerificationNotification()
-    {
-        Mail::to($this)->send(new VerifyEmail());
-    }
+    // public function sendEmailVerificationNotification()
+    // {
+    //     Mail::to($this)->send(new VerifyEmail());
+    // }
 }
