@@ -73,13 +73,21 @@
             </div>
         </div>
 
+        <p class="card-text mt-4">
+            <a
+            href="@if($flight->isRequestee(Auth::user())) {{ route('flights.edit', $flight->id) }} @else # @endif"
+            class="btn btn-info @if($flight->isAcceptee(Auth::user())) disabled @endif">
+                <i class="fas fa-fw mr-2 fa-edit"></i>Edit
+            </a>
+        </p>
+
         @unless($flight->public)
             <hr>
-            <p>
+            <p class="card-text">
                 As your flight is private, you'll need to share it with someone
                 directly for them to join it. Just send them the link below!
             </p>
-            <div class="form-group mb-3">
+            <div class="form-group card-text">
                 <label>Join link</label>
                 <div class="input-group">
                     <input
@@ -96,14 +104,6 @@
                 </div>
             </div>
         @endif
-
-        <p class="card-text mt-4">
-            <a
-            href="@if($flight->isRequestee(Auth::user())) {{ route('flights.edit', $flight->id) }} @else # @endif"
-            class="btn btn-info @if($flight->isAcceptee(Auth::user())) disabled @endif">
-                <i class="fas fa-fw mr-2 fa-edit"></i>Edit
-            </a>
-        </p>
     </div>
 </div>
 
