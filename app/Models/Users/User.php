@@ -2,6 +2,8 @@
 
 namespace App\Models\Users;
 
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -90,5 +92,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canManageBlogEtcPosts()
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        Mail::to($this)->send(new VerifyEmail());
     }
 }
