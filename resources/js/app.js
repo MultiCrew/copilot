@@ -67,7 +67,7 @@ window.removeNotification = function(id) {
     if ($('#notify-count').text() == 0) {
         $('#notify-count').text('');
     }
-    if ($('#notificationDropdownMenu').children().length <= 1) {
+    if ($('#notificationDropdownMenu').children().length <= 2) {
         $('#noNotifications').removeAttr('hidden');
         $('#markAllRead').attr('hidden', 'hidden');
     }
@@ -103,8 +103,7 @@ window.newNotification = function(id, notification) {
                     'type': 'button', 
                     'class': 'ml-2 mb-1 close',
                     'data-dismiss': 'toast', 
-                    'aria-label': 'Close',
-                    'onclick': `removeNotification('${id}')`
+                    'aria-label': 'Close'
                     }).append(
                         $('<span/>', {'aria-hidden': 'true'}).html('&times;')
                     )
