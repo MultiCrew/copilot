@@ -89,17 +89,13 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes();
-Route::group([
-    'as'        => 'account.',
-    'prefix'    => 'account'
-], function () {
-    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
-    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
-});
+Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store']);
 Route::resource('account', 'Auth\AccountController')->only(['index', 'update']);
 
+// profile routes
 Route::resource('profile', 'Auth\ProfileController');
 
+// administration routes
 Route::group([
     'as'        => 'admin.',
     'prefix'    => 'admin'
@@ -109,4 +105,5 @@ Route::group([
          ->except(['create', 'store']);
 });
 
+// cookie message route
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');

@@ -112,7 +112,10 @@
 
                 <div class="text-links">
                     @auth
-                        <a href="{{ route('flights.index') }}">Copilot</a>
+                        @role('new')
+                        @else
+                            <a href="{{ route('flights.index') }}">Copilot</a>
+                        @endrole
                         <a href="{{ route('account.index') }}">Account</a>
                     @else
                         <a href="{{ route('login') }}">

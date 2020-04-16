@@ -199,7 +199,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade card-body" id="discord" role="tabpanel">
+        <div class="tab-pane fade card-text" id="discord" role="tabpanel">
             <p class="card-text">
                 Some of MultiCrew's services are integrated with Discord. We
                 deliver push notifications to your Discord account, so you can
@@ -217,11 +217,11 @@
             @else
             <dl>
                 <dt>Status</dt>
-                <dd>Connected to Discord. ID: {{$user->discord_id}}</dd>
+                <dd>Connected to Discord with Client ID: {{$user->discord_id}}</dd>
             </dl>
 
             <a class="btn btn-lg btn-danger" role="button" href="{{route('home.disconnect')}}">
-                <i class="fas fa-link mr-2"></i>Disconnect from Discord
+                <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
             </a>
             @endif
         </div>
@@ -239,7 +239,7 @@
                         Interested?
                     </p>
                     <a class="btn btn-success btn-lg card-text"
-                    href="{{ route('account.apply') }}">
+                    href="{{ route('apply.create') }}">
                         Apply Now<i class="fas fa-angle-double-right ml-2"></i>
                     </a>
                 @endcan
@@ -253,8 +253,6 @@
                     </div>
                 @endcannot
             </div>
-            @endcannot
-        </div>
         @endrole
     </div>
 </div>
