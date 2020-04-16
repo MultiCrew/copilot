@@ -57,7 +57,8 @@ Route::group([
     'prefix'    => 'flights'                // route URLs are '/flights/{}'
 ], function() {
     // Route::get('search', 'Flights\FlightController@search')->name('search');
-    Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
+    Route::get('accept/{id}', 'Flights\FlightController@acceptPublic')->name('accept');
+    Route::get('accept/private/{code}', 'Flights\FlightController@acceptPrivate')->name('accept.private');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
 });

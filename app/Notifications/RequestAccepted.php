@@ -21,14 +21,17 @@ class RequestAccepted extends Notification
 
     protected $flight;
 
+    protected $requestee;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $acceptee, Flight $flight)
+    public function __construct(User $acceptee, User $requestee, Flight $flight)
     {
         $this->acceptee = $acceptee;
+        $this->requestee = $requestee;
         $this->flight = $flight;
     }
 
@@ -42,7 +45,7 @@ class RequestAccepted extends Notification
     {
 
         $userNotifications = UserNotification::where('user_id', $this->flight->requestee_id)->first();
-
+      
         $channels = [];
 
         if ($userNotifications->request_accepted) {

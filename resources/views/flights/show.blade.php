@@ -33,10 +33,14 @@
                 <dl class="row card-text">
                     <dt class="col-sm-3 card-text">Copilot</dt>
                     <dd class="col-sm-9 card-text">
-                        <a href="#" class="text-decoration-none">
-                            <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                            {{ $flight->otherUser()->username }}
-                        </a>
+                        @if($otherUser = $flight->otherUser())
+                            <a href="#" class="text-decoration-none">
+                                <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                {{ $otherUser->username }}
+                            </a>
+                        @else
+                            No one, yet!
+                        @endif
                     </dd>
 
                     <dt class="col-sm-3 card-text">Flight Plan</dt>
@@ -78,7 +82,43 @@
                 <i class="fas fa-fw mr-2 fa-edit"></i>Edit
             </a>
         </p>
+
+        @unless($flight->public)
+            <hr>
+            <p class="card-text">
+                As your flight is private, you'll need to share it with someone
+                directly for them to join it. Just send them the link below!
+            </p>
+            <div class="form-group card-text">
+                <label>Join link</label>
+                <div class="input-group">
+                    <input
+                    type="text"
+                    readonly
+                    value="{{ route('flights.accept.private', ['code' => $flight->code]) }}"
+                    class="form-control"
+                    id="privateCode">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="copyLink()">
+                            <i class="fas fa-paste"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
+
+@endsection
+
+@section('scripts')
+
+<script>
+    function copyLink() {
+        const link = document.getElementById('privateCode');
+        link.select();
+        document.execCommand('copy');
+    }
+</script>
 
 @endsection
