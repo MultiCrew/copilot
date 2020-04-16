@@ -16,6 +16,7 @@ Route::group([
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
+    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect');
 });
 
 /**
@@ -27,6 +28,7 @@ Route::group([
      'prefix' => 'notifications',
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
+    Route::get('/mark-all-read', 'Notification\NotificationController@markAllRead');
     Route::get('/{id}', 'Notification\NotificationController@read');
     Route::post('/update', 'Notification\NotificationController@update')->name('update');
     Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');
@@ -88,17 +90,13 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes();
-Route::group([
-    'as'        => 'account.',
-    'prefix'    => 'account'
-], function () {
-    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
-    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
-});
+Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store']);
 Route::resource('account', 'Auth\AccountController')->only(['index', 'update']);
 
+// profile routes
 Route::resource('profile', 'Auth\ProfileController');
 
+// administration routes
 Route::group([
     'as'        => 'admin.',
     'prefix'    => 'admin'
@@ -108,4 +106,5 @@ Route::group([
          ->except(['create', 'store']);
 });
 
+// cookie message route
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');

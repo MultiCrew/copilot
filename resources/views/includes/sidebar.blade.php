@@ -1,6 +1,6 @@
-<div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-2">
+<div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-lg-2">
     <!-- hidden on <=md -->
-    <ul class="list-group sticky-top sticky-offset">
+    <div class="list-group sticky-top sticky-offset">
         <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
             <small class="text-uppercase">Flights</small>
         </li>
@@ -72,7 +72,7 @@
         data-target="#helpModal">
             <div class="d-flex w-100 justify-content-start align-items-center">
                 <i class="fa fa-question-circle fa-fw mr-3"></i>
-                <span class="menu-collapsed">Help</span>
+                    Help
             </div>
         </a>
 
@@ -100,5 +100,57 @@
                 </a>
             </div>
         -->
-    </ul>
+    </div>
 </div>
+
+<nav id="pills-container" class="nav nav-pills nav-fill d-lg-none px-3 pt-3">
+    <a
+    href="{{ route('flights.index') }}"
+    class="nav-item nav-link
+    @if(Route::currentRouteName() === 'flights.index')) active @endif">
+        <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
+    </a>
+
+    <a
+    href="{{ route('flights.user-flights') }}"
+    class="nav-item nav-link
+    @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
+        <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+    </a>
+
+    <a
+    href="{{ route('dispatch.index') }}"
+    class="nav-item nav-link
+    @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
+        <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+    </a>
+
+    <a href="#" class="nav-item nav-link disabled">
+        <i class="fa fa-id-card fa-fw mr-3"></i>Profile
+    </a>
+
+    <a
+    href="{{ route('account.index') }}"
+    class="nav-item nav-link
+    @if(strpos(Route::currentRouteName(), 'account') !== false && !(strpos(Route::currentRouteName(), 'account.admin') !== false)) active @endif">
+        <i class="fa fa-user-cog fa-fw mr-3"></i>Account
+    </a>
+
+    @role('admin')
+        <a
+        href="{{ route('admin.users.index') }}"
+        class="nav-item nav-link
+        @if(strpos(Route::currentRouteName(), 'admin') !== false) active @endif">
+            <i class="fa fa-user-shield fa-fw mr-3"></i>Admin
+        </a>
+    @endrole
+
+    <a
+    href="#"
+    class="nav-item nav-link"
+    data-toggle="modal"
+    data-target="#helpModal">
+        <i class="fa fa-question-circle fa-fw mr-3"></i>Help
+    </a>
+
+</nav>

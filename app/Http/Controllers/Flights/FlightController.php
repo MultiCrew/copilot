@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Flights;
 
+use App\Models\Users\User;
 use Illuminate\Http\Request;
 use App\Models\Flights\Flight;
 use App\Notifications\NewRequest;
@@ -242,6 +243,9 @@ class FlightController extends Controller
         $flight = Flight::where('code', $request->code)->first();
 
         $flight = $this->accept($flight);
+      
+        $requestee = User::where('id', $flight->requestee_id)->first();wwwww
+        $requestee->notify(new RequestAccepted(Auth::user(), $flight));
 
         return redirect()->route('flights.show', ['flight' => $flight]);
     }
