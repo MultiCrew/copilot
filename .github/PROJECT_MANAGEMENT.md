@@ -10,7 +10,7 @@ We use [GitHub Projects](https://github.com/MultiCrew/copilot/projects) to track
 
 #### Issues
 
-Every new feature, enhancement, bug report, etc. comes to the project as an [Issue](https://github.com/MultiCrew/copilot/issues). There are templates for creating new issues for both bug reports and feature requests. When Issues are created by the community, one of the MutliCrew team members will address the issue initially by assigning it [labels](https://github.com/MultiCrew/copilot/labels) and a [milestone](https://github.com/MultiCrew/copilot/milestones), adding it to the GitHub project To do column, and possibly also assigning a team member who will be responsilbe for seeing the issue through to its closure.
+Every new feature, enhancement, bug report, etc. comes to the project as an [Issue](https://github.com/MultiCrew/copilot/issues). There are templates for creating new issues for both bug reports and feature requests. When Issues are created by the community, one of the MutliCrew team members will address the issue initially by assigning it [labels](https://github.com/MultiCrew/copilot/labels) and a [milestone](https://github.com/MultiCrew/copilot/milestones), adding it to the GitHub project To do column, and possibly also assigning a team member who will be responsible for seeing the issue through to its closure.
 
 In some cases, more information is required before an Issue can be properly considered and prioritised in the project. These are given the [label `more-information-needed`](https://github.com/MultiCrew/copilot/labels/more-information-needed).
 
