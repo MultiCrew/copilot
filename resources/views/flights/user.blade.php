@@ -129,7 +129,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center">
+                                <td colspan="5">
                                     You have no accepted flights. Maybe you want to
                                     <a href="{{ route('flights.index') }}#">search open flights</a>?
                                 </td>

@@ -96,14 +96,7 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes(['verify' => true]);
-Route::group([
-    'as'         => 'account.',
-    'prefix'     => 'account',
-    'middleware' => 'verified'
-], function () {
-    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
-    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
-});
+Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
 Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
