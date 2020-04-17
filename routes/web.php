@@ -16,6 +16,7 @@ Route::group([
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
+    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
 
 /**
@@ -28,6 +29,7 @@ Route::group([
      'middleware' => 'verified'
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
+    Route::get('/mark-all-read', 'Notification\NotificationController@markAllRead');
     Route::get('/{id}', 'Notification\NotificationController@read');
     Route::post('/update', 'Notification\NotificationController@update')->name('update');
     Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');
@@ -58,7 +60,8 @@ Route::group([
     'middleware' => 'verified'
 ], function() {
     // Route::get('search', 'Flights\FlightController@search')->name('search');
-    Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
+    Route::get('accept/{id}', 'Flights\FlightController@acceptPublic')->name('accept');
+    Route::get('accept/private/{code}', 'Flights\FlightController@acceptPrivate')->name('accept.private');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
 });
@@ -105,6 +108,7 @@ Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])-
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
 
+// administration routes
 Route::group([
     'as'        => 'admin.',
     'prefix'    => 'admin',
@@ -115,4 +119,5 @@ Route::group([
          ->except(['create', 'store']);
 });
 
+// cookie message route
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');

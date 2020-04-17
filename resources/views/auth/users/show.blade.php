@@ -15,13 +15,18 @@
             <i class="fas fa-fw mr-2 fa-bell"></i>Notifications
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="discord-tab" data-toggle="pill" href="#discord" role="tab">
+            <i class="fab fa-fw mr-2 fa-discord"></i>Discord
+        </a>
+    </li>
 
     @role('new')
-        <li class="nav-item">
-            <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab">
-                <i class="fas fa-fw mr-2 fa-check"></i>Beta Application
-            </a>
-        </li>
+    <li class="nav-item">
+        <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab">
+            <i class="fas fa-fw mr-2 fa-check"></i>Beta Application
+        </a>
+    </li>
     @endrole
 </ul>
 
@@ -36,38 +41,22 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="username">Username</label>
-                        <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        class="form-control"
-                        readonly
-                        value="{{ $user->username }}"
-                        autocomplete="username">
+                        <input type="text" id="username" name="username" class="form-control" readonly
+                            value="{{ $user->username }}" autocomplete="username">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="username">Full Name</label>
-                        <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="form-control"
-                        value="{{ $user->name }}"
-                        autocomplete="name">
+                        <input type="text" id="name" name="name" class="form-control" value="{{ $user->name }}"
+                            autocomplete="name">
                     </div>
                 </div>
 
                 <div class="form-group form-row">
                     <div class="col-md-6">
                         <label for="email">Email Address</label>
-                        <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-control"
-                        value="{{ $user->email }}"
-                        autocomplete="email">
+                        <input type="email" id="email" name="email" class="form-control" value="{{ $user->email }}"
+                            autocomplete="email">
                     </div>
                     <div class="col-md-6">
                         <label for="roles">Role(s)</label>
@@ -85,23 +74,15 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="password">New Password</label>
-                        <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        autocomplete="new-password">
+                        <input type="password" id="password" name="password" class="form-control"
+                            autocomplete="new-password">
                         <small class="form-text">Leave blank to keep current password!</small>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="password_confirmation">Confirm Password</label>
-                        <input
-                        type="password"
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        class="form-control"
-                        autocomplete="new-password">
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            class="form-control" autocomplete="new-password">
                     </div>
                 </div>
 
@@ -140,68 +121,38 @@
                         <tr>
                             <td>My flight request is accepted</td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="requestAccepted"
-                                name="requestAccepted"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="request_accepted" name="request_accepted"
+                                    class="form-check-input mx-auto" onchange="postNotification()" value="1"
+                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="requestAcceptedEmail"
-                                name="requestAcceptedEmail"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="request_accepted_email" name="request_accepted_email"
+                                    class="form-check-input mx-auto" onchange="postNotification()" value="1"
+                                    {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="requestAcceptedPush"
-                                name="requestAcceptedPush"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="request_accepted_push" name="request_accepted_push"
+                                    class="form-check-input mx-auto" onchange="postNotification()" value="1"
+                                    {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
                             </td>
                         </tr>
 
                         <tr>
                             <td>My flight plan has been reviewed</td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="planAccepted"
-                                name="planAccepted"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="plan_reviewed" name="plan_reviewed"
+                                    class="form-check-input mx-auto" onchange="postNotification()" value="1"
+                                    {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="planAcceptedEmail"
-                                name="planAcceptedEmail"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="plan_reviewed_email" name="plan_reviewed_email"
+                                    class="form-check-input mx-auto" onchange="postNotification()" value="1"
+                                    {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
                             </td>
                             <td>
-                                <input
-                                type="checkbox"
-                                id="planAcceptedPush"
-                                name="planAcceptedPush"
-                                class="form-check-input mx-auto"
-                                onchange="document.getElementById('notificationForm').submit()"
-                                value="1"
-                                {{$userNotifications->plan_accepted ? 'checked' : ''}}>
+                                <input type="checkbox" id="plan_reviewed_push" name="plan_reviewed_push"
+                                    class="form-check-input mx-auto" onchange="postNotification()" value="1"
+                                    {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
                             </td>
                         </tr>
                     </tbody>
@@ -248,6 +199,33 @@
             </div>
         </div>
 
+        <div class="tab-pane fade card-text" id="discord" role="tabpanel">
+            <p class="card-text">
+                Some of MultiCrew's services are integrated with Discord. We
+                deliver push notifications to your Discord account, so you can
+                get these through your web broswer, desktop or mobile app.
+            </p>
+            @if (!$user->discord_id)
+            <dl>
+                <dt>Status</dt>
+                <dd>Not connected</dd>
+            </dl>
+
+            <a class="btn btn-lg btn-primary" role="button" href="{{route('home.connect')}}">
+                <i class="fas fa-link mr-2"></i>Connect to Discord
+            </a>
+            @else
+            <dl>
+                <dt>Status</dt>
+                <dd>Connected to Discord with Client ID: {{$user->discord_id}}</dd>
+            </dl>
+
+            <a class="btn btn-lg btn-danger" role="button" href="{{route('home.disconnect')}}">
+                <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
+            </a>
+            @endif
+        </div>
+
         @role('new')
             <div class="tab-pane fade show card-text" id="application" role="tabpanel">
                 @can('apply to beta')
@@ -261,7 +239,7 @@
                         Interested?
                     </p>
                     <a class="btn btn-success btn-lg card-text"
-                    href="{{ route('account.apply') }}">
+                    href="{{ route('apply.create') }}">
                         Apply Now<i class="fas fa-angle-double-right ml-2"></i>
                     </a>
                 @endcan
@@ -279,4 +257,148 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js">
+</script>
+<script>
+    $(document).ready(function(){
+    if($('#request_accepted').prop('checked') !== true){
+        $("#request_accepted_email").attr("disabled", true);
+        $("#request_accepted_push").attr("disabled", true);
+    }
+    if($('#plan_reviewed').prop('checked') !== true){
+        $("#plan_reviewed_email").attr("disabled", true);
+        $("#plan_reviewed_push").attr("disabled", true);
+    }
+    $('#request_accepted').click(function(){
+        if($(this).is(":checked")){
+            $("#request_accepted_email").removeAttr('disabled');
+            $("#request_accepted_push").removeAttr('disabled');
+        }
+        else if($(this).is(":not(:checked)")){
+            $("#request_accepted_email").attr("disabled", true);
+            $("#request_accepted_push").attr("disabled", true);
+        }
+    });
+    $('#plan_reviewed').click(function(){
+        if($(this).is(":checked")){
+            $("#plan_reviewed_email").removeAttr('disabled');
+            $("#plan_reviewed_push").removeAttr('disabled');
+        }
+        else if($(this).is(":not(:checked)")){
+            $("#plan_reviewed_email").attr("disabled", true);
+            $("#plan_reviewed_push").attr("disabled", true);
+        }
+    });
+	$('#airportSelect').selectpicker({
+		liveSearch: true
+	})
+	.ajaxSelectPicker({
+		ajax: {
+			url: '{{route("search.airport")}}',
+			method: 'GET',
+			data: {
+				q: '@{{{q}}}'
+			}
+		},
+		locale: {
+			emptyTitle: 'Start typing to search...',
+			statusInitialized: '',
+		},
+		preprocessData: function(data){
+			var airports = [];
+			let count;
+			if(data.length > 0){
+				if(data.length >= 10) {
+					count = 10;
+				} else {
+					count = data.length;
+				}
+				for(var i = 0; i < count; i++){
+					var curr = data[i];
+					airports.push(
+						{
+							'value': curr.icao,
+							'text': curr.icao + ' - ' + curr.name,
+							'disabled': false
+						}
+					);
+				}
+			}
+			return airports;
+		},
+		preserveSelected: true
+	});
+	$('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+		$.ajax({
+			url: '{{route("notifications.airport")}}',
+			type: 'POST',
+			data: {
+				'_token': "{{ csrf_token() }}",
+				'data': $('#airportSelect').selectpicker('val')
+			}
+		});
+	});
+	$('#aircraftSelect').selectpicker({
+		liveSearch: true
+	})
+	.ajaxSelectPicker({
+		ajax: {
+			url: '{{route("search.aircraft")}}',
+			method: 'GET',
+			data: {
+				q: '@{{{q}}}'
+			}
+		},
+		locale: {
+			emptyTitle: 'Start typing to search...',
+			statusInitialized: '',
+		},
+		preprocessData: function(data){
+			var aircrafts = [];
+			let count;
+			if(data.length > 0){
+				if(data.length >= 10) {
+					count = 10;
+				} else {
+					count = data.length;
+				}
+				for(var i = 0; i < count; i++){
+					var curr = data[i];
+					aircrafts.push(
+						{
+							'value': curr.icao,
+							'text': curr.icao + ' - ' + curr.name,
+							'disabled': false
+						}
+					);
+				}
+			}
+			return aircrafts;
+		},
+		preserveSelected: true
+	});
+	$('#aircraftSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+		$.ajax({
+			url: '{{route("notifications.aircraft")}}',
+			type: 'POST',
+			data: {
+				'_token': "{{ csrf_token() }}",
+				'data': $('#aircraftSelect').selectpicker('val')
+			}
+		});
+	});
+});
+function postNotification() {
+    $.ajax({
+        url: '{{route("notifications.update")}}',
+        type: 'POST',
+        data: new FormData(document.getElementById('notificationForm')),
+        processData: false,
+        contentType: false
+    })
+}
+</script>
 @endsection

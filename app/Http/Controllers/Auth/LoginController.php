@@ -40,12 +40,12 @@ class LoginController extends Controller
 
     /**
      * Redirection logic after login
-     * 
+     *
      */
     protected function authenticated(Request $request, $user)
     {
         if ( $user->hasRole('new') ) {
-            return redirect()->route('account.apply');
+            return redirect()->route('apply.create');
         }
 
         return redirect('/flights');

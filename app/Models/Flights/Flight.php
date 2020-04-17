@@ -20,21 +20,21 @@ class Flight extends MasterFlight
     /**
      * The requestee on this flight
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function requestee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'id');
+        return $this->belongsTo('App\Models\Users\User', 'requestee_id');
     }
 
     /**
      * The acceptee on this flight
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function acceptee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'id');
+        return $this->belongsTo('App\Models\Users\User', 'acceptee_id');
     }
 
     /**
@@ -79,6 +79,22 @@ class Flight extends MasterFlight
     }
 
     /**
+     * Checks if a plan is accepted by both users
+     * 
+     * @return boolean
+     */
+    public function planAccepted()
+    {
+        if($this->plan->requestee_accept && $this->plan->acceptee_accept)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    /**
      * Scope a query to only include public flights.
      *
      * @return \Illuminate\Database\Eloquent\Builder
@@ -115,7 +131,7 @@ class Flight extends MasterFlight
      */
     public function scopeUnplannedFlight($query)
     {
-        return $query->whereNull('plan_id')->where(function ($q) {
+        return $query->whereNull('plan_id')->whereNotNull('acceptee_id')->where(function ($q) {
             $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
         })->get();
     }
