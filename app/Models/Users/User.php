@@ -2,12 +2,14 @@
 
 namespace App\Models\Users;
 
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
@@ -91,4 +93,14 @@ class User extends Authenticatable
     {
         return $this->hasRole('admin');
     }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    // public function sendEmailVerificationNotification()
+    // {
+    //     Mail::to($this)->send(new VerifyEmail());
+    // }
 }

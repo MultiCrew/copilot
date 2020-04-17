@@ -15,8 +15,8 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
-    Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
-    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect');
+    Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
+    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
 
 /**
@@ -26,6 +26,7 @@ Route::group([
  Route::group([
      'as' => 'notifications.',
      'prefix' => 'notifications',
+     'middleware' => 'verified'
  ], function() {
     Route::get('/', 'Notification\NotificationController@notifications');
     Route::get('/mark-all-read', 'Notification\NotificationController@markAllRead');
@@ -41,6 +42,7 @@ Route::group([
  Route::group([
      'as' => 'search.',
      'prefix' => 'search',
+     'middleware' => 'verified'
  ], function() {
      Route::get('airport', 'Search\SearchController@airport')->name('airport');
      Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
@@ -53,8 +55,9 @@ Route::group([
  * All users interact with these controllers as part of their Copilot workflot
  */
 Route::group([
-    'as'        => 'flights.',              // routes are named 'flights.{}'
-    'prefix'    => 'flights'                // route URLs are '/flights/{}'
+    'as'         => 'flights.',              // routes are named 'flights.{}'
+    'prefix'     => 'flights',               // route URLs are '/flights/{}'
+    'middleware' => 'verified'
 ], function() {
     // Route::get('search', 'Flights\FlightController@search')->name('search');
     Route::get('accept/{id}', 'Flights\FlightController@acceptPublic')->name('accept');
@@ -62,8 +65,10 @@ Route::group([
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
 });
-Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
-Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
+Route::group(['middleware' => ['verified']], function () {
+    Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
+    Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
+});
 
 /**
  * Dispatch routes
@@ -72,8 +77,9 @@ Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', '
  * of Flight plans (FlightPlan models).
  */
 Route::group([
-    'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
-    'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
+    'as'         => 'dispatch.',              // routes are named 'dispatch.{}'
+    'prefix'     => 'dispatch',               // route URLs are '/dispatch/{}'
+    'middleware' => 'verified'
 ], function() {
     Route::get('', 'Flights\FlightPlanController@index')->name('index');
     Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
@@ -89,17 +95,24 @@ Route::group([
  * These routes deal with authentication, user accounts, user management, application
  * forms and user profiles
  */
-Auth::routes();
-Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store']);
-Route::resource('account', 'Auth\AccountController')->only(['index', 'update']);
+Auth::routes(['verify' => true]);
+Route::group([
+    'as'         => 'account.',
+    'prefix'     => 'account',
+    'middleware' => 'verified'
+], function () {
+    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
+    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
+});
+Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
 
-// profile routes
-Route::resource('profile', 'Auth\ProfileController');
+Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
 
 // administration routes
 Route::group([
     'as'        => 'admin.',
-    'prefix'    => 'admin'
+    'prefix'    => 'admin',
+    'middleware' => 'verified'
 ], function () {
     Route::resource('users', 'Auth\Admin\UserController');
     Route::resource('applications', 'Auth\Application\ApplicationAdminController')
