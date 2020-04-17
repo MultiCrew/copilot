@@ -5,7 +5,7 @@ return [
     'discord_id' => env('DISCORD_CLIENT_ID'),
 	'discord_secret' => env('DISCORD_CLIENT_SECRET'),
     'discord_redirect' => env('DISCORD_REDIRECT_URI'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -177,8 +177,9 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
@@ -232,6 +233,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Flight' => App\Models\Flights\Flight::class,
+        'ArchivedFlight' => App\Models\Flights\ArchivedFlight::class,
+        'FlightPlan' => App\Models\Flights\FlightPlan::class,
+        'User' => App\Models\Users\User::class,
     ],
 
 ];

@@ -14,50 +14,110 @@
 Route::group([
     'as' => 'home.'
 ], function() {
-    Route::get('/')->name('index');
-    Route::get('connect', 'Discord\DiscordController@connect')->name('connect');
+    Route::get('/', 'Home\HomeController@index')->name('index');
+    Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
+    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
 
 /**
+ * Notification routes
+ */
+
+ Route::group([
+     'as' => 'notifications.',
+     'prefix' => 'notifications',
+     'middleware' => 'verified'
+ ], function() {
+    Route::get('/', 'Notification\NotificationController@notifications');
+    Route::get('/mark-all-read', 'Notification\NotificationController@markAllRead');
+    Route::get('/{id}', 'Notification\NotificationController@read');
+    Route::post('/update', 'Notification\NotificationController@update')->name('update');
+    Route::post('/airport', 'Notification\NotificationController@airport')->name('airport');
+    Route::post('/aircraft', 'Notification\NotificationController@aircraft')->name('aircraft');
+ });
+
+ /**
+  * Search Routes
+  */
+ Route::group([
+     'as' => 'search.',
+     'prefix' => 'search',
+     'middleware' => 'verified'
+ ], function() {
+     Route::get('airport', 'Search\SearchController@airport')->name('airport');
+     Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
+ });
+
+/**
  * Flight routes
+ *
+ * These routes deal with the Flight and ArchivedFlight model resources
+ * All users interact with these controllers as part of their Copilot workflot
  */
 Route::group([
-    'as'        => 'flights.',              // routes are named 'flights.{}'
-    'prefix'    => 'flights'                // route URLs are '/flights/{}'
+    'as'         => 'flights.',              // routes are named 'flights.{}'
+    'prefix'     => 'flights',               // route URLs are '/flights/{}'
+    'middleware' => 'verified'
 ], function() {
-    Route::resource(
-        '/', 'Flights\FlightController'     // standard resource routes
-    )->except([
-        'create'
-    ]);
-    Route::get('accept/{id}', 'Flights\FlightController@accept')->name('accept');
+    // Route::get('search', 'Flights\FlightController@search')->name('search');
+    Route::get('accept/{id}', 'Flights\FlightController@acceptPublic')->name('accept');
+    Route::get('accept/private/{code}', 'Flights\FlightController@acceptPrivate')->name('accept.private');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
-    //Route::get('search', 'Flights\FlightController@search')->name('search');
+    Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
+});
+Route::group(['middleware' => ['verified']], function () {
+    Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
+    Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
 });
 
 /**
  * Dispatch routes
+ *
+ * These routes deal with the SimBrief API integration: creation and reviewing
+ * of Flight plans (FlightPlan models).
  */
 Route::group([
-    'as'        => 'dispatch.',              // routes are named 'dispatch.{}'
-    'prefix'    => 'dispatch'                // route URLs are '/dispatch/{}'
+    'as'         => 'dispatch.',              // routes are named 'dispatch.{}'
+    'prefix'     => 'dispatch',               // route URLs are '/dispatch/{}'
+    'middleware' => 'verified'
 ], function() {
-    Route::get('plan', 'Flights\DispatchController@plan')->name('plan');
+    Route::get('', 'Flights\FlightPlanController@index')->name('index');
+    Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
+    Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
+    Route::get('{plan}', 'Flights\FlightPlanController@show')->name('show');
+    Route::get('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
+    Route::get('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
 });
 
 /*
  * Auth, account and profile routes
+ *
+ * These routes deal with authentication, user accounts, user management, application
+ * forms and user profiles
  */
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::group([
-    'as' => 'account.'
+    'as'         => 'account.',
+    'prefix'     => 'account',
+    'middleware' => 'verified'
 ], function () {
-    Route::get('/account', 'Auth\AccountController@index')->name('index');
-    Route::patch('/account', 'Auth\AccountController@update')->name('update');
+    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
+    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
+});
+Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
+
+Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
+
+// administration routes
+Route::group([
+    'as'        => 'admin.',
+    'prefix'    => 'admin',
+    'middleware' => 'verified'
+], function () {
+    Route::resource('users', 'Auth\Admin\UserController');
+    Route::resource('applications', 'Auth\Application\ApplicationAdminController')
+         ->except(['create', 'store']);
 });
 
-Route::resource('profile', 'Auth\ProfileController')->only([
-    'index', 'update'
-]);
-
+// cookie message route
 Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
