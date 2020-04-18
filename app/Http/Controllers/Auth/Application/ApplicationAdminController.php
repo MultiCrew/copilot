@@ -43,6 +43,7 @@ class ApplicationAdminController extends Controller
 
         if ($request->status === 'approved') {
             $application->user->assignRole('user');
+            $application->user->removeRole('new');
         } else {
             $application->user->givePermissionTo('apply to beta');
         }
