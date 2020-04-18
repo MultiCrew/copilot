@@ -15,6 +15,7 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
+    Route::get('/policies', 'Home\HomeController@policy')->name('policy');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
     Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });

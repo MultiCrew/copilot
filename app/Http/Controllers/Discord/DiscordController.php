@@ -34,7 +34,7 @@ class DiscordController extends Controller
 		if (!isset($_GET['code'])) {
 			// Get authorization code
 			$authUrl = $provider->getAuthorizationUrl($options);
-			header('Location: ' . $authUrl);
+			header('Location: ' . $authUrl); exit;
 		
 		} else {
 		

@@ -37,6 +37,16 @@
                     </li>
                 @endrole
             @endauth
+            <li class="nav-item">
+                <a
+                class="nav-link
+                @if(Route::currentRouteName() === 'home.policy')
+                    active
+                @endif"
+                href="{{ route('home.policy') }}">
+                    <i class="fas fa-file-alt fa-fw mr-2"></i>Policies
+                </a>
+            </li>
         </ul>
 
         <!-- left nav (without sidebar) -->
@@ -87,7 +97,7 @@
                         You have no unread notifications
                     </button>
                     <div id="markAllRead">
-                        <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()">
+                        <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()" hidden>
                             <i class="fas fa-check mr-2"></i>Mark all as read
                         </button>
                     </div>
