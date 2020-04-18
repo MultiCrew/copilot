@@ -80,18 +80,18 @@ class Flight extends MasterFlight
 
     /**
      * Checks if a plan is accepted by both users
-     * 
+     *
      * @return boolean
      */
     public function planAccepted()
     {
-        if($this->plan->requestee_accept && $this->plan->acceptee_accept)
-        {
-            return true;
-        } else
-        {
-            return false;
+        if (isPlanned()) {
+            if ($this->plan->requestee_accept && $this->plan->acceptee_accept) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**
