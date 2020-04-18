@@ -85,7 +85,7 @@ class Flight extends MasterFlight
      */
     public function planAccepted()
     {
-        if (isPlanned()) {
+        if ($this->isPlanned()) {
             if ($this->plan->requestee_accept && $this->plan->acceptee_accept) {
                 return true;
             }
