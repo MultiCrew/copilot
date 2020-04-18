@@ -15,6 +15,7 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
+    Route::get('/policies', 'Home\HomeController@policy')->name('policy');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
     Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
@@ -96,14 +97,7 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes(['verify' => true]);
-Route::group([
-    'as'         => 'account.',
-    'prefix'     => 'account',
-    'middleware' => 'verified'
-], function () {
-    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
-    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
-});
+Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
 Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');

@@ -29,7 +29,8 @@
                 </main>
             @else
                 <main class="row" id="body-row">
-                    @unless(strpos(Route::currentRouteName(), 'blog') !== false)
+                    @unless(strpos(Route::currentRouteName(), 'blog') !== false
+                         || strpos(Route::currentRouteName(), 'policy') !== false)
                         @include('includes.sidebar')
                     @endunless
                     <div class="col-lg-10 p-4" id="content-div">

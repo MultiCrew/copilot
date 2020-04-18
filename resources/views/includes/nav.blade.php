@@ -37,6 +37,16 @@
                     </li>
                 @endrole
             @endauth
+            <li class="nav-item">
+                <a
+                class="nav-link
+                @if(Route::currentRouteName() === 'home.policy')
+                    active
+                @endif"
+                href="{{ route('home.policy') }}">
+                    <i class="fas fa-file-alt fa-fw mr-2"></i>Policies
+                </a>
+            </li>
         </ul>
 
         <!-- left nav (without sidebar) -->
