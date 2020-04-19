@@ -25,9 +25,10 @@ class FlightController extends Controller
     {
         $this->middleware(['auth', 'role:user']);
 
+        $this->middleware(['flight_role:participant'])->only(['show']);
         $this->middleware(['flight_role:requestee'])->only(['generateCode', 'edit', 'update', 'destroy']);
-        //$this->middleware(['flight_role:acceptee'])->only(['accept']);
-        $this->middleware(['flight_role:guest'])->only(['accept']);
+        $this->middleware(['flight_role:publicGuest'])->only(['acceptPublic']);
+        $this->middleware(['flight_role:privateGuest'])->only(['acceptPrivate']);
     }
 
     /**

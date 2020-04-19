@@ -24,14 +24,21 @@ class CheckFlightRole
         /** @var string $id */
         $id = $request->route('id');
 
+        /** @var string $code */
+        $code = $request->route('code');
+
         switch($role){
+            case 'participant':
+                if(!$flight->isRequestee(Auth::user()) && !$flight->isAcceptee(Auth::user())) abort(403);
+                break;
             case 'requestee':
                 if(!$flight->isRequestee(Auth::user())) abort(403);
                 break;
-            case 'acceptee':
-                if(!$flight->isAcceptee(Auth::user())) abort(403);
+            case 'privateGuest':
+                $flight = Flight::where('code', $code)->first();
+                if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user())) abort(403);
                 break;
-            case 'guest':
+            case 'publicGuest':
                 $flight = Flight::find($id);
                 if($flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user())) abort(403);
                 break;
