@@ -80,4 +80,12 @@ class MasterFlight extends Model
     {
         return $this->isRequestee($user) || $this->isAcceptee($user);
     }
+    
+    /**
+     * Returns whether the flight has been accepted
+     */
+    public function isAccepted()
+    {
+        return !is_null($this->acceptee_id);
+    }
 }
