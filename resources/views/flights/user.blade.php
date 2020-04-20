@@ -166,7 +166,7 @@
                                         @if($flight->acceptee_id === Auth::id())
                                             {{ User::find($flight->acceptee_id)->username }}
                                         @else
-                                            {{ User::find($flight->flightee_id)->username }}
+                                            {{ User::find($flight->requestee_id)->username }}
                                         @endif
                                     </a>
                                 </td>
