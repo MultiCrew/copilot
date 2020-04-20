@@ -6,7 +6,7 @@ use App\Models\Flights\Flight;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class php extends TestCase
+class FlightTest extends TestCase
 {
     protected $flight;
 
