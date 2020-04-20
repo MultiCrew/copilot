@@ -25,11 +25,55 @@ class php extends TestCase
      *
      * @return void
      */
-    public function testflightCreationTest()
+    public function testflightCreation()
     {
         $this->assertEquals('EGPD', $this->flight->departure);
         $this->assertEquals('EHAM', $this->flight->arrival);
         $this->assertEquals('B738', $this->flight->aircraft);
+    }
+
+    /**
+     * Tests the isPublic() method for a public flight
+     *
+     * @return void
+     */
+    public function testpublicFlight()
+    {
+        $this->flight->public = 1;
+
+        $this->assertTrue(Flight::isPublic($this->flight));
+    }
+
+    /**
+     * Tests that a newly created flight has no plan
+     *
+     * @return void
+     */
+    public function testUnPlannedFlight()
+    {
+        $this->assertFalse($this->flight->isPlanned());
+    }
+
+    /**
+     * Tests that a newly created flight's non existent plan is not accepted
+     *
+     * @return void
+     */
+    public function testUnPlannedFlightAccepted()
+    {
+        $this->assertFalse($this->flight->planAccepted());
+    }
+
+    /**
+     * Tests the isPublic() method for a private flight
+     *
+     * @return void
+     */
+    public function testprivateFlight()
+    {
+        $this->flight->public = 0;
+
+        $this->assertFalse(Flight::isPublic($this->flight));
     }
 
     public function tearDown(): void
