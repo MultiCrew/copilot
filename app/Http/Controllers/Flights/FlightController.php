@@ -90,7 +90,7 @@ class FlightController extends Controller
 								->pluck('user')
 								->flatten();
 
-		Notification::send($users, new NewRequest(Auth::user(), $flight));	
+		Notification::send($users, new NewRequest(Auth::user(), $flight));
 
         return redirect()->route('flights.show', ['flight' => $flight]);
     }
@@ -145,7 +145,8 @@ class FlightController extends Controller
      */
     public function destroy(Flight $flight)
     {
-        // TODO
+        $flight->delete();
+        return redirect()->route('flights.user-flights');
     }
 
     /**
@@ -186,11 +187,11 @@ class FlightController extends Controller
      * @return     JSON Array | PHP array       Array of flights found based on request
      */
     public function search(Request $request)
-    {  
+    {
         $output = '';
-        
+
         $query = $request->get('query');
-        
+
         if($query != '')
         {
             $data =
@@ -236,7 +237,7 @@ class FlightController extends Controller
 
     /**
      * Accept a private request
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      */
     public function acceptPrivate(Request $request)
