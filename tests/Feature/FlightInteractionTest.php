@@ -93,6 +93,11 @@ class FlightInteractionTest extends TestCase
 
         // accept the flight as user 2, the ACCEPTEE
         $this->flight->acceptee_id = $this->user2->id;
+
+        // test the magic properties first
+        $this->assertEquals($this->user1->id, $this->flight->requestee->id);
+        $this->assertEquals($this->user2->id, $this->flight->acceptee->id);
+
         // assert that, from user1's perspective, user2 IS THE OTHER USER
         $this->assertEquals($this->user2->id, $this->flight->otherUser()->id);
 
