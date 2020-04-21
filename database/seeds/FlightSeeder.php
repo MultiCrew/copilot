@@ -25,7 +25,7 @@ class FlightSeeder extends Seeder
 			'aircraft' => 'A320'
 		]);
 		DB::table('flights')->insert([
-			'requestee_id' => '3',
+			'requestee_id' => '2',
 			'departure' => 'EGHI',
 			'arrival' => 'EHAM',
 			'aircraft' => 'DH8D'
