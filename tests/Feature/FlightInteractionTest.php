@@ -44,6 +44,7 @@ class FlightInteractionTest extends TestCase
             'public'        => 1,
             'requestee_id'  => $this->user1->id
         ]);
+        $this->flight->save();
     }
 
     /**
@@ -87,19 +88,16 @@ class FlightInteractionTest extends TestCase
     {
         // logged in as user1, the REQUESTEE
         $this->actingAs($this->user1);
-        print_r("Authenticated as: ".Auth::id());
         // assert that the other user is null - THERE IS NO OTHER USER
         $this->assertEquals(null, $this->flight->otherUser());
 
         // accept the flight as user 2, the ACCEPTEE
         $this->flight->acceptee_id = $this->user2->id;
-        print_r($this->flight);
         // assert that, from user1's perspective, user2 IS THE OTHER USER
         $this->assertEquals($this->user2->id, $this->flight->otherUser()->id);
 
         // now switch to logged in as user2, the ACCEPTEE
         $this->actingAs($this->user2);
-        print_r("Authenticated as: ".Auth::id());
         // assert that, from user2's perspective, user1 IS THE OTHER USER
         $this->assertEquals($this->user1->id, $this->flight->otherUser()->id);
     }
