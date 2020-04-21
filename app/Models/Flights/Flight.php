@@ -2,161 +2,101 @@
 
 namespace App\Models\Flights;
 
-use Illuminate\Support\Str;
 use App\Models\Users\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
-class Flight extends MasterFlight
+class Flight extends Model
 {
     /**
-     * Attributes that are mass assignable
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'departure', 'arrival', 'aircraft', 'requestee_id', 'acceptee_id', 'plan_id', 'public'
-    ];
-
-    /**
-     * The requestee on this flight
+     * The user that created the request.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function requestee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'requestee_id');
+        return $this->belongsTo('App\Models\Users\User', 'requestee_id', 'id');
     }
 
     /**
-     * The acceptee on this flight
+     * The user that accepted the request.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function acceptee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'acceptee_id');
+        return $this->belongsTo('App\Models\Users\User', 'acceptee_id', 'id');
     }
 
     /**
-     * Generate a public ID for a flight.
+     * Return the user that is a member of the flight but not the authed user
      *
-     * @return string
+     * @return User
+     * @throws Exception
      */
-    public static function generatePublicId()
+    public function otherUser()
     {
-        return Str::random(10);
-    }
-
-    /**
-     * Check to see if flight is public.
-     *
-     * @param Flight $flight
-     * @return boolean
-     */
-    public static function isPublic(Flight $flight)
-    {
-        return $flight->public == 1 ? true : false;
-    }
-
-    /**
-     * The plan that belongs to the flight.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function plan()
-    {
-        return $this->belongsTo('App\Models\Flights\FlightPlan', 'plan_id');
-    }
-
-    /**
-     * Checks if a plan exists for the flight
-     *
-     * @return boolean
-     */
-    public function isPlanned()
-    {
-        return !empty($this->plan_id);
-    }
-
-    /**
-     * Checks if a plan is accepted by both users
-     *
-     * @return boolean
-     */
-    public function planAccepted()
-    {
-        if ($this->isPlanned()) {
-            if ($this->plan->requestee_accept && $this->plan->acceptee_accept) {
-                return true;
-            }
+        if (Auth::id() === $this->requestee_id) {
+            return $this->acceptee;
+        } elseif (Auth::id() === $this->acceptee_id) {
+            return $this->requestee;
+        } else {
+            throw new Exception("There is no other user");
         }
-
-        return false;
     }
 
     /**
-     * Scope a query to only include public flights.
+     * Check to see if user is the requestee
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param User $user
+     *
+     * @return bool
      */
-    public function scopePublic($query)
+    public function isRequestee(User $user)
     {
-        return $query->where('public', 1)->get();
+        return $this->requestee_id == $user->id;
     }
 
     /**
-     * Scope a query to only include open requests.
+     * Check to see if user is the acceptee
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param User $user
+     *
+     * @return bool
      */
-    public function scopeOpenRequest($query)
+    public function isAcceptee(User $user)
     {
-        return $query->where('requestee_id', Auth::id())->whereNull('acceptee_id')->get();
+        return $this->acceptee_id == $user->id;
     }
 
     /**
-     * Scope a query to only include accepted requests.
+     * Returns whether the given user is either requestee or acceptee
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param User $user
+     *
+     * @return bool
      */
-    public function scopeAcceptedRequest($query)
+    public function isInvolved(User $user)
     {
-        return $query->where('requestee_id', Auth::id())->whereNotNull('acceptee_id')->get();
+        return $this->isRequestee($user) || $this->isAcceptee($user);
     }
 
     /**
-     * Scope a query to only include unplanned flights.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Returns whether the flight has been accepted
      */
-    public function scopeUnplannedFlight($query)
+    public function isAccepted()
     {
-        return $query->whereNull('plan_id')->whereNotNull('acceptee_id')->where(function ($q) {
-            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
-        })->get();
+        return !is_null($this->acceptee_id);
     }
 
     /**
-     * Scope a query to only include unplanned flights.
+     * Check to see if flight is public
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return bool
      */
-    public function scopePlannedFlight($query)
+    public function isPublic()
     {
-        return $query->whereNotNull('plan_id')->where(function ($q) {
-            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
-        })->get();
-    }
-
-    /**
-     * Scope a query to only include users plans.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeUserPlans($query)
-    {
-        return $query->whereNotNull('plan_id')->where(function ($q) {
-            $q->where('requestee_id', Auth::id())->orWhere('acceptee_id', Auth::id());
-        })->get()->pluck('plan')->flatten();
+        return $this->public == 1 ? true : false;
     }
 }

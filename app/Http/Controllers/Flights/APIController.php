@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Flights;
 
 use App\Models\Users\User;
 use Illuminate\Http\Request;
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +20,7 @@ class APIController extends Controller
      * @return     JSON Array | PHP array       Array of flights found based on request
      */
     public function search(Request $request)
-    {  
+    {
         $output = '';
         if($request->path() == 'api/search'){
             $query = $request->get('query')[0];
@@ -45,7 +45,7 @@ class APIController extends Controller
         else
         {
             $data =
-                Flight::get()
+                FlightRequest::get()
                 ->where('public', 1)
                 ->sortBy('id');
         }
@@ -63,7 +63,7 @@ class APIController extends Controller
      */
     public function store(Request $request)
     {
-        $flight = new Flight();
+        $flight = new FlightRequest();
         $user = User::where('discord_id', $request->discord_id)->first();
         if(!$user) {
             return $user;
@@ -77,7 +77,7 @@ class APIController extends Controller
         $flight->requestee_id = $user->id;
         $flight->public = true;
         $flight->save();
-        
+
         $flight = $flight->fresh();
         return $flight;
     }

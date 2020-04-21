@@ -32,7 +32,7 @@ class FlightPlan extends Model
      */
     public function flight()
     {
-        return $this->belongsTo('App\Models\Flights\Flight', 'id', 'plan_id');
+        return $this->belongsTo('App\Models\Flights\FlightRequest', 'id', 'plan_id');
     }
 
     /**
