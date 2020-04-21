@@ -233,7 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Flight' => App\Models\Flights\Flight::class,
+        'FlightRequest' => App\Models\Flights\FlightRequest::class,
         'ArchivedFlight' => App\Models\Flights\ArchivedFlight::class,
         'FlightPlan' => App\Models\Flights\FlightPlan::class,
         'User' => App\Models\Users\User::class,

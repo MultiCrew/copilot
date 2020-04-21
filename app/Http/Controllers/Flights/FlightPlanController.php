@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Flights;
 
 use Illuminate\Http\Request;
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Models\Flights\FlightPlan;
 use App\Notifications\PlanAccepted;
 use App\Notifications\PlanRejected;
@@ -15,7 +15,7 @@ class FlightPlanController extends Controller
     public function __construct()
     {
         $this->middleware(['auth', 'role:user']);
-        
+
         $this->middleware(['plan_role:member'])->except('index', 'create', 'store');
         $this->middleware(['flight_role:member'])->only('create', 'store');
     }
@@ -24,28 +24,28 @@ class FlightPlanController extends Controller
      * Show the flight planning index page, or redirect to an appropriate stage of the
      * flight planning process, if a flight ID is specified
      *
-     * @param int $id (Optional) Flight plan ID
+     * @param int $id (Optional) FlightRequest plan ID
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         return view('dispatch.index', [
-            'plannedFlights'    => Flight::plannedFlight()->all(),
-            'unplannedFlights'  => Flight::unplannedFlight()->all()
+            'plannedFlights'    => FlightRequest::plannedFlight()->all(),
+            'unplannedFlights'  => FlightRequest::unplannedFlight()->all()
         ]);
     }
 
     /**
      * Show the form for planning a flight, or redirect if at another stage
      *
-     * @param int $id Flight ID
+     * @param int $id FlightRequest ID
      *
      * @return \Illuminate\Http\Response
      */
     public function create($id)
     {
-        $flight = Flight::findOrFail($id);
+        $flight = FlightRequest::findOrFail($id);
 
         if ($flight->plan_id) {
             return redirect()->route('dispatch.show', $flight->plan_id);
@@ -63,7 +63,7 @@ class FlightPlanController extends Controller
      */
     public function store(Request $request)
     {
-        $flight = Flight::findOrFail($request->flight);
+        $flight = FlightRequest::findOrFail($request->flight);
 
         /**
          * @var $simbrief

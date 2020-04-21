@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Flights;
 
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,7 +12,7 @@ class FlightTest extends TestCase
 
     public function setUp(): void
     {
-        $this->flight = new Flight();
+        $this->flight = new FlightRequest();
         $this->flight->fill([
             'departure' => 'EGPD',
             'arrival'   => 'EHAM',
@@ -21,7 +21,7 @@ class FlightTest extends TestCase
     }
 
     /**
-     * Tests that Flight has been created correctly
+     * Tests that FlightRequest has been created correctly
      *
      * @return void
      */
@@ -41,7 +41,7 @@ class FlightTest extends TestCase
     {
         $this->flight->public = 1;
 
-        $this->assertTrue(Flight::isPublic($this->flight));
+        $this->assertTrue($this->flight->isPublic());
     }
 
     /**
@@ -73,7 +73,7 @@ class FlightTest extends TestCase
     {
         $this->flight->public = 0;
 
-        $this->assertFalse(Flight::isPublic($this->flight));
+        $this->assertFalse($this->flight->isPublic());
     }
 
     public function tearDown(): void

@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Auth;
 
 class FlightInteractionTest extends TestCase
 {
@@ -36,7 +37,7 @@ class FlightInteractionTest extends TestCase
         ]);
         $this->user2->save();
 
-        $this->flight = Flight::create([
+        $this->flight = FlightRequest::create([
             'departure'     => 'EGPD',
             'arrival'       => 'EHAM',
             'aircraft'      => 'B738',
@@ -80,19 +81,26 @@ class FlightInteractionTest extends TestCase
      * Test the other user method
      *
      * @return void
+     * @throws \Exception
      */
     public function testOtherUser()
     {
+        // logged in as user1, the REQUESTEE
         $this->actingAs($this->user1);
+        print_r("Authenticated as: ".Auth::id());
+        // assert that the other user is null - THERE IS NO OTHER USER
         $this->assertEquals(null, $this->flight->otherUser());
 
+        // accept the flight as user 2, the ACCEPTEE
         $this->flight->acceptee_id = $this->user2->id;
-        $this->assertEquals($this->user2->id, $this->flight->acceptee->id);
+        print_r($this->flight);
+        // assert that, from user1's perspective, user2 IS THE OTHER USER
+        $this->assertEquals($this->user2->id, $this->flight->otherUser()->id);
 
+        // now switch to logged in as user2, the ACCEPTEE
         $this->actingAs($this->user2);
-        $this->assertEquals(null, $this->flight->otherUser());
-
-        $this->flight->acceptee_id = $this->user1->id;
+        print_r("Authenticated as: ".Auth::id());
+        // assert that, from user2's perspective, user1 IS THE OTHER USER
         $this->assertEquals($this->user1->id, $this->flight->otherUser()->id);
     }
 

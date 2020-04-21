@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Models\Users\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -21,7 +21,7 @@ class NewRequest extends Notification
      *
      * @return void
      */
-    public function __construct(User $requestee, Flight $flight)
+    public function __construct(User $requestee, FlightRequest $flight)
     {
         $this->requestee = $requestee;
         $this->flight = $flight;

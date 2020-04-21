@@ -2,7 +2,7 @@
 
 namespace App\Models\Flights;
 
-class ArchivedFlight extends MasterFlight
+class ArchivedFlight extends Flight
 {
     /**
      * Attributes that are mass assignable
