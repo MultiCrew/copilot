@@ -54,6 +54,7 @@ class FlightInteractionTest extends TestCase
     {
         $this->assertEquals($this->user1->id, $this->flight->requestee->id);
         $this->assertTrue($this->flight->isRequestee($this->user1));
+        $this->assertFalse($this->flight->isAcceptee($this->user1));
         $this->assertTrue($this->flight->isInvolved($this->user1));
         $this->assertFalse($this->flight->isInvolved($this->user2));
         $this->assertEquals(null, $this->flight->acceptee);
@@ -70,8 +71,29 @@ class FlightInteractionTest extends TestCase
 
         $this->assertEquals($this->user2->id, $this->flight->acceptee->id);
         $this->assertTrue($this->flight->isAcceptee($this->user2));
+        $this->assertFalse($this->flight->isRequestee($this->user2));
         $this->assertTrue($this->flight->isInvolved($this->user2));
         $this->assertTrue($this->flight->isAccepted());
+    }
+
+    /**
+     * Test the other user method
+     *
+     * @return void
+     */
+    public function testOtherUser()
+    {
+        $this->actingAs($this->user1);
+        $this->assertEquals(null, $this->flight->otherUser());
+
+        $this->flight->acceptee_id = $this->user2->id;
+        $this->assertEquals($this->user2->id, $this->flight->acceptee->id);
+
+        $this->actingAs($this->user2);
+        $this->assertEquals(null, $this->flight->otherUser());
+
+        $this->flight->acceptee_id = $this->user1->id;
+        $this->assertEquals($this->user1->id, $this->flight->otherUser()->id);
     }
 
     public function tearDown(): void
