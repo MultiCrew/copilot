@@ -1,31 +1,70 @@
 <?php
+
 namespace App\Http\Traits;
 
-use App\Models\Flights\Flight;
+use Exception;
+use App\Models\Users\User;
 use Illuminate\Support\Facades\Auth;
-use App\Notifications\RequestAccepted;
 
 trait FlightTrait {
-
-    public function accept(Flight $flight)
+    /**
+     * The user that created the request.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function requestee()
     {
-        // if the user is the requestee or has already accepted the flight
-        if( $flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()) )
-        {   // redirect them to the flight
-            return  redirect()
-                    ->route('flights.show', $flight->id)
-                    ->withErrors(['You have already accepted this request!']);
+        return $this->belongsTo('App\Models\Users\User', 'requestee_id', 'id');
+    }
+
+    /**
+     * The user that accepted the request.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function acceptee()
+    {
+        return $this->belongsTo('App\Models\Users\User', 'acceptee_id', 'id');
+    }
+
+    /**
+     * Return the user that is a member of the flight but not the authed user
+     *
+     * @return User
+     * @throws Exception
+     */
+    public function otherUser()
+    {
+        if (Auth::id() === $this->requestee_id) {
+            return $this->acceptee;
+        } elseif (Auth::id() === $this->acceptee_id) {
+            return $this->requestee;
+        } else {
+            throw new Exception("There is no other user");
         }
+    }
 
-        // accept the flight
-        $flight->acceptee_id = Auth::user()->id;
-        $flight->save();
+    /**
+     * Check to see if user is the requestee
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isRequestee(User $user)
+    {
+        return $this->requestee_id == $user->id;
+    }
 
-        // send notification
-
-        $requestee = $flight->requestee;
-        $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flight));
-
-        return $flight;
+    /**
+     * Check to see if user is the acceptee
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAcceptee(User $user)
+    {
+        return $this->acceptee_id == $user->id;
     }
 }
