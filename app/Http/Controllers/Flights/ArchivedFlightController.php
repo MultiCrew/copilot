@@ -37,7 +37,7 @@ class ArchivedFlightController extends Controller
         $archived->save();
         $flight->delete();
 
-        return redirect()->route('flights.show', $archived);
+        return redirect()->route('flights.show', ['flight' => $archived]);
     }
 
 }
