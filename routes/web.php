@@ -50,9 +50,9 @@ Route::group([
  });
 
 /**
- * Flight routes
+ * FlightRequest routes
  *
- * These routes deal with the Flight and ArchivedFlight model resources
+ * These routes deal with the FlightRequest and ArchivedFlight model resources
  * All users interact with these controllers as part of their Copilot workflot
  */
 Route::group([
@@ -75,7 +75,7 @@ Route::group(['middleware' => ['verified']], function () {
  * Dispatch routes
  *
  * These routes deal with the SimBrief API integration: creation and reviewing
- * of Flight plans (FlightPlan models).
+ * of FlightRequest plans (FlightPlan models).
  */
 Route::group([
     'as'         => 'dispatch.',              // routes are named 'dispatch.{}'

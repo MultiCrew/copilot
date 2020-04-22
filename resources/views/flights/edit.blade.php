@@ -67,9 +67,51 @@
         </div>
 
         <button type="submit" class="btn btn-success card-text">
-            Save <i class="fas fa-save fa-fw ml-2"></i>
+            <i class="fas fa-save fa-fw mr-2"></i>Save
+        </button>
+        <button
+        type="button"
+        class="btn btn-danger card-text"
+        data-toggle="modal"
+        data-target="#deleteModal">
+            <i class="fas fa-trash fa-fw mr-2"></i>Delete
         </button>
     </form>
+</div>
+
+<div
+class="modal fade"
+id="deleteModal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="deleteModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete flight</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this flight?
+            </div>
+            <div class="modal-footer">
+                <form action="{{ route('flights.destroy', ['flight' => $flight]) }}" method="post">
+                    @csrf
+                    @method('delete')
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash mr-2"></i>Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection

@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Flights;
 
 use App\Models\Users\User;
 use Illuminate\Http\Request;
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Notifications\NewRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Flights\MasterFlight;
+use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\ArchivedFlight;
 use App\Models\Users\UserNotification;
@@ -39,7 +39,7 @@ class FlightController extends Controller
     public function index()
     {
         // select flights the user can accept
-        $acceptableRequests =   Flight::
+        $acceptableRequests =   FlightRequest::
                                   where('requestee_id', '<>', Auth::user()->id)
                                 ->where('public', '=', 1)
                                 ->whereNull('acceptee_id')
@@ -65,7 +65,7 @@ class FlightController extends Controller
             'aircraft' => 'required|size:4|aircraft'
         ]);
 
-        $flight = new Flight();
+        $flight = new FlightRequest();
 
         $flight->fill([
             'departure' => strtoupper($request->departure),
@@ -77,7 +77,7 @@ class FlightController extends Controller
         // if request is private, generate a code
         $flight->public = $request->public == 'on';
         if (!$flight->public)
-            $flight->code = Flight::generatePublicId();
+            $flight->code = FlightRequest::generateCode();
 
 		$flight->save();
 
@@ -90,7 +90,7 @@ class FlightController extends Controller
 								->pluck('user')
 								->flatten();
 
-		Notification::send($users, new NewRequest(Auth::user(), $flight));	
+		Notification::send($users, new NewRequest(Auth::user(), $flight));
 
         return redirect()->route('flights.show', ['flight' => $flight]);
     }
@@ -98,10 +98,10 @@ class FlightController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Flights\MasterFlight $flight
+     * @param  \App\Models\Flights\Flight $flight
      * @return \Illuminate\Http\Response
      */
-    public function show(Flight $flight)
+    public function show(FlightRequest $flight)
     {
         return view('flights.show', ['flight' => $flight]);
     }
@@ -109,10 +109,10 @@ class FlightController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Flights\Flight $flight
+     * @param  \App\Models\Flights\FlightRequest $flight
      * @return \Illuminate\Http\Response
      */
-    public function edit(Flight $flight)
+    public function edit(FlightRequest $flight)
     {
         return view('flights.edit', ['flight' => $flight]);
     }
@@ -121,10 +121,10 @@ class FlightController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Flights\Flight $flight
+     * @param  \App\Models\Flights\FlightRequest $flight
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Flight $flight)
+    public function update(Request $request, FlightRequest $flight)
     {
         $flight->fill([
             'departure' => $request->departure,
@@ -140,12 +140,13 @@ class FlightController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Flights\Flight  $flight
+     * @param  \App\Models\Flights\FlightRequest  $flight
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Flight $flight)
+    public function destroy(FlightRequest $flight)
     {
-        // TODO
+        $flight->delete();
+        return redirect()->route('flights.user-flights');
     }
 
     /**
@@ -156,11 +157,11 @@ class FlightController extends Controller
     public function userFlights()
     {
         // select flights where requestee_id IS the authed user and the flights are NOT accepted
-        $openRequests = Flight::whereNull('acceptee_id')
+        $openRequests = FlightRequest::whereNull('acceptee_id')
                         ->where('requestee_id', '=', Auth::user()->id)
                         ->get();
         // select flights where an involved user IS the authed user and the flights ARE accepted
-        $acceptedRequests = Flight::whereNotNull('acceptee_id')
+        $acceptedRequests = FlightRequest::whereNotNull('acceptee_id')
                             ->where(function($query) {
                                 $query->where('requestee_id', '=', Auth::user()->id)
                                 	  ->orWhere('acceptee_id', '=', Auth::user()->id);
@@ -186,11 +187,11 @@ class FlightController extends Controller
      * @return     JSON Array | PHP array       Array of flights found based on request
      */
     public function search(Request $request)
-    {  
+    {
         $output = '';
-        
+
         $query = $request->get('query');
-        
+
         if($query != '')
         {
             $data =
@@ -208,7 +209,7 @@ class FlightController extends Controller
         else
         {
             $data =
-                Flight::get()
+                FlightRequest::get()
                 ->where('public', 1)
                 ->sortBy('id');
         }
@@ -226,7 +227,7 @@ class FlightController extends Controller
     public function acceptPublic(Request $request)
     {
         // get the flight to accept
-        $flight = Flight::findOrFail($request->id);
+        $flight = FlightRequest::findOrFail($request->id);
 
         $flight = $this->accept($flight);
 
@@ -236,12 +237,12 @@ class FlightController extends Controller
 
     /**
      * Accept a private request
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      */
     public function acceptPrivate(Request $request)
     {
-        $flight = Flight::where('code', $request->code)->first();
+        $flight = FlightRequest::where('code', $request->code)->first();
 
         $flight = $this->accept($flight);
 
@@ -251,13 +252,13 @@ class FlightController extends Controller
     /**
      * Generate a code.
      *
-     * @param \App\Models\Flights\Flight $flight
+     * @param \App\Models\Flights\FlightRequest $flight
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateCode(Flight $flight)
+    public function generateCode(FlightRequest $flight)
     {
-        $flight->code = Flight::generatePublicId();
+        $flight->code = FlightRequest::generateCode();
         $flight->save();
 
         return redirect()->back();

@@ -4,7 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Users\User;
 use Illuminate\Bus\Queueable;
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Channels\WebhookChannel;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Users\UserNotification;
@@ -28,7 +28,7 @@ class RequestAccepted extends Notification
      *
      * @return void
      */
-    public function __construct(User $acceptee, User $requestee, Flight $flight)
+    public function __construct(User $acceptee, User $requestee, FlightRequest $flight)
     {
         $this->acceptee = $acceptee;
         $this->requestee = $requestee;
@@ -45,7 +45,7 @@ class RequestAccepted extends Notification
     {
 
         $userNotifications = UserNotification::where('user_id', $this->flight->requestee_id)->first();
-      
+
         $channels = [];
 
         if ($userNotifications->request_accepted) {
@@ -81,7 +81,7 @@ class RequestAccepted extends Notification
 
     /**
      * Broadcast the notification
-     * 
+     *
      * @param mixed $notifiable
      * @return BroadcastMessage
      */

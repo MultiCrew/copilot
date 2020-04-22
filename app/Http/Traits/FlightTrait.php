@@ -1,13 +1,13 @@
 <?php
 namespace App\Http\Traits;
 
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\RequestAccepted;
 
 trait FlightTrait {
 
-    public function accept(Flight $flight)
+    public function accept(FlightRequest $flight)
     {
         // if the user is the requestee or has already accepted the flight
         if( $flight->isRequestee(Auth::user()) || $flight->isAcceptee(Auth::user()) )

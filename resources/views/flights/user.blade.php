@@ -106,22 +106,6 @@
                                 <td class="align-middle">{{ $flight->aircraft }}</td>
 
                                 <td class="align-middle text-right">
-                                    @if($flight->plan)
-                                        <a href="{{ route('dispatch.show', $flight->plan) }}" class="btn btn-sm btn-success">
-                                            <i class="fas fa-fw mr-2 fa-search"></i>
-
-                                            @if($flight->plan->isApproved())
-                                                View Plan
-                                            @else
-                                                Review Plan
-                                            @endif
-                                        </a>
-                                    @else
-                                        <a href="{{ route('dispatch.create', $flight) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-fw mr-2 fa-file-signature"></i>Create Plan
-                                        </a>
-                                    @endif
-
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
@@ -159,7 +143,6 @@
                                 <td>{{ $flight->departure }}</td>
                                 <td>{{ $flight->arrival }}</td>
                                 <td>{{ $flight->aircraft }}</td>
-                                <td>{{ $flight->arrival }}</td>
                                 <td>
                                     <a href="#" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
