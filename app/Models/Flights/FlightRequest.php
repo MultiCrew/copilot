@@ -2,19 +2,23 @@
 
 namespace App\Models\Flights;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use App\Models\Users\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\FlightTrait;
 
 /**
  * Class FlightRequest
- * @package App\Models\Flights
+ *
  * @mixin \Eloquent
  */
-class FlightRequest extends Flight
+class FlightRequest extends Model
 {
+    use FlightTrait;
+
     /**
      * Attributes that are mass assignable
      *

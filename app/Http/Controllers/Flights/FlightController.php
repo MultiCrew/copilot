@@ -14,12 +14,12 @@ use App\Models\Flights\ArchivedFlight;
 use App\Models\Users\UserNotification;
 use App\Notifications\RequestAccepted;
 use Illuminate\Support\Facades\Notification;
-use App\Http\Traits\FlightTrait;
+use App\Http\Traits\FlightJoinTrait;
 
 class FlightController extends Controller
 {
 
-    use FlightTrait;
+    use FlightJoinTrait;
 
     public function __construct()
     {
