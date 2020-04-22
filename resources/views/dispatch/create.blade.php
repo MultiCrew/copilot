@@ -143,19 +143,19 @@ z-index: 2;">
                         <div class="col-sm-3 form-group mb-0">
                             <label>Flight Number</label>
                             <div class="input-group input-group-sm">
-                                <input type="test" name="airline" class="form-control" required placeholder="BA" size="2">
+                                <input type="test" name="airline" class="form-control" required placeholder="MC" value="MC" size="2">
                                 <input type="text" name="fltnum" class="form-control" required placeholder="124">
                             </div>
                         </div>
 
                         <div class="col-sm-3 form-group  mb-0">
                             <label>Callsign</label>
-                            <input type="text" name="callsign" class="form-control form-control-sm" placeholder="BAW124" required>
+                            <input type="text" name="callsign" class="form-control form-control-sm" placeholder="MTC124" required>
                         </div>
 
                         <div class="col-sm-3 form-group  mb-0">
                             <label>Aircraft Reg</label>
-                            <input type="text" name="reg" class="form-control form-control-sm" placeholder="G-EUUS" required>
+                            <input type="text" name="reg" class="form-control form-control-sm" placeholder="G-MTAA" required>
                         </div>
                     </div>
                 </div>
