@@ -2,8 +2,12 @@
 
 namespace App\Models\Flights;
 
-class ArchivedFlight extends Flight
+use Illuminate\Database\Eloquent\Model;
+
+class ArchivedFlight extends Model
 {
+    use FlightTrait;
+
     /**
      * Attributes that are mass assignable
      *
