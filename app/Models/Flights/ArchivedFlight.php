@@ -3,6 +3,7 @@
 namespace App\Models\Flights;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Traits\FlightTrait;
 
 class ArchivedFlight extends Model
 {
