@@ -48,7 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function flightRequests()
     {
-        return $this->hasMany('App\Models\Flights\Flight', 'requestee_id', 'id');
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'id', 'requestee_id');
     }
 
     /**
@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function flightAccepts()
     {
-        return $this->hasMany('App\Models\Flights\Flight', 'acceptee_id', 'id');
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'id', 'acceptee_id');
     }
 
     /**
