@@ -35,12 +35,9 @@ class MasterFlight extends Model
      */
     public function otherUser()
     {
-        if ($this->isRequestee(Auth::user()))
-        {
+        if ($this->isRequestee(Auth::user())) {
             return $this->acceptee;
-
-        } else if ($this->isAcceptee(Auth::user()))
-        {
+        } else if ($this->isAcceptee(Auth::user())) {
             return $this->requestee;
         }
     }
@@ -79,5 +76,13 @@ class MasterFlight extends Model
     public function isInvolved(User $user)
     {
         return $this->isRequestee($user) || $this->isAcceptee($user);
+    }
+
+    /**
+     * Returns whether the flight has been accepted
+     */
+    public function isAccepted()
+    {
+        return !is_null($this->acceptee_id);
     }
 }

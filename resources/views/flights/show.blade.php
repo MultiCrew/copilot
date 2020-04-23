@@ -49,10 +49,12 @@
                             <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
                                 View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                             </a>
-                        @else
+                        @elseif($flight->acceptee)
                             <a href="{{ route('dispatch.create', $flight->id) }}" class="btn btn-sm btn-success">
                                 Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                             </a>
+                        @else
+                            You need a Copilot to plan this flight!
                         @endif
                     </dd>
 
@@ -60,6 +62,8 @@
                     <dd class="col-sm-9 card-text">
                         @if($flight->planAccepted())
                             <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
+                                @csrf
+
                                 <input type="hidden" name="flight" value="{{ $flight->id }}">
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="fas fa-check fa-fw mr-2"></i>Mark Complete
@@ -82,7 +86,7 @@
                 <i class="fas fa-fw mr-2 fa-edit"></i>Edit
             </a>
         </p>
-
+        
         @if(!$flight->public && !$flight->acceptee)
             <hr>
             <p class="card-text">

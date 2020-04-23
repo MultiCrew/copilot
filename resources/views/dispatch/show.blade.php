@@ -385,6 +385,32 @@
         <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-body">
+                    <h5 class="card-title">Pre-file Flight Plan</h5>
+
+                    <div class="d-inline card-text">
+                        <div id="unstyled-buttons">
+                            {!! $fpl['vatsim_prefile'] !!}
+                            {!! $fpl['ivao_prefile'] !!}
+                        </div>
+
+                        <a
+                        href="{{ $fpl['pilotedge_prefile'] }}"
+                        class="btn btn-primary btn-block"
+                        target="_blank">
+                            Pre-file on PilotEdge
+                        </a>
+                        <a
+                        href="{{ $fpl['poscon_prefile'] }}"
+                        class="btn btn-primary btn-block"
+                        target="_blank">
+                            Pre-file on POSCON
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
                     <h5 class="card-title">Complete Flight</h5>
 
                     <p class="lead">Done with your flight? Mark it as completed and it will appear in your logbook!</p>
@@ -450,5 +476,15 @@
         </div>
     </div>
 @endif
+
+@endsection
+
+@section('scripts')
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#unstyled-buttons form button').addClass('btn btn-primary btn-block mb-2');
+    });
+</script>
 
 @endsection

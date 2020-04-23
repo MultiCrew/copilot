@@ -26,7 +26,7 @@ class AircraftDatabaseUpdate implements ShouldQueue
             $s[] = $line;
         }
         for($i = 1; $i < count($s); $i++) {
-            if(Aircraft::where('icao', $s[$i][1])->exists()) continue;
+            if(Aircraft::where('icao', $s[$i][2])->exists()) continue;
             $airport = new Aircraft(); 
             $airport->icao = $s[$i][2];
             $airport->iata = $s[$i][1];
