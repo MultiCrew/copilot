@@ -75,18 +75,33 @@
                             @endif
                         </dd>
                     </dl>
-                @elseif($type === 'ArchivedFlight')
+                @elseif($type == 'ArchivedFlight')
                     <dl class="row card-text">
                         <dt class="col-sm-3 card-text">Copilot</dt>
                         <dd class="col-sm-9 card-text">
                             <a href="#" class="text-decoration-none">
+                                <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                 {{ $flight->otherUser()->username }}
                             </a>
+                        </dd>
+
+                        <dt class="col-sm-3 card-text">Date Complete</dt>
+                        <dd class="col-sm-9 card-text">
+                            {{ \Carbon\Carbon::parse($flight->created_at)
+                                ->format('H:i, D j M Y') }}
                         </dd>
                     </dl>
                 @endif
             </div>
         </div>
+
+        <p class="card-text mt-4">
+            <a
+            href="@if($flight->isRequestee(Auth::user())) {{ route('flights.edit', $flight->id) }} @else # @endif"
+            class="btn btn-info @if($flight->isAcceptee(Auth::user())) disabled @endif">
+                <i class="fas fa-fw mr-2 fa-edit"></i>Edit
+            </a>
+        </p>
     </div>
 </div>
 
