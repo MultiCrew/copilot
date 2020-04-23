@@ -83,7 +83,7 @@
             </a>
         </p>
 
-        @unless($flight->public)
+        @if(!$flight->public && !$flight->acceptee)
             <hr>
             <p class="card-text">
                 As your flight is private, you'll need to share it with someone
