@@ -104,7 +104,7 @@
             action="{{route('notifications.update')}}"
             id="notificationForm"
             class="mb-4">
-                @method('patch')
+                @method('post')
                 @csrf
 
                 <table class="table border">
