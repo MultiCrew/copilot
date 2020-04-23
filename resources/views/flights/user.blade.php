@@ -113,7 +113,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5">
+                                <td colspan="5" class="text-center lead p-2">
                                     You have no accepted flights. Maybe you want to
                                     <a href="{{ route('flights.index') }}#">search open flights</a>?
                                 </td>
@@ -139,11 +139,20 @@
                     <tbody>
                         @forelse($archivedFlights as $flight)
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($flight->created_at)->format('H:i, D j M Y') }}</td>
-                                <td>{{ $flight->departure }}</td>
-                                <td>{{ $flight->arrival }}</td>
-                                <td>{{ $flight->aircraft }}</td>
-                                <td>
+                                <td class="align-middle">
+                                    {{ \Carbon\Carbon::parse($flight->created_at)
+                                        ->format('H:i, D j M Y') }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $flight->departure }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $flight->arrival }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $flight->aircraft }}
+                                </td>
+                                <td class="align-middle">
                                     <a href="#" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                         @if($flight->acceptee_id === Auth::id())
@@ -151,6 +160,13 @@
                                         @else
                                             {{ User::find($flight->requestee_id)->username }}
                                         @endif
+                                    </a>
+                                </td>
+                                <td class="align-middle text-right">
+                                    <a
+                                    href="{{ route('flights.archive.show', $flight) }}"
+                                    class="btn btn-primary btn-sm">
+                                        View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -103,7 +103,10 @@ class FlightController extends Controller
      */
     public function show(FlightRequest $flight)
     {
-        return view('flights.show', ['flight' => $flight]);
+        return view('flights.show', [
+            'type' => 'FlightRequest',
+            'flight' => $flight
+        ]);
     }
 
     /**

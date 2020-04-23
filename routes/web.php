@@ -65,6 +65,7 @@ Route::group([
     Route::get('accept/private/{code}', 'Flights\FlightController@acceptPrivate')->name('accept.private');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
+    Route::get('/archive/{flight}', 'Flights\ArchivedFlightController@show')->name('archive.show');
 });
 Route::group(['middleware' => ['verified']], function () {
     Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
