@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Users\User;
 use App\Http\Controllers\Controller;
-
+use App\Models\Users\UserNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/account';
 
     /**
      * Create a new controller instance.
@@ -50,10 +50,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name'      => ['required', 'string', 'max:255'],
+            'email'     => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username'  => ['required', 'string', 'unique:users'],
+            'password'  => ['required', 'string', 'min:8', 'confirmed'],
+            'g-recaptcha-response' => 'required|captcha'
         ]);
     }
 
@@ -65,11 +66,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'username' => $data['username'],
-            'password' => Hash::make($data['password']),
+        $user = User::create([
+            'name'      => $data['name'],
+            'email'     => $data['email'],
+            'username'  => $data['username'],
+            'password'  => Hash::make($data['password']),
         ]);
+
+        $user->assignRole('new');
+        $user->givePermissionTo('apply to beta');
+
+        $userNotifications = new UserNotification();
+		$userNotifications->user_id = $user->id;
+		$new_request = $userNotifications->new_request;
+		$new_request['aircrafts'] = [];
+		$new_request['airports'] = [];
+		$userNotifications->new_request = $new_request;
+		$userNotifications->save();
+
+        $profile = new Profile();
+        $profile->fill([
+            'name'      => $data['name'],
+            'username'  => $data['username']
+        ]);
+        $profile->save();
+
+        return $user;
     }
 }
