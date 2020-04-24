@@ -12,9 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RoleSeeder::class,
-            UserSeeder::class,      // TODO: REMOVE IN PRODUCTION
-            FlightSeeder::class     // TODO: REMOVE IN PRODUCTION
+            RoleSeeder::class
         ]);
+
+        if (App::environment('local')) {
+            $this->call([
+                UserSeeder::class,
+                FlightSeeder::class
+            ]);
+        }
     }
 }

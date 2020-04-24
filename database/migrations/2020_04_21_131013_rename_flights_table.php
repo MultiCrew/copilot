@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDiscordIdToRolesTable extends Migration
+class RenameFlightsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AddDiscordIdToRolesTable extends Migration
      */
     public function up()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->string('discord_id')->nullable();
-        });
+        Schema::rename('flights', 'flight_requests');
     }
 
     /**
@@ -25,8 +23,8 @@ class AddDiscordIdToRolesTable extends Migration
      */
     public function down()
     {
-        Schema::table('roles', function (Blueprint $table) {
-            $table->dropColumn('discord_id');
+        Schema::table('flights', function (Blueprint $table) {
+            Schema::rename('flight_requests', 'flights');
         });
     }
 }

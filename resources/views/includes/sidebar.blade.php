@@ -128,7 +128,10 @@
         <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
     </a>
 
-    <a href="#" class="nav-item nav-link disabled">
+    <a
+    href="{{ route('profile.show', Auth::user()->profile) }}"
+    class="nav-item nav-link
+    @if(strpos(Route::currentRouteName(), 'profile') !== false) active @endif">
         <i class="fa fa-id-card fa-fw mr-3"></i>Profile
     </a>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Discord;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Users\UserNotification;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\DiscordSendData;
 use Wohali\OAuth2\Client\Provider\Discord;
@@ -12,7 +13,7 @@ class DiscordController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
 	}
 	
 	/**
@@ -33,7 +34,7 @@ class DiscordController extends Controller
 		if (!isset($_GET['code'])) {
 			// Get authorization code
 			$authUrl = $provider->getAuthorizationUrl($options);
-			header('Location: ' . $authUrl);
+			header('Location: ' . $authUrl); exit;
 		
 		} else {
 		
@@ -49,8 +50,15 @@ class DiscordController extends Controller
 				$user = Auth::user();
 				$user->discord_id = $discordUser->getId();
 				$user->save();
-				//$user->notify(new DiscordSendData($message)); uncomment once message variable is set
-				return redirect()->route('home.home');
+				$message = $user->username . ', this is a confirmation that your MultiCrew account is now connected to Discord.';
+				$roleList = Auth::user()->with('roles')->get()->pluck('roles')->flatten();
+				$roles = array();
+				for ($i=0; $i < count($roleList); $i++) { 
+					$role = $roleList[$i];
+					array_push($roles, $role->discord_id);
+				}
+				$user->notify(new DiscordSendData('connection', $message, $user, $roles));
+				return redirect()->route('account.index');
 		
 			} catch (Exception $e) {
 		
@@ -59,5 +67,24 @@ class DiscordController extends Controller
 		
 			}
 		}
+	}
+
+	/**
+	 * Disconnect a Discord Account
+	 * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+	 */
+	public function disconnect(Request $request)
+	{
+		$user = Auth::user();
+		$user->discord_id = null;
+		$user->save();
+
+		$userNotification = UserNotification::where('user_id', Auth::id())->first();
+		$userNotification->request_accepted_push = 0;
+		$userNotification->plan_reviewed_push = 0;
+		$userNotification->save();
+
+		return redirect()->route('account.index');
 	}
 }

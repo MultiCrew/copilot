@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
-        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <script src="https://kit.fontawesome.com/c000864a8c.js" crossorigin="anonymous"></script>
         <style>
             html, body {
                 background: url('img/bg.jpeg') no-repeat;
@@ -73,20 +73,34 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .mr-2 {
+                margin-right: 0.6rem;
+            }
+
+            .mt-5 {
+                margin-top: 5rem;
+            }
         </style>
     </head>
+
     <body>
         <div class="flex-center position-ref full-height" id="app">
             @if (Route::has('login'))
                 <div class="top-right text-links">
                     @auth
-                        <a href="{{ url('/home') }}"><i class="fas fa-fw fa-home mr-2"></i>Home</a>
+                        <a href="{{ route('account.index') }}">
+                            <i class="fas fa-fw fa-home mr-2"></i>Account
+                        </a>
                     @else
-                        <a href="{{ route('login') }}"><i class="fas fa-fw fa-key mr-2"></i>Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"><i class="fas fa-fw fa-user-plus mr-2"></i>Register</a>
-                        @endif
+                        <a href="{{ route('login') }}">
+                            <i class="fas fa-fw fa-key mr-2"></i>
+                            Login
+                        </a>
+                        <a href="{{ route('register') }}">
+                            <i class="fas fa-fw fa-user-plus mr-2"></i>
+                            Register
+                        </a>
                     @endauth
                 </div>
             @endif
@@ -97,17 +111,37 @@
                 </div>
 
                 <div class="text-links">
-                    <a href="https://laravel.com/docs">Copilot</a>
-                    <a href="https://laracasts.com">Account</a>
-                    <a href="https://github.com/laravel/laravel">
-                        <i class="fab fa-fw fa-github mr-2"></i>GitHub
-                    </a>
+                    @auth
+                        @role('new')
+                        @else
+                            <a href="{{ route('flights.index') }}">Copilot</a>
+                        @endrole
+                        <a href="{{ route('account.index') }}">Account</a>
+                    @else
+                        <a href="{{ route('login') }}">
+                            <i class="fas fa-fw fa-key mr-2"></i>
+                            Login
+                        </a>
+                        <a href="{{ route('register') }}">
+                            <i class="fas fa-fw fa-user-plus mr-2"></i>
+                            Register
+                        </a>
+                    @endguest
                 </div>
 
                 <div class="icon-links mt-5">
-                    <a href="https://fb.me/flymulticrew"><i class="fab fa-facebook-square fa-2x"></i></a>
-                    <a href="https://twitter.com/flymulticrew"><i class="fab fa-twitter fa-2x"></i></a>
-                    <a href="https://github.com/MultiCrew"><i class="fab fa-github fa-2x"></i></a>
+                    <a href="https://fb.me/flymulticrew">
+                        <i class="fab fa-facebook-square fa-2x"></i>
+                    </a>
+                    <a href="https://twitter.com/flymulticrew">
+                        <i class="fab fa-twitter fa-2x"></i>
+                    </a>
+                    <a href="https://discord.gg/3jHRAkE">
+                        <i class="fab fa-discord fa-2x"></i>
+                    </a>
+                    <a href="https://github.com/MultiCrew">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
                 </div>
             </div>
         </div>

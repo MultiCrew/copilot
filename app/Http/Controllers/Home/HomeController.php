@@ -13,11 +13,8 @@ class HomeController extends Controller
         return view('welcome');
     }
 
-    public function dashboard()
+    public function policy()
     {
-        if (Auth::check())
-            return view('home');
-        else
-            return route('login');
+        return view('policy');
     }
 }

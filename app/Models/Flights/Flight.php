@@ -2,22 +2,13 @@
 
 namespace App\Models\Flights;
 
-use Illuminate\Support\Str;
-use App\Models\Flights\Flight;
+use App\Models\Users\User;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Users\User as User;
 
 class Flight extends Model
 {
-    /**
-     * Attributes that are mass assignable
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'departure', 'arrival', 'aircraft', 'requestee_id', 'acceptee_id', 'plan_id', 'public'
-    ];
-
     /**
      * The user that created the request.
      *
@@ -25,7 +16,7 @@ class Flight extends Model
      */
     public function requestee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'requestee_id');
+        return $this->belongsTo('App\Models\Users\User', 'requestee_id', 'id');
     }
 
     /**
@@ -35,36 +26,32 @@ class Flight extends Model
      */
     public function acceptee()
     {
-        return $this->belongsTo('App\Models\Users\User', 'acceptee_id');
+        return $this->belongsTo('App\Models\Users\User', 'acceptee_id', 'id');
     }
 
     /**
-     * Generate a public ID for a flight.
+     * Return the user that is a member of the flight but not the authed user
      *
-     * @return string
+     * @return User
+     * @throws Exception
      */
-    public static function generatePublicId()
+    public function otherUser()
     {
-        return Str::random(10);
-    }
-
-    /**
-     * Check to see if flight is public.
-     *
-     * @param Flight $flight
-     * @return boolean
-     */
-    public static function isPublic(Flight $flight)
-    {
-        return $flight->public == 1 ? true : false;
+        if (Auth::id() === $this->requestee_id) {
+            return $this->acceptee;
+        } elseif (Auth::id() === $this->acceptee_id) {
+            return $this->requestee;
+        } else {
+            throw new Exception("There is no other user");
+        }
     }
 
     /**
      * Check to see if user is the requestee
      *
-     * @param \App\Models\User\User $user
+     * @param User $user
      *
-     * @return boolean
+     * @return bool
      */
     public function isRequestee(User $user)
     {
@@ -74,13 +61,42 @@ class Flight extends Model
     /**
      * Check to see if user is the acceptee
      *
-     * @param \App\Models\User\User $user
+     * @param User $user
      *
-     * @return boolean
+     * @return bool
      */
     public function isAcceptee(User $user)
     {
         return $this->acceptee_id == $user->id;
     }
 
+    /**
+     * Returns whether the given user is either requestee or acceptee
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isInvolved(User $user)
+    {
+        return $this->isRequestee($user) || $this->isAcceptee($user);
+    }
+
+    /**
+     * Returns whether the flight has been accepted
+     */
+    public function isAccepted()
+    {
+        return !is_null($this->acceptee_id);
+    }
+
+    /**
+     * Check to see if flight is public
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->public == 1 ? true : false;
+    }
 }

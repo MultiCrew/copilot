@@ -75,11 +75,35 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-6">
+                                By signing up to MultiCrew you are agreeing to the <a href="{{route('home.policy')}}">Terms and Policies</a>.
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                {!! NoCaptcha::display() !!}
+
+                                @error('g-recaptcha-response')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
+
+                                <a href="{{ route('login') }}" class="ml-2">
+                                    Already have an account?
+                                </a>
                             </div>
                         </div>
                     </form>
@@ -88,4 +112,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    {!! NoCaptcha::renderJs() !!}
 @endsection
