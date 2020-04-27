@@ -67,4 +67,15 @@ trait FlightTrait {
     {
         return $this->acceptee_id == $user->id;
     }
+
+    /**
+     * Check to see if the user in involved in the flight
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function isInvolved(User $user)
+    {
+        return $this->isRequestee($user) || $this->isAcceptee($user);
+    }
 }
