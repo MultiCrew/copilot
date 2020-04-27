@@ -135,6 +135,11 @@ class FlightController extends Controller
             'aircraft'  => $request->aircraft,
         ]);
         $flight->public = $request->public == 'on';
+
+        if (!$flight->public) {
+            $flight->code = FlightRequest::generateCode();
+        }
+
         $flight->save();
 
         return redirect()->route('flights.show', $flight);
