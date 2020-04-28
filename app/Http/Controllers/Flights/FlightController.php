@@ -132,12 +132,17 @@ class FlightController extends Controller
         $flight->fill([
             'departure' => $request->departure,
             'arrival'   => $request->arrival,
-            'aircraft'  => $request->aircraft
+            'aircraft'  => $request->aircraft,
         ]);
+        $flight->public = $request->public == 'on';
+
+        if (!$flight->public) {
+            $flight->code = FlightRequest::generateCode();
+        }
 
         $flight->save();
 
-        return redirect()->back();
+        return redirect()->route('flights.show', $flight);
     }
 
     /**

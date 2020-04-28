@@ -36,9 +36,9 @@ trait FlightTrait {
     public function otherUser()
     {
         if (Auth::id() === $this->requestee_id) {
-            return $this->acceptee;
+            return User::find($this->acceptee_id);
         } elseif (Auth::id() === $this->acceptee_id) {
-            return $this->requestee;
+            return User::find($this->requestee_id);
         } else {
             throw new Exception("There is no other user");
         }
@@ -66,5 +66,16 @@ trait FlightTrait {
     public function isAcceptee(User $user)
     {
         return $this->acceptee_id == $user->id;
+    }
+
+    /**
+     * Check to see if the user in involved in the flight
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function isInvolved(User $user)
+    {
+        return $this->isRequestee($user) || $this->isAcceptee($user);
     }
 }

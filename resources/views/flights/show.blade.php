@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-body">
         <a
-        @if(strpos(url()->previous(), 'my-flights'))
+        @if($flight->isInvolved(Auth::user()))
             href="{{ route('flights.user-flights') }}"
         @else
             href="{{ route('flights.index') }}"
@@ -95,13 +95,39 @@
             </div>
         </div>
 
-        <p class="card-text mt-4">
-            <a
-            href="@if($flight->isRequestee(Auth::user())) {{ route('flights.edit', $flight->id) }} @else # @endif"
-            class="btn btn-info @if($flight->isAcceptee(Auth::user())) disabled @endif">
-                <i class="fas fa-fw mr-2 fa-edit"></i>Edit
-            </a>
-        </p>
+        @if($flight->isRequestee(Auth::user()))
+            <p class="card-text mt-4">
+                <a
+                href="{{ route('flights.edit', $flight->id) }}"
+                class="btn btn-info">
+                    <i class="fas fa-fw mr-2 fa-edit"></i>Edit
+                </a>
+            </p>
+        @endif
+
+        @if(!$flight->public && !$flight->acceptee)
+            <hr>
+            <p class="card-text">
+                As your flight is private, you'll need to share it with someone
+                directly for them to join it. Just send them the link below!
+            </p>
+            <div class="form-group card-text">
+                <label>Join link</label>
+                <div class="input-group">
+                    <input
+                    type="text"
+                    readonly
+                    value="{{ route('flights.accept.private', ['code' => $flight->code]) }}"
+                    class="form-control"
+                    id="privateCode">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="copyLink()">
+                            <i class="fas fa-paste"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 

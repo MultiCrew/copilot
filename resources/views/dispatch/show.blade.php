@@ -414,11 +414,45 @@
                     <h5 class="card-title">Complete Flight</h5>
 
                     <p class="lead">Done with your flight? Mark it as completed and it will appear in your logbook!</p>
-                    <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}" class="text-center">
+                    <button
+                    type="button"
+                    class="btn btn-warning btn-block btn-lg card-text"
+                    data-toggle="modal"
+                    data-target="#completeModal">
+                        <i class="fas fa-check fa-fw mr-2"></i>Complete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div
+    class="modal fade"
+    id="completeModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="completeModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="completeModalLabel">Complete flight</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to complete this flight?
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
                         @csrf
-                        <input type="hidden" name="flight" value="{{ $flight->id }}">
-                        <button type="submit" class="btn btn-lg btn-success">
-                            <i class="fas fa-check fa-fw mr-2"></i>Complete
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fas fa-times mr-2"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-check mr-2"></i>Complete
                         </button>
                     </form>
                 </div>

@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between align-items-baseline">
             <h3 class="card-title">Edit Flight</h3>
             <a href="/flights/{{ $flight->id }}" class="btn btn-secondary mb-3 card-text">
-                &times; Cancel
+                <i class="fas fa-times mr-2"></i>Cancel
             </a>
         </div>
 
@@ -71,7 +71,7 @@
         </button>
         <button
         type="button"
-        class="btn btn-danger card-text"
+        class="btn btn-danger card-text float-right"
         data-toggle="modal"
         data-target="#deleteModal">
             <i class="fas fa-trash fa-fw mr-2"></i>Delete
