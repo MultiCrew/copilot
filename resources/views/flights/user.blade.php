@@ -185,3 +185,17 @@
 @include('flights.create')
 
 @endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        if(window.location.href.indexOf('#createRequestModal') != -1) {
+            $('#createRequestModal').modal('show');
+        }
+    });
+
+    @if (count($errors) > 0)
+        $('#createRequestModal').modal('show');
+    @endif
+</script>
+@endsection
