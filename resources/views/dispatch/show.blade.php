@@ -16,7 +16,7 @@
             </a>
         </div>
 
-        <h3 class="card-title">Flight Plan @if(!$plan->isApproved()) Review @endif</h3>
+        <h3 class="card-title">Flight Plan @unless($plan->isApproved()) Review @endunless</h3>
         <p class="lead text-muted">
             Flight {{ $fpl['general']['icao_airline'].$fpl['general']['flight_number'] }}
             from {{ $fpl['origin']['iata_code'] }} ({{ $fpl['origin']['name'] }})
@@ -36,321 +36,456 @@
 @if(!$plan->isApproved())
     <div class="alert alert-danger mb-4">
         <strong>Do not operate with this flight plan!</strong>
-        Please review and choose "Accept" or "Reject" at the bottom of this page.
+        Both pilots must review the plan before proceeding.
     </div>
 @endif
 
 <div class="row">
-    <div class="col-lg-8">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">General</h5>
+    <div class="col-xl-3">
+        <div class="row">
+            <div class="col-xl-12 col-lg-6">
+                <!-- begin summary box -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary</h5>
 
-                <div class="card-text">
-                    <div class="form-row">
-                        <div class="col-md-4 form-group card-text">
-                            <label>Planned with</label>
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="AIRAC {{ $fpl['params']['airac'] }}"></code>
-                        </div>
+                        <dl class="card-text row">
+                            <dt class="col-sm-5 col-xl-12">AIRAC</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['params']['airac'] }}</samp>
+                            </dd>
 
-                        <div class="col-md-4 form-group card-text">
-                            <label>Flight Number</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">{{ $fpl['general']['icao_airline'] }}</span>
+                            <dt class="col-sm-5 col-xl-12">Planned by</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['crew']['cpt'] }}</samp>
+                            </dd>
+
+                            <dt class="col-sm-5 col-xl-12">Callsign</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['atc']['callsign'] }}</samp>
+                            </dd>
+
+                            <dt class="col-sm-5 col-xl-12">Departure</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['origin']['icao_code'].' / '.$fpl['origin']['iata_code'] }}</samp>
+                            </dd>
+
+                            <dt class="col-sm-5 col-xl-12">Arrival</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['destination']['icao_code'].' / '.$fpl['destination']['iata_code'] }}</samp>
+                            </dd>
+
+                            <dt class="col-sm-5 col-xl-12">Prim. Altn.</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['alternate']['icao_code'].' / '.$fpl['alternate']['iata_code'] }}</samp>
+                            </dd>
+
+                            <dt class="col-sm-5 col-xl-12">Aircraft</dt>
+                            <dd class="col-sm-7 col-xl-12 text-right">
+                                <samp>{{ $fpl['aircraft']['icaocode'] }}</samp>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <!-- /end summary box -->
+            </div>
+
+            <div class="col-xl-12 col-lg-6">
+
+                @unless($plan->isApproved())
+                    <button
+                    type="button"
+                    class="btn btn-info btn-block btn-lg card-text mb-4"
+                    data-toggle="modal"
+                    data-target="#previewModal">
+                        Preview Paperwork<i class="fas fa-external-link-alt ml-2"></i>
+                    </button>
+
+                    <!-- begin review box -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Review</h5>
+
+                            @if($plan->hasAccepted())
+                                <p>
+                                    You have already accepted this flight plan. Your copilot has yet to review the plan, so
+                                    sit tight for now.
+                                </p>
+                            @else
+                                <div class="card-text">
+                                    <p>
+                                        Please select one of the following options to indicate whether you have reviewed,
+                                        and are happy to continue with, the <strong>draft</strong> flight plan detailed above.
+                                    </p>
+
+                                    <div class="text-center card-text">
+                                        <a class="btn btn-success btn-block card-text" href="{{ route('dispatch.accept', [$plan]) }}">
+                                            <i class="fas mr-2 fa-check"></i>Accept
+                                        </a>
+                                        <a class="btn btn-danger btn-block card-text" href="{{ route('dispatch.reject', [$plan]) }}">
+                                            <i class="fas mr-2 fa-times"></i>Reject
+                                        </a>
+                                    </div>
                                 </div>
-                                <input
-                                type="text"
-                                class="form-control card-text"
+                            @endif
+                        </div>
+                    </div>
+                    <!-- /end review box -->
+                @endunless
+            </div>
+        </div>
+    </div>
+
+    <!-- begin details accordion -->
+    <div class="col-xl-9">
+        <div class="accordion" id="detailsAccordion">
+            <div class="card">
+                <!-- begin route button -->
+                <div class="card-header" id="routeHeading">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#routeSection">
+                            Route
+                        </button>
+                    </h5>
+                </div>
+                <!-- /end route button -->
+
+                <!-- begin route section -->
+                <div id="routeSection" class="collapse" data-parent="#detailsAccordion">
+                    <div class="card-body">
+                        <div class="row mb-4 card-text">
+                            <div class="col-md-6">
+                                <p class="card-subtitle mb-2">Departure</p>
+                                <samp>{{ $fpl['origin']['name'] . ' (' . $fpl['origin']['iata_code'] . ')' }}</samp>
+                                <br>
+                                <samp>{{ $fpl['origin']['icao_code'] . '/' . $fpl['origin']['plan_rwy'] }}</samp>
+                            </div>
+
+                            <div class="col-md-6">
+                                <p class="card-subtitle mb-2">Arrival</p>
+                                <samp>{{ $fpl['destination']['name'] . ' (' . $fpl['destination']['iata_code'] . ')' }}</samp>
+                                <br>
+                                <samp>{{ $fpl['destination']['icao_code'] . '/' . $fpl['destination']['plan_rwy'] }}</samp>
+                            </div>
+                        </div>
+                        <div class="form-group card-text mb-4">
+                            <label>Route</label>
+                            <code>
+                                <textarea
+                                class="form-control form-control-sm card-text"
                                 readonly
-                                value="{{ $fpl['general']['flight_number'] }}"
-                                size="9">
+                                rows="2"
+                                style="resize: none;">{{ $fpl['general']['route_navigraph'] }}</textarea>
+                            </code>
+                        </div>
+                        <div class="row card-text">
+                            <div class="col-md-4">
+                                <p class="card-subtitle mb-2">Alternate</p>
+                                <samp>{{ $fpl['alternate']['name'] . ' (' . $fpl['alternate']['iata_code'] . ')' }}</samp>
+                                <br>
+                                <samp>{{ $fpl['alternate']['icao_code'] . '/' . $fpl['alternate']['plan_rwy'] }}</samp>
+                            </div>
+                            <div class="col-md-8">
+                                <label>Alternate Route</label>
+                                <code>
+                                    <textarea
+                                    class="form-control form-control-sm card-text"
+                                    readonly
+                                    rows="2"
+                                    style="resize: none;">{{ $fpl['alternate']['route'] }}</textarea>
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /end route section -->
+            </div>
+
+            <div class="card">
+                <!-- begin schedule button -->
+                <div class="card-header" id="scheduleHeading">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#scheduleSection">
+                            Schedule
+                        </button>
+                    </h5>
+                </div>
+                <!-- /end schedule button -->
+
+                <!-- begin schedule section -->
+                <div id="scheduleSection" class="collapse" data-parent="#detailsAccordion">
+                    <div class="card-body">
+                        <table class="table table-borderless table-sm card-text">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Scheduled</th>
+                                    <th>Estimated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th><pre class="mb-0">OUT</pre></th>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_out'])->format('Hi') }} Z</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_out'])->format('Hi') }} Z</pre></td>
+                                </tr>
+                                <tr>
+                                    <th><pre class="mb-0">OFF</pre></th>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_off'])->format('Hi') }} Z</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_off'])->format('Hi') }} Z</pre></td>
+                                </tr>
+                                <tr>
+                                    <th><pre class="mb-0">TET</pre></th>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_time_enroute'])->format('Hi') }}</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_time_enroute'])->format('Hi') }}</pre></td>
+                                </tr>
+                                <tr>
+                                    <th><pre class="mb-0">ON</pre></th>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_on'])->format('Hi') }} Z</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_on'])->format('Hi') }} Z</pre></td>
+                                </tr>
+                                <tr>
+                                    <th><pre class="mb-0">IN</pre></th>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_in'])->format('Hi') }} Z</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_in'])->format('Hi') }} Z</pre></td>
+                                </tr>
+                                <tr>
+                                    <th><pre class="mb-0">BLOCK</pre></th>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_block'])->format('Hi') }}</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_block'])->format('Hi') }}</pre></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /end schedule section -->
+            </div>
+
+            <div class="card">
+                <!-- begin fuel button -->
+                <div class="card-header" id="fuelHeading">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#fuelSection">
+                            Fuel & Payload
+                        </button>
+                    </h5>
+                </div>
+                <!-- /end fuel button -->
+
+                <!-- begin fuel section -->
+                <div id="fuelSection" class="collapse" data-parent="#detailsAccordion">
+                    <div class="card-body">
+                        <div class="form-row card-text">
+                            <div class="form-group mb-4 col-md-5">
+                                <label>Aicraft Type</label>
+                                <input type="text" readonly class="form-control" value="{{ $fpl['aircraft']['name'] }}">
+                            </div>
+                            <div class="form-group mb-4  col-md-5">
+                                <label>Registration</label>
+                                <input type="text" readonly class="form-control" value="{{ $fpl['aircraft']['reg'] }}">
+                            </div>
+                            <div class="form-group mb-4  col-md-2">
+                                <label>Units</label>
+                                <input type="text" readonly class="form-control bg-warning" value="{{ strtoupper($fpl['params']['units']) }}">
                             </div>
                         </div>
 
-                        <div class="col-md-4 form-group card-text">
-                            <label>Callsign</label>
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['atc']['callsign'] }}"></code>
-                        </div>
-                    </div>
+                        <div class="row mb-4">
+                            <div class="col-xl-6 col-lg-8 col-md-10 col-xs-12">
+                                <table class="table table-borderless table-sm card-text">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2"><pre class="mb-0">FUEL</pre></th>
+                                            <th><pre class="mb-0 text-right">TIME</pre></th>
+                                        </tr>
+                                    </thead>
 
-                    <div class="form-row">
-                        <div class="col-md-4 form-group card-text">
-                            <label>ADEP</label>
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['origin']['icao_code'].' / '.$fpl['origin']['iata_code'] }}"></code>
+                                    <tbody>
+                                        <tr>
+                                            <td><pre class="mb-0">TRIP</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ $fpl['fuel']['enroute_burn'] }}</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_block'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre class="mb-0">CONT</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ $fpl['fuel']['contingency'] }}</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['contfuel_time'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre class="mb-0">ALTN</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ $fpl['fuel']['alternate_burn'] }}</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['alternate']['ete'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre>FINRES</pre></td>
+                                            <td><pre class="text-right">{{ $fpl['fuel']['reserve'] }}</pre></td>
+                                            <td><pre class="text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['reserve_time'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre>M. T/O</pre></td>
+                                            <td><pre class="text-right">{{ $fpl['fuel']['min_takeoff'] }}</pre></td>
+                                            <td><pre class="text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['endurance']-$fpl['times']['extrafuel_time'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre>EXTRA</pre></td>
+                                            <td><pre class="text-right">{{ $fpl['fuel']['extra'] }}</pre></td>
+                                            <td><pre class="text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['extrafuel_time'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre class="mb-0">T/O</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ $fpl['fuel']['plan_takeoff'] }}</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['endurance'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre>TAXI</pre></td>
+                                            <td><pre class="text-right">{{ $fpl['fuel']['taxi'] }}</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['taxi_out']+$fpl['times']['taxi_in'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td><pre class="mb-0">BLOCK</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ $fpl['fuel']['plan_ramp'] }}</pre></td>
+                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['endurance']+$fpl['times']['taxi_out']+$fpl['times']['taxi_in'])->format('Hi') }}</pre></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-xl-6 col-lg-4 col-md-2"></div>
                         </div>
 
-                        <div class="col-md-4 form-group card-text">
-                            <label>ADES</label>
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['destination']['icao_code'].' / '.$fpl['destination']['iata_code'] }}"></code>
+                        <div class="alert alert-warning border">
+                            For all weights, the left hand value is <strong>estimated</strong>. The right
+                            hand value is the aircraft's <strong>maximum</strong>.
                         </div>
-
-                        <div class="col-md-4 form-group card-text">
-                            <label>ALTN</label>
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['alternate']['icao_code'].' / '.$fpl['alternate']['iata_code'] }}"></code>
+                        <div class="form-row card-text">
+                            <div class="form-group mb-md-4 mb-lg-0 col-md-3">
+                                <label>Passengers</label>
+                                <div class="input-group">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['pax_count'] }}">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['aircraft']['max_passengers'] }}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-md-4 mb-lg-0 col-md-3">
+                                <label>
+                                    <abbr title="Zero Fuel Weight">ZFW</abbr>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['est_zfw'] }}">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['max_zfw'] }}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-md-4 mb-lg-0 col-md-3">
+                                <label>
+                                    <abbr title="Take-Off Weight">TOW</abbr>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['est_tow'] }}">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['max_tow'] }}">
+                                </div>
+                            </div>
+                            <div class="form-group mb-md-4 mb-lg-0 col-md-3">
+                                <label>
+                                    <abbr title="Landing Weight">LAW</abbr>
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['est_ldw'] }}">
+                                    <input type="text" readonly class="form-control" value="{{ $fpl['weights']['max_ldw'] }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- /end fuel section -->
             </div>
-        </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Routing</h5>
-                <div class="card-text">
-                    <div class="form-group card-text">
-                        <label>ATC Route</label>
-                        <code>
-                            <textarea class="form-control card-text" readonly rows="3">{{ $fpl['atc']['route'] }}</textarea>
-                        </code>
-                    </div>
+            <div class="card">
+                <!-- begin performance button -->
+                <div class="card-header" id="performanceHeading">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#performanceSection">
+                            Performance
+                        </button>
+                    </h5>
+                </div>
+                <!-- /end performance button -->
 
-                    <div class="form-group card-text">
-                        <label>ATC Remarks</label>
-                        <code>
-                            <textarea class="form-control card-text" readonly rows="3">{{ $fpl['atc']['section18'] }}</textarea>
-                        </code>
-                    </div>
+                <!-- begin performance section -->
+                <div id="performanceSection" class="collapse" data-parent="#detailsAccordion">
+                    <div class="card-body">
 
-                    <div class="form-row">
-                        <div class="form-group card-text col-lg-4">
-                            <label>Cruise System</label>
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['general']['cruise_profile'] }}">
-                            </code>
-                        </div>
-
-                        <div class="form-group card-text col-lg-4">
-                            <label>Fuel Burn</label>
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['general']['total_burn'] }}">
-                            </code>
-                        </div>
-
-                        <div class="form-group card-text col-lg-4">
-                            <label>Init CRZ Alt</label>
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['general']['initial_altitude'] }}"></code>
-                        </div>
                     </div>
                 </div>
+                <!-- /end performance section -->
             </div>
-        </div>
-    </div>
 
-    <div class="col-lg-4">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Fuel Figures</h5>
+            <div class="card">
+                <!-- begin weather button -->
+                <div class="card-header" id="weatherHeading">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#weatherSection">
+                            Weather
+                        </button>
+                    </h5>
+                </div>
+                <!-- /end weather button -->
 
-                <div class="card-text">
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">Units</label>
-                        <div class="col-md-6">
-                            <input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ strtoupper($fpl['params']['units']) }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">Block / Max</label>
-                        <div class="col-md-6">
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['fuel']['plan_ramp'] }} / {{ $fpl['fuel']['max_tanks'] }}"></code>
-                        </div>
-                    </div>
-
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">Burn</label>
-                        <div class="col-md-6">
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['fuel']['enroute_burn'] }}">
-                            </code>
-                        </div>
-                    </div>
-
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">Landing</label>
-                        <div class="col-md-6">
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['fuel']['plan_landing'] }}">
-                            </code>
+                <!-- begin weather section -->
+                <div id="weatherSection" class="collapse" data-parent="#detailsAccordion">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Departure</h5>
+                                <div class="form-group">
+                                    <label>METAR</label>
+                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['orig_metar'] }}</pre>
+                                </div>
+                                <div class="form-group">
+                                    <label>TAF</label>
+                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['orig_taf'] }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Arrival</h5>
+                                <div class="form-group">
+                                    <label>METAR</label>
+                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['dest_metar'] }}</pre>
+                                </div>
+                                <div class="form-group">
+                                    <label>TAF</label>
+                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['dest_taf'] }}</pre>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- /end weather section -->
             </div>
-        </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Aircraft</h5>
+            <div class="card">
+                <!-- begin notams button -->
+                <div class="card-header" id="notamsHeading">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#notamsSection">
+                            NOTAMs
+                        </button>
+                    </h5>
+                </div>
+                <!-- /end notams button -->
 
-                <div class="card-text">
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">ICAO</label>
-                        <div class="col-md-6">
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['aircraft']['icaocode'] }}">
-                            </code>
-                        </div>
-                    </div>
-
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">Type</label>
-                        <div class="col-md-6">
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['aircraft']['name'] }}">
-                            </code>
-                        </div>
-                    </div>
-
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">Registration</label>
-                        <div class="col-md-6">
-                            <code>
-                                <input
-                                type="text"
-                                class="form-control card-text"
-                                readonly
-                                value="{{ $fpl['aircraft']['reg'] }}">
-                            </code>
-                        </div>
-                    </div>
-
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-6 col-form-label">PAX</label>
-                        <div class="col-md-6">
-                            <code><input
-                            type="text"
-                            class="form-control card-text"
-                            readonly
-                            value="{{ $fpl['general']['passengers'] }} / {{ $fpl['aircraft']['max_passengers'] }}"></code>
-                        </div>
+                <!-- begin notams section -->
+                <div id="notamsSection" class="collapse" data-parent="#detailsAccordion">
+                    <div class="card-body">
+                        @if(empty($fpl['notams']))
+                            No NOTAMs to display
+                        @else
+                            Unable to display NOTAMs - see Paperwork Preview for included NOTAMs
+                        @endif
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Crew</h5>
-
-                <div class="card-text">
-                    <div class="form-group card-text row mb-2">
-                        <label class="col-md-4 col-form-label">OFP by</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control card-text" readonly value="{{ $fpl['crew']['cpt'] }}">
-                        </div>
-                    </div>
-                </div>
+                <!-- /end notams section -->
             </div>
         </div>
     </div>
-</div>
-
-<div class="card mb-4">
-    <div class="card-body">
-        <h5 class="card-title">Weights</h5>
-
-        <div class="card-text">
-            <div class="form-row">
-                <div class="form-group card-text col-md-3">
-                    <label>PAX</label>
-                    <code><input
-                    type="text"
-                    class="form-control card-text"
-                    readonly
-                    value="{{ $fpl['weights']['pax_count'] }} / {{ $fpl['aircraft']['max_passengers'] }}"></code>
-                </div>
-
-                <div class="form-group card-text col-md-3">
-                    <label>Est. ZFW / Max</label>
-                    <code>
-                        <input
-                        type="text"
-                        class="form-control card-text"
-                        readonly
-                        value="{{ $fpl['weights']['est_zfw'] }} / {{ $fpl['weights']['max_zfw'] }}">
-                    </code>
-                </div>
-
-                <div class="form-group card-text col-md-3">
-                    <label>Est. TOW / Max</label>
-                    <code>
-                        <input
-                        type="text"
-                        class="form-control card-text"
-                        readonly
-                        value="{{ $fpl['weights']['est_tow'] }} / {{ $fpl['weights']['max_tow'] }}">
-                    </code>
-                </div>
-
-                <div class="form-group card-text col-md-3">
-                    <label>Est. LAW / Max</label>
-                    <code>
-                        <input
-                        type="text"
-                        class="form-control card-text"
-                        readonly
-                        value="{{ $fpl['weights']['est_ldw'] }} / {{ $fpl['weights']['max_ldw'] }}">
-                    </code>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- /end details accordion -->
 </div>
 
 @if($plan->isApproved())
@@ -363,7 +498,7 @@
                     <table class="card-text table table-striped border">
                         <tbody>
                             @foreach($fpl['fms_downloads'] as $download)
-                                @if(!$loop->first)
+                                @unless($loop->first)
                                     <tr>
                                         <td class="align-middle">{{ $download['name'] }}</td>
                                         <td class="align-middle text-right">
@@ -374,7 +509,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endif
+                                @endunless
                             @endforeach
                         </tbody>
                     </table>
@@ -459,54 +594,33 @@
             </div>
         </div>
     </div>
+
 @else
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Paperwork Preview</h5>
 
-            <p class="card-text text-danger mb-2 text-center">
-                <strong>DRAFT PLAN! Not operational paperwork.</strong>
-            </p>
-            <pre>
-                <div class="card-text border rounded mx-auto" style="width: 1200px; height:600px; overflow:auto;">{{ strip_tags($fpl['text']['plan_html'].'<br>') }}</div>
-            </pre>
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">Review</h5>
-
-            @if($plan->hasAccepted())
-                <p>
-                    You have already accepted this flight plan. Your copilot has yet to review the plan, so
-                    sit tight for now.
-                </p>
-            @else
-                <div class="card-text">
-                    <p>
-                        Please select one of the following options to indicate whether you have reviewed,
-                        and are happy to continue with, the <strong>draft</strong> flight plan detailed above.
-                    </p>
-                    <p>
-                        Upon accepting the flight plan, and providing your copilot also accepts the flight plan,
-                        a PDF document of the plan, and other export options, will become available on this page.
-                    </p>
-                    <p>
-                        If either you or your copilot reject this <strong>draft</strong> flight plan, this draft will
-                        be permanently deleted and you will be able to create a new draft.
-                    </p>
-
-                    <div class="text-center card-text">
-                        <a class="btn btn-success btn-block card-text" href="{{ route('dispatch.accept', [$plan]) }}">
-                            <i class="fas fa-5x fa-check"></i><br>Accept
-                        </a>
-                        <a class="btn btn-danger btn-block card-text" href="{{ route('dispatch.reject', [$plan]) }}">
-                            <i class="fas fa-5x fa-times"></i><br>Reject
-                        </a>
-                    </div>
+    <div
+    class="modal fade"
+    id="previewModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="previewModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Paperwork Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            @endif
+                <div class="modal-body">
+                    {!! ($fpl['text']['plan_html']) !!}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>Close
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 @endif
@@ -518,6 +632,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#unstyled-buttons form button').addClass('btn btn-primary btn-block mb-2');
+        //autosize($('.weather-text'));
+        $('.weather-text').show();
     });
 </script>
 
