@@ -6,7 +6,11 @@
     <div class="card-body">
         <a
         @if($flight->isInvolved(Auth::user()))
-            href="{{ route('flights.user-flights') }}"
+            @if(strpos(url()->previous(), 'dispatch') !== false)
+                href="{{ route('dispatch.index') }}"
+            @else
+                href="{{ route('flights.user-flights') }}"
+            @endif
         @else
             href="{{ route('flights.index') }}"
         @endif
