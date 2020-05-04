@@ -459,30 +459,6 @@
                 </div>
                 <!-- /end weather section -->
             </div>
-
-            <div class="card">
-                <!-- begin notams button -->
-                <div class="card-header" id="notamsHeading">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#notamsSection">
-                            NOTAMs
-                        </button>
-                    </h5>
-                </div>
-                <!-- /end notams button -->
-
-                <!-- begin notams section -->
-                <div id="notamsSection" class="collapse" data-parent="#detailsAccordion">
-                    <div class="card-body">
-                        @if(empty($fpl['notams']))
-                            No NOTAMs to display
-                        @else
-                            Unable to display NOTAMs - see Paperwork Preview for included NOTAMs
-                        @endif
-                    </div>
-                </div>
-                <!-- /end notams section -->
-            </div>
         </div>
     </div>
     <!-- /end details accordion -->
