@@ -411,6 +411,32 @@
                 <!-- begin performance section -->
                 <div id="performanceSection" class="collapse" data-parent="#detailsAccordion">
                     <div class="card-body">
+                        <div class="form-group card-text">
+                            <label>
+                                Select one of the following options to see the impact on various flight factors...
+                            </label>
+                            <select class="form-control" id="impactSelect">
+                                <optgroup label="Cruise Altitude">
+                                    <option value="minus_6000ft">-6000 ft</option>
+                                    <option value="minus_4000ft">-4000 ft</option>
+                                    <option value="minus_2000ft">-2000 ft</option>
+                                    <option value="plus_2000ft">+2000 ft</option>
+                                    <option value="plus_4000ft">+4000 ft</option>
+                                    <option value="plus_6000ft">+6000 ft</option>
+                                </optgroup>
+                                <optgroup label="Cost Index">
+                                    <option value="lower_ci">Lower</option>
+                                    <option value="higher_ci">Higher</option>
+                                </optgroup>
+                                <optgroup label="Zero Fuel Weight">
+                                    <option value="zfw_minus_1000">-1000</option>
+                                    <option value="zfw_plus_1000">+1000</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="hide">
+                        </div>
 
                     </div>
                 </div>
