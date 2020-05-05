@@ -26,11 +26,12 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('home.index') }}">
                 <img
-                src="https://getbootstrap.com/docs/4.4/assets/brand/bootstrap-solid.svg"
+                src="{{ asset('/img/icon_circle_light.png') }}"
                 width="30" height="30"
-                alt="">
+                class="d-inline-block align-top mr-2"
+                alt="MultiCrew logo">
                 MultiCrew
             </a>
         </div>
@@ -58,9 +59,8 @@
     <footer class="py-5 bg-light">
         <div class="container text-center">
             <img
-            src="{{ asset('/img/icon_circle_light.png') }}"
-            width="30" height="30"
-            class="d-inline-block align-top mr-2"
+            src="{{ asset('/img/logo_long_dark.png') }}"
+            class="d-inline-block img-fluid align-top mr-2 w-50"
             alt="MultiCrew logo">
 
             <p class="lead mt-5">
