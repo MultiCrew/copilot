@@ -61,7 +61,7 @@
         type="radio"
         class="form-check-input"
         disabled
-        @if($application->network == 0) checked @endif>
+        @if($application->network === 0) checked @endif>
         <label class="form-check-label">No</label>
     </div>
     <div class="form-check">
@@ -69,7 +69,7 @@
         type="radio"
         class="form-check-input"
         disabled
-        @if($application->network == 'vatsim') checked @endif>
+        @if($application->network === 'vatsim') checked @endif>
         <label class="form-check-label">Yes, on VATSIM</label>
     </div>
     <div class="form-check">
@@ -77,7 +77,7 @@
         type="radio"
         class="form-check-input"
         disabled
-        @if($application->network == 'ivao') checked @endif>
+        @if($application->network === 'ivao') checked @endif>
         <label class="form-check-label">Yes, on IVAO</label>
     </div>
     <div class="form-check">
@@ -85,7 +85,7 @@
         type="radio"
         class="form-check-input"
         disabled
-        @if($application->network == 'pe') checked @endif>
+        @if($application->network === 'pe') checked @endif>
         <label class="form-check-label">Yes, on PilotEdge</label>
     </div>
 </div>
