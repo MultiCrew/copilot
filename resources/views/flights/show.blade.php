@@ -50,10 +50,12 @@
                                 <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
                                     View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                                 </a>
-                            @else
+                            @elseif($flight->isAccepted())
                                 <a href="{{ route('dispatch.create', $flight->id) }}" class="btn btn-sm btn-success">
                                     Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                 </a>
+                            @else
+                                You need a copilot before you can dispatch!
                             @endif
                         </dd>
 
