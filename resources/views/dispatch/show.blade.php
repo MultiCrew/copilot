@@ -339,7 +339,7 @@
                                         <tr>
                                             <td><pre>TAXI</pre></td>
                                             <td><pre class="text-right">{{ $fpl['fuel']['taxi'] }}</pre></td>
-                                            <td><pre class="mb-0 text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['taxi_out']+$fpl['times']['taxi_in'])->format('Hi') }}</pre></td>
+                                            <td><pre class="text-right">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['taxi_out']+$fpl['times']['taxi_in'])->format('Hi') }}</pre></td>
                                         </tr>
                                         <tr>
                                             <td><pre class="mb-0">BLOCK</pre></td>
@@ -434,10 +434,33 @@
                                 </optgroup>
                             </select>
                         </div>
-
-                        <div class="hide">
-                        </div>
-
+                        @foreach($fpl['impacts'] as $key => $impact)
+                            <table id="{{ $key }}" class="border table table-hover table-sm card-text">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th><samp>VALUE</samp></th>
+                                        <th><samp>DIFF</samp></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="align-middle mb-0">Enroute Time</th>
+                                        <td class="align-middle mb-0">{{ $impact['time_enroute'] }}</td>
+                                        <td class="align-middle mb-0">{{ $impact['time_difference'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle mb-0">Enroute Fuel</th>
+                                        <td class="align-middle mb-0">{{ $impact['enroute_burn'] }}</td>
+                                        <td class="align-middle mb-0">{{ $impact['burn_difference'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle">Block Fuel</th>
+                                        <td colspan="2" class="align-middle">{{ $impact['ramp_fuel'] }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        @endforeach
                     </div>
                 </div>
                 <!-- /end performance section -->
