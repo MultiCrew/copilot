@@ -501,6 +501,7 @@
                                     <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['orig_taf'] }}</pre>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <h5>Arrival</h5>
                                 <div class="form-group">
@@ -513,6 +514,19 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Alternate</h5>
+                                <div class="form-group">
+                                    <label>METAR</label>
+                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['altn_metar'] }}</pre>
+                                </div>
+                                <div class="form-group">
+                                    <label>TAF</label>
+                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['altn_taf'] }}</pre>
+                                </div>
+                            </div>
                     </div>
                 </div>
                 <!-- /end weather section -->
@@ -647,7 +661,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {!! ($fpl['text']['plan_html']) !!}
+                    <div class="mx-auto">{!! ($fpl['text']['plan_html']) !!}</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
