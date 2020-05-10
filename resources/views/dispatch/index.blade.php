@@ -150,7 +150,9 @@ aria-hidden="true">
 <script type="text/javascript">
     function updateModal(id)
     {
-        $('#dispatchSimbriefButton').attr('href', '{{ route('dispatch.create', $flight) }}');
+        var url = "{{ route('dispatch.create', ':id') }}"
+        url = url.replace(':id', id);
+        $('#dispatchSimbriefButton').attr('href', url);
     }
 </script>
 
