@@ -92,7 +92,56 @@
 
             <div class="col-xl-12 col-lg-6">
 
-                @unless($plan->isApproved())
+                @if($plan->isApproved())
+                    <button
+                    type="button"
+                    class="btn btn-info btn-block btn-lg card-text mb-4"
+                    data-toggle="modal"
+                    data-target="#exportModal">
+                        <i class="fas fa-file-export fa-fw mr-2"></i>Export Plan
+                    </button>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Pre-file Flight Plan</h5>
+
+                            <div class="d-inline card-text">
+                                <div id="unstyled-buttons">
+                                    {!! $fpl['vatsim_prefile'] !!}
+                                    {!! $fpl['ivao_prefile'] !!}
+                                </div>
+
+                                <a
+                                href="{{ $fpl['pilotedge_prefile'] }}"
+                                class="btn btn-primary btn-block"
+                                target="_blank">
+                                    Pre-file on PilotEdge
+                                </a>
+                                <a
+                                href="{{ $fpl['poscon_prefile'] }}"
+                                class="btn btn-primary btn-block"
+                                target="_blank">
+                                    Pre-file on POSCON
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Complete Flight</h5>
+
+                            <p class="lead">Done with your flight? Mark it as completed and it will appear in your logbook!</p>
+                            <button
+                            type="button"
+                            class="btn btn-warning btn-block btn-lg card-text"
+                            data-toggle="modal"
+                            data-target="#completeModal">
+                                <i class="fas fa-check fa-fw mr-2"></i>Complete
+                            </button>
+                        </div>
+                    </div>
+                @else
                     <button
                     type="button"
                     class="btn btn-info btn-block btn-lg card-text mb-4"
@@ -131,13 +180,13 @@
                         </div>
                     </div>
                     <!-- /end review box -->
-                @endunless
+                @endif
             </div>
         </div>
     </div>
 
-    <!-- begin details accordion -->
     <div class="col-xl-9">
+        <!-- begin details accordion -->
         <div class="accordion" id="detailsAccordion">
             <div class="card">
                 <!-- begin route button -->
@@ -251,8 +300,8 @@
                                 </tr>
                                 <tr>
                                     <th><pre class="mb-0">BLOCK</pre></th>
-                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_block'])->format('Hi') }}</pre></td>
                                     <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['sched_block'])->format('Hi') }}</pre></td>
+                                    <td><pre class="mb-0">{{ \Carbon\Carbon::createFromTimestamp($fpl['times']['est_block'])->format('Hi') }}</pre></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -411,6 +460,24 @@
                 <!-- begin performance section -->
                 <div id="performanceSection" class="collapse" data-parent="#detailsAccordion">
                     <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <label>Cruise Altitude(s)</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                readonly
+                                value="{{ $fpl['general']['stepclimb_string'] }}">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label>Cruise System</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                readonly
+                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['cost_index'] }}">
+                            </div>
+                        </div>
                         <div class="form-group mb-0">
                             <label>
                                 Select one of the following options to see the impact on various flight factors...
@@ -492,25 +559,25 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5>Departure</h5>
-                                <div class="form-group">
+                                <div class="form-group card-text">
                                     <label>METAR</label>
-                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['orig_metar'] }}</pre>
+                                    <pre style=" white-space: pre-wrap;" class="card-text">{{ $fpl['weather']['orig_metar'] }}</pre>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group card-text">
                                     <label>TAF</label>
-                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['orig_taf'] }}</pre>
+                                    <pre style=" white-space: pre-wrap;" class="card-text">{{ $fpl['weather']['orig_taf'] }}</pre>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <h5>Arrival</h5>
-                                <div class="form-group">
+                                <div class="form-group card-text">
                                     <label>METAR</label>
-                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['dest_metar'] }}</pre>
+                                    <pre style=" white-space: pre-wrap;" class="card-text">{{ $fpl['weather']['dest_metar'] }}</pre>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group card-text">
                                     <label>TAF</label>
-                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['dest_taf'] }}</pre>
+                                    <pre style=" white-space: pre-wrap;" class="card-text">{{ $fpl['weather']['dest_taf'] }}</pre>
                                 </div>
                             </div>
                         </div>
@@ -518,13 +585,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5>Alternate</h5>
-                                <div class="form-group">
+                                <div class="form-group card-text">
                                     <label>METAR</label>
-                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['altn_metar'] }}</pre>
+                                    <pre style=" white-space: pre-wrap;" class="card-text">{{ $fpl['weather']['altn_metar'] }}</pre>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group card-text">
                                     <label>TAF</label>
-                                    <pre style=" white-space: pre-wrap;">{{ $fpl['weather']['altn_taf'] }}</pre>
+                                    <pre style=" white-space: pre-wrap;" class="card-text">{{ $fpl['weather']['altn_taf'] }}</pre>
                                 </div>
                             </div>
                     </div>
@@ -532,17 +599,30 @@
                 <!-- /end weather section -->
             </div>
         </div>
+        <!-- /end details accordion -->
+
+        <img src="{{ $fpl['images']['directory'].$fpl['images']['map'][0]['link'] }}" class="img-fluid my-3" style="max-width: 100%;">
     </div>
-    <!-- /end details accordion -->
 </div>
 
 @if($plan->isApproved())
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Export Options</h5>
+    <div
+    class="modal fade"
+    id="exportModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exportModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exportModalLabel">Export Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
+                <div class="modal-body">
                     <table class="card-text table table-striped border">
                         <tbody>
                             @foreach($fpl['fms_downloads'] as $download)
@@ -551,8 +631,9 @@
                                         <td class="align-middle">{{ $download['name'] }}</td>
                                         <td class="align-middle text-right">
                                             <a
-                                            class="btn btn-success btn-sm m-0"
-                                            href="{{ $fpl['fms_downloads']['directory'].$download['link']}}">
+                                            class="btn btn-success btn-sm m-0 export-link"
+                                            href="{{ $fpl['fms_downloads']['directory'].$download['link']}}"
+                                            target="_blank">
                                                 <i class="fas fa-fw mr-2 fa-download"></i>Download
                                             </a>
                                         </td>
@@ -562,47 +643,10 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Pre-file Flight Plan</h5>
-
-                    <div class="d-inline card-text">
-                        <div id="unstyled-buttons">
-                            {!! $fpl['vatsim_prefile'] !!}
-                            {!! $fpl['ivao_prefile'] !!}
-                        </div>
-
-                        <a
-                        href="{{ $fpl['pilotedge_prefile'] }}"
-                        class="btn btn-primary btn-block"
-                        target="_blank">
-                            Pre-file on PilotEdge
-                        </a>
-                        <a
-                        href="{{ $fpl['poscon_prefile'] }}"
-                        class="btn btn-primary btn-block"
-                        target="_blank">
-                            Pre-file on POSCON
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Complete Flight</h5>
-
-                    <p class="lead">Done with your flight? Mark it as completed and it will appear in your logbook!</p>
-                    <button
-                    type="button"
-                    class="btn btn-warning btn-block btn-lg card-text"
-                    data-toggle="modal"
-                    data-target="#completeModal">
-                        <i class="fas fa-check fa-fw mr-2"></i>Complete
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>Close
                     </button>
                 </div>
             </div>
@@ -619,14 +663,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="completeModalLabel">Complete flight</h5>
+                    <h5 class="modal-title" id="completeModalLabel">Complete Flight</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     Are you sure you want to complete this flight?
                 </div>
+
                 <div class="modal-footer">
                     <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
                         @csrf
@@ -642,9 +688,7 @@
             </div>
         </div>
     </div>
-
 @else
-
     <div
     class="modal fade"
     id="previewModal"
@@ -660,9 +704,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     <div class="mx-auto">{!! ($fpl['text']['plan_html']) !!}</div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         <i class="fas fa-times mr-2"></i>Close
@@ -696,7 +742,73 @@
                 $('#noImpact').show();
             }
         });
+
+        $('.export-link').each(function() {
+            $(this).attr('href', $(this).attr('href').replace("http://", "https://"));
+        });
     });
 </script>
 
 @endsection
+
+@if($plan->isApproved())
+    @section('help-title', 'Help | Plan Export')
+
+    @section('help-content')
+
+
+
+    @endsection
+@else
+@section('help-title', 'Help | Plan Reivew')
+    @section('help-content')
+
+        <h5>Review Process</h5>
+        <p>
+            This flight plan is at the review stage. This gives you, and your Copilot, the opportunity to look over the
+            flight plan, checking all the parameters you wish to, to ensure that it is acceptable and that you are happy
+            to operate with it.
+        </p>
+        <p>
+            If you are happy with the plan, you may <span class="text-success">Accept</span> it. Your Copilot will be
+            notified and, if you both accept it, you will be able to export the flight plan to various operational
+            formats.
+        </p>
+        <p>
+            If either one of you is unhappy with the plan, then they should <span class="text-danger">Reject</span> it.
+            The flight plan will be deleted and you will be taken back to the dispatch form where you may generate a new
+            flight plan, ready for review.
+        </p>
+
+        <h5>Flight Plan Breakdown</h5>
+        <p>
+            The flight plan is broken down in the same way as the dispatch form to allow you to check all the parameters
+            of the plan without having to trawl through pages of paperwork. Each section contains the calculated values
+            which are used in all the paperwork, with two added sections for information about <strong>Performance</strong>
+            and <strong>Weather</strong>.<br>
+            Your route is also plotted on a map.
+        </p>
+
+        <h6>Performance</h6>
+        <p>
+            This section contains information about your cruise altitude and system (cost index or other), as well as
+            a list of minor changes to your flight parameters and the impact these changes will have. You can select a
+            lower or higher cruise altitude, cost index (if applicable) or zero fuel weight and see the impact that
+            these changes will have on your enroute time and fuel burn.<br>
+            Should you choose to operate with one of these changes in place, you do not need to re-plan your entire
+            flight, but do take into account an increase or decrease in block fuel!
+        </p>
+
+        <h6>Weather</h6>
+        <p>
+            This section displays the METAR and TAF for your departure, arrival and alternate aerodromes.
+        </p>
+
+        <h5>Paperwork Preview</h5>
+        <p>
+            Should you wish to, you may also preview the flight plan PDF by pressing <span class="text-info">Paperwork
+            Preview</span>. A preview of the PDF will open in a popup.
+        </p>
+
+    @endsection
+@endif
