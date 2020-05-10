@@ -411,11 +411,12 @@
                 <!-- begin performance section -->
                 <div id="performanceSection" class="collapse" data-parent="#detailsAccordion">
                     <div class="card-body">
-                        <div class="form-group card-text">
+                        <div class="form-group mb-0">
                             <label>
                                 Select one of the following options to see the impact on various flight factors...
                             </label>
-                            <select class="form-control" id="impactSelect">
+                            <select class="form-control card-text" id="impactSelect">
+                                <option selected disabled value>Select one...</option>
                                 <optgroup label="Cruise Altitude">
                                     <option value="minus_6000ft">-6000 ft</option>
                                     <option value="minus_4000ft">-4000 ft</option>
@@ -434,32 +435,40 @@
                                 </optgroup>
                             </select>
                         </div>
+
+                        <p class="mt-3 mb-0" id="noImpact">
+                            Unable to show performance figures for this change. Please <strong>do not</strong> operate
+                            at the selected change.
+                        </p>
+
                         @foreach($fpl['impacts'] as $key => $impact)
-                            <table id="{{ $key }}" class="border table table-hover table-sm card-text">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th><samp>VALUE</samp></th>
-                                        <th><samp>DIFF</samp></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th class="align-middle mb-0">Enroute Time</th>
-                                        <td class="align-middle mb-0">{{ $impact['time_enroute'] }}</td>
-                                        <td class="align-middle mb-0">{{ $impact['time_difference'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="align-middle mb-0">Enroute Fuel</th>
-                                        <td class="align-middle mb-0">{{ $impact['enroute_burn'] }}</td>
-                                        <td class="align-middle mb-0">{{ $impact['burn_difference'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="align-middle">Block Fuel</th>
-                                        <td colspan="2" class="align-middle">{{ $impact['ramp_fuel'] }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            @unless(empty($impact))
+                                <table id="{{ $key }}" class="table table-borderless table-sm mt-3 mb-0 impacts-table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th><samp>VALUE</samp></th>
+                                            <th><samp>DIFF</samp></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="align-middle mb-0">Enroute Time</th>
+                                            <td class="align-middle mb-0"><samp>{{ $impact['time_enroute'] }}</samp></td>
+                                            <td class="align-middle mb-0"><samp>{{ $impact['time_difference'] }}</samp></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="align-middle mb-0">Enroute Fuel</th>
+                                            <td class="align-middle mb-0"><samp>{{ $impact['enroute_burn'] }}</samp></td>
+                                            <td class="align-middle mb-0"><samp>{{ $impact['burn_difference'] }}</samp></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="align-middle">Block Fuel</th>
+                                            <td colspan="2" class="align-middle"><samp>{{ $impact['ramp_fuel'] }}</samp></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            @endunless
                         @endforeach
                     </div>
                 </div>
@@ -657,8 +666,22 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#unstyled-buttons form button').addClass('btn btn-primary btn-block mb-2');
-        //autosize($('.weather-text'));
-        $('.weather-text').show();
+
+        $('.impacts-table').hide();
+        $('#noImpact').hide();
+
+        $('#impactSelect').change(function() {
+            var impact = '#' + $(this).val();
+
+            $('.impacts-table').hide();
+            $('#noImpact').hide();
+
+            if($(impact).length) {
+                $(impact).show();
+            } else {
+                $('#noImpact').show();
+            }
+        });
     });
 </script>
 
