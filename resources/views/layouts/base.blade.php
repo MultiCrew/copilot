@@ -79,6 +79,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
 
+
         function acceptCookie() {
             $.get('{!! route('cookie-consent') !!}');
         }
@@ -87,6 +88,18 @@
     @auth
         <script>
             window.Laravel.userId = {!! auth()->user()->id !!};
+            // notification functions
+            $(document).ready(function() {
+                $.get('/notifications', function(data) {
+                    for (const notification of data) {
+                        const nData = notification.data;
+                        addNotification(notification.id, nData);
+                    }
+                });
+                window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
+                    newNotification(notification.id, notification);
+                });
+            });
         </script>
 
         <script>
