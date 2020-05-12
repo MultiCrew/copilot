@@ -41,7 +41,7 @@
 @endif
 
 <div class="row">
-    <div class="col-xl-3">
+    <div class="col-xl-4">
         <div class="row">
             <div class="col-xl-12 col-lg-6">
                 <!-- begin summary box -->
@@ -50,38 +50,38 @@
                         <h5 class="card-title">Summary</h5>
 
                         <dl class="card-text row">
-                            <dt class="col-sm-5 col-xl-12">AIRAC</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">AIRAC</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['params']['airac'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Planned by</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Planned by</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['crew']['cpt'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Callsign</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Callsign</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['atc']['callsign'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Departure</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Departure</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['origin']['icao_code'].' / '.$fpl['origin']['iata_code'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Arrival</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Arrival</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['destination']['icao_code'].' / '.$fpl['destination']['iata_code'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Prim. Altn.</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Prim. Altn.</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['alternate']['icao_code'].' / '.$fpl['alternate']['iata_code'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Aircraft</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Aircraft</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['aircraft']['icaocode'] }}</samp>
                             </dd>
                         </dl>
@@ -185,7 +185,7 @@
         </div>
     </div>
 
-    <div class="col-xl-9">
+    <div class="col-xl-8">
         <!-- begin details accordion -->
         <div class="accordion" id="detailsAccordion">
             <div class="card">
