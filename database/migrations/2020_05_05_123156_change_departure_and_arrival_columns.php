@@ -14,8 +14,8 @@ class ChangeDepartureAndArrivalColumns extends Migration
     public function up()
     {
         Schema::table('flight_requests', function (Blueprint $table) {
-            $table->json('departure')->nullable()->customSchemaOptions(['collation' => '', 'charset' => ''])->change();
-            $table->json('arrival')->nullable()->customSchemaOptions(['collation' => '', 'charset' => ''])->change();
+            $table->json('departure')->nullable()->customSchemaOptions(['collation' => 'utf8mb4_unicode_ci', 'charset' => ''])->change();
+            $table->json('arrival')->nullable()->customSchemaOptions(['collation' => 'utf8mb4_unicode_ci', 'charset' => ''])->change();
         });
     }
 
