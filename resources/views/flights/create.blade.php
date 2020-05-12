@@ -18,46 +18,87 @@ aria-hidden="true">
                 </div>
 
                 <div class="modal-body">
-                    <div class="form-group mr-2">
-                        <label class="sr-only" for="departure">Departure</label>
-                        <input
-                        type="text"
-                        name="departure"
+                    <div class="form-group">
+                        <h5 class="mb-2"><label>Departure</label></h5>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                            type="radio"
+                            id="departureRadio1"
+                            name="departureRadio"
+                            class="custom-control-input"
+                            value="NONE"
+                            checked>
+                            <label class="custom-control-label" for="departureRadio1">No preference</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                            type="radio"
+                            id="departureRadio2"
+                            name="departureRadio"
+                            class="custom-control-input"
+                            value="select">
+                            <label class="custom-control-label" for="departureRadio2">The following airport(s):</label>
+                        </div>
+
+                        <select
+                        name="departure[]"
                         id="departure"
-                        class="form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
-                        placeholder="Departure"
+                        class="selectpicker mt-1 mb-3 form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
+                        data-live-search="true"
                         value="{{ is_null(old('departure')) ? '' : old('departure') }}"
-                        required>
+                        multiple></select>
+
                         @if($errors->has('departure'))
                             <p class="help text-danger">
                                 {{ $errors->first('departure') }}
                             </p>
                         @endif
                     </div>
-                    <div class="form-group mr-2">
-                        <label class="sr-only" for="arrival">Arrival</label>
-                        <input
-                        type="text"
-                        name="arrival"
+
+                    <div class="form-group">
+                        <h5 class="mb-2"><label>Arrival</label></h5>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                            type="radio"
+                            id="arrivalRadio1"
+                            name="arrivalRadio"
+                            class="custom-control-input"
+                            value="NONE"
+                            checked>
+                            <label class="custom-control-label" for="arrivalRadio1">No preference</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                            type="radio"
+                            id="arrivalRadio2"
+                            name="arrivalRadio"
+                            class="custom-control-input"
+                            value="select">
+                            <label class="custom-control-label" for="arrivalRadio2">The following airport(s):</label>
+                        </div>
+
+                        <select
+                        name="arrival[]"
                         id="arrival"
-                        class="form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
-                        placeholder="Arrival"
+                        class="selectpicker mt-1 mb-3 form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
+                        data-live-search="true"
                         value="{{ is_null(old('arrival')) ? '' : old('arrival') }}"
-                        required>
+                        multiple></select>
+
                         @if($errors->has('arrival'))
                             <p class="help text-danger">
                                 {{ $errors->first('arrival') }}
                             </p>
                         @endif
                     </div>
-                    <div class="form-group mr-2">
-                        <label class="sr-only" for="aircraft">Aircraft</label>
+
+                    <div class="form-group">
+                        <h5 class="mb-2"><label>Aircraft</label></h5>
                         <input
                         type="text"
                         name="aircraft"
                         id="aircraft"
                         class="form-control {{ $errors->has('aircraft') ? 'border-danger' : '' }}"
-                        placeholder="Aircraft"
                         value="{{ is_null(old('aircraft')) ? '' : old('aircraft') }}"
                         required>
                         @if($errors->has('aircraft'))
@@ -85,3 +126,71 @@ aria-hidden="true">
         </div>
     </div>
 </div>
+
+@push('append-scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js"></script>
+<script type="text/javascript">
+    $('.selectpicker').selectpicker({
+        liveSearch: true
+    })
+    .ajaxSelectPicker({
+        ajax: {
+            url: '{{ route('search.airport') }}',
+            method: 'GET',
+            data: {
+                q: '@{{{q}}}'
+            }
+        },
+        locale: {
+            emptyTitle: 'Start typing to search...',
+            statusInitialized: '',
+        },
+        preprocessData: function(data){
+            var airports = [];
+            let count;
+            if(data.length > 0){
+                if(data.length >= 10) {
+                    count = 10;
+                } else {
+                    count = data.length;
+                }
+                for(var i = 0; i < count; i++){
+                    var curr = data[i];
+                    airports.push(
+                        {
+                            'value': curr.icao,
+                            'text': curr.icao + ' - ' + curr.name,
+                            'disabled': false
+                        }
+                    );
+                }
+            }
+            return airports;
+        },
+        preserveSelected: true
+    });
+    $('.selectpicker').prop('disabled', true);
+    $('.selectpicker').selectpicker('refresh');
+
+    $('input[name="departureRadio"]').click(function() {
+        if ($('#departureRadio2').is(":checked")) {
+            $('#departure').prop('disabled', false);
+            $('.selectpicker').selectpicker('refresh');
+        } else {
+            $('#departure').prop('disabled',true);
+            $('.selectpicker').selectpicker('refresh');
+        }
+    });
+
+    $('input[name="arrivalRadio"]').click(function() {
+        if ($('#arrivalRadio2').is(":checked")) {
+            $('#arrival').prop('disabled', false);
+            $('.selectpicker').selectpicker('refresh');
+        } else {
+            $('#arrival').prop('disabled',true);
+            $('.selectpicker').selectpicker('refresh');
+        }
+    });
+</script>
+
+@endpush
