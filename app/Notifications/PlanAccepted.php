@@ -68,7 +68,7 @@ class PlanAccepted extends Notification
         return [
             'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->user->username.' has just accepted your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
+            'text' => $this->user->username.' has just accepted the plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
             'title' => 'Flight Plan Accepted'
         ];
     }
@@ -85,7 +85,7 @@ class PlanAccepted extends Notification
             'id' => $this->id,
             'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->user->username.' has just accepted your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
+            'text' => $this->user->username.' has just accepted the plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
             'title' => 'Flight Plan Accepted'
         ]);
     }
