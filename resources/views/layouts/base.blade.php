@@ -78,6 +78,10 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+
+        function acceptCookie() {
+            $.get('{!! route('cookie-consent') !!}');
+        }
     </script>
 
     @auth
