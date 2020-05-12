@@ -59,28 +59,54 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'departure' => 'required|size:4|airport',
-            'arrival' => 'required|size:4|airport',
+        // use validator and rules to check first
+        $validator = $request->validate([
+            'departure.*' => 'required|size:4|airport',
+            'arrival.*' => 'required|size:4|airport',
             'aircraft' => 'required|size:4|aircraft'
         ]);
 
-        $flight = new FlightRequest();
+        // determine departure and arrival preferences
+        $departure  = ($request->departureRadio === 'NONE' ? null : $request->departure);
+        $arrival    = ($request->arrivalRadio   === 'NONE' ? null : $request->arrival);
 
+        // check that both departure and arrival aren't no preference
+        if ($departure === null && $arrival === null) {
+            return redirect()->back()->withInput()->withErrors([
+                'departure' => 'At least one airport preference must be specified.',
+                'arrival'   => 'At least one airport preference must be specified.'
+            ]);
+        }
+
+        // check that, if set at no preference, the preference isn't empty
+        if ($departure !== null && empty($departure)) {
+            return redirect()->back()->withInput()->withErrors([
+                'departure' => 'At least one airport preference must be specified.',
+            ]);
+        } elseif ($arrival !== null && empty($arrival)) {
+            return redirect()->back()->withInput()->withErrors([
+                'departure' => 'At least one arrival preference must be specified.',
+            ]);
+        }
+
+        // create flight request
+        $flight = new FlightRequest();
         $flight->fill([
-            'departure' => strtoupper($request->departure),
-            'arrival'   => strtoupper($request->arrival),
-            'aircraft'  => strtoupper($request->aircraft)
+            'departure' => $departure,
+            'arrival'   => $arrival,
+            'aircraft'  => $request->aircraft
         ]);
         $flight->requestee_id = Auth::user()->id;
 
         // if request is private, generate a code
         $flight->public = $request->public == 'on';
-        if (!$flight->public)
+        if (!$flight->public) {
             $flight->code = FlightRequest::generateCode();
+        }
 
 		$flight->save();
 
+        // notify subscribed users
 		$users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
 								->orWhereJsonContains('new_request->airports', $request->arrival)
                                 ->orWhereJsonContains('new_request->aircrafts', $request->airport)
@@ -89,9 +115,9 @@ class FlightController extends Controller
 								->get()
 								->pluck('user')
 								->flatten();
-
 		Notification::send($users, new NewRequest(Auth::user(), $flight));
 
+        // redirect to flight page
         return redirect()->route('flights.show', ['flight' => $flight]);
     }
 
