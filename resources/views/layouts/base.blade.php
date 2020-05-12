@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src='https://www.google.com/recaptcha/api.js'></script>
     @yield('header')
+    @section('prepend-scripts')
 </head>
 
 <body>
@@ -29,7 +30,8 @@
                 </main>
             @else
                 <main class="row" id="body-row">
-                    @unless(strpos(Route::currentRouteName(), 'blog') !== false)
+                    @unless(strpos(Route::currentRouteName(), 'blog') !== false
+                         || strpos(Route::currentRouteName(), 'policy') !== false)
                         @include('includes.sidebar')
                     @endunless
                     <div class="col-lg-10 p-4" id="content-div">
@@ -91,20 +93,9 @@
     @endauth
 
     <script>
-        function toggleBurger() {
-            var burger = $('.burger');
-            var menu = $('.navbar-menu');
-            burger.toggleClass('is-active');
-            menu.toggleClass('is-active');
-		}
 		$('#cookieAlert').on('closed.bs.alert', function () {
 			window.location.href = '{{ route('cookie-consent')}}'
 		})
-
-        $('.dropdown-menu.keep-open').on('click', function (e) {
-            e.stopPropagation();
-        });
-
     </script>
 
     @yield('scripts')
@@ -129,5 +120,7 @@
             </div>
         </div>
     </div>
+
+    @stack('append-scripts')
 </body>
 </html>

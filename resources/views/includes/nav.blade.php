@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark shadow">
     <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2"
+        <img src="{{ asset('/img/icon_circle_light.png') }}" width="30" height="30" class="d-inline-block align-top mr-2"
             alt="MultiCrew logo">
         <span class="menu-collapsed">{{ config('app.name', 'MultiCrew') }}</span>
     </a>
@@ -37,6 +37,16 @@
                     </li>
                 @endrole
             @endauth
+            <li class="nav-item">
+                <a
+                class="nav-link
+                @if(Route::currentRouteName() === 'home.policy')
+                    active
+                @endif"
+                href="{{ route('home.policy') }}">
+                    <i class="fas fa-file-alt fa-fw mr-2"></i>Policies
+                </a>
+            </li>
         </ul>
 
         <!-- left nav (without sidebar) -->
@@ -86,7 +96,7 @@
                     <button class="dropdown-item disabled" id="noNotifications">
                         You have no unread notifications
                     </button>
-                    <div id="markAllRead">
+                    <div id="markAllRead" hidden>
                         <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()">
                             <i class="fas fa-check mr-2"></i>Mark all as read
                         </button>

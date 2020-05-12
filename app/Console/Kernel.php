@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule
             ->job(new AirportDatabaseUpdate())
-            ->weekly();
+            ->monthly();
         
             $schedule
             ->job(new AircraftDatabaseUpdate())

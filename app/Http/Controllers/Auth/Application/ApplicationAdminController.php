@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Users\ApplicationForm;
+use App\Notifications\BetaApplicationReview;
 
 class ApplicationAdminController extends Controller
 {
@@ -43,8 +44,11 @@ class ApplicationAdminController extends Controller
 
         if ($request->status === 'approved') {
             $application->user->assignRole('user');
+            $application->user->removeRole('new');
+            $application->user->notify(new BetaApplicationReview($application->user, 'approved'));
         } else {
             $application->user->givePermissionTo('apply to beta');
+            $application->user->notify(new BetaApplicationReview($application->user, 'rejected'));
         }
 
         return redirect()->route('admin.applications.index');

@@ -44,6 +44,55 @@ return [
     */
 
     'debug' => env('APP_DEBUG', false),
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_CONNECTION',
+            'DB_HOST',
+            'DB_PORT',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'NOCAPTCHA_SECRET',
+            'NOCAPTCHA_SITEKEY',
+            'DISCORD_CLIENT_SECRET',
+            'PUSHER_APP_ID',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'PUSHER_APP_CLUSTER',
+            'MAIL_DRIVER',
+            'MAIL_HOST',
+            'MAIL_PORT',
+            'MAIL_USERNAME',
+            'MAIL_PASSWORD'
+        ],
+
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_CONNECTION',
+            'DB_HOST',
+            'DB_PORT',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'NOCAPTCHA_SECRET',
+            'NOCAPTCHA_SITEKEY',
+            'DISCORD_CLIENT_SECRET',
+            'PUSHER_APP_ID',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'PUSHER_APP_CLUSTER',
+            'MAIL_DRIVER',
+            'MAIL_HOST',
+            'MAIL_PORT',
+            'MAIL_USERNAME',
+            'MAIL_PASSWORD'
+        ],
+
+        '_POST' => [
+            'password',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -233,7 +282,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Flight' => App\Models\Flights\Flight::class,
+        'FlightRequest' => App\Models\Flights\FlightRequest::class,
         'ArchivedFlight' => App\Models\Flights\ArchivedFlight::class,
         'FlightPlan' => App\Models\Flights\FlightPlan::class,
         'User' => App\Models\Users\User::class,

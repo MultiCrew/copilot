@@ -42,23 +42,23 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The flights the user has requested.
+     * The user's flight requests
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function requests()
+    public function flightRequests()
     {
-        return $this->hasMany('App\Models\Flights\Flight', 'requestee_id')->where('acceptee_id', null);
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'id', 'requestee_id');
     }
 
     /**
-     * The flights the user has accepted.
+     * The user's flight requests
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function accepts()
+    public function flightAccepts()
     {
-        return $this->hasMany('App\Models\Flights\Flight', 'acceptee_id');
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'id', 'acceptee_id');
     }
 
     /**
@@ -66,9 +66,9 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function userNotifications()
+    public function userNotification()
     {
-        return $this->hasOne('App\Models\Users\UserNotification', 'user_id');
+        return $this->hasOne('App\Models\Users\UserNotification');
     }
 
     /**
@@ -78,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function application()
     {
-        return $this->hasOne('App\Models\Users\ApplicationForm', 'user_id');
+        return $this->hasOne('App\Models\Users\ApplicationForm');
     }
 
     /**

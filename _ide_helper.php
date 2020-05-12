@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.18.5 on 2020-04-08 12:11:58.
+ * Generated for Laravel 6.18.5 on 2020-05-05 12:33:49.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14973,10 +14973,11 @@ namespace Illuminate\Support {
 namespace App\Models\Flights { 
 
     /**
-     * 
+     * Class FlightRequest
      *
+     * @mixin \Eloquent
      */ 
-    class Flight {
+    class FlightRequest {
          
     }
 
@@ -18481,7 +18482,7 @@ namespace  {
 
     class View extends \Illuminate\Support\Facades\View {}
 
-    class Flight extends \App\Models\Flights\Flight {}
+    class FlightRequest extends \App\Models\Flights\FlightRequest {}
 
     class ArchivedFlight extends \App\Models\Flights\ArchivedFlight {}
 

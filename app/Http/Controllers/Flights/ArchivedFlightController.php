@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Flights;
 
 use App\Http\Controllers\Controller;
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Models\Flights\ArchivedFlight;
 use Illuminate\Http\Request;
 use Auth;
@@ -17,12 +17,12 @@ class ArchivedFlightController extends Controller
     }
 
     /**
-     * Create a new ArchivedFlight from a Flight
+     * Create a new ArchivedFlight from a FlightRequest
      *
-     * @param  \Illuminate\Http\Flight $flight
+     * @param  \Illuminate\Http\FlightRequest $flight
      * @return \Illuminate\Http\Response
      */
-    public function store(Flight $flight)
+    public function store(FlightRequest $flight)
     {
         $archived = new ArchivedFlight();
 
@@ -37,7 +37,14 @@ class ArchivedFlightController extends Controller
         $archived->save();
         $flight->delete();
 
-        return redirect()->route('flights.show', $archived);
+        return redirect()->route('flights.archive.show', ['flight' => $archived]);
     }
 
+    public function show(ArchivedFlight $flight)
+    {
+        return view('flights.show', [
+            'type' => 'ArchivedFlight',
+            'flight' => $flight
+        ]);
+    }
 }

@@ -15,6 +15,7 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
+    Route::get('/policies', 'Home\HomeController@policy')->name('policy');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
     Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
@@ -49,9 +50,9 @@ Route::group([
  });
 
 /**
- * Flight routes
+ * FlightRequest routes
  *
- * These routes deal with the Flight and ArchivedFlight model resources
+ * These routes deal with the FlightRequest and ArchivedFlight model resources
  * All users interact with these controllers as part of their Copilot workflot
  */
 Route::group([
@@ -64,6 +65,7 @@ Route::group([
     Route::get('accept/private/{code}', 'Flights\FlightController@acceptPrivate')->name('accept.private');
     Route::get('my-flights', 'Flights\FlightController@userFlights')->name('user-flights');
     Route::post('{flight}/archive', 'Flights\ArchivedFlightController@store')->name('archive');
+    Route::get('/archive/{flight}', 'Flights\ArchivedFlightController@show')->name('archive.show');
 });
 Route::group(['middleware' => ['verified']], function () {
     Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
@@ -74,7 +76,7 @@ Route::group(['middleware' => ['verified']], function () {
  * Dispatch routes
  *
  * These routes deal with the SimBrief API integration: creation and reviewing
- * of Flight plans (FlightPlan models).
+ * of FlightRequest plans (FlightPlan models).
  */
 Route::group([
     'as'         => 'dispatch.',              // routes are named 'dispatch.{}'
@@ -96,14 +98,7 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes(['verify' => true]);
-Route::group([
-    'as'         => 'account.',
-    'prefix'     => 'account',
-    'middleware' => 'verified'
-], function () {
-    Route::get('/apply', 'Auth\Application\ApplicationController@create')->name('apply');
-    Route::post('/apply', 'Auth\Application\ApplicationController@store')->name('apply.store');
-});
+Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
 Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');

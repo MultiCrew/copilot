@@ -41,7 +41,6 @@ $(document).ready(function() {
         }
     });
     window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
-		console.log(notification);
         newNotification(notification.id, notification);
     });
 });
@@ -81,7 +80,7 @@ window.viewNotification = function(id, notification) {
             window.location.href = `/flights/${notification.flight.id}`;
             break;
         case 'Flight Plan Accepted':
-            window.location.href = `/dispatch/review/${notification.plan_id}`;
+            window.location.href = `/dispatch/${notification.plan_id}`;
             break;
         case 'Flight Plan Rejected':
             window.location.href = `/flights/${notification.flight_id}`;
@@ -100,9 +99,9 @@ window.newNotification = function(id, notification) {
                 $('<small/>').text('Just now')
             ).append(
                 $('<button/>', {
-                    'type': 'button', 
+                    'type': 'button',
                     'class': 'ml-2 mb-1 close',
-                    'data-dismiss': 'toast', 
+                    'data-dismiss': 'toast',
                     'aria-label': 'Close'
                     }).append(
                         $('<span/>', {'aria-hidden': 'true'}).html('&times;')
@@ -134,8 +133,8 @@ window.addNotification = function(id, notification) {
     ).append(
         $('<button/>', {
             'type': 'button',
-            'class': 'btn btn-sm', 
-            'onclick': `removeNotification('${id}')`, 
+            'class': 'btn btn-sm',
+            'onclick': `removeNotification('${id}')`,
             }).append(
                 $('<span/>', {'aria-hidden': 'true'}).html('&times;')
             )

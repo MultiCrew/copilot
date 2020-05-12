@@ -77,6 +77,13 @@
 
                         <div class="row mb-3">
                             <div class="col-md-4"></div>
+                            <div class="col-md-6">
+                                By signing up to MultiCrew you are agreeing to the <a href="{{route('home.policy')}}">Terms and Policies</a>.
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4"></div>
                             <div class="col-md-8">
                                 {!! NoCaptcha::display() !!}
 
