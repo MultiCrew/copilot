@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.10.3 on 2020-05-12 15:48:40.
+ * Generated for Laravel 7.11.0 on 2020-05-13 08:36:09.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -4238,6 +4238,20 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Database\DatabaseManager $instance */
                         return $instance->reconnect($name);
+        }
+        
+        /**
+         * Set the default database connection for the callback execution.
+         *
+         * @param string $name
+         * @param callable $callback
+         * @return mixed 
+         * @static 
+         */ 
+        public static function usingConnection($name, $callback)
+        {
+                        /** @var \Illuminate\Database\DatabaseManager $instance */
+                        return $instance->usingConnection($name, $callback);
         }
         
         /**
@@ -17433,6 +17447,20 @@ namespace  {
             }
          
             /**
+             * Add an "or where in raw" clause for integer values to the query.
+             *
+             * @param string $column
+             * @param \Illuminate\Contracts\Support\Arrayable|array $values
+             * @return \Illuminate\Database\Query\Builder 
+             * @static 
+             */ 
+            public static function orWhereIntegerInRaw($column, $values)
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->orWhereIntegerInRaw($column, $values);
+            }
+         
+            /**
              * Add a "where not in raw" clause for integer values to the query.
              *
              * @param string $column
@@ -17445,6 +17473,20 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Query\Builder $instance */
                                 return $instance->whereIntegerNotInRaw($column, $values, $boolean);
+            }
+         
+            /**
+             * Add an "or where not in raw" clause for integer values to the query.
+             *
+             * @param string $column
+             * @param \Illuminate\Contracts\Support\Arrayable|array $values
+             * @return \Illuminate\Database\Query\Builder 
+             * @static 
+             */ 
+            public static function orWhereIntegerNotInRaw($column, $values)
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->orWhereIntegerNotInRaw($column, $values);
             }
          
             /**
