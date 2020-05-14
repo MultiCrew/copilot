@@ -3,7 +3,7 @@
 namespace App\Models\Flights;
 
 use Illuminate\Database\Eloquent\Model;
-use \Auth;
+use Illuminate\Support\Str;
 
 class FlightPlan extends Model
 {
@@ -42,10 +42,11 @@ class FlightPlan extends Model
     {
         $flight = $this->flight;
 
-        if (Auth::id() === $flight->requestee_id)
+        if (Auth::id() === $flight->requestee_id) {
             $this->requestee_accept = Auth::id();
-        else
+        } else {
             $this->acceptee_accept = Auth::id();
+        }
 
         $this->save();
     }
@@ -68,5 +69,15 @@ class FlightPlan extends Model
     public function isApproved()
     {
         return ($this->requestee_accept && $this->acceptee_accept);
+    }
+
+    /**
+     * Generate a string to store a plan PDF
+     *
+     * @return string
+     */
+    public static function generateCode()
+    {
+        return Str::random(10);
     }
 }
