@@ -16,8 +16,8 @@ class FlightPlanController extends Controller
     {
         $this->middleware(['auth', 'role:user']);
 
-        $this->middleware(['plan_role:member'])->except('index', 'create', 'store');
-        $this->middleware(['flight_role:member'])->only('create', 'store');
+        $this->middleware(['plan_role:member'])->except('index', 'create', 'upload', 'store');
+        $this->middleware(['flight_role:member'])->only('create', 'upload', 'store');
     }
 
     /**
@@ -50,6 +50,22 @@ class FlightPlanController extends Controller
         }
 
         return view('dispatch.create', ['flight' => $flight]);
+    }
+
+    /**
+     * Show the form to upload an existing plan PDF
+     *
+     * @param FlightRequest flight to plan
+     *
+     * @return View
+     */
+    public function upload(FlightRequest $flight)
+    {
+        if ($flight->plan_id) {
+            return redirect()->route('dispatch.show', $flight->plan_id);
+        }
+
+        return view('dispatch.upload', ['flight' => $flight]);
     }
 
     /**

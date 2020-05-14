@@ -85,6 +85,7 @@ Route::group([
 ], function() {
     Route::get('', 'Flights\FlightPlanController@index')->name('index');
     Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
+    Route::get('plan/{flight}/upload', 'Flights\FlightPlanController@upload')->name('upload');
     Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
     Route::get('{plan}', 'Flights\FlightPlanController@show')->name('show');
     Route::get('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
