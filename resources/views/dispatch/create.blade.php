@@ -414,25 +414,8 @@ z-index: 2;">
 
 @section('scripts')
 
-<script>
-    function addZeros(i) {
-        if (i < 10) {
-            return "0" + i;  // add zero in front of numbers < 10
-        } else {
-            return i;
-        }
-    }
-
-    function updateTime() {
-        var time = new Date(Date.UTC($.now()));
-        var h = addZeros(time.getHours());
-        var m = addZeros(time.getMinutes());
-        $('#time').attr('value', h + ":" + m + " Z");
-    }
-
+<script type="text/javascript">
     $(document).ready(function() {
-        setInterval(updateTime, 1000);
-
         $('#submitButton').click(function() {
             $('#loading-overlay').show();
             simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');

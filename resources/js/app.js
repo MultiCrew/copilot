@@ -32,7 +32,6 @@ const app = new Vue({
     el: '#app',
 });
 
-// notification functions
 $(document).ready(function() {
     $.get('/notifications', function(data) {
         for (const notification of data) {
@@ -43,7 +42,16 @@ $(document).ready(function() {
     window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
         newNotification(notification.id, notification);
     });
+
+    if ($('#time').length) {
+        setInterval(updateTime, 1000);
+    }
 });
+
+var moment = require('moment');
+updateTime = function() {
+    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+};
 
 window.markAllRead = function() {
     $.get('/notifications/mark-all-read');
