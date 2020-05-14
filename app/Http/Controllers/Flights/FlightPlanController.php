@@ -39,14 +39,12 @@ class FlightPlanController extends Controller
     /**
      * Show the form for planning a flight, or redirect if at another stage
      *
-     * @param int $id FlightRequest ID
+     * @param FlightRequest flight to plan
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create($id)
+    public function create(FlightRequest $flight)
     {
-        $flight = FlightRequest::findOrFail($id);
-
         if ($flight->plan_id) {
             return redirect()->route('dispatch.show', $flight->plan_id);
         }
