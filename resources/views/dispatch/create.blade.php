@@ -25,11 +25,17 @@ z-index: 2;">
         <h3 class="card-title">Dispatch Flight</h3>
 
         <div class="row">
-            <p class="card-text text-justify col-md-9">
-                The following form makes use of the SimBrief API to generate a draft flight plan which both
-                pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
-                plan you will be prompted to sign in to or create your SimBrief account.
-            </p>
+            <div class="col-md-9">
+                <p class="card-text text-justify">
+                    The following form makes use of the SimBrief API to generate a draft flight plan which both
+                    pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
+                    plan you will be prompted to sign in to or create your SimBrief account.
+                </p>
+                <p class="card-text text-justify">
+                    If you already have a plan, you may wish to <a href="{{ route('dispatch.upload', $flight) }}">upload
+                    a PDF plan</a>.
+                </p>
+            </div>
 
             <div class="col-md-3">
                 <div class="form-group text-right">
@@ -157,8 +163,8 @@ z-index: 2;">
                         <div class="card-body">
                             <h5 class="card-title">OFP Options</h5>
                             <div class="form-group row card-text mb-1">
-                                <label class="col-sm-7 col-form-label card-text">Plan Format</label>
-                                <div class="col-sm-5">
+                                <label class="col-6 col-form-label card-text">Plan Format</label>
+                                <div class="col-6">
                                     <select name="planformat" class="custom-select custom-select-sm card-text" required>
                                         <option value="lido" selected>LIDO</option>
                                         <option value="aal">AAL</option>
@@ -188,8 +194,8 @@ z-index: 2;">
                             </div>
 
                             <div class="form-group row card-text">
-                                <label class="col-sm-7 col-form-label card-text">Units</label>
-                                <div class="col-sm-5">
+                                <label class="col-6 col-form-label card-text">Units</label>
+                                <div class="col-6">
                                     <select name="units" class="custom-select custom-select-sm card-text" required>
                                         <option value="KGS" selected>KGS</option>
                                         <option value="LBS">LBS</option>
@@ -199,8 +205,8 @@ z-index: 2;">
 
                             <h5 class="card-title">Fuel Options</h5>
                             <div class="form-group row card-text mb-1">
-                                <label class="col-sm-7 col-form-label card-text">Contingency</label>
-                                <div class="col-sm-5">
+                                <label class="col-6 col-form-label card-text">Contingency</label>
+                                <div class="col-6">
                                     <select name="contpct" class="custom-select custom-select-sm card-text" required>
                                         <option value="auto" selected>AUTO</option>
                                         <option value="0">NONE</option>
@@ -240,8 +246,8 @@ z-index: 2;">
                             </div>
 
                             <div class="form-group row card-text mb-0">
-                                <label class="col-sm-7 col-form-label card-text">Reserve</label>
-                                <div class="col-sm-5">
+                                <label class="col-6 col-form-label card-text">Reserve</label>
+                                <div class="col-6">
                                     <select name="resvrule" class="custom-select custom-select-sm card-text" required>
                                         <option value="auto" selected>AUTO</option>
                                         <option value="0">0 MIN</option>
