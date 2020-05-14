@@ -44,7 +44,7 @@ $(document).ready(function() {
     });
 
     if ($('#time').length) {
-        setInterval(updateTime, 1000);
+        setInterval(updateTime, 60000);
     }
 });
 
