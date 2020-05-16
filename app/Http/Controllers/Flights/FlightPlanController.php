@@ -78,20 +78,29 @@ class FlightPlanController extends Controller
     public function store(Request $request)
     {
         $flight = FlightRequest::findOrFail($request->flight);
-
-        /**
-         * @var $simbrief
-         */
-        include('simbrief/simbrief.apiv1.php');
-
-        if (!empty($flight->plan_id)) {
-            // flight already has a plan of some sort (accepted or in review)
-        }
-
         $plan = new FlightPlan();
-        $plan->ofp_json = $simbrief->ofp_json;
+
+        if ($request->hasFile('plan')) {
+            // save pdf with generated filename and assign filename to plan model
+            $plan->file = $request->file('plan')->storeAs(
+                'public/plans', FlightPlan::generateCode().'.pdf'
+            );
+
+        } else {
+
+            /**
+             * SimBrief API helper file for dealing with API response
+             *
+             * @var $simbrief
+             */
+            include('simbrief/simbrief.apiv1.php');
+
+            // store ofp json data
+            $plan->ofp_json = $simbrief->ofp_json;
+        }
         $plan->save();
 
+        // associate plan to flight
         $flight->plan()->associate($plan);
         $flight->save();
 
@@ -108,11 +117,18 @@ class FlightPlanController extends Controller
         // helpful debugging line to view contents of plan JSON
         // dd(json_decode($plan->ofp_json, true));
 
-        return view('dispatch.show', [
-            'plan'      => $plan,
-            'flight'    => $plan->flight,
-            'fpl'       => json_decode($plan->ofp_json, true)
-        ]);
+        if (!empty($plan->ofp_json)) {
+            return view('dispatch.show', [
+                'plan'      => $plan,
+                'flight'    => $plan->flight,
+                'fpl'       => json_decode($plan->ofp_json, true)
+            ]);
+        } else {
+            return view('dispatch.show-pdf', [
+                'plan'      => $plan,
+                'flight'    => $plan->flight,
+            ]);
+        }
     }
 
     /**
