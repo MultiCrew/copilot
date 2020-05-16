@@ -54,10 +54,16 @@
                                 <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
                                     View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                                 </a>
+
                             @else
-                                <a href="{{ route('dispatch.create', $flight->id) }}" class="btn btn-sm btn-success">
+
+                                <button
+                                type="button"
+                                class="btn btn-sm btn-success"
+                                data-toggle="modal"
+                                data-target="#dispatchModal">
                                     Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
-                                </a>
+                                </button>
                             @endif
                         </dd>
 
@@ -135,11 +141,50 @@
     </div>
 </div>
 
+<div
+class="modal fade"
+id="dispatchModal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="dispatchModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dispatchModalLabel">Dispatch Flight</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="lead text-center">Select how you want to dispatch this flight</p>
+                <a
+                href="{{ route('dispatch.upload', $flight->id) }}"
+                class="btn btn-lg btn-block btn-primary"
+                id="dispatchUploadButton">
+                    <i class="fas fa-file-upload mr-2"></i>Upload PDF Plan
+                </a>
+                <a
+                href="{{ route('dispatch.create', $flight->id) }}"
+                class="btn btn-lg btn-block btn-primary"
+                id="dispatchSimbriefButton">
+                    <i class="fas fa-file-contract mr-2"></i>Create SimBrief Plan
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times mr-2"></i>Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
 
-<script>
+<script type="text/javascript">
     function copyLink() {
         const link = document.getElementById('privateCode');
         link.select();
