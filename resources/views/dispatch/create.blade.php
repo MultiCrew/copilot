@@ -147,7 +147,7 @@ z-index: 2;">
 
                 <div class="col-xl-12 col-lg-6">
                     <!-- ofp options -->
-                    <div class="card">
+                    <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">OFP Options</h5>
 
@@ -404,6 +404,17 @@ z-index: 2;">
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="reqid" value="">
+    <button type="reset" class="btn btn-danger">
+        Reset<i class="fas fa-undo ml-2"></i>
+    </button>
+    <button
+    type="button"
+    id="submitButton"
+    class="btn btn-success">
+        Generate Plan<i class="fas fa-angle-double-right ml-2"></i>
+    </button>
 </form>
 
 @endsection
