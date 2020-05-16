@@ -746,6 +746,8 @@
         $('.export-link').each(function() {
             $(this).attr('href', $(this).attr('href').replace("http://", "https://"));
         });
+
+        $('input[name=14]').attr('value', "{{ Auth::user()->name }}");
     });
 </script>
 
