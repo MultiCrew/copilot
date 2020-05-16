@@ -43,8 +43,13 @@
             @csrf
 
             <div class="custom-file card-text mb-3">
-                <input type="file" name="plan" class="custom-file-input" id="plan">
+                <input type="file" name="plan" class="custom-file-input @error('plan') is-invalid @enderror" id="plan">
                 <label class="custom-file-label" for="plan">Choose file</label>
+                @error('plan')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <p>

@@ -79,12 +79,10 @@ class FlightPlanController extends Controller
     {
         $flight = FlightRequest::findOrFail($request->flight);
         $plan = new FlightPlan();
-
         if ($request->hasFile('plan')) {
             $request->validate([
-                'file' => 'required|mimetypes:application/pdf'
+                'plan' => 'required|mimes:pdf|max:2000'
             ]);
-
             // save pdf with generated filename and assign filename to plan model
             $plan->file = $request->file('plan')->storeAs(
                 'public/plans', FlightPlan::generateCode().'.pdf'
