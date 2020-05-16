@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Flights;
 use App\Http\Controllers\Controller;
 use App\Models\Flights\FlightRequest;
 use App\Models\Flights\ArchivedFlight;
+use App\Models\Flights\FlightPlan;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -35,6 +36,8 @@ class ArchivedFlightController extends Controller
         ]);
 
         $archived->save();
+        FlightPlan::archive($flight->plan);
+
         $flight->delete();
 
         return redirect()->route('flights.archive.show', ['flight' => $archived]);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAircraftsTable extends Migration
+class AddFileToFlightPlansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateAircraftsTable extends Migration
      */
     public function up()
     {
-        Schema::create('aircrafts', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('icao');
-            $table->string('iata');
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('flight_plans', function (Blueprint $table) {
+            $table->json('ofp_json')->nullable()->change();
+            $table->string('file')->nullable();
         });
     }
 
@@ -29,6 +26,8 @@ class CreateAircraftsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aircrafts');
+        Schema::table('flight_plans', function (Blueprint $table) {
+            //
+        });
     }
 }

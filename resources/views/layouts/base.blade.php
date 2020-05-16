@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src='https://www.google.com/recaptcha/api.js'></script>
     @yield('header')
+    @section('prepend-scripts')
 </head>
 
 <body>
@@ -77,11 +78,28 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+
+
+        function acceptCookie() {
+            $.get('{!! route('cookie-consent') !!}');
+        }
     </script>
 
     @auth
         <script>
             window.Laravel.userId = {!! auth()->user()->id !!};
+            // notification functions
+            $(document).ready(function() {
+                $.get('/notifications', function(data) {
+                    for (const notification of data) {
+                        const nData = notification.data;
+                        addNotification(notification.id, nData);
+                    }
+                });
+                window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
+                    newNotification(notification.id, notification);
+                });
+            });
         </script>
 
         <script>
@@ -92,20 +110,9 @@
     @endauth
 
     <script>
-        function toggleBurger() {
-            var burger = $('.burger');
-            var menu = $('.navbar-menu');
-            burger.toggleClass('is-active');
-            menu.toggleClass('is-active');
-		}
 		$('#cookieAlert').on('closed.bs.alert', function () {
 			window.location.href = '{{ route('cookie-consent')}}'
 		})
-
-        $('.dropdown-menu.keep-open').on('click', function (e) {
-            e.stopPropagation();
-        });
-
     </script>
 
     @yield('scripts')
@@ -130,5 +137,7 @@
             </div>
         </div>
     </div>
+
+    @stack('append-scripts')
 </body>
 </html>
