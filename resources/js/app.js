@@ -33,16 +33,6 @@ const app = new Vue({
 });
 
 $(document).ready(function() {
-    $.get('/notifications', function(data) {
-        for (const notification of data) {
-            const nData = notification.data;
-            addNotification(notification.id, nData);
-        }
-    });
-    window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
-        newNotification(notification.id, notification);
-    });
-
     updateTime();
     if ($('#time').length) {
         setInterval(updateTime, 60000);

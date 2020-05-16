@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Jobs\AircraftDatabaseUpdate;
-use App\Jobs\AirportDatabaseUpdate;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -29,11 +27,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule
-            ->job(new AirportDatabaseUpdate())
+            ->command('import:aircraft')
             ->monthly();
         
             $schedule
-            ->job(new AircraftDatabaseUpdate())
+            ->job('import:airport')
             ->monthly();
     }
 

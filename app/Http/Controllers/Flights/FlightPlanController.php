@@ -47,6 +47,8 @@ class FlightPlanController extends Controller
     {
         if ($flight->plan_id) {
             return redirect()->route('dispatch.show', $flight->plan_id);
+        } elseif (!$flight->isAccepted()) {
+            return redirect()->route('flights.show', $flight);
         }
 
         return view('dispatch.create', ['flight' => $flight]);
