@@ -100,7 +100,7 @@ window.viewNotification = function(id, notification) {
 
 window.newNotification = function(id, notification) {
     $('#notification-div').append(
-        $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
+        $('<div/>', {'class': 'toast', 'data-autohide': 'true', 'data-delay': '5000', 'id': id}).append(
             $('<div/>', {'class': 'toast-header'}).append(
                 $('<strong/>', {'class': 'mr-auto'}).text(notification.title)
             ).append(
