@@ -3,7 +3,9 @@
 namespace App\Models\Flights;
 
 use Illuminate\Database\Eloquent\Model;
+use \Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class FlightPlan extends Model
 {
@@ -56,6 +58,7 @@ class FlightPlan extends Model
      *
      * @return booelan true if both the suer has accepted the plan, otherwise false
      */
+
     public function hasAccepted()
     {
         return ($this->requestee_accept === Auth::id() || $this->acceptee_accept === Auth::id());
@@ -79,5 +82,24 @@ class FlightPlan extends Model
     public static function generateCode()
     {
         return Str::random(10);
+    }
+
+    /**
+     * Function to archive a flight plan
+     * TODO: Currently, any associated file is deleted, the plan dissociated with the flight and
+     *       the plan model deleted. In future, some of this data may be saved
+     *
+     * @param  FlightPlan $plan The plan to archive
+     */
+    public static function archive(FlightPlan $plan)
+    {
+        Storage::delete($plan->file);
+
+        $flight = $plan->flight;
+
+        $flight->plan()->dissociate();
+        $flight->save();
+
+        $plan->delete();
     }
 }
