@@ -43,6 +43,7 @@ $(document).ready(function() {
         newNotification(notification.id, notification);
     });
 
+    updateTime();
     if ($('#time').length) {
         setInterval(updateTime, 60000);
     }
