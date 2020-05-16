@@ -176,6 +176,7 @@ z-index: 2;">
                                         <option value="ber">BER</option>
                                         <option value="dal">DAL</option>
                                         <option value="dlh">DLH</option>
+                                        <option value="ein">EIN</option>
                                         <option value="etd">ETD</option>
                                         <option value="ezy">EZY</option>
                                         <option value="gwi">GWI</option>
@@ -188,7 +189,7 @@ z-index: 2;">
                                         <option value="thy">THY</option>
                                         <option value="uae">UAE</option>
                                         <option value="ual">UAL '12</option>
-                                        <option value="ual f:wz">UAL '14</option>
+                                        <option value="ual f:wz">UAL '18</option>
                                     </select>
                                 </div>
                             </div>
