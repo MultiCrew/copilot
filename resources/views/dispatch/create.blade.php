@@ -129,7 +129,7 @@ z-index: 2;">
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-0">
+                            <div class="form-group row mb-n1">
                                 <label class="col-6 col-form-label">Aircraft Type</label>
                                 <div class="col-6">
                                     <input
@@ -138,18 +138,6 @@ z-index: 2;">
                                     class="form-control form-control-sm"
                                     readonly
                                     value="{{ $flight->aircraft }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <label class="col-6 col-form-label">Aircraft Reg</label>
-                                <div class="col-6">
-                                    <input
-                                    type="text"
-                                    name="reg"
-                                    class="form-control form-control-sm"
-                                    placeholder="G-MTAA"
-                                    equired>
                                 </div>
                             </div>
                         </div>
@@ -162,6 +150,7 @@ z-index: 2;">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">OFP Options</h5>
+
                             <div class="form-group row card-text mb-1">
                                 <label class="col-6 col-form-label card-text">Plan Format</label>
                                 <div class="col-6">
@@ -194,72 +183,12 @@ z-index: 2;">
                                 </div>
                             </div>
 
-                            <div class="form-group row card-text">
-                                <label class="col-6 col-form-label card-text">Units</label>
+                            <div class="form-group row card-text mb-n1">
+                                <label class="col-6 col-form-label">Units</label>
                                 <div class="col-6">
-                                    <select name="units" class="custom-select custom-select-sm card-text" required>
+                                    <select name="units" class="custom-select custom-select-sm" required>
                                         <option value="KGS" selected>KGS</option>
                                         <option value="LBS">LBS</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title">Fuel Options</h5>
-                            <div class="form-group row card-text mb-1">
-                                <label class="col-6 col-form-label card-text">Contingency</label>
-                                <div class="col-6">
-                                    <select name="contpct" class="custom-select custom-select-sm card-text" required>
-                                        <option value="auto" selected>AUTO</option>
-                                        <option value="0">NONE</option>
-                                        <option value disabled>- - - - - -</option>
-                                        <option value="0.05/5">5% or 05 MIN</option>
-                                        <option value="0.05/10">5% or 10 MIN</option>
-                                        <option value="0.05/15">5% or 15 MIN</option>
-                                        <option value="0.05/20">5% or 20 MIN</option>
-                                        <option value disabled>- - - - - -</option>
-                                        <option value="0.02">2 PCT</option>
-                                        <option value="0.03">3 PCT</option>
-                                        <option value="0.05">5 PCT</option>
-                                        <option value="0.1">10 PCT</option>
-                                        <option value="0.15">15 PCT</option>
-                                        <option value="0.2">20 PCT</option>
-                                        <option value disabled>- - - - - -</option>
-                                        <option value="1">01 MIN</option>
-                                        <option value="2">02 MIN</option>
-                                        <option value="3">03 MIN</option>
-                                        <option value="4">04 MIN</option>
-                                        <option value="5">05 MIN</option>
-                                        <option value="6">06 MIN</option>
-                                        <option value="7">07 MIN</option>
-                                        <option value="8">08 MIN</option>
-                                        <option value="9">09 MIN</option>
-                                        <option value="10">10 MIN</option>
-                                        <option value="11">11 MIN</option>
-                                        <option value="12">12 MIN</option>
-                                        <option value="13">13 MIN</option>
-                                        <option value="14">14 MIN</option>
-                                        <option value="15">15 MIN</option>
-                                        <option value="20">20 MIN</option>
-                                        <option value="25">25 MIN</option>
-                                        <option value="30">30 MIN</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group row card-text mb-0">
-                                <label class="col-6 col-form-label card-text">Reserve</label>
-                                <div class="col-6">
-                                    <select name="resvrule" class="custom-select custom-select-sm card-text" required>
-                                        <option value="auto" selected>AUTO</option>
-                                        <option value="0">0 MIN</option>
-                                        <option value="15">15 MIN</option>
-                                        <option value="30">30 MIN</option>
-                                        <option value="35">35 MIN</option>
-                                        <option value="40">40 MIN</option>
-                                        <option value="45">45 MIN</option>
-                                        <option value="60">60 MIN</option>
-                                        <option value="75">75 MIN</option>
-                                        <option value="90">90 MIN</option>
                                     </select>
                                 </div>
                             </div>
@@ -276,6 +205,12 @@ z-index: 2;">
         </div>
 
         <div class="col-xl-8">
+            <div class="alert alert-warning border">
+                Limited dispatch options are available. More options are to be added here, with improved aircraft
+                options already in the works. Please submit further reqeuests to
+                <a href="https://github.com/MultiCrew/copilot/issues" target="_blank">GitHub</a>.
+            </div>
+
             <!-- begin details accordion -->
             <div class="accordion" id="detailsAccordion">
                 <div class="card">
@@ -385,28 +320,82 @@ z-index: 2;">
                     <div id="fuelSection" class="collapse" data-parent="#detailsAccordion">
                         <div class="card-body">
                             <div class="form-row card-text">
-                                <div class="form-group mb-4 col-md-5">
-                                    <label>Aicraft Type</label>
-                                    <input type="text" readonly class="form-control" value="">
+                                <div class="form-group col-md-6">
+                                    <label>
+                                        Aicraft Type
+                                        <i
+                                        class="fas fa-info-circle ml-1"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Enter a SimBrief airframe ID here if you want to use a specific aircraft in your fleet"></i>
+                                    </label>
+                                    <input type="text" class="form-control" value="{{ $flight->aircraft }}">
                                 </div>
-                                <div class="form-group mb-4  col-md-5">
+
+                                <div class="form-group col-md-6">
                                     <label>Registration</label>
-                                    <input type="text" readonly class="form-control" value="">
-                                </div>
-                                <div class="form-group mb-4  col-md-2">
-                                    <label>Units</label>
-                                    <input type="text" readonly class="form-control bg-warning" value="">
+                                    <input type="text" name="reg" class="form-control" placeholder="G-ABCD">
                                 </div>
                             </div>
 
-                            <div class="row mb-4"></div>
+                            <div class="form-row card-text">
+                                <div class="form-group mb-0 col-md-6">
+                                    <label>Contingency</label>
+                                    <select name="contpct" class="custom-select card-text" required>
+                                        <option value="auto" selected>AUTO</option>
+                                        <option value="0">NONE</option>
+                                        <option value disabled>- - - - - -</option>
+                                        <option value="0.05/5">5% or 05 MIN</option>
+                                        <option value="0.05/10">5% or 10 MIN</option>
+                                        <option value="0.05/15">5% or 15 MIN</option>
+                                        <option value="0.05/20">5% or 20 MIN</option>
+                                        <option value disabled>- - - - - -</option>
+                                        <option value="0.02">2 PCT</option>
+                                        <option value="0.03">3 PCT</option>
+                                        <option value="0.05">5 PCT</option>
+                                        <option value="0.1">10 PCT</option>
+                                        <option value="0.15">15 PCT</option>
+                                        <option value="0.2">20 PCT</option>
+                                        <option value disabled>- - - - - -</option>
+                                        <option value="1">01 MIN</option>
+                                        <option value="2">02 MIN</option>
+                                        <option value="3">03 MIN</option>
+                                        <option value="4">04 MIN</option>
+                                        <option value="5">05 MIN</option>
+                                        <option value="6">06 MIN</option>
+                                        <option value="7">07 MIN</option>
+                                        <option value="8">08 MIN</option>
+                                        <option value="9">09 MIN</option>
+                                        <option value="10">10 MIN</option>
+                                        <option value="11">11 MIN</option>
+                                        <option value="12">12 MIN</option>
+                                        <option value="13">13 MIN</option>
+                                        <option value="14">14 MIN</option>
+                                        <option value="15">15 MIN</option>
+                                        <option value="20">20 MIN</option>
+                                        <option value="25">25 MIN</option>
+                                        <option value="30">30 MIN</option>
+                                    </select>
+                                </div>
 
-                            <div class="alert alert-warning border">
-                                For all weights, the left hand value is <strong>estimated</strong>. The right
-                                hand value is the aircraft's <strong>maximum</strong>.
+                                <div class="form-group mb-0 col-md-6">
+                                    <label>Reserve</label>
+                                    <div>
+                                        <select name="resvrule" class="custom-select card-text" required>
+                                            <option value="auto" selected>AUTO</option>
+                                            <option value="0">0 MIN</option>
+                                            <option value="15">15 MIN</option>
+                                            <option value="30">30 MIN</option>
+                                            <option value="35">35 MIN</option>
+                                            <option value="40">40 MIN</option>
+                                            <option value="45">45 MIN</option>
+                                            <option value="60">60 MIN</option>
+                                            <option value="75">75 MIN</option>
+                                            <option value="90">90 MIN</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="form-row card-text"></div>
                         </div>
                     </div>
                     <!-- /end fuel section -->
