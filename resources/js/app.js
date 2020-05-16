@@ -32,6 +32,18 @@ const app = new Vue({
     el: '#app',
 });
 
+$(document).ready(function() {
+    updateTime();
+    if ($('#time').length) {
+        setInterval(updateTime, 60000);
+    }
+});
+
+var moment = require('moment');
+updateTime = function() {
+    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+};
+
 window.markAllRead = function() {
     $.get('/notifications/mark-all-read');
     $('#notificationDropdownMenu').children().slice(2).remove();
@@ -79,7 +91,7 @@ window.viewNotification = function(id, notification) {
 
 window.newNotification = function(id, notification) {
     $('#notification-div').append(
-        $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
+        $('<div/>', {'class': 'toast', 'data-autohide': 'true', 'data-delay': '5000', 'id': id}).append(
             $('<div/>', {'class': 'toast-header'}).append(
                 $('<strong/>', {'class': 'mr-auto'}).text(notification.title)
             ).append(
