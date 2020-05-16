@@ -176,21 +176,6 @@ body {
     object-fit: cover;
 }
 
-.nav > a.nav-link {
-    color: rgba(0,0,0,.5);
-}
-
-.nav > a.nav-link:hover,
-.nav > a.nav-link:focus {
-    color: rgba(0,0,0,.7);
-}
-
-.nav > a.nav-link.active,
-.nav > a.nav-link.active:hover,
-.nav > a.nav-link.active:focus {
-    color: rgba(0,0,0,.9);
-}
-
 #notificationDropdownMenu {
     height: auto;
     max-height: 400px;
