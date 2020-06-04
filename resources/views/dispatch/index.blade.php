@@ -80,8 +80,12 @@
                         <td class="col-3">
                             {{ $flight->otherUser()->username }}
                         </td>
-                        <td class="col-2">{{ $flight->departure }}</td>
-                        <td class="col-2">{{ $flight->arrival }}</td>
+                        <td class="col-2">
+                            {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
+                        </td>
+                        <td class="col-2">
+                            {{ is_array($flight->arrival) ? implode('/', $flight->arrival) : 'Not set' }}
+                        </td>
                         <td class="col-2">{{ $flight->aircraft }}</td>
                         <td class="py-0 col-3 text-right">
                             <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-sm my-2 btn-secondary">

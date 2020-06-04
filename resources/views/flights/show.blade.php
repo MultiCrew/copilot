@@ -24,10 +24,14 @@
             <div class="col-md-6">
                 <dl class="row card-text">
                     <dt class="col-sm-3 card-text">Departure</dt>
-                    <dd class="col-sm-9 card-text">{{ $flight->departure }}</dd>
+                    <dd class="col-sm-9 card-text">
+                        {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
+                    </dd>
 
                     <dt class="col-sm-3 card-text">Arrival</dt>
-                    <dd class="col-sm-9 card-text">{{ $flight->arrival }}</dd>
+                    <dd class="col-sm-9 card-text">
+                        {{ is_array($flight->arrival) ? implode('/', $flight->arrival) : 'Not set' }}
+                    </dd>
 
                     <dt class="col-sm-3 card-text">Aircraft</dt>
                     <dd class="col-sm-9 card-text">{{ $flight->aircraft }}</dd>
