@@ -19,6 +19,11 @@ class FlightRequest extends Model
 {
     use FlightTrait;
 
+    protected $casts = [
+        'departure' => 'array',
+        'arrival' => 'array'
+    ];
+
     /**
      * Attributes that are mass assignable
      *
