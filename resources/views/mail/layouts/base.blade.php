@@ -26,43 +26,49 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ route('home.index') }}">
                 <img
-                src="https://getbootstrap.com/docs/4.4/assets/brand/bootstrap-solid.svg"
+                src="{{ asset('/img/icon_circle_light.png') }}"
                 width="30" height="30"
-                alt="">
+                class="d-inline-block align-top mr-2"
+                alt="MultiCrew logo">
                 MultiCrew
             </a>
         </div>
     </nav>
 
     <main class="container py-5">
-        <h1>Email Title</h1>
-        <h3 class="text-muted">Email subtitle</h3>
+        <h1>@yield('title')</h1>
+        @hasSection('subtitle')
+            <h3 class="text-muted">@yield('subtitle')</h3>
+        @endif
         <hr>
+
         <p>
-            Dear Name,
+            Dear @yield('name'),
         </p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        <p>
-            <button class="btn btn-primary">Primary Action</button>
-            <button class="btn btn-secondary">Secondary Action</button>
+
+        @yield('content')
+
+        <p class="lead">
+            Kind regards,<br>
+            The MultiCrew Team
         </p>
     </main>
 
     <footer class="py-5 bg-light">
         <div class="container text-center">
-            <img src="https://via.placeholder.com/468x60?text=MultiCrew+logo" alt="">
+            <img
+            src="{{ asset('/img/logo_long_dark.png') }}"
+            class="d-inline-block img-fluid align-top mr-2 w-50"
+            alt="MultiCrew logo">
+
             <p class="lead mt-5">
-                We're all about bringing people from the aviation industry and the flight simulation community together to enjoy flight simulators. We are a community-driven, non-profit organisation, which specialises in shared cockpit flying, training and support.
+                We're all about bringing people from the aviation industry and the flight simulation community together
+                to enjoy flight simulators. We are a community-driven organisation which specialises in shared cockpit
+                flying, training and support.
             </p>
+
             <div class="icon-links mt-5">
                 <a href="https://fb.me/flymulticrew">
                     <i class="fab fa-facebook-square fa-2x"></i>

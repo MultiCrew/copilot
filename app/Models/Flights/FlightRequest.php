@@ -43,6 +43,16 @@ class FlightRequest extends Model
      *
      * @return boolean
      */
+    public function isAccepted()
+    {
+        return !empty($this->acceptee_id);
+    }
+
+    /**
+     * Checks if a plan exists for the flight
+     *
+     * @return boolean
+     */
     public function isPlanned()
     {
         return !empty($this->plan_id);

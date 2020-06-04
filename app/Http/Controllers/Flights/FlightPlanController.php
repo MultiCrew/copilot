@@ -16,8 +16,8 @@ class FlightPlanController extends Controller
     {
         $this->middleware(['auth', 'role:user']);
 
-        $this->middleware(['plan_role:member'])->except('index', 'create', 'store');
-        $this->middleware(['flight_role:member'])->only('create', 'store');
+        $this->middleware(['plan_role:member'])->except('index', 'create', 'upload', 'store');
+        $this->middleware(['flight_role:member'])->only('create', 'upload', 'store');
     }
 
     /**
@@ -39,19 +39,35 @@ class FlightPlanController extends Controller
     /**
      * Show the form for planning a flight, or redirect if at another stage
      *
-     * @param int $id FlightRequest ID
+     * @param FlightRequest flight to plan
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create($id)
+    public function create(FlightRequest $flight)
     {
-        $flight = FlightRequest::findOrFail($id);
+        if ($flight->plan_id) {
+            return redirect()->route('dispatch.show', $flight->plan_id);
+        } elseif (!$flight->isAccepted()) {
+            return redirect()->route('flights.show', $flight);
+        }
 
+        return view('dispatch.create', ['flight' => $flight]);
+    }
+
+    /**
+     * Show the form to upload an existing plan PDF
+     *
+     * @param FlightRequest flight to plan
+     *
+     * @return View
+     */
+    public function upload(FlightRequest $flight)
+    {
         if ($flight->plan_id) {
             return redirect()->route('dispatch.show', $flight->plan_id);
         }
 
-        return view('dispatch.create', ['flight' => $flight]);
+        return view('dispatch.upload', ['flight' => $flight]);
     }
 
     /**
@@ -64,20 +80,31 @@ class FlightPlanController extends Controller
     public function store(Request $request)
     {
         $flight = FlightRequest::findOrFail($request->flight);
-
-        /**
-         * @var $simbrief
-         */
-        include('simbrief/simbrief.apiv1.php');
-
-        if (!empty($flight->plan_id)) {
-            // flight already has a plan of some sort (accepted or in review)
-        }
-
         $plan = new FlightPlan();
-        $plan->ofp_json = $simbrief->ofp_json;
+        if ($request->hasFile('plan')) {
+            $request->validate([
+                'plan' => 'required|mimes:pdf|max:2000'
+            ]);
+            // save pdf with generated filename and assign filename to plan model
+            $plan->file = $request->file('plan')->storeAs(
+                'public/plans', FlightPlan::generateCode().'.pdf'
+            );
+
+        } else {
+
+            /**
+             * SimBrief API helper file for dealing with API response
+             *
+             * @var $simbrief
+             */
+            include('simbrief/simbrief.apiv1.php');
+
+            // store ofp json data
+            $plan->ofp_json = $simbrief->ofp_json;
+        }
         $plan->save();
 
+        // associate plan to flight
         $flight->plan()->associate($plan);
         $flight->save();
 
@@ -94,11 +121,18 @@ class FlightPlanController extends Controller
         // helpful debugging line to view contents of plan JSON
         // dd(json_decode($plan->ofp_json, true));
 
-        return view('dispatch.show', [
-            'plan'      => $plan,
-            'flight'    => $plan->flight,
-            'fpl'       => json_decode($plan->ofp_json, true)
-        ]);
+        if (!empty($plan->ofp_json)) {
+            return view('dispatch.show', [
+                'plan'      => $plan,
+                'flight'    => $plan->flight,
+                'fpl'       => json_decode($plan->ofp_json, true)
+            ]);
+        } else {
+            return view('dispatch.show-pdf', [
+                'plan'      => $plan,
+                'flight'    => $plan->flight,
+            ]);
+        }
     }
 
     /**

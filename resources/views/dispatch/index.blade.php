@@ -127,7 +127,7 @@ aria-hidden="true">
             </div>
             <div class="modal-body">
                 <p class="lead text-center">Select how you want to dispatch this flight</p>
-                <a href="#" class="btn btn-lg btn-block btn-primary" disabled>
+                <a href="#" class="btn btn-lg btn-block btn-primary" id="dispatchUploadButton">
                     <i class="fas fa-file-upload mr-2"></i>Upload PDF Plan
                 </a>
                 <a href="#" class="btn btn-lg btn-block btn-primary" id="dispatchSimbriefButton">
@@ -150,9 +150,14 @@ aria-hidden="true">
 <script type="text/javascript">
     function updateModal(id)
     {
-        var url = "{{ route('dispatch.create', ':id') }}"
-        url = url.replace(':id', id);
-        $('#dispatchSimbriefButton').attr('href', url);
+        var uploadUrl = "{{ route('dispatch.upload', ':id') }}";
+        uploadUrl = uploadUrl.replace(':id', id);
+
+        var simbriefUrl = "{{ route('dispatch.create', ':id') }}";
+        simbriefUrl = simbriefUrl.replace(':id', id);
+
+        $('#dispatchUploadButton').attr('href', uploadUrl);
+        $('#dispatchSimbriefButton').attr('href', simbriefUrl);
     }
 </script>
 

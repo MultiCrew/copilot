@@ -85,7 +85,9 @@ Route::group([
 ], function() {
     Route::get('', 'Flights\FlightPlanController@index')->name('index');
     Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
+    Route::get('plan/{flight}/upload', 'Flights\FlightPlanController@upload')->name('upload');
     Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
+    Route::post('plan/upload', 'Flights\FlightPlanController@store')->name('store.upload');
     Route::get('{plan}', 'Flights\FlightPlanController@show')->name('show');
     Route::get('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
     Route::get('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
@@ -99,7 +101,14 @@ Route::group([
  */
 Auth::routes(['verify' => true]);
 Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
-Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
+Route::group([
+    'as' => 'account.',
+    'prefix' => 'account',
+    'middleware' => 'verified',
+], function () {
+    Route::get('/', 'Auth\AccountController@index')->name('index');
+    Route::patch('/update', 'Auth\AccountController@update')->name('update');
+});
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
 
