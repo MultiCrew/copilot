@@ -8,7 +8,6 @@ use App\Models\Flights\FlightRequest;
 use App\Notifications\NewRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Flights\Flight;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\ArchivedFlight;
 use App\Models\Users\UserNotification;
@@ -124,7 +123,7 @@ class FlightController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Flights\Flight $flight
+     * @param  \App\Models\Flights\FlightRequest $flight
      * @return \Illuminate\Http\Response
      */
     public function show(FlightRequest $flight)
