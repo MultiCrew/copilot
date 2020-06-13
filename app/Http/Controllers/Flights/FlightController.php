@@ -14,10 +14,10 @@ use App\Models\Users\UserNotification;
 use App\Notifications\RequestAccepted;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Traits\FlightJoinTrait;
+use App\Models\Airports\Airport;
 
 class FlightController extends Controller
 {
-
     use FlightJoinTrait;
 
     public function __construct()
@@ -129,8 +129,10 @@ class FlightController extends Controller
     public function show(FlightRequest $flight)
     {
         return view('flights.show', [
-            'type' => 'FlightRequest',
-            'flight' => $flight
+            'type'              => 'FlightRequest',
+            'flight'            => $flight,
+            'departureAirports' => Airport::whereIn('icao', $flight->departure)->get(),
+            'arrivalAirports'   => Airport::whereIn('icao', $flight->arrival)->get()
         ]);
     }
 
