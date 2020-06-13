@@ -32,6 +32,15 @@
             </div>
         </a>
 
+        <a
+        href="{{ route('aircraft.index') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(strpos(Route::currentRouteName(), 'aircraft') !== false) active @endif">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fas fa-fw mr-2 fa-warehouse"></i>Fleet
+            </div>
+        </a>
+
         <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
             <small class="text-uppercase">Options</small>
         </li>

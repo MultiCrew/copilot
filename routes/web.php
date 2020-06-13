@@ -70,6 +70,7 @@ Route::group([
 Route::group(['middleware' => ['verified']], function () {
     Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
     Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
+    Route::resource('aircraft', 'Aircraft\ApprovedAircraftController');
 });
 
 /**
