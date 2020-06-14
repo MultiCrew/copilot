@@ -11,6 +11,85 @@ class ApprovedAircraftSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'B738',
+            'name' => 'Zibo 737-800',
+            'sim'  => 'xp1'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A320',
+            'name' => 'FlightFactor A320 Ultimate',
+            'sim'  => 'xp1'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A318',
+            'name' => 'Aerosoft Airbus A318 Professional',
+            'sim'  => 'p4d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A319',
+            'name' => 'Aerosoft Airbus A319 Professional',
+            'sim'  => 'p4d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A320',
+            'name' => 'Aerosoft Airbus A320 Professional',
+            'sim'  => 'p4d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A321',
+            'name' => 'Aerosoft Airbus A321 Professional',
+            'sim'  => 'p4d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A318',
+            'name' => 'Aerosoft Airbus A318',
+            'sim'  => 'p3d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A319',
+            'name' => 'Aerosoft Airbus A319',
+            'sim'  => 'p3d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A320',
+            'name' => 'Aerosoft Airbus A320',
+            'sim'  => 'p3d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A321',
+            'name' => 'Aerosoft Airbus A321',
+            'sim'  => 'p3d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A318',
+            'name' => 'Aerosoft Airbus A318',
+            'sim'  => 'fsx'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A319',
+            'name' => 'Aerosoft Airbus A319',
+            'sim'  => 'fsx'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A320',
+            'name' => 'Aerosoft Airbus A320',
+            'sim'  => 'fsx'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'A321',
+            'name' => 'Aerosoft Airbus A321',
+            'sim'  => 'fsx'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'DH8D',
+            'name' => 'Majestic Dash 8 Q400 Pro Edition',
+            'sim'  => 'p4d'
+        ]);
+        DB::table('approved_aircraft')->insert([
+            'icao' => 'DH8D',
+            'name' => 'Majestic Dash 8 Q400 Pro Edition',
+            'sim'  => 'fsx'
+        ]);
     }
 }

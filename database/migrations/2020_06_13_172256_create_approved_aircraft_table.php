@@ -15,6 +15,9 @@ class CreateApprovedAircraftTable extends Migration
     {
         Schema::create('approved_aircraft', function (Blueprint $table) {
             $table->id();
+            $table->string('icao', 4);
+            $table->string('name');
+            $table->string('sim');
             $table->timestamps();
         });
     }
