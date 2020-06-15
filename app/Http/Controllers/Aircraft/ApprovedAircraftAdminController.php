@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class ApprovedAircraftAdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:admin']);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
