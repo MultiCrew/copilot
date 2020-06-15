@@ -17,20 +17,25 @@
         </div>
 
         <table class="table table-hover card-text border mb-3">
+            <caption>
+                Rows in yellow are <strong>pending approval</strong> and cannot be used in flight requests.
+            </caption>
+
             <thead class="thead-light">
                 <tr>
                     <th>ICAO Code</th>
                     <th>Name</th>
                     <th>Simulator</th>
+                    @role('admin') <th></th> @endrole
                 </tr>
             </thead>
 
             <tbody>
                 @forelse($aircrafts as $aircraft)
-                    <tr>
-                        <td><samp>{{ $aircraft->icao }}</samp></td>
-                        <td>{{ $aircraft->name }}</td>
-                        <td>
+                    <tr @unless($aircraft->approved) class="table-warning" @endif>
+                        <td class="align-middle"><samp>{{ $aircraft->icao }}</samp></td>
+                        <td class="align-middle">{{ $aircraft->name }}</td>
+                        <td class="align-middle">
                             @switch($aircraft->sim)
                                 @case('fsx')
                                     Microsoft Flight Simulator X
@@ -55,6 +60,13 @@
                                     @break
                             @endswitch
                         </td>
+                        @role('admin')
+                            <td class="text-right">
+                                <a href="{{ route('aircraft.show', $aircraft) }}" class="btn btn-primary btn-sm my-0">
+                                    View<i class="fas fa-angle-double-right ml-2"></i>
+                                </a>
+                            </td>
+                        @endrole
                     </tr>
                 @empty
                     <tr>

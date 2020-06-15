@@ -18,6 +18,8 @@ class CreateApprovedAircraftTable extends Migration
             $table->string('icao', 4);
             $table->string('name');
             $table->string('sim');
+            $table->boolean('approved');
+            $table->string('added_by');
             $table->timestamps();
         });
     }

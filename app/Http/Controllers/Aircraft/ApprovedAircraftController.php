@@ -16,17 +16,7 @@ class ApprovedAircraftController extends Controller
     public function index()
     {
         return view('aircraft.index', [
-            'aircrafts' => ApprovedAircraft::orderBy('icao', 'asc')->paginate(10)
+            'aircrafts' => ApprovedAircraft::orderBy('approved', 'asc')->orderBy('icao', 'asc')->paginate(10)
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 }

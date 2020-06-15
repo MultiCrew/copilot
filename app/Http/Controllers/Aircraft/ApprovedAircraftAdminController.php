@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Aircraft;
 
 use App\Http\Controllers\Controller;
-use App\Http\Models\Aircraft\ApprovedAircraft;
+use App\Models\Aircraft\ApprovedAircraft;
+use App\Models\Aircraft\Aircraft;
 use Illuminate\Http\Request;
 
 class ApprovedAircraftAdminController extends Controller
@@ -16,10 +17,11 @@ class ApprovedAircraftAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $aircraft = ApprovedAircraft()::create([
+        $aircraft = ApprovedAircraft::create([
             'icao' => $request->icao,
             'name' => $request->name,
-            'sim'  => $request->sim
+            'sim'  => $request->sim,
+            'approved' => false
         ]);
 
         return redirect()->route('aircraft.index');
@@ -28,45 +30,48 @@ class ApprovedAircraftAdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  ApprovedAircraft $aircraft
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ApprovedAircraft $aircraft)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return view('aircraft.show', [
+            'aircraft'  => $aircraft,
+            'icao_acft' => Aircraft::where('icao', $aircraft->icao)->get()->first()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  ApprovedAircraft $aircraft
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ApprovedAircraft $aircraft, Request $request)
     {
-        //
+            $aircraft->icao = $request->icao;
+            $aircraft->name = $request->name;
+            $aircraft->sim = $request->sim;
+
+            if ($request->action == 'approve') {
+                $aircraft->approved = true;
+            }
+
+            $aircraft->save();
+
+            return redirect()->route('aircraft.show', $aircraft);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  ApprovedAircraft $aircraft
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ApprovedAircraft $aircraft)
     {
-        //
+        $aircraft->delete();
+        return redirect()->route('aircraft.index');
     }
 }
