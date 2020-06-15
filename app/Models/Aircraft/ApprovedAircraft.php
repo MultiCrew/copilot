@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ApprovedAircraft extends Model
 {
     protected $fillable = [
-        'icao', 'name', 'sim', 'approved'
+        'icao', 'name', 'sim', 'added_by', 'approved'
     ];
 
     protected $casts = [

@@ -26,6 +26,7 @@
                     <th>ICAO Code</th>
                     <th>Name</th>
                     <th>Simulator</th>
+                    <th>Added by</th>
                     @role('admin') <th></th> @endrole
                 </tr>
             </thead>
@@ -59,6 +60,9 @@
                                     Microsoft Flight Simulator 2020
                                     @break
                             @endswitch
+                        </td>
+                        <td class="align-middle">
+                            {{ $aircraft->added_by ? $aircraft->added_by : 'MultiCrew' }}
                         </td>
                         @role('admin')
                             <td class="text-right">

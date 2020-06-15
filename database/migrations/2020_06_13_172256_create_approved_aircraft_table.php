@@ -19,7 +19,7 @@ class CreateApprovedAircraftTable extends Migration
             $table->string('name');
             $table->string('sim');
             $table->boolean('approved');
-            $table->string('added_by');
+            $table->string('added_by')->nullable();
             $table->timestamps();
         });
     }
