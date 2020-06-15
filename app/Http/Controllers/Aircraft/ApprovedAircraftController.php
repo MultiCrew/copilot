@@ -19,4 +19,23 @@ class ApprovedAircraftController extends Controller
             'aircrafts' => ApprovedAircraft::orderBy('approved', 'asc')->orderBy('icao', 'asc')->paginate(10)
         ]);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $aircraft = ApprovedAircraft::create([
+            'icao' => $request->icao,
+            'name' => $request->name,
+            'sim'  => $request->sim,
+            'added_by' => \Auth::user()->username,
+            'approved' => false
+        ]);
+
+        return redirect()->route('aircraft.index');
+    }
 }

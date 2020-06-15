@@ -15,24 +15,6 @@ class ApprovedAircraftAdminController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $aircraft = ApprovedAircraft::create([
-            'icao' => $request->icao,
-            'name' => $request->name,
-            'sim'  => $request->sim,
-            'approved' => false
-        ]);
-
-        return redirect()->route('aircraft.index');
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  ApprovedAircraft $aircraft
