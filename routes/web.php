@@ -47,6 +47,7 @@ Route::group([
  ], function() {
      Route::get('airport', 'Search\SearchController@airport')->name('airport');
      Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
+     Route::get('approved-aircraft', 'Search\SearchController@approvedAircraft')->name('approved_aircraft');
  });
 
 /**

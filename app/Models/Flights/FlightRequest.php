@@ -34,6 +34,16 @@ class FlightRequest extends Model
     ];
 
     /**
+     * The ApprovedAircraft type this flight request is for
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function aircraft()
+    {
+        return $this->belongsTo('App\Models\Aircraft\ApprovedAircraft');
+    }
+
+    /**
      * The plan that belongs to the flight.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

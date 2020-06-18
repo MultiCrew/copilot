@@ -22,11 +22,11 @@
         <table class="table table-hover card-text border">
             <thead class="thead-light">
                 <tr>
-                    <th style="width: 30%">User</th>
-                    <th style="width: 15%">Departure</th>
-                    <th style="width: 15%">Arrival</th>
-                    <th style="width: 15%">Aircraft</th>
-                    <th style="width: 25%"></th>
+                    <th style="width: 20%">User</th>
+                    <th style="width: 20%">Departure</th>
+                    <th style="width: 20%">Arrival</th>
+                    <th style="width: 30%">Aircraft</th>
+                    <th style="width: 10%"></th>
                 </tr>
             </thead>
 
@@ -40,7 +40,7 @@
                         <td class="align-middle">
                             {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
                         </td>
-                        <td class="align-middle">{{ $flight->aircraft }}</td>
+                        <td class="align-middle">{{ $flight->aircraft->name }}</td>
                         <td class="p-0 align-middle text-right">
                             <a
                             href="{{route('flights.accept', ['id' => $flight->id])}}"

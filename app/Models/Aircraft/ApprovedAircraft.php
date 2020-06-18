@@ -13,4 +13,14 @@ class ApprovedAircraft extends Model
     protected $casts = [
         'approved' => 'boolean',
     ];
+
+    /**
+     * The flights requests that are for this aircraft
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function flights()
+    {
+        return $this->hasMany('App\Models\Flights\FlightRequest', 'aircraft_id');
+    }
 }
