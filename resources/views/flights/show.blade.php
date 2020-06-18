@@ -42,7 +42,7 @@ crossorigin>
                     </dd>
 
                     <dt class="col-lg-3 card-text">Aircraft</dt>
-                    <dd class="col-lg-9 card-text">{{ $flight->aircraft }}</dd>
+                    <dd class="col-lg-9 card-text">{{ $flight->aircraft->name }}</dd>
                 </dl>
             </div>
             <div class="col-md-6">
@@ -240,7 +240,14 @@ aria-hidden="true">
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
                         data-live-search="true"
                         value="{{ is_null(old('departure')) ? '' : old('departure') }}"
-                        multiple></select>
+                        multiple>
+                            @forelse($departureAirports as $airport)
+                                <option value="{{ $airport->icao }}" selected>
+                                    {{ $airport->icao .' - '. $airport->name }}
+                                </option>
+                            @empty
+                            @endforelse
+                        </select>
 
                         @if($errors->has('departure'))
                             <p class="help text-danger">
@@ -277,7 +284,14 @@ aria-hidden="true">
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
                         data-live-search="true"
                         value="{{ is_null(old('arrival')) ? '' : old('arrival') }}"
-                        multiple></select>
+                        multiple>
+                            @forelse($arrivalAirports as $airport)
+                                <option value="{{ $airport->icao }}" selected>
+                                    {{ $airport->icao .' - '. $airport->name }}
+                                </option>
+                            @empty
+                            @endforelse
+                        </select>
 
                         @if($errors->has('arrival'))
                             <p class="help text-danger">
@@ -375,8 +389,8 @@ crossorigin></script>
     });
 
     // disable select pickers by default
-    $('.selectpicker').prop('disabled', true);
-    $('.selectpicker').selectpicker('refresh');
+    //$('.selectpicker').prop('disabled', true);
+    //$('.selectpicker').selectpicker('refresh');
 
     // event listener to dis/en/able input based on radio
     $('input[name="departureRadio"]').click(function() {
@@ -408,46 +422,6 @@ crossorigin></script>
     }
 
     /**
-    * Calculate the center/average of multiple GeoLocation coordinates
-    * Expects an array of objects with .latitude and .longitude properties
-    *
-    * @url http://stackoverflow.com/a/14231286/538646
-    */
-    function averageGeolocation(coords) {
-        if (coords.length === 1) {
-            return coords[0];
-        }
-
-        let x = 0.0;
-        let y = 0.0;
-        let z = 0.0;
-
-        for (let coord of coords) {
-            let latitude = coord.latitude * Math.PI / 180;
-            let longitude = coord.longitude * Math.PI / 180;
-
-            x += Math.cos(latitude) * Math.cos(longitude);
-            y += Math.cos(latitude) * Math.sin(longitude);
-            z += Math.sin(latitude);
-        }
-
-        let total = coords.length;
-
-        x = x / total;
-        y = y / total;
-        z = z / total;
-
-        let centralLongitude = Math.atan2(y, x);
-        let centralSquareRoot = Math.sqrt(x * x + y * y);
-        let centralLatitude = Math.atan2(z, centralSquareRoot);
-
-        return {
-            latitude: centralLatitude * 180 / Math.PI,
-            longitude: centralLongitude * 180 / Math.PI
-        };
-    }
-
-    /**
      * Adds markers to map with popup, and returns an array of marker objects
      *
      * @param array airportsArray Array of objects with latitude, longitude, name and icao properties
@@ -469,8 +443,9 @@ crossorigin></script>
     }
 
     // get airport objects
-    var departureAirports = {!! $departureAirports !!};
-    var arrivalAirports = {!! $arrivalAirports !!};
+    var departureAirports = {!! json_encode($departureAirports) !!};
+    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
+
     var allPoints = departureAirports.concat(arrivalAirports);
 
     // initialise map
@@ -489,7 +464,11 @@ crossorigin></script>
     var markers = addMarkers(allPoints);
 
     // fit markers within map
-    mymap.fitBounds(new L.featureGroup(markers).getBounds());
+    if (markers.length > 1) {
+        mymap.fitBounds(new L.featureGroup(markers).getBounds());
+    } else {
+        mymap.setView(markers[0].getLatLng(), 4);
+    }
 </script>
 
 @endpush

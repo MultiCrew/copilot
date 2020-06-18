@@ -128,11 +128,23 @@ class FlightController extends Controller
      */
     public function show(FlightRequest $flight)
     {
+        if ($flight->departure) {
+            $departureAirports = Airport::whereIn('icao', $flight->departure)->get();
+        } else {
+            $departureAirports = [];
+        }
+
+        if ($flight->arrival) {
+            $arrivalAirports = Airport::whereIn('icao', $flight->arrival)->get();
+        } else {
+            $arrivalAirports = [];
+        }
+
         return view('flights.show', [
             'type'              => 'FlightRequest',
             'flight'            => $flight,
-            'departureAirports' => Airport::whereIn('icao', $flight->departure)->get(),
-            'arrivalAirports'   => Airport::whereIn('icao', $flight->arrival)->get()
+            'departureAirports' => $departureAirports,
+            'arrivalAirports'   => $arrivalAirports
         ]);
     }
 
