@@ -1,0 +1,34 @@
+name: Deploy
+
+on:
+  push:
+    branches: master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: composer install
+    - name: Run tests
+      run: vendor/bin/phpunit
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PUSH_TOKEN }}
+
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        username: laravel
+        host: ${{ secrets.SERVER_IP }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: 'cd /var/www/copilot && .deploy_master.sh'
