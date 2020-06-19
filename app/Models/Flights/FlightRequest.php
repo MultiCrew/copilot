@@ -74,6 +74,16 @@ class FlightRequest extends Model
     }
 
     /**
+     * Checks if the flight can be disaptched
+     *
+     * @return boolean true if both departure and arrival contain a single airport
+     */
+    public function isDispatchable()
+    {
+        return sizeof($this->departure) == 1 && sizeof($this->arrival) == 1;
+    }
+
+    /**
      * Checks if a plan is accepted by both users
      *
      * @return boolean

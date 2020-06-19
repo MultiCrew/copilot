@@ -30,7 +30,7 @@ crossorigin>
 
         <div class="row">
             <div class="col-md-6">
-                <dl class="row card-text">
+                <dl class="row align-items-center card-text">
                     <dt class="col-lg-3 card-text">Departure</dt>
                     <dd class="col-lg-9 card-text">
                         {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
@@ -47,9 +47,9 @@ crossorigin>
             </div>
             <div class="col-md-6">
                 @if($type === 'FlightRequest')
-                    <dl class="row card-text">
-                        <dt class="col-lg-3 align-middle card-text">Copilot</dt>
-                        <dd class="col-lg-9 align-middle card-text">
+                    <dl class="row align-items-center card-text">
+                        <dt class="col-lg-3 card-text">Copilot</dt>
+                        <dd class="col-lg-9 card-text">
                             @if($otherUser = $flight->otherUser())
                                 <a href="#" class="text-decoration-none">
                                     <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
@@ -60,27 +60,32 @@ crossorigin>
                             @endif
                         </dd>
 
-                        <dt class="col-lg-3 align-middle card-text">Flight Plan</dt>
-                        <dd class="col-lg-9 align-middle card-text">
+                        <dt class="col-lg-3 card-text">Flight Plan</dt>
+                        <dd class="col-lg-9 card-text">
                             @if($flight->isPlanned())
                                 <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
                                     View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
                                 </a>
                             @elseif($flight->isAccepted())
-                                <button
-                                type="button"
-                                class="btn btn-sm btn-success"
-                                data-toggle="modal"
-                                data-target="#dispatchModal">
-                                    Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
-                                </button>
+                                @if($flight->isDispatchable())
+                                    <button
+                                    type="button"
+                                    class="btn btn-sm btn-success"
+                                    data-toggle="modal"
+                                    data-target="#dispatchModal">
+                                        Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
+                                    </button>
+                                @else
+                                    There must be one departure and one arrival airport before you can dispatch this
+                                    flight!
+                                @endif
                             @else
                                 You need a copilot before you can dispatch this flight!
                             @endif
                         </dd>
 
-                        <dt class="col-lg-3 align-middle card-text">Status</dt>
-                        <dd class="col-lg-9 align-middle card-text">
+                        <dt class="col-lg-3 card-text">Status</dt>
+                        <dd class="col-lg-9 card-text">
                             @if($flight->planAccepted())
                                 <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
                                     @csrf
@@ -472,3 +477,30 @@ crossorigin></script>
 </script>
 
 @endpush
+
+@section('help-title', 'Help | Flight Request')
+
+@section('help-content')
+
+<h5>Flight Details</h5>
+
+<p>
+    This page shows you the details of your flight, including the departure and
+    arrival airport(s), if set, the aircraft and your copilot.
+</p>
+<p>
+    You can also see the status of your flight and, if applicable, dispatch the
+    flight or view the flight plan.
+</p>
+
+<h5>Dispatch</h5>
+
+<p>
+    To dispatch your flight, you need to have <strong>one</strong> departure and
+    <strong>one</strong> arrival airport. If you have 'No preference', or more
+    than one option, set for either your departure or arrival airport, you and
+    your copilot should first decide on a finalised departure and arrival
+    airport, and then you can dispatch your flight.
+</p>
+
+@endsection
