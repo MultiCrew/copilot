@@ -32,6 +32,11 @@ const app = new Vue({
     el: '#app',
 });
 
+var moment = require('moment');
+function updateTime() {
+    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+};
+
 $(document).ready(function() {
     updateTime();
     if ($('#time').length) {
@@ -39,10 +44,6 @@ $(document).ready(function() {
     }
 });
 
-var moment = require('moment');
-updateTime = function() {
-    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
-};
 
 window.markAllRead = function() {
     $.get('/notifications/mark-all-read');
@@ -142,3 +143,6 @@ window.addNotification = function(id, notification) {
     count++;
     $('#notify-count').text(count);
 };
+
+import bsCustomFileInput from 'bs-custom-file-input'
+bsCustomFileInput.init()
