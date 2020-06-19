@@ -31,4 +31,4 @@ jobs:
         host: 161.35.32.131
         password: ${{ secrets.SSH_PASSWORD }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        script: 'cd /var/www/copilot-dev && .server_deploy.sh'
+        script: 'cd /var/www/copilot-dev && .deploy_dev.sh'
