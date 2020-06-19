@@ -28,7 +28,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         username: laravel
-        host: 161.35.32.131
+        host: ${{ secrets.SERVER_IP }}
         password: ${{ secrets.SSH_PASSWORD }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: 'cd /var/www/copilot-dev && .deploy_dev.sh'
