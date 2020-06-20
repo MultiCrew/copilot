@@ -23,7 +23,8 @@ jobs:
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:
-        username: laravel
+        username: ${{ secrets.USERNAME }}
         host: ${{ secrets.SERVER_IP }}
-        password: ${{ secrets.LARAVEL_PASSWORD }}
+        key: ${{ secrets.LARAVEL_SSH }}
+        passphrase:  ${{secrets.LARVEL_PASSWORD}}
         script: 'cd /var/www/copilot-dev && .deploy_dev.sh'
