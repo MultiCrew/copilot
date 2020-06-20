@@ -25,5 +25,5 @@ jobs:
       with:
         username: laravel
         host: ${{ secrets.SERVER_IP }}
-        password: ${{ secrets.SSH_PASSWORD }}
+        password: ${{ secrets.LARAVEL_PASSWORD }}
         script: 'cd /var/www/copilot-dev && .deploy_dev.sh'
