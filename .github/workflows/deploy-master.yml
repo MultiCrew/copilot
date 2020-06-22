@@ -27,4 +27,4 @@ jobs:
         username: ${{ secrets.LARAVEL_USERNAME }}
         key: ${{ secrets.LARAVEL_SSH }}
         passphrase: ${{ secrets.LARAVEL_PASSWORD }}
-        script: 'cd /var/www/copilot && .deploy-master.sh'
+        script: 'cd /var/www/copilot && ./deploy-master.sh'
