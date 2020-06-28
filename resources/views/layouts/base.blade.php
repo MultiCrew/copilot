@@ -19,7 +19,9 @@
         @include('includes.nav')
 
         @auth
-            @role('new')
+            @if(Auth::user()->hasRole('new') ||
+                strpos(Route::currentRouteName(), 'about') !== false ||
+                strpos(Route::currentRouteName(), 'policy') !== false)
                 <main class="container">
                     <div class="p-4 col" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
@@ -30,10 +32,7 @@
                 </main>
             @else
                 <main class="row" id="body-row">
-                    @unless(strpos(Route::currentRouteName(), 'blog') !== false
-                         || strpos(Route::currentRouteName(), 'policy') !== false)
-                        @include('includes.sidebar')
-                    @endunless
+                    @include('includes.sidebar')
                     <div class="col-lg-10 p-4" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
                             <div class="notify-toast-position" id="notification-div"></div>
@@ -50,7 +49,8 @@
             </main>
         @endguest
 
-        @if(strpos(Route::currentRouteName(), 'blogetc') !== false)
+        @if(strpos(Route::currentRouteName(), 'about') !== false ||
+            strpos(Route::currentRouteName(), 'policy') !== false)
             <div class="bg-light text-dark py-5">
                 <div class="container">
                     <h3 class="text-center display-4 mb-4">MultiCrew</h3>
