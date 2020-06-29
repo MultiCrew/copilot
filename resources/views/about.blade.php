@@ -24,7 +24,7 @@
 
 <div class="row">
     <div class="col-md-6 mb-3 text-center">
-        <img class="rounded-circle my-4" src="https://via.placeholder.com/200">
+        <!--<img class="rounded-circle my-4" src="https://via.placeholder.com/200">-->
         <h5>Harry Cameron</h5>
         <p class="mb-0 text-left">
             Harry, the first half of the development team, brings the real-world experience, being in the aviation
@@ -35,7 +35,7 @@
     </div>
 
     <div class="col-md-6 text-center">
-        <img class="rounded-circle my-4" src="https://via.placeholder.com/200">
+        <!--<img class="rounded-circle my-4" src="https://via.placeholder.com/200">-->
         <h5>Calum Shepherd</h5>
         <p class="mb-0 text-left">
             An Engineering student, Calum is the other half of the development team at MultiCrew. A passionate flight
