@@ -307,13 +307,18 @@ aria-hidden="true">
 
                     <div class="form-group">
                         <h5 class="mb-2"><label>Aircraft</label></h5>
-                        <input
-                        type="text"
+
+                        <select
                         name="aircraft"
                         id="aircraft"
-                        class="form-control {{ $errors->has('aircraft') ? 'border-danger' : '' }}"
-                        value="{{ is_null(old('aircraft')) ? '' : old('aircraft') }}"
-                        required>
+                        class="aircraftpicker mt-1 mb-3 form-control {{ $errors->has('aircraft') ? 'border-danger' : '' }}"
+                        data-live-search="true"
+                        multiple>
+                            <option selected value="{{ $flight->aircraft->id }}">
+                                {{  $flight->aircraft->icao . ' - ' . $flight->aircraft->name . ' (' . $flight->aircraft->sim . ')' }}
+                            </option>
+                        </select>
+
                         @if($errors->has('aircraft'))
                             <p class="help text-danger">
                                 {{ $errors->first('aircraft') }}
@@ -393,9 +398,49 @@ crossorigin></script>
         preserveSelected: true
     });
 
+    $('.aircraftpicker').selectpicker({
+        liveSearch: true
+    })
+    .ajaxSelectPicker({
+        ajax: {
+            url: '{{ route('search.approved_aircraft') }}',
+            method: 'GET',
+            data: {
+                q: '@{{{q}}}'
+            }
+        },
+        locale: {
+            emptyTitle: 'Start typing to search...',
+            statusInitialized: '',
+        },
+        preprocessData: function(data){
+            var aircraft = [];
+            let count;
+            if(data.length > 0){
+                if(data.length >= 10) {
+                    count = 10;
+                } else {
+                    count = data.length;
+                }
+                for(var i = 0; i < count; i++){
+                    var curr = data[i];
+                    aircraft.push(
+                        {
+                            'value': curr.id,
+                            'text': curr.icao + ' - ' + curr.name + ' (' + curr.sim + ')',
+                            'disabled': false
+                        }
+                    );
+                }
+            }
+            return aircraft;
+        },
+        preserveSelected: true
+    });
+
     // disable select pickers by default
-    //$('.selectpicker').prop('disabled', true);
-    //$('.selectpicker').selectpicker('refresh');
+    $('.selectpicker').prop('disabled', true);
+    $('.selectpicker').selectpicker('refresh');
 
     // event listener to dis/en/able input based on radio
     $('input[name="departureRadio"]').click(function() {
