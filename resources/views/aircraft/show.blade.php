@@ -61,13 +61,13 @@
                 id="sim"
                 class="custom-select"
                 required>
-                    <option value="fsx" @if($aircraft->sim == 'fsx') selected @endif>Microsoft Flight Simulator X</option>
-                    <option value="p3d" @if($aircraft->sim == 'p3d') selected @endif>Lockheed Martin Prepar3D v3</option>
-                    <option value="p4d" @if($aircraft->sim == 'p4d') selected @endif>Lockheed Martin Prepar3D v4</option>
-                    <option value="p5d" @if($aircraft->sim == 'p5d') selected @endif>Lockheed Martin Prepar3D v5</option>
-                    <option value="xp0" @if($aircraft->sim == 'xp0') selected @endif>Laminar Research X-Plane 10</option>
-                    <option value="xp1" @if($aircraft->sim == 'xp1') selected @endif>Laminar Research X-Plane 11</option>
-                    <option value="mfs" @if($aircraft->sim == 'mfs') selected @endif>Microsoft Flight Simulator 2020</option>
+                    <option value="FSX" @if($aircraft->sim == 'FSX') selected @endif>FSX</option>
+                    <option value="P3D v3" @if($aircraft->sim == 'P3D v3') selected @endif>P3D v3</option>
+                    <option value="P3D v4" @if($aircraft->sim == 'P3D v4') selected @endif>P3D v4</option>
+                    <option value="P3D v5" @if($aircraft->sim == 'P3D v5') selected @endif>P3D v5</option>
+                    <option value="X-Plane 10" @if($aircraft->sim == 'X-Plane 10') selected @endif>X-Plane 10</option>
+                    <option value="X-Plane 11" @if($aircraft->sim == 'X-Plane 11') selected @endif>X-Plane 11</option>
+                    <option value="MSFS 2020" @if($aircraft->sim == 'MSFS 2020') selected @endif>MSFS 2020</option>
                 </select>
             </div>
 

@@ -36,31 +36,7 @@
                     <tr @unless($aircraft->approved) class="table-warning" @endif>
                         <td class="align-middle"><samp>{{ $aircraft->icao }}</samp></td>
                         <td class="align-middle">{{ $aircraft->name }}</td>
-                        <td class="align-middle">
-                            @switch($aircraft->sim)
-                                @case('fsx')
-                                    Microsoft Flight Simulator X
-                                    @break
-                                @case('p3d')
-                                    Lockheed Martin Prepar3D v3
-                                    @break
-                                @case('p4d')
-                                    Lockheed Martin Prepar3D v4
-                                    @break
-                                @case('p5d')
-                                    Lockheed Martin Prepar3D v5
-                                    @break
-                                @case('xp0')
-                                    Laminar Research X-Plane 10
-                                    @break
-                                @case('xp1')
-                                    Laminar Research X-Plane 11
-                                    @break
-                                @case('mfs')
-                                    Microsoft Flight Simulator 2020
-                                    @break
-                            @endswitch
-                        </td>
+                        <td class="align-middle">{{ $aircraft->sim }}</td>
                         <td class="align-middle">
                             {{ $aircraft->added_by ? $aircraft->added_by : 'MultiCrew' }}
                         </td>
@@ -150,13 +126,13 @@ aria-hidden="true">
                         class="custom-select"
                         required>
                             <option selected disabled value>Choose one...</option>
-                            <option value="fsx">Microsoft Flight Simulator X</option>
-                            <option value="p3d">Lockheed Martin Prepar3D v3</option>
-                            <option value="p4d">Lockheed Martin Prepar3D v4</option>
-                            <option value="p5d">Lockheed Martin Prepar3D v5</option>
-                            <option value="xp0">Laminar Research X-Plane 10</option>
-                            <option value="xp1">Laminar Research X-Plane 11</option>
-                            <option value="mfs">Microsoft Flight Simulator 2020</option>
+                            <option value="FSX">FSX</option>
+                            <option value="P3D v3">P3D v3</option>
+                            <option value="P3D v4">P3D v4</option>
+                            <option value="P3D v5">P3D v5</option>
+                            <option value="X-Plane 10">X-Plane 10</option>
+                            <option value="X-Plane 11">X-Plane 11</option>
+                            <option value="MSFS 2020">MSFS 2020</option>
                         </select>
                     </div>
                 </div>
