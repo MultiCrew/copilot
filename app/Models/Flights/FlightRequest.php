@@ -80,7 +80,11 @@ class FlightRequest extends Model
      */
     public function isDispatchable()
     {
-        return sizeof($this->departure) == 1 && sizeof($this->arrival) == 1;
+        if (is_array($this->departure) && is_array($this->arrival)) {
+            return sizeof($this->departure) == 1 && sizeof($this->arrival) == 1;
+        } else {
+            return false;
+        }
     }
 
     /**
