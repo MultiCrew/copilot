@@ -45,7 +45,6 @@ aria-hidden="true">
                         id="departure"
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
                         data-live-search="true"
-                        value="{{ is_null(old('departure')) ? '' : old('departure') }}"
                         multiple></select>
 
                         @if($errors->has('departure'))
@@ -82,7 +81,6 @@ aria-hidden="true">
                         id="arrival"
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
                         data-live-search="true"
-                        value="{{ is_null(old('arrival')) ? '' : old('arrival') }}"
                         multiple></select>
 
                         @if($errors->has('arrival'))
@@ -100,7 +98,6 @@ aria-hidden="true">
                         id="aircraft"
                         class="aircraftpicker mt-1 mb-3 form-control {{ $errors->has('aircraft') ? 'border-danger' : '' }}"
                         data-live-search="true"
-                        value="{{ is_null(old('aircraft')) ? '' : old('aircraft') }}"
                         multiple></select>
 
                         @if($errors->has('aircraft'))
@@ -203,7 +200,7 @@ aria-hidden="true">
                     aircraft.push(
                         {
                             'value': curr.id,
-                            'text': curr.icao + ' - ' + curr.name,
+                            'text': curr.icao + ' - ' + curr.name + ' (' + curr.sim + ')',
                             'disabled': false
                         }
                     );
