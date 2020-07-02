@@ -62,7 +62,7 @@ class FlightController extends Controller
         $validator = $request->validate([
             'departure.*' => 'required|size:4|airport',
             'arrival.*' => 'required|size:4|airport',
-            'aircraft' => 'required|size:4|aircraft'
+            'aircraft' => 'required|aircraft'
         ]);
 
         // determine departure and arrival preferences
@@ -91,9 +91,9 @@ class FlightController extends Controller
         // create flight request
         $flight = new FlightRequest();
         $flight->fill([
-            'departure' => $departure,
-            'arrival'   => $arrival,
-            'aircraft'  => $request->aircraft
+            'departure'     => $departure,
+            'arrival'       => $arrival,
+            'aircraft_id'   => $request->aircraft
         ]);
         $flight->requestee_id = Auth::user()->id;
 
@@ -103,18 +103,18 @@ class FlightController extends Controller
             $flight->code = FlightRequest::generateCode();
         }
 
-		$flight->save();
+        $flight->save();
 
         // notify subscribed users
-		$users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
-								->orWhereJsonContains('new_request->airports', $request->arrival)
-                                ->orWhereJsonContains('new_request->aircrafts', $request->airport)
-                                ->where('user_id', '!=', Auth::id())
-								->with('user')
-								->get()
-								->pluck('user')
-								->flatten();
-		Notification::send($users, new NewRequest(Auth::user(), $flight));
+        $users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
+                               ->orWhereJsonContains('new_request->airports', $request->arrival)
+                               ->orWhereJsonContains('new_request->aircrafts', $request->airport)
+                               ->where('user_id', '!=', Auth::id())
+                               ->with('user')
+                               ->get()
+                               ->pluck('user')
+                               ->flatten();
+        Notification::send($users, new NewRequest(Auth::user(), $flight));
 
         // redirect to flight page
         return redirect()->route('flights.show', ['flight' => $flight]);
@@ -211,7 +211,7 @@ class FlightController extends Controller
         $acceptedRequests = FlightRequest::whereNotNull('acceptee_id')
                             ->where(function($query) {
                                 $query->where('requestee_id', '=', Auth::user()->id)
-                                	  ->orWhere('acceptee_id', '=', Auth::user()->id);
+                                      ->orWhere('acceptee_id', '=', Auth::user()->id);
                             })->get();
         $archivedFlights = ArchivedFlight::where('requestee_id', '=', Auth::user()->id)
                                          ->orWhere('acceptee_id', '=', Auth::user()->id)
