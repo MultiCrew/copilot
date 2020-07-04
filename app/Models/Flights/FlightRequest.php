@@ -30,7 +30,7 @@ class FlightRequest extends Model
      * @var array
      */
     protected $fillable = [
-        'departure', 'arrival', 'aircraft', 'requestee_id', 'acceptee_id', 'public'
+        'departure', 'arrival', 'aircraft_id', 'requestee_id', 'acceptee_id', 'public'
     ];
 
     /**
