@@ -246,14 +246,7 @@ aria-hidden="true">
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
                         data-live-search="true"
                         value="{{ is_null(old('departure')) ? '' : old('departure') }}"
-                        multiple>
-                            @forelse($departureAirports as $airport)
-                                <option value="{{ $airport->icao }}" selected>
-                                    {{ $airport->icao .' - '. $airport->name }}
-                                </option>
-                            @empty
-                            @endforelse
-                        </select>
+                        multiple></select>
 
                         @if($errors->has('departure'))
                             <p class="help text-danger">
@@ -290,14 +283,7 @@ aria-hidden="true">
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
                         data-live-search="true"
                         value="{{ is_null(old('arrival')) ? '' : old('arrival') }}"
-                        multiple>
-                            @forelse($arrivalAirports as $airport)
-                                <option value="{{ $airport->icao }}" selected>
-                                    {{ $airport->icao .' - '. $airport->name }}
-                                </option>
-                            @empty
-                            @endforelse
-                        </select>
+                        multiple></select>
 
                         @if($errors->has('arrival'))
                             <p class="help text-danger">
@@ -358,7 +344,10 @@ integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUT
 crossorigin></script>
 
 <script type="text/javascript">
-    // get data for selectpickers (airports)
+    /*
+     * AIRPORT SELECT PICKERS
+     */
+    // initialise airport selectpickers with ajax live search
     $('.selectpicker').selectpicker({
         liveSearch: true
     })
@@ -398,12 +387,100 @@ crossorigin></script>
         },
         preserveSelected: true
     });
-    $('.selectpicker').trigger('change').data('AjaxBootstrapSelect').list.cache = {}
 
+    // disable select pickers by default
+    $('.selectpicker').prop('disabled', true);
+
+    // get airport objects
+    var departureAirports = {!! json_encode($departureAirports) !!};
+    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
+    var departureIcaos = [];
+    var arrivalIcaos = [];
+
+    /**
+     * Hack to stop select picker breaking until search initiated
+     *
+     * @see https://github.com/truckingsim/Ajax-Bootstrap-Select/issues/177
+     */
+    $.fn.ajaxSelectPickerRefresh = function(){
+        return this.each(function () {
+            if(!$(this).data('AjaxBootstrapSelect')) return;
+            var picker = $(this).data('AjaxBootstrapSelect');
+            var selected = [];
+            var selectValues = picker.$element.find('option:selected');
+            for(var i=0;i<selectValues.length;i++){
+                selected.push({
+                    value: selectValues[i].value,
+                    text: selectValues[i].text,
+                    class: "",
+                    data: {},
+                    preserved: true,
+                    selected: true
+                });
+            }
+            picker.list.selected = selected;
+        });
+    }
+
+    // add preselected options to each selectpicker
+    $.each(departureAirports, function (i, item) {
+        $('#departure').append($('<option>', {
+            value: item.icao,
+            text : item.icao + ' - ' + item.name
+        }));
+        departureIcaos.push(item.icao);
+    });
+    $('#departure').selectpicker('val', departureIcaos).ajaxSelectPickerRefresh();
+
+    $.each(arrivalAirports, function (i, item) {
+        $('#arrival').append($('<option>', {
+            value: item.icao,
+            text : item.icao + ' - ' + item.name
+        }));
+        arrivalIcaos.push(item.icao);
+    });
+    $('#arrival').selectpicker('val', arrivalIcaos).ajaxSelectPickerRefresh();
+
+    // enable/check appropriate selectpickers and radios
+    if (departureAirports.length > 0) {
+        $('#departure').prop('disabled', false);
+        $('#departureRadio1').prop('checked', false);
+        $('#departureRadio2').prop('checked', true);
+    }
+    if (arrivalAirports.length >0 ) {
+        $('#arrival').prop('disabled', false);
+        $('#arrivalRadio1').prop('checked', false);
+        $('#arrivalRadio2').prop('checked', true);
+    }
+    $('.selectpicker').selectpicker('refresh');
+
+    /*
+     * Event listeners for setting select picker disabled state based on radios
+     */
+    $('input[name="departureRadio"]').click(function() {
+        if ($('#departureRadio2').is(":checked")) {
+            $('#departure').prop('disabled', false);
+        } else {
+            $('#departure').prop('disabled',true);
+        }
+        $('.selectpicker').selectpicker('refresh');
+    });
+    $('input[name="arrivalRadio"]').click(function() {
+        if ($('#arrivalRadio2').is(":checked")) {
+            $('#arrival').prop('disabled', false);
+        } else {
+            $('#arrival').prop('disabled',true);
+        }
+        $('.selectpicker').selectpicker('refresh');
+    });
+
+    /*
+     * AIRCRAFT SELECT PICKER
+     */
+    // initialise aircraft select picker with ajax live search
     $('.aircraftpicker').selectpicker({
         liveSearch: true
-    })
-    .ajaxSelectPicker({
+    }).ajaxSelectPicker({
         ajax: {
             url: '{{ route('search.approved_aircraft') }}',
             method: 'GET',
@@ -418,13 +495,13 @@ crossorigin></script>
         preprocessData: function(data){
             var aircraft = [];
             let count;
-            if(data.length > 0){
-                if(data.length >= 10) {
+            if (data.length > 0) {
+                if (data.length >= 10) {
                     count = 10;
                 } else {
                     count = data.length;
                 }
-                for(var i = 0; i < count; i++){
+                for (var i = 0; i < count; i++) {
                     var curr = data[i];
                     aircraft.push(
                         {
@@ -440,54 +517,20 @@ crossorigin></script>
         preserveSelected: true
     });
 
-    // disable select pickers by default
-    $('.selectpicker').prop('disabled', true);
-
-    // get airport objects
-    var departureAirports = {!! json_encode($departureAirports) !!};
-    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
-
-    // set select picker state conditionally
-    if (departureAirports.length > 0) {
-        $('#departure').prop('disabled', false);
-        $('#departureRadio1').prop('checked', false);
-        $('#departureRadio2').prop('checked', true);
-    }
-    if (arrivalAirports.length >0 ) {
-        $('#arrival').prop('disabled', false);
-        $('#arrivalRadio1').prop('checked', false);
-        $('#arrivalRadio2').prop('checked', true);
-    }
-    $('.selectpicker').selectpicker('render');
-
-    // event listener to dis/en/able input based on radio
-    $('input[name="departureRadio"]').click(function() {
-        if ($('#departureRadio2').is(":checked")) {
-            $('#departure').prop('disabled', false);
-            $('.selectpicker').selectpicker('refresh');
-        } else {
-            $('#departure').prop('disabled',true);
-            $('.selectpicker').selectpicker('refresh');
-        }
-    });
-
-    // event listener to dis/en/able input based on radio
-    $('input[name="arrivalRadio"]').click(function() {
-        if ($('#arrivalRadio2').is(":checked")) {
-            $('#arrival').prop('disabled', false);
-            $('.selectpicker').selectpicker('refresh');
-        } else {
-            $('#arrival').prop('disabled',true);
-            $('.selectpicker').selectpicker('refresh');
-        }
-    });
-
-    // script to copy join code to clipboard
+    /**
+     * Copies join link to clipboard
+     *
+     * @return void
+     */
     function copyLink() {
         const link = document.getElementById('privateCode');
         link.select();
         document.execCommand('copy');
     }
+
+    /*
+     * MAPPING STUFF
+     */
 
     /**
      * Adds markers to map with popup, and returns an array of marker objects
@@ -510,6 +553,7 @@ crossorigin></script>
         return markerArray;
     }
 
+    // concatenate dep and arr airports into single array for adding markers
     var allPoints = departureAirports.concat(arrivalAirports);
 
     // initialise map
