@@ -206,11 +206,12 @@ aria-labelledby="editRequestModalLabel"
 aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="{{ route('flights.store') }}">
+            <form method="post" action="{{ route('flights.update', ['flight' => $flight]) }}">
                 @csrf
+                @method('patch')
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editRequestModalLabel">Create Request</h5>
+                    <h5 class="modal-title" id="editRequestModalLabel">Edit Flight</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -397,6 +398,7 @@ crossorigin></script>
         },
         preserveSelected: true
     });
+    $('.selectpicker').trigger('change').data('AjaxBootstrapSelect').list.cache = {}
 
     $('.aircraftpicker').selectpicker({
         liveSearch: true
@@ -440,7 +442,23 @@ crossorigin></script>
 
     // disable select pickers by default
     $('.selectpicker').prop('disabled', true);
-    $('.selectpicker').selectpicker('refresh');
+
+    // get airport objects
+    var departureAirports = {!! json_encode($departureAirports) !!};
+    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
+
+    // set select picker state conditionally
+    if (departureAirports.length > 0) {
+        $('#departure').prop('disabled', false);
+        $('#departureRadio1').prop('checked', false);
+        $('#departureRadio2').prop('checked', true);
+    }
+    if (arrivalAirports.length >0 ) {
+        $('#arrival').prop('disabled', false);
+        $('#arrivalRadio1').prop('checked', false);
+        $('#arrivalRadio2').prop('checked', true);
+    }
+    $('.selectpicker').selectpicker('render');
 
     // event listener to dis/en/able input based on radio
     $('input[name="departureRadio"]').click(function() {
@@ -491,10 +509,6 @@ crossorigin></script>
 
         return markerArray;
     }
-
-    // get airport objects
-    var departureAirports = {!! json_encode($departureAirports) !!};
-    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
 
     var allPoints = departureAirports.concat(arrivalAirports);
 
