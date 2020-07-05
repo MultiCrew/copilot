@@ -19,7 +19,15 @@
         @include('includes.nav')
 
         @auth
-            @role('new')
+            @if(Auth::user()->hasRole('new') ||
+                strpos(Route::currentRouteName(), 'about') !== false ||
+                strpos(Route::currentRouteName(), 'policy') !== false)
+                <div class="w-100" id="header-image">
+                    <div id="header-text" class="text-center text-white">
+                        <h1 class="display-4">MultiCrew</h1>
+                        <p class="lead">@yield('title')</p>
+                    </div>
+                </div>
                 <main class="container">
                     <div class="p-4 col" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
@@ -30,10 +38,7 @@
                 </main>
             @else
                 <main class="row" id="body-row">
-                    @unless(strpos(Route::currentRouteName(), 'blog') !== false
-                         || strpos(Route::currentRouteName(), 'policy') !== false)
-                        @include('includes.sidebar')
-                    @endunless
+                    @include('includes.sidebar')
                     <div class="col-lg-10 p-4" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
                             <div class="notify-toast-position" id="notification-div"></div>
@@ -50,16 +55,15 @@
             </main>
         @endguest
 
-        @if(strpos(Route::currentRouteName(), 'blogetc') !== false)
+        @if(strpos(Route::currentRouteName(), 'about') !== false ||
+            strpos(Route::currentRouteName(), 'policy') !== false)
             <div class="bg-light text-dark py-5">
                 <div class="container">
                     <h3 class="text-center display-4 mb-4">MultiCrew</h3>
                     <p class="text-center lead mb-4">
-                        We're all about bringing people from the aviation industry and
-                        the flight simulation community together to enjoy flight
-                        simulators. We are a community-driven, non-profit organisation,
-                        which specialises in shared cockpit flying, training and
-                        support.
+                        We're all about bringing people from the aviation industry and the flight simulation community
+                        together to enjoy flight simulators. We are a community-driven organisation, which specialises
+                        in shared cockpit flying, training and support.
                     </p>
                     <p class="text-center">
                         <a href="https://fb.me/flymulticrew"><i class="fab fa-facebook-square fa-2x mr-4"></i></a>
@@ -78,7 +82,6 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
-
 
         function acceptCookie() {
             $.get('{!! route('cookie-consent') !!}');
