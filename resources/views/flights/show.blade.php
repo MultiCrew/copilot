@@ -33,12 +33,20 @@ crossorigin>
                 <dl class="row align-items-center card-text">
                     <dt class="col-lg-3 card-text">Departure</dt>
                     <dd class="col-lg-9 card-text">
-                        {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
+                        @if($type == 'FlightRequest')
+                            {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
+                        @else
+                            {{ $flight->departure }}
+                        @endif
                     </dd>
 
                     <dt class="col-lg-3 card-text">Arrival</dt>
                     <dd class="col-lg-9 card-text">
-                        {{ is_array($flight->arrival) ? implode('/', $flight->arrival) : 'Not set' }}
+                        @if($type == 'FlightRequest')
+                            {{ is_array($flight->arrival) ? implode('/', $flight->arrival) : 'Not set' }}
+                        @else
+                            {{ $flight->arrival }}
+                        @endif
                     </dd>
 
                     <dt class="col-lg-3 card-text">Aircraft</dt>
@@ -91,7 +99,11 @@ crossorigin>
                                     @csrf
 
                                     <input type="hidden" name="flight" value="{{ $flight->id }}">
-                                    <button type="submit" class="btn btn-sm btn-success">
+                                    <button
+                                    type="button"
+                                    class="btn btn-sm btn-warning card-text"
+                                    data-toggle="modal"
+                                    data-target="#completeModal">
                                         <i class="fas fa-check fa-fw mr-2"></i>Mark Complete
                                     </button>
                                 </form>
@@ -331,6 +343,46 @@ aria-hidden="true">
         </div>
     </div>
 </div>
+
+@if($type === 'FlightRequest'))
+    @if($flight->planAccepted())
+        <div
+        class="modal fade"
+        id="completeModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="completeModalLabel"
+        aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="completeModalLabel">Complete Flight</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        Are you sure you want to complete this flight?
+                    </div>
+
+                    <div class="modal-footer">
+                        <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
+                            @csrf
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                <i class="fas fa-times mr-2"></i>Cancel
+                            </button>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-check mr-2"></i>Complete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+@endif
 
 @endsection
 
