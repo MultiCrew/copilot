@@ -9,7 +9,7 @@
     <title>{{ config('app.name', 'MultiCrew') }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+
     @yield('header')
     @section('prepend-scripts')
 </head>
