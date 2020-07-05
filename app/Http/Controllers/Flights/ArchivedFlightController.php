@@ -28,8 +28,8 @@ class ArchivedFlightController extends Controller
         $archived = new ArchivedFlight();
 
         $archived->fill([
-            'departure'     => $flight->departure,
-            'arrival'       => $flight->arrival,
+            'departure'     => $flight->departure[0],
+            'arrival'       => $flight->arrival[0],
             'aircraft'      => $flight->aircraft,
             'requestee_id'  => $flight->requestee_id,
             'acceptee_id'   => $flight->acceptee_id,
