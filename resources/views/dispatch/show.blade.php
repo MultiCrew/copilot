@@ -497,7 +497,7 @@
                                 type="text"
                                 class="form-control"
                                 readonly
-                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['cost_index'] }}">
+                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['costindex'] }}">
                             </div>
                         </div>
                         <div class="form-group mb-0">
@@ -542,7 +542,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th class="align-middle mb-0">Enroute Time</th>
+                                            <th class="align-middle mb-0">Enroute Time (seconds)</th>
                                             <td class="align-middle mb-0"><samp>{{ $impact['time_enroute'] }}</samp></td>
                                             <td class="align-middle mb-0"><samp>{{ $impact['time_difference'] }}</samp></td>
                                         </tr>
