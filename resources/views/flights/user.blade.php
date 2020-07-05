@@ -160,7 +160,7 @@
                                     {{ $flight->arrival }}
                                 </td>
                                 <td class="align-middle">
-                                    {{ $flight->aircraft }}
+                                    {{ $flight->aircraft->name }}
                                 </td>
                                 <td class="align-middle">
                                     <a href="#" class="text-decoration-none">
