@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Flights\FlightRequest;
 use App\Models\Flights\ArchivedFlight;
 use App\Models\Flights\FlightPlan;
+use App\Models\Airports\Airport;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -28,11 +29,11 @@ class ArchivedFlightController extends Controller
         $archived = new ArchivedFlight();
 
         $archived->fill([
-            'departure'     => $flight->departure[0],
-            'arrival'       => $flight->arrival[0],
-            'aircraft'      => $flight->aircraft,
-            'requestee_id'  => $flight->requestee_id,
-            'acceptee_id'   => $flight->acceptee_id,
+            'departure'         => $flight->departure[0],
+            'arrival'           => $flight->arrival[0],
+            'aircraft_id'      => $flight->aircraft_id,
+            'requestee_id'      => $flight->requestee_id,
+            'acceptee_id'       => $flight->acceptee_id,
         ]);
 
         $archived->save();
@@ -47,7 +48,9 @@ class ArchivedFlightController extends Controller
     {
         return view('flights.show', [
             'type' => 'ArchivedFlight',
-            'flight' => $flight
+            'flight' => $flight,
+            'departureAirports' => Airport::where('icao', $flight->departure)->get(),
+            'arrivalAirports' => Airport::where('icao', $flight->arrival)->get()
         ]);
     }
 }
