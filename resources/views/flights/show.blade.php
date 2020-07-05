@@ -573,7 +573,7 @@ crossorigin></script>
 
     // fit markers within map
     if (markers.length > 1) {
-        mymap.fitBounds(new L.featureGroup(markers).getBounds());
+        mymap.fitBounds(new L.featureGroup(markers).getBounds(), {padding: [50, 50]});
     } else {
         mymap.setView(markers[0].getLatLng(), 4);
     }
