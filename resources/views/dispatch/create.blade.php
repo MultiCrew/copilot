@@ -100,7 +100,7 @@ z-index: 2;">
                                     class="form-control form-control-sm"
                                     maxlength="4"
                                     readonly
-                                    value="{{ $flight->departure }}">
+                                    value="{{ $flight->departure[0] }}">
                                 </div>
                             </div>
 
@@ -113,7 +113,7 @@ z-index: 2;">
                                     class="form-control form-control-sm"
                                     maxlength="4"
                                     readonly
-                                    value="{{ $flight->arrival }}">
+                                    value="{{ $flight->arrival[0] }}">
                                 </div>
                             </div>
 
@@ -137,7 +137,7 @@ z-index: 2;">
                                     name="type"
                                     class="form-control form-control-sm"
                                     readonly
-                                    value="{{ $flight->aircraft }}">
+                                    value="{{ $flight->aircraft->icao }}">
                                 </div>
                             </div>
                         </div>
@@ -329,7 +329,7 @@ z-index: 2;">
                                         data-placement="right"
                                         title="Enter a SimBrief airframe ID here if you want to use a specific aircraft in your fleet"></i>
                                     </label>
-                                    <input type="text" class="form-control" value="{{ $flight->aircraft }}">
+                                    <input type="text" class="form-control" value="{{ $flight->aircraft->icao }}">
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -423,6 +423,10 @@ z-index: 2;">
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
         $('#submitButton').click(function() {
             $('#loading-overlay').show();
             simbriefsubmit('{{ route('dispatch.store', ['flight' => $flight]) }}');

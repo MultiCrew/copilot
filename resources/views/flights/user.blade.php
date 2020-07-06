@@ -58,9 +58,14 @@
                     <tbody>
                         @forelse($openRequests as $flight)
                             <tr>
-                                <td class="align-middle">{{ $flight->departure }}</td>
-                                <td class="align-middle">{{ $flight->arrival }}</td>
-                                <td class="align-middle">{{ $flight->aircraft }}</td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
+                                </td>
+
+                                <td class="align-middle">{{ $flight->aircraft->name }}</td>
                                 <td class="align-middle text-right">
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View Flight<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
@@ -101,9 +106,14 @@
                                     </a>
                                 </td>
 
-                                <td class="align-middle">{{ $flight->departure }}</td>
-                                <td class="align-middle">{{ $flight->arrival }}</td>
-                                <td class="align-middle">{{ $flight->aircraft }}</td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
+                                </td>
+
+                                <td class="align-middle">{{ $flight->aircraft->name }}</td>
 
                                 <td class="align-middle text-right">
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
@@ -150,7 +160,7 @@
                                     {{ $flight->arrival }}
                                 </td>
                                 <td class="align-middle">
-                                    {{ $flight->aircraft }}
+                                    {{ $flight->aircraft->name }}
                                 </td>
                                 <td class="align-middle">
                                     <a href="#" class="text-decoration-none">

@@ -8,7 +8,7 @@
     <div class="card-body">
         <h3 class="card-title">All Users</h3>
 
-        <table class="table table-hover table-striped border card-text">
+        <table class="table table-hover table-striped border mb-3">
             <thead class="thead-light">
                 <tr>
                     <th>Username</th>
@@ -46,11 +46,11 @@
                 @endforelse
             </tbody>
         </table>
+
+        @if(!empty($users))
+            {{ $users->links() }}
+        @endif
     </div>
 </div>
-
-@if(!empty($users))
-    {{ $users->links() }}
-@endif
 
 @endsection

@@ -13,6 +13,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- left nav (with sidebar) -->
         <ul class="navbar-nav mr-auto d-none d-lg-flex">
+            <li class="nav-item">
+                <a class="nav-link @if(Route::currentRouteName() == 'home.about') active @endif"
+                    href="{{ route('home.about') }}">
+                    <i class="fas fa-info-circle fa-fw mr-2"></i>About
+                </a>
+            </li>
+
             @auth
                 @role('new')
                     @can('apply to beta')

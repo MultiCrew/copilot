@@ -88,6 +88,28 @@
                     </div>
                 </div>
                 <!-- /end summary box -->
+
+                <!-- begin stands box -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Stands</h5>
+
+                        <div class="form-group card-text row mb-2">
+                            <label class="col-5 col-form-label">{{ $fpl['origin']['iata_code'] }}</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="depstand">
+                            </div>
+                        </div>
+
+                        <div class="form-group card-text row">
+                            <label class="col-5 col-form-label">{{ $fpl['destination']['iata_code'] }}</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="arrstand">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /end stands box -->
             </div>
 
             <div class="col-xl-12 col-lg-6">
@@ -475,7 +497,7 @@
                                 type="text"
                                 class="form-control"
                                 readonly
-                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['cost_index'] }}">
+                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['costindex'] }}">
                             </div>
                         </div>
                         <div class="form-group mb-0">
@@ -520,7 +542,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th class="align-middle mb-0">Enroute Time</th>
+                                            <th class="align-middle mb-0">Enroute Time (seconds)</th>
                                             <td class="align-middle mb-0"><samp>{{ $impact['time_enroute'] }}</samp></td>
                                             <td class="align-middle mb-0"><samp>{{ $impact['time_difference'] }}</samp></td>
                                         </tr>
