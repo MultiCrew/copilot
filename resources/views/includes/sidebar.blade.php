@@ -10,7 +10,7 @@
         class="bg-dark list-group-item list-group-item-action
         @if(Route::currentRouteName() === 'flights.index')) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
+                <i class="fas fa-fw mr-3 fa-search"></i>Find Flights
             </div>
         </a>
 
@@ -19,7 +19,7 @@
         class="bg-dark list-group-item list-group-item-action
         @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+                <i class="fas fa-fw mr-3 fa-plane"></i>My Flights
             </div>
         </a>
 
@@ -28,7 +28,16 @@
         class="bg-dark list-group-item list-group-item-action
         @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+                <i class="fas fa-fw mr-3 fa-file-contract"></i>Dispatch
+            </div>
+        </a>
+
+        <a
+        href="{{ route('aircraft.index') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(strpos(Route::currentRouteName(), 'aircraft') !== false) active @endif">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fas fa-fw mr-3 fa-warehouse"></i>Fleet
             </div>
         </a>
 

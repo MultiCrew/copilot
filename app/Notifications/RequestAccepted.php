@@ -74,7 +74,7 @@ class RequestAccepted extends Notification
         return [
             'acceptee' => $this->acceptee->username,
             'flight' => $this->flight,
-            'text' => $this->acceptee->username . ' has just accepted your flight request from ' . $this->flight->departure . ' to ' . $this->flight->arrival,
+            'text' => $this->acceptee->username . ' has just accepted your flight request',
             'title' => 'Request Accepted'
         ];
     }
@@ -91,7 +91,7 @@ class RequestAccepted extends Notification
             'id' => $this->id,
             'acceptee' => $this->acceptee->username,
             'flight' => $this->flight,
-            'text' => $this->acceptee->username . ' has just accepted your flight request from ' . $this->flight->departure . ' to ' . $this->flight->arrival,
+            'text' => $this->acceptee->username . ' has just accepted your flight request',
             'title' => 'Request Accepted'
         ]);
     }
@@ -106,7 +106,7 @@ class RequestAccepted extends Notification
     {
         return [
             'type' => 'notification',
-            'message' => $this->acceptee->username . ' has just accepted your flight request from ' . $this->flight->departure . ' to ' . $this->flight->arrival . '. Click here to view the flight: ' . route('flights.show', ['flight' => $this->flight]),
+            'message' => $this->acceptee->username . ' has just accepted your flight request. Click here to view the flight: ' . route('flights.show', ['flight' => $this->flight]),
             'id' => $this->flight->requestee->discord_id,
         ];
     }

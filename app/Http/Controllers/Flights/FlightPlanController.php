@@ -47,7 +47,7 @@ class FlightPlanController extends Controller
     {
         if ($flight->plan_id) {
             return redirect()->route('dispatch.show', $flight->plan_id);
-        } elseif (!$flight->isAccepted()) {
+        } elseif (!$flight->isAccepted() || !$flight->isDispatchable()) {
             return redirect()->route('flights.show', $flight);
         }
 

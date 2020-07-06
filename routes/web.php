@@ -48,6 +48,7 @@ Route::group([
  ], function() {
      Route::get('airport', 'Search\SearchController@airport')->name('airport');
      Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
+     Route::get('approved-aircraft', 'Search\SearchController@approvedAircraft')->name('approved_aircraft');
  });
 
 /**
@@ -71,6 +72,8 @@ Route::group([
 Route::group(['middleware' => ['verified']], function () {
     Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
     Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
+    Route::resource('aircraft', 'Aircraft\ApprovedAircraftController')->only(['index', 'store']);
+    Route::resource('aircraft', 'Aircraft\ApprovedAircraftAdminController')->except(['index', 'edit', 'store']);
 });
 
 /**
@@ -102,7 +105,14 @@ Route::group([
  */
 Auth::routes(['verify' => true]);
 Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
-Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
+Route::group([
+    'as' => 'account.',
+    'prefix' => 'account',
+    'middleware' => 'verified',
+], function () {
+    Route::get('/', 'Auth\AccountController@index')->name('index');
+    Route::patch('/update', 'Auth\AccountController@update')->name('update');
+});
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
 
