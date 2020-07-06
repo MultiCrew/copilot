@@ -26,5 +26,4 @@ jobs:
         host: ${{ secrets.SERVER_IP }}
         username: ${{ secrets.LARAVEL_USERNAME }}
         key: ${{ secrets.LARAVEL_SSH }}
-        passphrase: ${{ secrets.LARAVEL_PASSWORD }}
         script: 'cd /var/www/copilot-dev && ./deploy-dev.sh'
