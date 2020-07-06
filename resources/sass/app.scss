@@ -194,3 +194,15 @@ body {
     background-color: transparent;
     border: 0;
 }
+
+#header-image {
+    height: 400px;
+    background: url('/img/about_header.png') center;
+}
+
+#header-text {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

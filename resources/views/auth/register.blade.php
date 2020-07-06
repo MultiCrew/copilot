@@ -1,119 +1,105 @@
-@extends('layouts.base')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+<form method="POST" action="{{ route('register') }}" class="form-signin">
+    @csrf
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="usaername">
-
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-6">
-                                By signing up to MultiCrew you are agreeing to the <a href="{{route('home.policy')}}">Terms and Policies</a>.
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-8">
-                                {!! NoCaptcha::display() !!}
-
-                                @error('g-recaptcha-response')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-
-                                <a href="{{ route('login') }}" class="ml-2">
-                                    Already have an account?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="text-center mb-4">
+        <a href="{{ route('home.index') }}">
+            <img class="mb-4" src="{{ asset('/img/icon_circle_light.png') }}" alt="MultiCrew logo" width="72" height="72">
+        </a>
+        <h1 class="h3 mb-3 font-weight-normal text-white">Register</h1>
+        <p class="text-white">
+            <a href="{{ route('login') }}">
+                Already have an account?
+            </a>
+        </p>
     </div>
-</div>
+
+    <div class="form-label-group">
+        <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror"
+            placeholder="Name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+        <label for="name">Name</label>
+    </div>
+    @error('name')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <div class="form-label-group">
+        <input type="text" id="username" name="username" class="form-control @error('username') is-invalid @enderror"
+            placeholder="Username" value="{{ old('username') }}" required autocomplete="username">
+        <label for="username">Username</label>
+    </div>
+    @error('username')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <div class="form-label-group">
+        <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror"
+            placeholder="Email address" value="{{ old('email') }}" required autocomplete="email">
+        <label for="email">Email address</label>
+    </div>
+    @error('email')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <hr style="border-color: #fff;">
+
+    <div class="form-label-group">
+        <input type="password" id="password" name="password"
+            class="form-control @error('password') is-invalid @enderror" placeholder="Password" required
+            autocomplete="new-password">
+        <label for="password">Password</label>
+    </div>
+    @error('password')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <div class="form-label-group">
+        <input type="password" id="password_confirmation" name="password_confirmation"
+            class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Confirm password"
+            required autocomplete="new-password">
+        <label for="password_confirmation">Confirm password</label>
+    </div>
+    @error('password_confirmation')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <hr style="border-color: #fff;">
+
+    {!! NoCaptcha::display() !!}
+    @error('g-recaptcha-response')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <div class="checkbox mb-3">
+        <label class="text-white">
+            <input type="checkbox" required class="mr-2">I accept the
+            <a href="{{ route('home.policy') }}">Terms and Policies</a>.
+        </label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    <p class="mt-2 mb-3"><a class="mx-0" href="{{ url()->previous() }}">Back</a></p>
+
+    <p class="my-3 text-muted text-center">&copy; MultiCrew {{ date('Y') }}</p>
+</form>
+
 @endsection
 
-@section('scripts')
+@section('scripts', )
     {!! NoCaptcha::renderJs() !!}
 @endsection
