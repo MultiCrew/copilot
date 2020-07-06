@@ -27,3 +27,4 @@ jobs:
         username: ${{ secrets.LARAVEL_USERNAME }}
         key: ${{ secrets.LARAVEL_SSH }}
         script: 'cd /var/www/copilot-dev && ./deploy-dev.sh'
+        debug: true
