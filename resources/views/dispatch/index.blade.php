@@ -110,7 +110,7 @@
 
                 @if(!count($unplannedFlights))
                     <tr>
-                        <td colspan="5">No flights!</td>
+                        <td colspan="5" class="text-center">No flights!</td>
                     </tr>
                 @endif
             </tbody>
