@@ -1,80 +1,64 @@
-@extends('layouts.base')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+<form method="POST" action="{{ route('login') }}" class="form-signin">
+    @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="text" class="form-control @error('identity') is-invalid @enderror" name="identity" value="{{ old('identity') }}" required autocomplete="email" autofocus>
-
-                                @error('identity')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-
-                    <hr>
-                    <p class="card-text text-center text-muted lead">
-                        Creating a MultiCrew account is free and gives you
-                        access to all of our services!<br>
-                        <a href="{{ route('register') }}">Create Account</a>
-                    </p>
-                </div>
-            </div>
-        </div>
+    <div class="text-center mb-4">
+        <a href="{{ route('home.index') }}">
+            <img class="mb-4" src="{{ asset('/img/icon_circle_light.png') }}" alt="MultiCrew logo" width="72" height="72">
+        </a>
+        <h1 class="h3 mb-3 font-weight-normal text-white">Login</h1>
+        <p class="text-white">
+            A MultiCrew account is free and gives you
+            access to all of our services!<br>
+            <a href="{{ route('register') }}">Create Account &raquo;</a>
+        </p>
     </div>
-</div>
+
+    <div class="form-label-group">
+        <input type="text" id="identity" name="identity" class="form-control @error('identity') is-invalid @enderror"
+            placeholder="Username or email" value="{{ old('identity') }}" required autocomplete="username" autofocus>
+        <label for="identity">Username or email</label>
+    </div>
+    @error('identity')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <div class="form-label-group">
+        <input type="password" id="password" name="password"
+            class="form-control @error('password') is-invalid @enderror" placeholder="Password" required
+            autocomplete="current-password">
+        <label for="password">Password</label>
+    </div>
+    @error('password')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
+
+    <hr style="border-color: #fff;">
+
+    <div class="checkbox mb-3">
+        <label class="text-white">
+            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} class="mr-2">
+            Remember me
+        </label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+    <div class="d-flex justify-content-between align-items-baseline mt-2 mb-3">
+        <p><a class="px-0" href="{{ url()->previous() }}">Back</a></p>
+        @if(Route::has('password.request'))
+            <p><a class="px-0" href="{{ route('password.request') }}">Forgot your password?</a></p>
+        @endif
+    </div>
+
+    <p class="my-3 text-muted text-center">&copy; MultiCrew {{ date('Y') }}</p>
+</form>
+
 @endsection
