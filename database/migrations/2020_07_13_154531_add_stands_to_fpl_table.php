@@ -27,7 +27,8 @@ class AddStandsToFplTable extends Migration
     public function down()
     {
         Schema::table('fpl', function (Blueprint $table) {
-            //
+            $table->dropColumn('dep_stand');
+            $table->dropColumn('arr_stand');
         });
     }
 }
