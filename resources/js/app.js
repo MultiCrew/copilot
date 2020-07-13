@@ -133,10 +133,10 @@ window.addNotification = function(id, notification) {
     ).append(
         $('<button/>', {
             'type': 'button',
-            'class': 'btn btn-sm',
+            'class': 'btn',
             'onclick': `removeNotification('${id}')`,
             }).append(
-                $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                $('<span/>', {'aria-hidden': 'true'}).html('&#9587;')
             )
     ).appendTo('#notificationDropdownMenu');
     var count = $('#notify-count').text();
@@ -144,5 +144,5 @@ window.addNotification = function(id, notification) {
     $('#notify-count').text(count);
 };
 
-import bsCustomFileInput from 'bs-custom-file-input'
-bsCustomFileInput.init()
+import bsCustomFileInput from 'bs-custom-file-input';
+bsCustomFileInput.init();
