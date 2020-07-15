@@ -95,21 +95,17 @@
                     <i class="fas fa-bell notification-bell mr-lg-2"></i>
                     <span class="badge badge-notify" id="notify-count">
                     </span>
-                    <span class="d-lg-none">Notifications</span>
+                    <span class="d-lg-none ml-3">Notifications</span>
                 </a>
 
                 <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
                     id="notificationDropdownMenu">
-                    <div class="d-inline">
-                        <div id="markAllRead" hidden>
-                            <button class="btn btn-sm btn-outline-success mx-2" onclick="markAllRead()">
-                                <i class="fas fa-check mr-2"></i>Mark all as read
-                            </button>
-                        </div>
-                        <a class="btn btn-sm btn-outline-secondary mx-2" href="{{ route('account.index').'#notifications' }}">
-                            <i class="fas fa-cog mr-2"></i>Manage
-                        </a>
-                    </div>
+                    <button class="btn btn-sm btn-outline-success mx-2 d-none" id="markAllRead" onclick="markAllRead()">
+                        <i class="fas fa-check mr-2"></i>Mark all as read
+                    </button>
+                    <a class="btn btn-sm btn-outline-secondary mx-2" href="{{ route('account.index').'#notifications' }}">
+                        <i class="fas fa-cog mr-2"></i>Manage
+                    </a>
 
                     <div class="dropdown-divider"></div>
                     <button class="dropdown-item disabled" id="noNotifications">
