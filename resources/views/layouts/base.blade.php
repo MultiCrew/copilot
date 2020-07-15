@@ -103,12 +103,10 @@
                     newNotification(notification.id, notification);
                 });
             });
-        </script>
 
-        <script>
             function logout() {
-                    $("#logout-form").submit();
-                }
+                $("#logout-form").submit();
+            }
         </script>
     @endauth
 
