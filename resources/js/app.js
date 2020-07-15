@@ -7,7 +7,9 @@
 require('./bootstrap');
 require('bootstrap-select');
 
-window.Vue = require('vue');
+import bsCustomFileInput from 'bs-custom-file-input';
+
+// window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,7 +22,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,23 +30,13 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+// const app = new Vue({
+//     el: '#app',
+// });
 
-var moment = require('moment');
-function updateTime() {
-    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
-};
-
-$(document).ready(function() {
-    updateTime();
-    if ($('#time').length) {
-        setInterval(updateTime, 60000);
-    }
-});
-
-
+/*
+ * Notifications
+ */
 window.markAllRead = function() {
     $.get('/notifications/mark-all-read');
     $('#notificationDropdownMenu').children().slice(2).remove();
@@ -142,7 +134,32 @@ window.addNotification = function(id, notification) {
     var count = $('#notify-count').text();
     count++;
     $('#notify-count').text(count);
+    $('#notify-count').attr('hidden', false);
 };
 
-import bsCustomFileInput from 'bs-custom-file-input';
-bsCustomFileInput.init();
+/*
+ * Set up zulu time display
+ */
+var moment = require('moment');
+/**
+ * Sets the value attribute of an element with the id 'time' to the current
+ * zulu time
+ *
+ * @return void
+ */
+function updateTime() {
+    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+};
+
+$(document).ready(function() {
+    updateTime();
+    if ($('#time').length) {
+        setInterval(updateTime, 60000);
+    }
+
+    bsCustomFileInput.init();
+
+    if ($('#notify-count').text() < 1) {
+        $('#notify-count').attr('hidden', true);
+    }
+});
