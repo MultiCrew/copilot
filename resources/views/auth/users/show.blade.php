@@ -112,7 +112,7 @@
                             <td></td>
                             <td><i class="fas mx-auto fa-bell"></i></td>
                             <td><i class="fas mx-auto fa-envelope"></i></td>
-                            <td><i class="fas mx-auto fa-mobile-alt"></i></td>
+                            <td><i class="fab mx-auto fa-discord"></i></td>
                         </tr>
                     </thead>
 
@@ -122,17 +122,17 @@
                             <td>
                                 <input type="checkbox" id="request_accepted" name="request_accepted"
                                     class="form-check-input mx-auto" onchange="postNotification()" value="1"
-                                    {{$userNotifications->request_accepted ? 'checked' : ''}}>
+                                    {{ $userNotifications->request_accepted ? 'checked' : '' }}>
                             </td>
                             <td>
                                 <input type="checkbox" id="request_accepted_email" name="request_accepted_email"
                                     class="form-check-input mx-auto" onchange="postNotification()" value="1"
-                                    {{$userNotifications->request_accepted_email ? 'checked' : ''}}>
+                                    {{ $userNotifications->request_accepted_email ? 'checked' : '' }}>
                             </td>
                             <td>
                                 <input type="checkbox" id="request_accepted_push" name="request_accepted_push"
                                     class="form-check-input mx-auto" onchange="postNotification()" value="1"
-                                    {{$userNotifications->request_accepted_push ? 'checked' : ''}}>
+                                    {{ $userNotifications->request_accepted_push ? 'checked' : '' }}>
                             </td>
                         </tr>
 
@@ -141,17 +141,17 @@
                             <td>
                                 <input type="checkbox" id="plan_reviewed" name="plan_reviewed"
                                     class="form-check-input mx-auto" onchange="postNotification()" value="1"
-                                    {{$userNotifications->plan_reviewed ? 'checked' : ''}}>
+                                    {{ $userNotifications->plan_reviewed ? 'checked' : ''}}>
                             </td>
                             <td>
                                 <input type="checkbox" id="plan_reviewed_email" name="plan_reviewed_email"
                                     class="form-check-input mx-auto" onchange="postNotification()" value="1"
-                                    {{$userNotifications->plan_reviewed_email ? 'checked' : ''}}>
+                                    {{ $userNotifications->plan_reviewed_email ? 'checked' : '' }}>
                             </td>
                             <td>
                                 <input type="checkbox" id="plan_reviewed_push" name="plan_reviewed_push"
                                     class="form-check-input mx-auto" onchange="postNotification()" value="1"
-                                    {{$userNotifications->plan_reviewed_push ? 'checked' : ''}}>
+                                    {{ $userNotifications->plan_reviewed_push ? 'checked' : '' }}>
                             </td>
                         </tr>
                     </tbody>
@@ -204,22 +204,22 @@
                 deliver push notifications to your Discord account, so you can
                 get these through your web broswer, desktop or mobile app.
             </p>
-            @if (!$user->discord_id)
+            @if(!$user->discord_id)
             <dl>
                 <dt>Status</dt>
                 <dd>Not connected</dd>
             </dl>
 
-            <a class="btn btn-lg btn-primary" role="button" href="{{route('home.connect')}}">
+            <a class="btn btn-lg btn-primary" role="button" href="{{ route('home.connect') }}">
                 <i class="fas fa-link mr-2"></i>Connect to Discord
             </a>
             @else
             <dl>
                 <dt>Status</dt>
-                <dd>Connected to Discord with Client ID: {{$user->discord_id}}</dd>
+                <dd>Connected to Discord with Client ID: {{ $user->discord_id }}</dd>
             </dl>
 
-            <a class="btn btn-lg btn-danger" role="button" href="{{route('home.disconnect')}}">
+            <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.disconnect') }}">
                 <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
             </a>
             @endif
