@@ -261,143 +261,148 @@
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js">
 </script>
-<script>
-    $(document).ready(function(){
-    if($('#request_accepted').prop('checked') !== true){
-        $("#request_accepted_email").attr("disabled", true);
-        $("#request_accepted_push").attr("disabled", true);
-    }
-    if($('#plan_reviewed').prop('checked') !== true){
-        $("#plan_reviewed_email").attr("disabled", true);
-        $("#plan_reviewed_push").attr("disabled", true);
-    }
-    $('#request_accepted').click(function(){
-        if($(this).is(":checked")){
-            $("#request_accepted_email").removeAttr('disabled');
-            $("#request_accepted_push").removeAttr('disabled');
-        }
-        else if($(this).is(":not(:checked)")){
+<script type="text/javascript">
+    $(document).ready(function() {
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        if ($('#request_accepted').prop('checked') !== true) {
             $("#request_accepted_email").attr("disabled", true);
             $("#request_accepted_push").attr("disabled", true);
         }
-    });
-    $('#plan_reviewed').click(function(){
-        if($(this).is(":checked")){
-            $("#plan_reviewed_email").removeAttr('disabled');
-            $("#plan_reviewed_push").removeAttr('disabled');
-        }
-        else if($(this).is(":not(:checked)")){
+
+        if ($('#plan_reviewed').prop('checked') !== true) {
             $("#plan_reviewed_email").attr("disabled", true);
             $("#plan_reviewed_push").attr("disabled", true);
         }
+
+        $('#request_accepted').click(function() {
+            if ($(this).is(":checked")) {
+                $("#request_accepted_email").removeAttr('disabled');
+                $("#request_accepted_push").removeAttr('disabled');
+            }
+            else if ($(this).is(":not(:checked)")) {
+                $("#request_accepted_email").attr("disabled", true);
+                $("#request_accepted_push").attr("disabled", true);
+            }
+        });
+
+        $('#plan_reviewed').click(function() {
+            if ($(this).is(":checked")) {
+                $("#plan_reviewed_email").removeAttr('disabled');
+                $("#plan_reviewed_push").removeAttr('disabled');
+            }
+            else if ($(this).is(":not(:checked)")) {
+                $("#plan_reviewed_email").attr("disabled", true);
+                $("#plan_reviewed_push").attr("disabled", true);
+            }
+        });
+
+    	$('#airportSelect').selectpicker({
+    		liveSearch: true
+    	})
+    	.ajaxSelectPicker({
+    		ajax: {
+    			url: '{{ route("search.airport") }}',
+    			method: 'GET',
+    			data: {
+    				q: '@{{{q}}}'
+    			}
+    		},
+    		locale: {
+    			emptyTitle: 'Start typing to search...',
+    			statusInitialized: '',
+    		},
+    		preprocessData: function(data) {
+    			var airports = [];
+    			let count;
+    			if(data.length > 0){
+    				if (data.length >= 10) {
+    					count = 10;
+    				} else {
+    					count = data.length;
+    				}
+    				for (var i = 0; i < count; i++) {
+    					var curr = data[i];
+    					airports.push({
+							'value': curr.icao,
+							'text': curr.icao + ' - ' + curr.name,
+							'disabled': false
+						});
+    				}
+    			}
+    			return airports;
+    		},
+    		preserveSelected: true
+    	});
+    	$('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+    		$.ajax({
+    			url: '{{ route("notifications.airport") }}',
+    			type: 'POST',
+    			data: {
+    				'_token': "{{ csrf_token() }}",
+    				'data': $('#airportSelect').selectpicker('val')
+    			}
+    		});
+    	});
+
+    	$('#aircraftSelect').selectpicker({
+    		liveSearch: true
+    	})
+    	.ajaxSelectPicker({
+    		ajax: {
+    			url: '{{ route("search.aircraft") }}',
+    			method: 'GET',
+    			data: {
+    				q: '@{{{q}}}'
+    			}
+    		},
+    		locale: {
+    			emptyTitle: 'Start typing to search...',
+    			statusInitialized: '',
+    		},
+    		preprocessData: function(data) {
+    			var aircrafts = [];
+    			let count;
+    			if(data.length > 0){
+    				if (data.length >= 10) {
+    					count = 10;
+    				} else {
+    					count = data.length;
+    				}
+    				for (var i = 0; i < count; i++) {
+    					var curr = data[i];
+    					aircrafts.push({
+							'value': curr.icao,
+							'text': curr.icao + ' - ' + curr.name,
+							'disabled': false
+						});
+    				}
+    			}
+    			return aircrafts;
+    		},
+    		preserveSelected: true
+    	});
+    	$('#aircraftSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
+    		$.ajax({
+    			url: '{{ route("notifications.aircraft") }}',
+    			type: 'POST',
+    			data: {
+    				'_token': "{{ csrf_token() }}",
+    				'data': $('#aircraftSelect').selectpicker('val')
+    			}
+    		});
+    	});
     });
-	$('#airportSelect').selectpicker({
-		liveSearch: true
-	})
-	.ajaxSelectPicker({
-		ajax: {
-			url: '{{route("search.airport")}}',
-			method: 'GET',
-			data: {
-				q: '@{{{q}}}'
-			}
-		},
-		locale: {
-			emptyTitle: 'Start typing to search...',
-			statusInitialized: '',
-		},
-		preprocessData: function(data){
-			var airports = [];
-			let count;
-			if(data.length > 0){
-				if(data.length >= 10) {
-					count = 10;
-				} else {
-					count = data.length;
-				}
-				for(var i = 0; i < count; i++){
-					var curr = data[i];
-					airports.push(
-						{
-							'value': curr.icao,
-							'text': curr.icao + ' - ' + curr.name,
-							'disabled': false
-						}
-					);
-				}
-			}
-			return airports;
-		},
-		preserveSelected: true
-	});
-	$('#airportSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
-		$.ajax({
-			url: '{{route("notifications.airport")}}',
-			type: 'POST',
-			data: {
-				'_token': "{{ csrf_token() }}",
-				'data': $('#airportSelect').selectpicker('val')
-			}
-		});
-	});
-	$('#aircraftSelect').selectpicker({
-		liveSearch: true
-	})
-	.ajaxSelectPicker({
-		ajax: {
-			url: '{{route("search.aircraft")}}',
-			method: 'GET',
-			data: {
-				q: '@{{{q}}}'
-			}
-		},
-		locale: {
-			emptyTitle: 'Start typing to search...',
-			statusInitialized: '',
-		},
-		preprocessData: function(data){
-			var aircrafts = [];
-			let count;
-			if(data.length > 0){
-				if(data.length >= 10) {
-					count = 10;
-				} else {
-					count = data.length;
-				}
-				for(var i = 0; i < count; i++){
-					var curr = data[i];
-					aircrafts.push(
-						{
-							'value': curr.icao,
-							'text': curr.icao + ' - ' + curr.name,
-							'disabled': false
-						}
-					);
-				}
-			}
-			return aircrafts;
-		},
-		preserveSelected: true
-	});
-	$('#aircraftSelect').on('changed.bs.select', function(event, clickedIndex, isSelected, previousValue) {
-		$.ajax({
-			url: '{{route("notifications.aircraft")}}',
-			type: 'POST',
-			data: {
-				'_token': "{{ csrf_token() }}",
-				'data': $('#aircraftSelect').selectpicker('val')
-			}
-		});
-	});
-});
-function postNotification() {
-    $.ajax({
-        url: '{{route("notifications.update")}}',
-        type: 'POST',
-        data: new FormData(document.getElementById('notificationForm')),
-        processData: false,
-        contentType: false
-    })
-}
+
+    function postNotification() {
+        $.ajax({
+            url: '{{route("notifications.update")}}',
+            type: 'POST',
+            data: new FormData(document.getElementById('notificationForm')),
+            processData: false,
+            contentType: false
+        })
+    }
 </script>
 @endsection

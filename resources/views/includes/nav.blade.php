@@ -100,14 +100,21 @@
 
                 <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
                     id="notificationDropdownMenu">
+                    <div class="d-inline">
+                        <div id="markAllRead" hidden>
+                            <button class="btn btn-sm btn-outline-success mx-2" onclick="markAllRead()">
+                                <i class="fas fa-check mr-2"></i>Mark all as read
+                            </button>
+                        </div>
+                        <a class="btn btn-sm btn-outline-secondary mx-2" href="{{ route('account.index').'#notifications' }}">
+                            <i class="fas fa-cog mr-2"></i>Manage
+                        </a>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
                     <button class="dropdown-item disabled" id="noNotifications">
                         You have no unread notifications
                     </button>
-                    <div id="markAllRead" hidden>
-                        <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()">
-                            <i class="fas fa-check mr-2"></i>Mark all as read
-                        </button>
-                    </div>
                 </div>
             </li>
 
