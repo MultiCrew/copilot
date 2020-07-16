@@ -93,24 +93,27 @@
             <li class="nav-item dropdown">
                 <a class="nav-link mr-2" href="#" id="notificationDropdown" data-toggle="dropdown">
                     <i class="fas fa-bell notification-bell mr-lg-2"></i>
-                    <span class="badge badge-notify" id="notify-count">
+                    <span class="badge badge-notify d-none" id="notify-count">
                     </span>
                     <span class="d-lg-none ml-3">Notifications</span>
                 </a>
 
                 <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
                     id="notificationDropdownMenu">
-                    <button class="btn btn-sm btn-outline-success mx-2 d-none" id="markAllRead" onclick="markAllRead()">
+                    <button class="btn btn-sm btn-outline-success ml-2 d-none" id="markAllRead" onclick="markAllRead()">
                         <i class="fas fa-check mr-2"></i>Mark all as read
                     </button>
                     <a class="btn btn-sm btn-outline-secondary mx-2" href="{{ route('account.index').'#notifications' }}">
                         <i class="fas fa-cog mr-2"></i>Manage
                     </a>
 
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item disabled" id="noNotifications">
-                        You have no unread notifications
-                    </button>
+                    <div id="noNotifications">
+                        <div class="dropdown-divider"></div>
+
+                        <button class="dropdown-item disabled">
+                            You have no unread notifications
+                        </button>
+                    </div>
                 </div>
             </li>
 
