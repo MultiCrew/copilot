@@ -160,11 +160,7 @@
                                     {{ $flight->arrival }}
                                 </td>
                                 <td class="align-middle">
-<<<<<<< HEAD
-                                    {{ $flight->aircraft }}
-=======
                                     {{ $flight->aircraft->name }}
->>>>>>> dev
                                 </td>
                                 <td class="align-middle">
                                     <a href="#" class="text-decoration-none">
