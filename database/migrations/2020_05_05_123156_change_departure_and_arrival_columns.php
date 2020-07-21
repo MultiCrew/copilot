@@ -14,8 +14,13 @@ class ChangeDepartureAndArrivalColumns extends Migration
     public function up()
     {
         Schema::table('flight_requests', function (Blueprint $table) {
-            $table->json('departure')->nullable()->customSchemaOptions(['collation' => '', 'charset' => ''])->change();
-            $table->json('arrival')->nullable()->customSchemaOptions(['collation' => '', 'charset' => ''])->change();
+            DB::statement('ALTER TABLE `flight_requests` ADD `departure_json` JSON');
+            DB::statement('ALTER TABLE `flight_requests` ADD `arrival_json` JSON');
+            DB::statement('UPDATE `flight_requests` SET `departure_json` = `departure`, `arrival_json` = `arrival`');
+            DB::statement('ALTER TABLE `flight_requests` DROP COLUMN `departure`');
+            DB::statement('ALTER TABLE `flight_requests` DROP COLUMN `arrival`');
+            DB::statement('ALTER TABLE `flight_requests` CHANGE `departure_json` `departure` JSON');
+            DB::statement('ALTER TABLE `flight_requests` CHANGE `arrival_json` `arrival` JSON');
         });
     }
 
@@ -27,8 +32,13 @@ class ChangeDepartureAndArrivalColumns extends Migration
     public function down()
     {
         Schema::table('flight_requests', function (Blueprint $table) {
-            $table->string('departure')->change();
-            $table->string('arrival')->change();
+            $table->rename('departure', 'departure_json');
+            $table->rename('arrival', 'arrival_json');
+            $table->string('departure');
+            $table->string('arrival');
+            DB::statement('UPDATE flight_requests SET departure = departure_json, arrival = arrival_json');
+            $table->dropColumn('departure_json');
+            $table->dropColumn('arrival_json');
         });
     }
 }

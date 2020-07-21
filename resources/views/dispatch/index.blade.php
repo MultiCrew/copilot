@@ -14,10 +14,10 @@
         <table class="table table-hover card-text border">
             <thead class="thead-light">
                 <tr class="d-flex">
-                    <th class="col-3">Copilot</th>
+                    <th class="col-2">Copilot</th>
                     <th class="col-2">Departure</th>
                     <th class="col-2">Arrival</th>
-                    <th class="col-2">Aircraft</th>
+                    <th class="col-3">Aircraft</th>
                     <th class="col-3"></th>
                 </tr>
             </thead>
@@ -25,12 +25,16 @@
             <tbody>
                 @foreach($plannedFlights as $flight)
                     <tr class="d-flex">
-                        <td class="col-3">
+                        <td class="col-2">
                             {{ $flight->otherUser()->username }}
                         </td>
-                        <td class="col-2">{{ $flight->departure }}</td>
-                        <td class="col-2">{{ $flight->arrival }}</td>
-                        <td class="col-2">{{ $flight->aircraft }}</td>
+                        <td class="col-2">
+                            {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
+                        </td>
+                        <td class="col-2">
+                            {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
+                        </td>
+                        <td class="col-3">{{ $flight->aircraft->name }}</td>
                         <td class="py-0 col-3 text-right">
                             <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-sm my-2 btn-secondary">
                                 Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
@@ -46,7 +50,7 @@
 
                 @if(!count($plannedFlights))
                     <tr>
-                        <td colspan="5">No flights!</td>
+                        <td colspan="5" class="text-center">No flight plans!</td>
                     </tr>
                 @endif
             </tbody>
@@ -66,10 +70,10 @@
         <table class="table table-hover card-text border">
             <thead class="thead-light">
                 <tr class="d-flex">
-                    <th class="col-3">Copilot</th>
+                    <th class="col-2">Copilot</th>
                     <th class="col-2">Departure</th>
                     <th class="col-2">Arrival</th>
-                    <th class="col-2">Aircraft</th>
+                    <th class="col-3">Aircraft</th>
                     <th class="col-3"></th>
                 </tr>
             </thead>
@@ -77,12 +81,16 @@
             <tbody>
                 @foreach($unplannedFlights as $flight)
                     <tr class="d-flex">
-                        <td class="col-3">
+                        <td class="col-2">
                             {{ $flight->otherUser()->username }}
                         </td>
-                        <td class="col-2">{{ $flight->departure }}</td>
-                        <td class="col-2">{{ $flight->arrival }}</td>
-                        <td class="col-2">{{ $flight->aircraft }}</td>
+                        <td class="col-2">
+                            {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
+                        </td>
+                        <td class="col-2">
+                            {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
+                        </td>
+                        <td class="col-3">{{ $flight->aircraft->name }}</td>
                         <td class="py-0 col-3 text-right">
                             <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-sm my-2 btn-secondary">
                                 Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
@@ -102,7 +110,7 @@
 
                 @if(!count($unplannedFlights))
                     <tr>
-                        <td colspan="5">No flights!</td>
+                        <td colspan="5" class="text-center">No flights!</td>
                     </tr>
                 @endif
             </tbody>
@@ -127,7 +135,7 @@ aria-hidden="true">
             </div>
             <div class="modal-body">
                 <p class="lead text-center">Select how you want to dispatch this flight</p>
-                <a href="#" class="btn btn-lg btn-block btn-primary" disabled>
+                <a href="#" class="btn btn-lg btn-block btn-primary" id="dispatchUploadButton">
                     <i class="fas fa-file-upload mr-2"></i>Upload PDF Plan
                 </a>
                 <a href="#" class="btn btn-lg btn-block btn-primary" id="dispatchSimbriefButton">
@@ -150,9 +158,14 @@ aria-hidden="true">
 <script type="text/javascript">
     function updateModal(id)
     {
-        var url = "{{ route('dispatch.create', ':id') }}"
-        url = url.replace(':id', id);
-        $('#dispatchSimbriefButton').attr('href', url);
+        var uploadUrl = "{{ route('dispatch.upload', ':id') }}";
+        uploadUrl = uploadUrl.replace(':id', id);
+
+        var simbriefUrl = "{{ route('dispatch.create', ':id') }}";
+        simbriefUrl = simbriefUrl.replace(':id', id);
+
+        $('#dispatchUploadButton').attr('href', uploadUrl);
+        $('#dispatchSimbriefButton').attr('href', simbriefUrl);
     }
 </script>
 

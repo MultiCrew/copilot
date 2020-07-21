@@ -13,8 +13,18 @@ class HomeController extends Controller
         return view('welcome');
     }
 
+<<<<<<< HEAD
     public function policy()
     {
+=======
+    public function about()
+    {
+        return view('about');
+    }
+
+    public function policy()
+    {
+>>>>>>> dev
         return view('policy');
     }
 }

@@ -17,4 +17,6 @@ mix.js('resources/js/app.js', 'public/js')
 .copy('resources/simbrief/simbrief.apiv1.js', 'public/simbrief')
 .copy('resources/simbrief/simbrief.apiv1.php', 'public/simbrief')
 
-.copy('resources/img', 'public/img');
+.copy('resources/img', 'public/img')
+
+.copy('resources/css', 'public/css');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAircraftsTable extends Migration
+class CreateApprovedAircraftTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateAircraftsTable extends Migration
      */
     public function up()
     {
-        Schema::create('aircrafts', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('icao');
-            $table->string('iata');
+        Schema::create('approved_aircraft', function (Blueprint $table) {
+            $table->id();
+            $table->string('icao', 4);
             $table->string('name');
+            $table->string('sim');
+            $table->boolean('approved');
+            $table->string('added_by')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateAircraftsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aircrafts');
+        Schema::dropIfExists('approved_aircraft');
     }
 }

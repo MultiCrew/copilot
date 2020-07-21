@@ -41,7 +41,7 @@
 @endif
 
 <div class="row">
-    <div class="col-xl-3">
+    <div class="col-xl-4">
         <div class="row">
             <div class="col-xl-12 col-lg-6">
                 <!-- begin summary box -->
@@ -50,44 +50,66 @@
                         <h5 class="card-title">Summary</h5>
 
                         <dl class="card-text row">
-                            <dt class="col-sm-5 col-xl-12">AIRAC</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">AIRAC</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['params']['airac'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Planned by</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Planned by</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['crew']['cpt'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Callsign</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Callsign</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['atc']['callsign'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Departure</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Departure</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['origin']['icao_code'].' / '.$fpl['origin']['iata_code'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Arrival</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Arrival</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['destination']['icao_code'].' / '.$fpl['destination']['iata_code'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Prim. Altn.</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Prim. Altn.</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['alternate']['icao_code'].' / '.$fpl['alternate']['iata_code'] }}</samp>
                             </dd>
 
-                            <dt class="col-sm-5 col-xl-12">Aircraft</dt>
-                            <dd class="col-sm-7 col-xl-12 text-right">
+                            <dt class="col-5">Aircraft</dt>
+                            <dd class="col-7 text-right">
                                 <samp>{{ $fpl['aircraft']['icaocode'] }}</samp>
                             </dd>
                         </dl>
                     </div>
                 </div>
                 <!-- /end summary box -->
+
+                <!-- begin stands box -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Stands</h5>
+
+                        <div class="form-group card-text row mb-2">
+                            <label class="col-5 col-form-label">{{ $fpl['origin']['iata_code'] }}</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="depstand">
+                            </div>
+                        </div>
+
+                        <div class="form-group card-text row">
+                            <label class="col-5 col-form-label">{{ $fpl['destination']['iata_code'] }}</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control form-control-sm" id="arrstand">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /end stands box -->
             </div>
 
             <div class="col-xl-12 col-lg-6">
@@ -185,7 +207,7 @@
         </div>
     </div>
 
-    <div class="col-xl-9">
+    <div class="col-xl-8">
         <!-- begin details accordion -->
         <div class="accordion" id="detailsAccordion">
             <div class="card">
@@ -475,7 +497,7 @@
                                 type="text"
                                 class="form-control"
                                 readonly
-                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['cost_index'] }}">
+                                value="{{ $fpl['general']['cruise_profile'] === 'ISC' ? 'ISC' : $fpl['general']['costindex'] }}">
                             </div>
                         </div>
                         <div class="form-group mb-0">
@@ -520,7 +542,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th class="align-middle mb-0">Enroute Time</th>
+                                            <th class="align-middle mb-0">Enroute Time (seconds)</th>
                                             <td class="align-middle mb-0"><samp>{{ $impact['time_enroute'] }}</samp></td>
                                             <td class="align-middle mb-0"><samp>{{ $impact['time_difference'] }}</samp></td>
                                         </tr>
@@ -746,6 +768,8 @@
         $('.export-link').each(function() {
             $(this).attr('href', $(this).attr('href').replace("http://", "https://"));
         });
+
+        $('input[name=14]').attr('value', "{{ Auth::user()->name }}");
     });
 </script>
 

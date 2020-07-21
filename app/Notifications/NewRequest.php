@@ -49,7 +49,7 @@ class NewRequest extends Notification
         return [
             'requestee' => $this->requestee->username,
             'flight' => $this->flight,
-            'text' => $this->requestee->username . ' has just created a new flight request ' . $this->flight->departure . ' to ' . $this->flight->arrival . ' in a ' . $this->flight->aircraft,
+            'text' => $this->requestee->username . ' has just created a new flight request involving one of your subscribed airports.',
             'title' => 'New Request',
         ];
     }
@@ -66,7 +66,7 @@ class NewRequest extends Notification
             'id' => $this->id,
             'acceptee' => $this->requestee->username,
             'flight' => $this->flight,
-            'text' => $this->requestee->username . ' has just created a new flight request ' . $this->flight->departure . ' to ' . $this->flight->arrival . ' in a ' . $this->flight->aircraft,
+            'text' => $this->requestee->username . ' has just created a new flight request involving one of your subscribed airports.',
             'title' => 'New Request',
         ]);
     }
