@@ -41,42 +41,59 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="username">Username</label>
-                        <input type="text" id="username" name="username" class="form-control" readonly
+                        <input type="text" id="username" name="username"
+                            class="form-control @error('username') is-invalid @enderror" readonly
                             value="{{ $user->username }}" autocomplete="username">
+                        @error('username')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="username">Full Name</label>
-                        <input type="text" id="name" name="name" class="form-control" value="{{ $user->name }}"
+                        <input type="text" id="name" name="name"
+                            class="form-control @error('name') is-invalid @enderror" value="{{ $user->name }}"
                             autocomplete="name">
+                        @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="form-group form-row">
                     <div class="col-md-6">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" class="form-control" value="{{ $user->email }}"
+                        <input type="email" id="email" name="email"
+                            class="form-control @error('email') is-invalid @enderror" value="{{ $user->email }}"
                             autocomplete="email">
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="col-md-6">
                         <label for="roles">Role(s)</label>
-                        <input
-                        type="text"
-                        id="roles"
-                        name="roles"
-                        class="form-control-plaintext"
-                        readonly
-                        value="{{ $role }}"
-                        autocomplete="off">
+                        <input type="text" id="roles" name="roles" class="form-control-plaintext" readonly
+                            value="{{ $role }}" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="password">New Password</label>
-                        <input type="password" id="password" name="password" class="form-control"
-                            autocomplete="new-password">
+                        <input type="password" id="password" name="password"
+                            class="form-control @error('password') is-invalid @enderror" autocomplete="new-password">
                         <small class="form-text">Leave blank to keep current password!</small>
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
 
                     <div class="form-group col-md-6">
@@ -99,11 +116,7 @@
                 events.
             </p>
 
-            <form
-            method="post"
-            action="{{route('notifications.update')}}"
-            id="notificationForm"
-            class="mb-4">
+            <form method="post" action="{{route('notifications.update')}}" id="notificationForm" class="mb-4">
                 @csrf
 
                 <table class="table border">
@@ -167,32 +180,24 @@
 
             <div class="form-group">
                 <label>Airports</label>
-                <select
-                name="airportSelect"
-                id="airportSelect"
-                class="selectpicker form-control"
-                data-live-search="true"
-                multiple>
+                <select name="airportSelect" id="airportSelect" class="selectpicker form-control"
+                    data-live-search="true" multiple>
                     @foreach ($airports as $airport)
-                        <option value="{{$airport->icao}}" selected>
-                            {{$airport->icao}} - {{$airport->name}}
-                        </option>
+                    <option value="{{$airport->icao}}" selected>
+                        {{$airport->icao}} - {{$airport->name}}
+                    </option>
                     @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Aircraft</label>
-                <select
-                name="aircraftSelect"
-                id="aircraftSelect"
-                class="selectpicker form-control"
-                data-live-search="true"
-                multiple>
+                <select name="aircraftSelect" id="aircraftSelect" class="selectpicker form-control"
+                    data-live-search="true" multiple>
                     @foreach ($aircrafts as $aircraft)
-                        <option value="{{$aircraft->icao}}" selected>
-                            {{$aircraft->icao}} - {{$aircraft->name}}
-                        </option>
+                    <option value="{{$aircraft->icao}}" selected>
+                        {{$aircraft->icao}} - {{$aircraft->name}}
+                    </option>
                     @endforeach
                 </select>
             </div>
@@ -226,32 +231,31 @@
         </div>
 
         @role('new')
-            <div class="tab-pane fade show card-text" id="application" role="tabpanel">
-                @can('apply to beta')
-                    <p class="lead card-text">
-                        Join the Copilot beta testing program now!
-                    </p>
-                    <p class="card-text">
-                        Did you know you are eligible to apply for the beta
-                        testing program for Copilot? You'll be part of the team
-                        testing new features and generating new ideas.
-                        Interested?
-                    </p>
-                    <a class="btn btn-success btn-lg card-text"
-                    href="{{ route('apply.create') }}">
-                        Apply Now<i class="fas fa-angle-double-right ml-2"></i>
-                    </a>
-                @endcan
-                @cannot('apply to beta')
-                    <div class="alert alert-info card-text">
-                        <strong>
-                            You have a pending application to the beta program
-                        </strong>
-                        <hr>
-                        Keep an eye on your email inbox for updates!
-                    </div>
-                @endcannot
+        <div class="tab-pane fade show card-text" id="application" role="tabpanel">
+            @can('apply to beta')
+            <p class="lead card-text">
+                Join the Copilot beta testing program now!
+            </p>
+            <p class="card-text">
+                Did you know you are eligible to apply for the beta
+                testing program for Copilot? You'll be part of the team
+                testing new features and generating new ideas.
+                Interested?
+            </p>
+            <a class="btn btn-success btn-lg card-text" href="{{ route('apply.create') }}">
+                Apply Now<i class="fas fa-angle-double-right ml-2"></i>
+            </a>
+            @endcan
+            @cannot('apply to beta')
+            <div class="alert alert-info card-text">
+                <strong>
+                    You have a pending application to the beta program
+                </strong>
+                <hr>
+                Keep an eye on your email inbox for updates!
             </div>
+            @endcannot
+        </div>
         @endrole
     </div>
 </div>
