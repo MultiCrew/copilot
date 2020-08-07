@@ -21,7 +21,7 @@ Route::middleware('client')->group(function() {
     // Route::get('/test', function (Request $request) {
     //     return 'test';
     // });
-    Route::get('/search', 'Flights\APIController@search');
-    Route::post('/create', 'Flights\APIController@store');
+    Route::get('/search', 'API\FlightController@search');
+    Route::post('/create', 'API\FlightController@store');
     //add all API requests for the discord bot here
 });
