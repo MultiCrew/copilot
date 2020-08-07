@@ -1,56 +1,52 @@
 <?php
 
-namespace App\Http\Controllers\Flights;
+namespace App\Http\Controllers\API;
 
 use App\Models\Users\User;
 use Illuminate\Http\Request;
-use App\Models\Flights\FlightRequest;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Flights\FlightRequest;
 
-class APIController extends Controller
+class FlightController extends Controller
 {
     /**
      * Search the database for flights, based on a query parameter if given in the request
      * Method can be called either in ajax or PHP, see below
      *
      * @param      \Illuminate\Http\Request     $request
-     *                                              ->ajax()    If JSON array required
-     *                                                          Otherwise PHP array returned
      * @return     JSON Array | PHP array       Array of flights found based on request
      */
     public function search(Request $request)
     {
-        $output = '';
-        if($request->path() == 'api/search'){
-            $query = $request->get('query')[0];
-        }
-        else{
+        $query = '';
+        if ($request->path() == 'api/search' && $request->get('query')) {
             $query = $request->get('query');
         }
-        if($query != '')
-        {
-            $data =
-                DB::table('flights')
-                ->where('public', 1)
-                ->where(function ($q) use ($query){
-                    $q->where('departure', 'like', '%'.$query.'%')
-                    ->orWhere('arrival', 'like', '%'.$query.'%')
-                    ->orWhere('aircraft', 'like', '%'.$query.'%')
-                    ->where('public', 1);
-                })
-                ->orderBy('id', 'asc')
-                ->get();
-        }
-        else
-        {
+        if ($query != '') {
+            // Does not work
+            // $data =
+            //     FlightRequest::where('public', 1)
+            //     ->where(function ($q) use ($query) {
+            //         $q->where('departure', 'like', "%\"{$query}\"%")
+            //             ->orWhere('arrival', 'like', "%\"{$query}\"%")
+            //             ->orWhere('aircraft', 'like', "%\"{$query}\"%")
+            //             ->where('public', 1)
+            //             ->whereNull('acceptee_id');
+            //     })
+            //     ->orderBy('id', 'asc')
+            //     ->get()
+            //     ->load('aircraft');
+        } else {
             $data =
                 FlightRequest::get()
                 ->where('public', 1)
-                ->sortBy('id');
+                ->whereNull('acceptee_id')
+                ->sortBy('id')
+                ->load('aircraft');
         }
-        if($request->ajax())
-            echo json_encode($data);
+        if ($request->ajax())
+            return json_encode($data);
         else
             return $data;
     }
@@ -65,7 +61,7 @@ class APIController extends Controller
     {
         $flight = new FlightRequest();
         $user = User::where('discord_id', $request->discord_id)->first();
-        if(!$user) {
+        if (!$user) {
             return $user;
         }
 
