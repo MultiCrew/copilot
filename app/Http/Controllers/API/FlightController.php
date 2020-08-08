@@ -24,19 +24,17 @@ class FlightController extends Controller
             $query = $request->get('query');
         }
         if ($query != '') {
-            // Does not work
-            // $data =
-            //     FlightRequest::where('public', 1)
-            //     ->where(function ($q) use ($query) {
-            //         $q->where('departure', 'like', "%\"{$query}\"%")
-            //             ->orWhere('arrival', 'like', "%\"{$query}\"%")
-            //             ->orWhere('aircraft', 'like', "%\"{$query}\"%")
-            //             ->where('public', 1)
-            //             ->whereNull('acceptee_id');
-            //     })
-            //     ->orderBy('id', 'asc')
-            //     ->get()
-            //     ->load('aircraft');
+            $data =
+                FlightRequest::where('public', 1)
+                ->where(function ($q) use ($query) {
+                    $q->whereIn('departure', $query);
+                    $q->orWhereIn('arrival', $query);
+                    $q->orWhereIn('aircraft_id', $query);
+                })
+                ->whereNull('acceptee_id')
+                ->orderBy('id', 'asc')
+                ->get()
+                ->load('aircraft');
         } else {
             $data =
                 FlightRequest::get()
