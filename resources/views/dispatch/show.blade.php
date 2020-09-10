@@ -97,14 +97,34 @@
                         <div class="form-group card-text row mb-2">
                             <label class="col-5 col-form-label">{{ $fpl['origin']['iata_code'] }}</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="depstand">
+                                <form onsubmit="addStand(event)">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" id="depstand"
+                                            value="{{$plan->dep_stand}}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary btn-sm" type="submit">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
 
                         <div class="form-group card-text row">
                             <label class="col-5 col-form-label">{{ $fpl['destination']['iata_code'] }}</label>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control-sm" id="arrstand">
+                                <form onsubmit="addStand(event)">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm" id="arrstand"
+                                            value="{{$plan->arr_stand}}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary btn-sm" type="submit">
+                                                <i class="fas fa-save"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -771,6 +791,38 @@
 
         $('input[name=14]').attr('value', "{{ Auth::user()->name }}");
     });
+
+    function addStand(e) {
+        e.preventDefault();
+        if (e.target.elements.depstand) {
+            $.post(`/dispatch/${{!! $plan->id !!}}/stand`,
+            {
+                type: 'dep_stand',
+                number: e.target.elements.depstand.value,
+                _token: '{{csrf_token()}}'
+            })
+        } else if (e.target.elements.arrstand) {
+            $.post(`/dispatch/${{!! $plan->id !!}}/stand`,
+            {
+                type: 'arr_stand',
+                number: e.target.elements.arrstand.value,
+                _token: '{{csrf_token()}}'
+            })
+        }
+    }
+
+    window.Echo.private('dispatch-channel')
+        .listen('.stand.changed', function(data) {
+            console.log(data);
+            switch (data.type) {
+                case 'dep_stand':
+                    $('#depstand').val(data.stand)
+                    break;
+                case 'arr_stand':
+                    $('#arrstand').val(data.stand)
+                    break;
+            }
+        })
 </script>
 
 @endsection
