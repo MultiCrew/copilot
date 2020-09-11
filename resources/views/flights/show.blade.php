@@ -471,6 +471,7 @@ crossorigin></script>
                 });
             }
             picker.list.selected = selected;
+            picker.list.replaceOptions(selected);
         });
     }
 
