@@ -45,10 +45,10 @@ class ApplicationAdminController extends Controller
         if ($request->status === 'approved') {
             $application->user->assignRole('user');
             $application->user->removeRole('new');
-            //$application->user->notify(new BetaApplicationReview($application->user, 'approved'));
+            $application->user->notify(new BetaApplicationReview($application->user, 'approved'));
         } else {
             $application->user->givePermissionTo('apply to beta');
-            //$application->user->notify(new BetaApplicationReview($application->user, 'rejected'));
+            $application->user->notify(new BetaApplicationReview($application->user, 'rejected'));
         }
 
         return redirect()->route('admin.applications.index');

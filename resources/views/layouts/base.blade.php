@@ -114,7 +114,7 @@
 
     <script>
 		$('#cookieAlert').on('closed.bs.alert', function () {
-			window.location.href = '{{ route('cookie-consent')}}'
+			$.get('/cookie-consent');
 		})
     </script>
 
