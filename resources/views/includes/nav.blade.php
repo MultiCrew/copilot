@@ -5,6 +5,12 @@
         <span class="menu-collapsed">{{ config('app.name', 'MultiCrew') }}</span>
     </a>
 
+    <a href="#" data-toggle="modal" data-target="#versionModal">
+        <h5 class="pt-2 ml-2 mr-3">
+            <span class="badge badge-primary">v0.2.2</span>
+        </h5>
+    </a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
         <span class="navbar-toggler-icon"></span>
