@@ -344,7 +344,7 @@ aria-hidden="true">
     </div>
 </div>
 
-@if($type === 'FlightRequest'))
+@if($type === 'FlightRequest')
     @if($flight->planAccepted())
         <div
         class="modal fade"
@@ -471,6 +471,7 @@ crossorigin></script>
                 });
             }
             picker.list.selected = selected;
+            picker.list.replaceOptions(selected);
         });
     }
 

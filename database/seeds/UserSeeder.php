@@ -17,8 +17,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $permission = Permission::create(['name' => 'apply to beta']);
-
         $user = User::create([
             'name'      => 'Admin User',
             'username'  => 'adminuser',

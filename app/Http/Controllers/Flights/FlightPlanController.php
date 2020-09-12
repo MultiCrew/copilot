@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Flights;
 
+use App\Events\StandUpdate;
 use Illuminate\Http\Request;
 use App\Models\Flights\FlightRequest;
 use App\Models\Flights\FlightPlan;
@@ -87,9 +88,9 @@ class FlightPlanController extends Controller
             ]);
             // save pdf with generated filename and assign filename to plan model
             $plan->file = $request->file('plan')->storeAs(
-                'public/plans', FlightPlan::generateCode().'.pdf'
+                'public/plans',
+                FlightPlan::generateCode() . '.pdf'
             );
-
         } else {
 
             /**
@@ -176,5 +177,25 @@ class FlightPlanController extends Controller
 
         $plan->flight->otherUser()->notify(new PlanRejected(Auth::user(), $plan->flight));
         return redirect()->route('dispatch.create', [$flight]);
+    }
+
+    /**
+     * Assign a stand to the departure or arrival airport
+     * 
+     * @param FlightPlan $plan
+     * @param Request $request
+     */
+    public function stand(FlightPlan $plan, Request $request)
+    {
+        switch ($request->type) {
+            case 'dep_stand':
+                $plan->dep_stand = $request->number;
+                break;
+            case 'arr_stand':
+                $plan->arr_stand = $request->number;
+                break;
+        }
+        event(new StandUpdate($request->number, $request->type));
+        $plan->save();
     }
 }
