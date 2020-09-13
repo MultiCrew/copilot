@@ -19,4 +19,4 @@ jobs:
           SENTRY_PROJECT: copilot
         with:
           tagName: ${{ github.ref }}
-          environment: qa
+          environment: Production
