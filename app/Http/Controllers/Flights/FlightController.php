@@ -187,7 +187,9 @@ class FlightController extends Controller
         }
 
         // work out new expiry time (and set it regardless of previous val)
-        $flight->expiry = Carbon::createFromFormat('Y-m-d H:i:s', $flight->created_at)
+        $flight->save();
+        $flight->fresh();
+        $flight->expiry = Carbon::createFromFormat('Y-m-d H:i:s', $flight->updated_at)
                             ->add($request->time_number, $request->time_units);
 
         $flight->save();

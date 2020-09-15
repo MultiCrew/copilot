@@ -325,6 +325,31 @@ aria-hidden="true">
                         @endif
                     </div>
 
+                    @unless(empty($flight->expiry))
+                        <div class="form-group">
+                            <h5 class="mb-2"><label>Request expires in...</label></h5>
+                            <input type="text" class="form-control" readonly
+                            value="{{ \Carbon\Carbon::now()
+                                    ->diffForHumans(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $flight->expiry), ['syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}">
+                        </div>
+                    @endunless
+
+                    <div class="form-group">
+                        <h5 class="mb-2"><label>New expiry in...</label></h5>
+
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="time_number">
+                            <select class="custom-select" required name="time_units">
+                                <option value="hours" selected>hours(s)</option>
+                                <option value="days">day(s)</option>
+                                <option value="weeks">week(s)</option>
+                            </select>
+                        </div>
+                        <small class="form-text">
+                            New expiry will be the above length of time from <strong>now</strong>.
+                        </small>
+                    </div>
+
                     <div class="form-group align-self-center">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="public" name="public" checked>
