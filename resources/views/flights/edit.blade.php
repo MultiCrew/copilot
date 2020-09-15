@@ -54,6 +54,28 @@
             </div>
         </div>
 
+        @unless(empty($request->expiry))
+            <div class="form-group card-text">
+                <h5 class="mb-2"><label>Request expires at...</label></h5>
+                <input type="text" class="form-control"
+                value="{{ Carbon::now()->diffForHumans(Carbon::createFromFormat('Y-m-d H:i:s', $request->expiry)) }}">
+            </div>
+        @endunless
+
+        <div class="form-group card-text">
+            <h5 class="mb-2"><label>New expiry in...</label></h5>
+
+            <div class="input-group">
+                <input type="number" class="form-control" name="time_number">
+                <select class="custom-select" required name="time_units">
+                    <option value="hours" selected>hours(s)</option>
+                    <option value="days">day(s)</option>
+                    <option value="weeks">week(s)</option>
+                </select>
+                <small class="form-text">Expiry will be the above time from <strong>now</strong></small>
+            </div>
+        </div>
+
         <div class="form-group align-self-center card-text">
             <div class="custom-control custom-switch">
                 <input

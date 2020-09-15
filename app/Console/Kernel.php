@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,15 +25,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
         $schedule
-            ->command('import:aircraft')
-            ->monthly();
-        
-            $schedule
-            ->job('import:airport')
-            ->monthly();
+        ->command('import:aircraft')
+        ->monthly();
+
+        $schedule
+        ->command('import:airport')
+        ->monthly();
+
+        $schedule
+        ->call(function () {
+            DB::delete('DELETE from flight_requests where acceptee_id is null and expiry < NOW()');
+        })->everyMinute();
     }
 
     /**
