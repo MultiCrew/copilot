@@ -107,7 +107,20 @@ aria-hidden="true">
                         @endif
                     </div>
 
-                    <div class="form-group align-self-center">
+                    <div class="form-group">
+                        <h5 class="mb-2"><label>Request expires in...</label></h5>
+
+                        <div class="input-group">
+                            <input type="number" class="form-control" name="time_number">
+                            <select class="custom-select" required name="time_units">
+                                <option value="hours" selected>hours(s)</option>
+                                <option value="days">day(s)</option>
+                                <option value="weeks">week(s)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="public" name="public" checked>
                             <label class="custom-control-label" for="public">Public flight</label>

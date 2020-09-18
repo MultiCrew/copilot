@@ -1,3 +1,9 @@
+<h5>v0.2.3</h5>
+
+<ul>
+    <li>Added request expiration timescale</li>
+</ul>
+
 <h5>v0.2.2</h5>
 
 <ul>

@@ -7,7 +7,7 @@
 
     <a href="#" data-toggle="modal" data-target="#versionModal">
         <h5 class="pt-2 ml-2 mr-3">
-            <span class="badge badge-primary">v0.2.2</span>
+            <span class="badge badge-primary">v0.2.3</span>
         </h5>
     </a>
 

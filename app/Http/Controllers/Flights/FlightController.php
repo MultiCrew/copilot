@@ -15,6 +15,7 @@ use App\Notifications\RequestAccepted;
 use Illuminate\Support\Facades\Notification;
 use App\Http\Traits\FlightJoinTrait;
 use App\Models\Airports\Airport;
+use Carbon\Carbon;
 
 class FlightController extends Controller
 {
@@ -105,6 +106,12 @@ class FlightController extends Controller
 
         $flight->save();
 
+        // work out expiry time
+        $flight->fresh();
+        $flight->expiry = Carbon::createFromFormat('Y-m-d H:i:s', $flight->created_at)
+                            ->add($request->time_number, $request->time_units);
+        $flight->save();
+
         // notify subscribed users
         $users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
                                ->orWhereJsonContains('new_request->airports', $request->arrival)
@@ -178,6 +185,12 @@ class FlightController extends Controller
         if (!$flight->public) {
             $flight->code = FlightRequest::generateCode();
         }
+
+        // work out new expiry time (and set it regardless of previous val)
+        $flight->save();
+        $flight->fresh();
+        $flight->expiry = Carbon::createFromFormat('Y-m-d H:i:s', $flight->updated_at)
+                            ->add($request->time_number, $request->time_units);
 
         $flight->save();
 
