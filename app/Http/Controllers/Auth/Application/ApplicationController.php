@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Users\ApplicationForm;
+use App\Notifications\NewBetaApplication;
+use Illuminate\Support\Facades\Notification;
 
 class ApplicationController extends Controller
 {
@@ -48,6 +50,8 @@ class ApplicationController extends Controller
         ]);
         $application->user_id = Auth::user()->id;
         $application->save();
+
+        Notification::send(Auth::user(), new NewBetaApplication(Auth::user(), $application));
 
         Auth::user()->revokePermissionTo('apply to beta');
 
