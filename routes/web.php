@@ -15,6 +15,7 @@ Route::group([
     'as' => 'home.'
 ], function() {
     Route::get('/', 'Home\HomeController@index')->name('index');
+    Route::get('/about', 'Home\HomeController@about')->name('about');
     Route::get('/policies', 'Home\HomeController@policy')->name('policy');
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
     Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
@@ -47,6 +48,7 @@ Route::group([
  ], function() {
      Route::get('airport', 'Search\SearchController@airport')->name('airport');
      Route::get('aircraft', 'Search\SearchController@aircraft')->name('aircraft');
+     Route::get('approved-aircraft', 'Search\SearchController@approvedAircraft')->name('approved_aircraft');
  });
 
 /**
@@ -70,6 +72,8 @@ Route::group([
 Route::group(['middleware' => ['verified']], function () {
     Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
     Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
+    Route::resource('aircraft', 'Aircraft\ApprovedAircraftController')->only(['index', 'store']);
+    Route::resource('aircraft', 'Aircraft\ApprovedAircraftAdminController')->except(['index', 'edit', 'store']);
 });
 
 /**
@@ -85,10 +89,13 @@ Route::group([
 ], function() {
     Route::get('', 'Flights\FlightPlanController@index')->name('index');
     Route::get('plan/{flight}', 'Flights\FlightPlanController@create')->name('create');
+    Route::get('plan/{flight}/upload', 'Flights\FlightPlanController@upload')->name('upload');
     Route::get('plan', 'Flights\FlightPlanController@store')->name('store');
+    Route::post('plan/upload', 'Flights\FlightPlanController@store')->name('store.upload');
     Route::get('{plan}', 'Flights\FlightPlanController@show')->name('show');
     Route::get('{plan}/accept', 'Flights\FlightPlanController@accept')->name('accept');
     Route::get('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
+    Route::post('{plan}/stand', 'Flights\FlightPlanController@stand')->name('stand');
 });
 
 /*
@@ -99,7 +106,14 @@ Route::group([
  */
 Auth::routes(['verify' => true]);
 Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
-Route::resource('account', 'Auth\AccountController')->only(['index', 'update'])->middleware('verified');
+Route::group([
+    'as' => 'account.',
+    'prefix' => 'account',
+    'middleware' => 'verified',
+], function () {
+    Route::get('/', 'Auth\AccountController@index')->name('index');
+    Route::patch('/update', 'Auth\AccountController@update')->name('update');
+});
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
 

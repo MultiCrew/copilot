@@ -1,8 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark shadow">
     <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="/img/icon_circle_light.png" width="30" height="30" class="d-inline-block align-top mr-2"
+        <img src="{{ asset('/img/icon_circle_light.png') }}" width="30" height="30" class="d-inline-block align-top mr-2"
             alt="MultiCrew logo">
         <span class="menu-collapsed">{{ config('app.name', 'MultiCrew') }}</span>
+    </a>
+
+    <a href="#" data-toggle="modal" data-target="#versionModal">
+        <h5 class="pt-2 ml-2 mr-3">
+            <span class="badge badge-primary">v0.2.3</span>
+        </h5>
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -13,6 +19,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- left nav (with sidebar) -->
         <ul class="navbar-nav mr-auto d-none d-lg-flex">
+            <li class="nav-item">
+                <a class="nav-link @if(Route::currentRouteName() == 'home.about') active @endif"
+                    href="{{ route('home.about') }}">
+                    <i class="fas fa-info-circle fa-fw mr-2"></i>About
+                </a>
+            </li>
+
             @auth
                 @role('new')
                     @can('apply to beta')
@@ -86,19 +99,25 @@
             <li class="nav-item dropdown">
                 <a class="nav-link mr-2" href="#" id="notificationDropdown" data-toggle="dropdown">
                     <i class="fas fa-bell notification-bell mr-lg-2"></i>
-                    <span class="badge badge-notify" id="notify-count">
+                    <span class="badge badge-notify d-none" id="notify-count">
                     </span>
-                    <span class="d-lg-none">Notifications</span>
+                    <span class="d-lg-none ml-3">Notifications</span>
                 </a>
 
                 <div class="dropdown-menu keep-open dropdown-menu-right" aria-labelledby="notificationDropdown"
                     id="notificationDropdownMenu">
-                    <button class="dropdown-item disabled" id="noNotifications">
-                        You have no unread notifications
+                    <button class="btn btn-sm btn-outline-success ml-2 d-none" id="markAllRead" onclick="markAllRead()">
+                        <i class="fas fa-check mr-2"></i>Mark all as read
                     </button>
-                    <div id="markAllRead" hidden>
-                        <button class="btn btn-sm btn-outline-success ml-2" onclick="markAllRead()">
-                            <i class="fas fa-check mr-2"></i>Mark all as read
+                    <a class="btn btn-sm btn-outline-secondary mx-2" href="{{ route('account.index').'#notifications' }}">
+                        <i class="fas fa-cog mr-2"></i>Manage
+                    </a>
+
+                    <div id="noNotifications">
+                        <div class="dropdown-divider"></div>
+
+                        <button class="dropdown-item disabled">
+                            You have no unread notifications
                         </button>
                     </div>
                 </div>

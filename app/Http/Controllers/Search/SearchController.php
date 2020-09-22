@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Search;
 use Illuminate\Http\Request;
 use App\Models\Airports\Airport;
 use App\Models\Aircraft\Aircraft;
+use App\Models\Aircraft\ApprovedAircraft;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
@@ -27,7 +28,7 @@ class SearchController extends Controller
 
         }
 	}
-	
+
 	/**
      * Return all the aircrafts in the database
      * @param \Illuminate\Http\Request $request
@@ -40,6 +41,24 @@ class SearchController extends Controller
 			$aircrafts = Aircraft::where('icao', 'LIKE', '%'. $request->query('q').'%')
 								->orWhere('name', 'LIKE', '%'. $request->query('q').'%')
 								->get();
+
+            return $aircrafts;
+
+        }
+    }
+
+    /**
+     * Return all the aircrafts in the database
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function approvedAircraft(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $aircrafts = ApprovedAircraft::where('icao', 'LIKE', '%'. $request->query('q').'%')
+                                ->orWhere('name', 'LIKE', '%'. $request->query('q').'%')
+                                ->get();
 
             return $aircrafts;
 

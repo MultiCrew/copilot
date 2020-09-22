@@ -19,14 +19,29 @@ class FlightRequest extends Model
 {
     use FlightTrait;
 
+    protected $casts = [
+        'departure' => 'array',
+        'arrival' => 'array'
+    ];
+
     /**
      * Attributes that are mass assignable
      *
      * @var array
      */
     protected $fillable = [
-        'departure', 'arrival', 'aircraft', 'requestee_id', 'acceptee_id', 'public'
+        'departure', 'arrival', 'aircraft_id', 'requestee_id', 'acceptee_id', 'public'
     ];
+
+    /**
+     * The ApprovedAircraft type this flight request is for
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function aircraft()
+    {
+        return $this->belongsTo('App\Models\Aircraft\ApprovedAircraft');
+    }
 
     /**
      * The plan that belongs to the flight.
@@ -43,9 +58,33 @@ class FlightRequest extends Model
      *
      * @return boolean
      */
+    public function isAccepted()
+    {
+        return !empty($this->acceptee_id);
+    }
+
+    /**
+     * Checks if a plan exists for the flight
+     *
+     * @return boolean
+     */
     public function isPlanned()
     {
         return !empty($this->plan_id);
+    }
+
+    /**
+     * Checks if the flight can be disaptched
+     *
+     * @return boolean true if both departure and arrival contain a single airport
+     */
+    public function isDispatchable()
+    {
+        if (is_array($this->departure) && is_array($this->arrival)) {
+            return sizeof($this->departure) == 1 && sizeof($this->arrival) == 1;
+        } else {
+            return false;
+        }
     }
 
     /**

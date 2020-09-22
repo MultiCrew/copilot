@@ -176,36 +176,20 @@ body {
     object-fit: cover;
 }
 
-.nav > a.nav-link {
-    color: rgba(0,0,0,.5);
-}
-
-.nav > a.nav-link:hover,
-.nav > a.nav-link:focus {
-    color: rgba(0,0,0,.7);
-}
-
-.nav > a.nav-link.active,
-.nav > a.nav-link.active:hover,
-.nav > a.nav-link.active:focus {
-    color: rgba(0,0,0,.9);
-}
-
 #notificationDropdownMenu {
     height: auto;
     max-height: 400px;
     overflow-x: hidden;
 }
 
-#markAllRead {
-    display: block;
-    width: 100%;
-    padding: 0.25rem 1.5rem;
-    clear: both;
-    font-weight: 400;
-    color: #212529;
-    text-align: inherit;
-    white-space: nowrap;
-    background-color: transparent;
-    border: 0;
+#header-image {
+    height: 400px;
+    background: url('/img/about_header.png') center;
+}
+
+#header-text {
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

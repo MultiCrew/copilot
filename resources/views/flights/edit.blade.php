@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between align-items-baseline">
             <h3 class="card-title">Edit Flight</h3>
             <a href="/flights/{{ $flight->id }}" class="btn btn-secondary mb-3 card-text">
-                &times; Cancel
+                <i class="fas fa-times mr-2"></i>Cancel
             </a>
         </div>
 
@@ -54,6 +54,28 @@
             </div>
         </div>
 
+        @unless(empty($request->expiry))
+            <div class="form-group card-text">
+                <h5 class="mb-2"><label>Request expires at...</label></h5>
+                <input type="text" class="form-control"
+                value="{{ Carbon::now()->diffForHumans(Carbon::createFromFormat('Y-m-d H:i:s', $request->expiry)) }}">
+            </div>
+        @endunless
+
+        <div class="form-group card-text">
+            <h5 class="mb-2"><label>New expiry in...</label></h5>
+
+            <div class="input-group">
+                <input type="number" class="form-control" name="time_number">
+                <select class="custom-select" required name="time_units">
+                    <option value="hours" selected>hours(s)</option>
+                    <option value="days">day(s)</option>
+                    <option value="weeks">week(s)</option>
+                </select>
+                <small class="form-text">Expiry will be the above time from <strong>now</strong></small>
+            </div>
+        </div>
+
         <div class="form-group align-self-center card-text">
             <div class="custom-control custom-switch">
                 <input
@@ -71,7 +93,7 @@
         </button>
         <button
         type="button"
-        class="btn btn-danger card-text"
+        class="btn btn-danger card-text float-right"
         data-toggle="modal"
         data-target="#deleteModal">
             <i class="fas fa-trash fa-fw mr-2"></i>Delete

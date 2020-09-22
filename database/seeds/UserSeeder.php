@@ -25,6 +25,17 @@ class UserSeeder extends Seeder
         $this->makeUser('Test User', 'testuser', 'test@multicrew.co.uk', 'test', ['new']);
     }
 
+    /**
+     * Make a new user account
+     *
+     * @param  string     $name     Full name
+     * @param  string     $username Username
+     * @param  string     $email    Email address
+     * @param  string     $password Password (to be hashed)
+     * @param  array|null $roles    Roles to assign on creation
+     *
+     * @return null
+     */
     private function makeUser($name, $username, $email, $password, array $roles = null)
     {
         $user = User::create([
