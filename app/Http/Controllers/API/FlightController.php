@@ -6,6 +6,7 @@ use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Aircraft\Aircraft;
 use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
@@ -24,17 +25,23 @@ class FlightController extends Controller
             $query = $request->get('query');
         }
         if ($query != '') {
-            $data =
-                FlightRequest::where('public', 1)
-                ->where(function ($q) use ($query) {
-                    $q->whereIn('departure', $query);
-                    $q->orWhereIn('arrival', $query);
-                    $q->orWhereIn('aircraft_id', $query);
-                })
-                ->whereNull('acceptee_id')
-                ->orderBy('id', 'asc')
-                ->get()
-                ->load('aircraft');
+            $aircraft = preg_grep('/^[A-Z]{1,}[0-9]{1,}[A-Z]?$/i', $query);
+
+            $aircraftArray = Aircraft::whereIn('icao', $aircraft)->pluck('id')->all();
+
+            $data = FlightRequest::where('public', 1)
+            ->where(function ($q) use ($query) {
+                foreach ($query as $apt) {
+                    $q->whereJsonContains('departure', $apt);
+                    $q->orWhereJsonContains('arrival', $apt);
+                }
+            })
+            ->orWhereIn('aircraft_id', $aircraftArray)
+            ->whereNull('acceptee_id')
+            ->orderBy('id', 'asc')
+            ->get()
+            ->load('aircraft');
+            
         } else {
             $data =
                 FlightRequest::get()
