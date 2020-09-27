@@ -22,6 +22,7 @@ Route::middleware('client')->group(function() {
     //     return 'test';
     // });
     Route::get('/search', 'API\FlightController@search');
+    Route::get('/aircraft', 'API\FlightController@aircraft');
     Route::post('/create', 'API\FlightController@store');
     //add all API requests for the discord bot here
 });
