@@ -56,6 +56,22 @@ class FlightController extends Controller
     }
 
     /**
+     * Returns a list of all approved aircraft
+     * 
+     * @param      \Illuminate\Http\Request     $request
+     * @return     JSON Array                   Array of approved aircraft
+     */
+    public function aircraft(Request $request)
+    {
+        $aircraftArray = ApprovedAircraft::where('approved', true)->get();
+
+        if ($request->ajax())
+            return json_encode($aircraftArray);
+        else
+            return $aircraftArray;
+    }
+
+    /**
      * Create a new flight
      *
      * @param      \Illuminate\Http\Request     $request
