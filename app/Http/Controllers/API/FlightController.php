@@ -4,9 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Users\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\Aircraft\Aircraft;
+use App\Models\Aircraft\ApprovedAircraft;
 use App\Models\Flights\FlightRequest;
 
 class FlightController extends Controller
@@ -27,8 +26,8 @@ class FlightController extends Controller
         if ($query != '') {
             $aircraft = preg_grep('/^[A-Z]{1,}[0-9]{1,}[A-Z]?$/i', $query);
 
-            $aircraftArray = Aircraft::whereIn('icao', $aircraft)->pluck('id')->all();
-
+            $aircraftArray = ApprovedAircraft::whereIn('icao', $aircraft)->pluck('id')->all();
+            dd($aircraftArray);
             $data = FlightRequest::where('public', 1)
             ->where(function ($q) use ($query) {
                 foreach ($query as $apt) {
