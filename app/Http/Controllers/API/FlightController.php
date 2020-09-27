@@ -27,7 +27,7 @@ class FlightController extends Controller
             $aircraft = preg_grep('/^[A-Z]{1,}[0-9]{1,}[A-Z]?$/i', $query);
 
             $aircraftArray = ApprovedAircraft::whereIn('icao', $aircraft)->pluck('id')->all();
-            dd($aircraftArray);
+
             $data = FlightRequest::where('public', 1)
             ->where(function ($q) use ($query) {
                 foreach ($query as $apt) {
