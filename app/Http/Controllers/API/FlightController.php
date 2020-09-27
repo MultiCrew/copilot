@@ -26,7 +26,7 @@ class FlightController extends Controller
         if ($query != '') {
             $aircraft = preg_grep('/^[A-Z]{1,}[0-9]{1,}[A-Z]?$/i', $query);
 
-            $aircraftArray = ApprovedAircraft::whereIn('icao', $aircraft)->pluck('id')->all();
+            $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $aircraft)->pluck('id')->all();
 
             $data = FlightRequest::where('public', 1)
             ->where(function ($q) use ($query) {
@@ -39,7 +39,7 @@ class FlightController extends Controller
             ->whereNull('acceptee_id')
             ->orderBy('id', 'asc')
             ->get()
-            ->load('aircraft');
+            ->load('aircraft', 'requestee');
             
         } else {
             $data =
@@ -47,7 +47,7 @@ class FlightController extends Controller
                 ->where('public', 1)
                 ->whereNull('acceptee_id')
                 ->sortBy('id')
-                ->load('aircraft');
+                ->load('aircraft', 'requestee');
         }
         if ($request->ajax())
             return json_encode($data);
