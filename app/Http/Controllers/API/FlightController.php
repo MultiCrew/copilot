@@ -79,22 +79,36 @@ class FlightController extends Controller
      */
     public function store(Request $request)
     {
-        $flight = new FlightRequest();
-        $user = User::where('discord_id', $request->discord_id)->first();
+        $user = User::whereNotNull('discord_id')->where('discord_id', $request->requestee_id)->first();
         if (!$user) {
-            return $user;
+            return response()->json([
+                'code' => '401',
+                'message' => 'You have not linked your Discord account with Copilot, please visit ' . env('APP_URL') . '/account to link your accounts.'
+            ]);
         }
+
+        $flight = new FlightRequest();
+        $aircraft = ApprovedAircraft::find($request->aircraft);
+        if (!$aircraft) {
+            return response()->json([
+                'code' => '400',
+                'message' => 'The ID of the aircraft you have selected is not valid, please try again'
+            ]);
+        };
 
         $flight->fill([
             'departure' => $request->departure,
             'arrival'   => $request->arrival,
-            'aircraft'  => $request->aircraft
+            'aircraft_id'  => $request->aircraft
         ]);
         $flight->requestee_id = $user->id;
         $flight->public = true;
         $flight->save();
 
         $flight = $flight->fresh();
-        return $flight;
+        return response()->json([
+            'code' => '200',
+            'message' => $flight
+        ]);
     }
 }
