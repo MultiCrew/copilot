@@ -5,8 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Aircraft\ApprovedAircraft;
 use App\Models\Flights\FlightRequest;
+use App\Notifications\RequestAccepted;
+use App\Models\Aircraft\ApprovedAircraft;
 
 class FlightController extends Controller
 {
@@ -29,18 +30,17 @@ class FlightController extends Controller
             $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $aircraft)->pluck('id')->all();
 
             $data = FlightRequest::where('public', 1)
-            ->where(function ($q) use ($query) {
-                foreach ($query as $apt) {
-                    $q->whereJsonContains('departure', $apt);
-                    $q->orWhereJsonContains('arrival', $apt);
-                }
-            })
-            ->orWhereIn('aircraft_id', $aircraftArray)
-            ->whereNull('acceptee_id')
-            ->orderBy('id', 'asc')
-            ->get()
-            ->load('aircraft', 'requestee');
-            
+                ->where(function ($q) use ($query) {
+                    foreach ($query as $apt) {
+                        $q->whereJsonContains('departure', $apt);
+                        $q->orWhereJsonContains('arrival', $apt);
+                    }
+                })
+                ->orWhereIn('aircraft_id', $aircraftArray)
+                ->whereNull('acceptee_id')
+                ->orderBy('id', 'asc')
+                ->get()
+                ->load('aircraft', 'requestee');
         } else {
             $data =
                 FlightRequest::get()
@@ -110,5 +110,46 @@ class FlightController extends Controller
             'code' => '200',
             'message' => $flight
         ]);
+    }
+
+    /**
+     * Accept a request
+     * 
+     * @param      \Illuminate\Http\Request     $request
+     * @return     JSON Array | PHP array       The accepted request
+     */
+    public function accept(Request $request)
+    {
+        $user = User::whereNotNull('discord_id')->where('discord_id', $request->discord_id)->first();
+        if (!$user) {
+            return response()->json([
+                'code' => '401',
+                'message' => 'You have not linked your Discord account with Copilot, please visit ' . env('APP_URL') . '/account to link your accounts.'
+            ]);
+        }
+
+        $flight = FlightRequest::find($request->id)->load('requestee', 'aircraft');
+        if (!$flight) {
+            return response()->json([
+                'code' => '400',
+                'message' => 'Your requested flight request does not exist.'
+            ]);
+        } elseif ($flight->acceptee_id) {
+            return response()->json([
+                'code' => '400',
+                'message' => 'Your chosen flight has already been accepted by a different user'
+            ]);
+        } else {
+            $flight->acceptee_id = $user->id;
+            $flight->save();
+
+            $requestee = $flight->requestee;
+            $requestee->notify(new RequestAccepted($user, $requestee, $flight));
+
+            return response()->json([
+                'code' => '200',
+                'message' => $flight
+            ]);
+        }
     }
 }
