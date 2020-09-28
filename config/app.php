@@ -285,6 +285,7 @@ return [
         'FlightRequest' => App\Models\Flights\FlightRequest::class,
         'ArchivedFlight' => App\Models\Flights\ArchivedFlight::class,
         'FlightPlan' => App\Models\Flights\FlightPlan::class,
+        'Simulator' => App\Models\Simulator::class,
         'User' => App\Models\Users\User::class,
     ],
 
