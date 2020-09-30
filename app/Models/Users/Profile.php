@@ -6,13 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    protected $casts = [
+        'sims' => 'array',
+        'weather' => 'array',
+        'airac' => 'boolean'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'username'
+        'show_name', 'location', 'sims', 'weather', 'airac', 'level', 'connection', 'procedures'
     ];
 
     /**
