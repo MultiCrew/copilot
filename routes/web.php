@@ -11,21 +11,73 @@
 |
 */
 
+/*
+ * Home routes
+ */
 Route::group([
     'as' => 'home.'
 ], function() {
+    // static page routes
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('/about', 'Home\HomeController@about')->name('about');
     Route::get('/policies', 'Home\HomeController@policy')->name('policy');
+
+    // discord connection routes
     Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
     Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
 
-/**
+/*
+ * Auth, account and profile routes
+ *
+ * These routes deal with authentication, user accounts, user management, application
+ * forms and user profiles
+ */
+Auth::routes(['verify' => true]);
+
+// beta application routes
+Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
+
+// account management routes
+Route::group([
+    'as' => 'account.',
+    'prefix' => 'account',
+    'middleware' => 'verified',
+], function () {
+    Route::get('/', 'Auth\AccountController@index')->name('index');
+    Route::patch('/update', 'Auth\AccountController@update')->name('update');
+});
+
+// profile routes
+Route::resource('profile', 'Auth\ProfileController')->only(['show', 'update'])->middleware('verified');
+// profile picture routes
+Route::group([
+    'as'        => 'profile.picture.',
+    'prefix'    => 'profile/picture',
+    'middleware' => 'verified'
+], function () {
+    Route::patch('', 'Auth\ProfileController@updatePicture')->name('update');
+    Route::delete('', 'Auth\ProfileController@removePicture')->name('destroy');
+});
+
+// administration routes
+Route::group([
+    'as'        => 'admin.',
+    'prefix'    => 'admin',
+    'middleware' => 'verified'
+], function () {
+    Route::resource('users', 'Auth\Admin\UserController');
+    Route::resource('applications', 'Auth\Application\ApplicationAdminController')
+         ->except(['create', 'store']);
+});
+
+// cookie message route
+Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
+
+/*
  * Notification routes
  */
-
- Route::group([
+Route::group([
      'as' => 'notifications.',
      'prefix' => 'notifications',
      'middleware' => 'verified'
@@ -38,7 +90,7 @@ Route::group([
     Route::post('/aircraft', 'Notification\NotificationController@aircraft')->name('aircraft');
  });
 
- /**
+ /*
   * Search Routes
   */
  Route::group([
@@ -51,7 +103,7 @@ Route::group([
      Route::get('approved-aircraft', 'Search\SearchController@approvedAircraft')->name('approved_aircraft');
  });
 
-/**
+/*
  * FlightRequest routes
  *
  * These routes deal with the FlightRequest and ArchivedFlight model resources
@@ -76,7 +128,7 @@ Route::group(['middleware' => ['verified']], function () {
     Route::resource('aircraft', 'Aircraft\ApprovedAircraftAdminController')->except(['index', 'edit', 'store']);
 });
 
-/**
+/*
  * Dispatch routes
  *
  * These routes deal with the SimBrief API integration: creation and reviewing
@@ -97,36 +149,3 @@ Route::group([
     Route::get('{plan}/reject', 'Flights\FlightPlanController@reject')->name('reject');
     Route::post('{plan}/stand', 'Flights\FlightPlanController@stand')->name('stand');
 });
-
-/*
- * Auth, account and profile routes
- *
- * These routes deal with authentication, user accounts, user management, application
- * forms and user profiles
- */
-Auth::routes(['verify' => true]);
-Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
-Route::group([
-    'as' => 'account.',
-    'prefix' => 'account',
-    'middleware' => 'verified',
-], function () {
-    Route::get('/', 'Auth\AccountController@index')->name('index');
-    Route::patch('/update', 'Auth\AccountController@update')->name('update');
-});
-
-Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
-
-// administration routes
-Route::group([
-    'as'        => 'admin.',
-    'prefix'    => 'admin',
-    'middleware' => 'verified'
-], function () {
-    Route::resource('users', 'Auth\Admin\UserController');
-    Route::resource('applications', 'Auth\Application\ApplicationAdminController')
-         ->except(['create', 'store']);
-});
-
-// cookie message route
-Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
