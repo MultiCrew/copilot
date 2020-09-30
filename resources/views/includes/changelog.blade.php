@@ -1,3 +1,9 @@
+<h5>v0.2.4</h5>
+
+<ul>
+    <li>Added API to integrate with the MultiCrew Discord Bot</li>
+</ul>
+
 <h5>v0.2.3</h5>
 
 <ul>
