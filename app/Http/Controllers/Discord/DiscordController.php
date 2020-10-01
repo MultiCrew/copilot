@@ -64,7 +64,7 @@ class DiscordController extends Controller
 			} catch (Exception $e) {
 		
 				// Failed to get user details
-				exit('Oh dear...');
+				Log::error($e);
 		
 			}
 		}
