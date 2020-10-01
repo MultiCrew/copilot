@@ -18,8 +18,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $permission = Permission::create(['name' => 'apply to beta']);
-
         $this->makeUser('Admin User', 'adminuser', 'admin@multicrew.co.uk', 'test', ['admin', 'user']);
         $this->makeUser('Beta User', 'betauser', 'beta@multicrew.co.uk', 'test', ['user']);
         $this->makeUser('Test User', 'testuser', 'test@multicrew.co.uk', 'test', ['new']);
@@ -39,23 +37,29 @@ class UserSeeder extends Seeder
     private function makeUser($name, $username, $email, $password, array $roles = null)
     {
         $user = User::create([
-            'name'      => $name,
-            'username'  => $username,
-            'email'     => $email,
-            'password'  => Hash::make($password)
+            'name'              => $name,
+            'username'          => $username,
+            'email'             => $email,
+            'password'          => Hash::make($password),
+            'email_verified_at' => Carbon::now()
         ]);
-        $user->email_verified_at = Carbon::now();
+
+        $user->save();
+        $user->fresh();
 
         foreach ($roles as $role) {
             $user->assignRole($role);
         }
 
-        $profile = new Profile();
-        $profile->fill([
-            'name'      => $name,
-            'username'  => $username
+        $profile = Profile::create([
+            'user_id'       => $user->id,
+            'sims'          => '["MSFS"]',
+            'weather'       => '["Default"]',
+            'airac'         => true,
+            'level'         => 'Advanced',
+            'connection'    => 'Hamachi',
+            'procedures'    => 'Real World'
         ]);
-        $profile->user_id = $user->id;
         $profile->save();
 
         $userNotifications = new UserNotification();
@@ -65,7 +69,5 @@ class UserSeeder extends Seeder
         $new_request['airports'] = [];
         $userNotifications->new_request = $new_request;
         $userNotifications->save();
-
-        $user->save();
     }
 }
