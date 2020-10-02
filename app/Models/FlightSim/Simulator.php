@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\FlightSim;
 
 use Illuminate\Database\Eloquent\Model;
 

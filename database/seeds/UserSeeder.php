@@ -52,13 +52,7 @@ class UserSeeder extends Seeder
         }
 
         $profile = Profile::create([
-            'user_id'       => $user->id,
-            'sims'          => '["MSFS"]',
-            'weather'       => '["Default"]',
-            'airac'         => true,
-            'level'         => 'Advanced',
-            'connection'    => 'Hamachi',
-            'procedures'    => 'Real World'
+            'user_id' => $user->id
         ]);
         $profile->save();
 
