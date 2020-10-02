@@ -96,7 +96,7 @@
                             <label data-toggle="tooltip" data-placement="top" title="Select the simulators you use most often">
                                 Simulators<i class="fas fa-question-circle ml-2"></i>
                             </label>
-                            <select class="form-control selectpicker" multiple name="sims" id="sims"></select>
+                            <select class="form-control selectpicker" multiple name="sims[]" id="sims"></select>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -104,38 +104,7 @@
                             title="Select the weather engine(s) you use with your simulator(s)">
                                 Weather Engines<i class="fas fa-question-circle ml-2"></i>
                             </label>
-                            <select class="form-control selectpicker" multiple name="weather">
-                                <option @if($profile->weather === 'Default Weather / No 3rd Party Engine') selected @endif value="Default Weather / No 3rd Party Engine">
-                                    Default Weather / No 3rd Party Engine
-                                </option>
-                                <option @if($profile->weather === 'Active Sky Next') selected @endif value="Active Sky Next">
-                                    Active Sky Next
-                                </option>
-                                <option @if($profile->weather === 'Active Sky 2016 (32-bit for FSX/P3Dv1-3)') selected @endif value="Active Sky 2016 (32-bit for FSX/P3Dv1-3)">
-                                    Active Sky 2016 (32-bit for FSX/P3Dv1-3)
-                                </option>
-                                <option @if($profile->weather === 'Active Sky (64-bit for P3Dv4)') selected @endif value="Active Sky (64-bit for P3Dv4)">
-                                    Active Sky (64-bit for P3Dv4)
-                                </option>
-                                <option @if($profile->weather === 'REX SkyForce') selected @endif value="REX SkyForce">
-                                    REX SkyForce
-                                </option>
-                                <option @if($profile->weather === 'FS Global Real Weather') selected @endif value="FS Global Real Weather">
-                                    FS Global Real Weather
-                                </option>
-                                <option @if($profile->weather === 'FSXWX') selected @endif value="FSXWX">
-                                    FSXWX
-                                </option>
-                                <option @if($profile->weather === 'NOAA Weather Plugin for XP11') selected @endif value="NOAA Weather Plugin for XP11">
-                                    NOAA Weather Plugin for XP11
-                                </option>
-                                <option @if($profile->weather === 'XEnviro for XP11') selected @endif value="XEnviro for XP11">
-                                    XEnviro for XP11
-                                </option>
-                                <option @if($profile->weather === 'Other') selected @endif value="Other">
-                                    Other
-                                </option>
-                            </select>
+                            <select class="form-control selectpicker" multiple name="weather[]" id="weather"></select>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -222,8 +191,11 @@
     // get all simulator options
     var sims = {!! json_encode($sims) !!};
     var selectedSims = {!! json_encode($profile->sims) !!};
+    // get all weather engine options
+    var wxs = {!! json_encode($wxs) !!};
+    var selectedWxs = {!! json_encode($profile->weather) !!};
 
-    // add preselected options to each selectpicker
+    // add sims and select preselected ones
     $.each(sims, function (i, item) {
         var newOption = $('<option>', {
             value: item.name,
@@ -233,6 +205,19 @@
         $('#sims').append(newOption);
     });
     $('#sims').selectpicker('val', selectedSims);
+
+    // add weather enginesand select preselected ones
+    $.each(wxs, function (i, item) {
+        var newOption = $('<option>', {
+            value: item.name,
+            text:  item.name
+        });
+
+        $('#weather').append(newOption);
+    });
+    $('#weather').selectpicker('val', selectedWxs);
+
+    // refresh select picker displays
     $('.selectpicker').selectpicker('refresh');
 
     /*

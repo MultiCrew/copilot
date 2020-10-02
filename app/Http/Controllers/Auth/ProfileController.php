@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Users\Profile;
-use App\Models\Simulator;
+use App\Models\FlightSim\Simulator;
+use App\Models\FlightSim\WeatherEngine;
 
 class ProfileController extends Controller
 {
@@ -19,9 +20,20 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
+        $profile = \Auth::user()->profile;
+
+        // correct null values for empty array
+        if ($profile->sims === null) {
+            $profile->sims = [0];
+        }
+        if ($profile->weather === null) {
+            $profile->weather = [0];
+        }
+
         return view('auth.profiles.show', [
             'profile'   => $profile,
-            'sims'      => Simulator::all()
+            'sims'      => Simulator::all(),
+            'wxs'       => WeatherEngine::all()
         ]);
     }
 
@@ -35,7 +47,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        dd($request);
         if (isset($request->showName)) {
             $profile->show_name = $request->showName;
             $profile->location = $request->location;
