@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Session;
 use Illuminate\Http\Request;
 use App\Models\Airports\Airport;
 use App\Models\Aircraft\Aircraft;
@@ -20,9 +21,10 @@ class AccountController extends Controller
     /**
      * Show the user's account details in an editable form
      *
+     * @param $tab An optional parameter containing the tab to navigate to
      * @return view
      */
-    public function index()
+    public function index($tab = null)
     {
 		$userNotifications = UserNotification::where('user_id', Auth::id())->first();
 		$airports = [];
@@ -57,6 +59,7 @@ class AccountController extends Controller
         }
 
         return view('auth.users.show', [
+            'tab' => $tab,
             'user' => $user,
             'role' => $role,
             'userNotifications' => $userNotifications,
@@ -89,5 +92,23 @@ class AccountController extends Controller
         $user->save();
 
         return redirect()->route('account.index');
+    }
+
+    /**
+     * Create a personal access token
+     * @param \Illuminate\Http\Request $request Token details
+     * @return redirect
+     */
+    public function createToken(Request $request)
+    {
+        $request->validate([
+            'url' => 'required|url'
+        ]);
+
+        Auth::user()->createToken($request->url)->accessToken;
+
+        Session::flash('newToken');
+
+        return redirect()->back();;
     }
 }
