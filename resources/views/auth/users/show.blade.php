@@ -265,6 +265,13 @@
                 <input type="text" class="form-control" name="expiry" disabled
                     value="{{$user->tokens->first()->expires_at->format('d/m/Y')}}">
             </div>
+            <form action="{{route('account.delete-token')}}" method="post">
+                @csrf
+                @method('delete')
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-fw fa-times mr-2"></i>Delete
+                </button>
+            </form>
             @endif
         </div>
 

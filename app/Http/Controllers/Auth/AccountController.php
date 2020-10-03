@@ -21,10 +21,9 @@ class AccountController extends Controller
     /**
      * Show the user's account details in an editable form
      *
-     * @param $tab An optional parameter containing the tab to navigate to
      * @return view
      */
-    public function index($tab = null)
+    public function index()
     {
 		$userNotifications = UserNotification::where('user_id', Auth::id())->first();
 		$airports = [];
@@ -59,7 +58,6 @@ class AccountController extends Controller
         }
 
         return view('auth.users.show', [
-            'tab' => $tab,
             'user' => $user,
             'role' => $role,
             'userNotifications' => $userNotifications,
@@ -110,5 +108,19 @@ class AccountController extends Controller
         Session::flash('newToken');
 
         return redirect()->back();;
+    }
+
+    /**
+     * Delete a personal access token
+     * @param
+     * @return redirect
+     */
+    public function deleteToken()
+    {
+        Auth::user()->tokens->each(function($token, $key) {
+            $token->delete();
+        });
+
+        return redirect()->back();
     }
 }
