@@ -21,6 +21,12 @@
         </a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" id="api-tab" data-toggle="pill" href="#api" role="tab">
+            <i class="fas fa-fw mr-2 fa-laptop-code"></i>API
+        </a>
+    </li>
+
     @role('new')
     <li class="nav-item">
         <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab">
@@ -203,7 +209,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade card-text" id="discord" role="tabpanel">
+        <div class="tab-pane fade show card-text" id="discord" role="tabpanel">
             <p class="card-text">
                 Some of MultiCrew's services are integrated with Discord. We
                 deliver push notifications to your Discord account, so you can
@@ -227,6 +233,38 @@
             <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.disconnect') }}">
                 <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
             </a>
+            @endif
+        </div>
+
+        <div class="tab-pane fade show card-text" id="api" role="tabpanel">
+            <p class="class-text">
+                Spiel about the API, enter details below and all that
+            </p>
+
+            @if ($user->tokens->isEmpty())
+            <form action="{{route('account.create-token')}}" id="tokenForm" method="POST">
+                @csrf
+
+                <div class="form-group">
+                    <label for="url">URL</label>
+                    <input type="url" class="form-control" placeholder="http://example.com" id="url" name="url"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-fw fa-plus mr-2"></i>Create
+                </button>
+            </form>
+            @else
+            <div class="form-group">
+                <label for="token">API Token</label>
+                <input class="form-control" type="text" name="token" disabled value="{{$user->tokens->first()->id}}">
+            </div>
+            <div class="form-group">
+                <label for="expiry">Expiry Date</label>
+                <input type="text" class="form-control" name="expiry" disabled
+                    value="{{$user->tokens->first()->expires_at->format('d/m/Y')}}">
+            </div>
             @endif
         </div>
 
@@ -408,5 +446,12 @@
             contentType: false
         })
     }
+
+    @if (Session::has('newToken'))
+    document.getElementById('account-tab').classList.remove('active')
+    document.getElementById('account').classList.remove('active')
+    document.getElementById('api-tab').classList.add('active')
+    document.getElementById('api').classList.add('active')
+    @endif
 </script>
 @endsection
