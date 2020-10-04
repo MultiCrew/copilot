@@ -27,3 +27,7 @@ Route::middleware('client')->group(function() {
     Route::post('/accept', 'API\FlightController@accept');
     //add all API requests for the discord bot here
 });
+
+Route::middleware(['auth:api', 'public'])->group(function() {
+    // All API routes here
+});

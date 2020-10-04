@@ -4,8 +4,9 @@ namespace App\Models\Users;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class APIUser extends Model
+class APIUser extends Authenticatable
 {
     use HasApiTokens;
 
