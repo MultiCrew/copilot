@@ -264,7 +264,8 @@
                         <option value="community">Community</option>
                         <option value="other">Other</option>
                     </select>
-                    <input type="text" name="usage" id="otherUsage" style='display:none;' class="form-control mt-2"/>
+                    <input type="text" name="usage" id="otherUsage" style='display:none;' class="form-control mt-2"
+                        value="" />
                 </div>
 
                 <button type="submit" class="btn btn-success">
@@ -273,9 +274,12 @@
             </form>
             @else
             <div class="form-group">
-                <label for="token">API Token</label>
-                <input class="form-control" type="text" name="token" disabled
-                    value="{{$user->apiUser->tokens->first()->id}}">
+                <label for="token">API Token</label><br>
+                @if (Session::has('newToken'))
+                <strong>Make sure you copy your token down, it will be unavailable after a page refresh</strong>
+                @endif
+                <input class="form-control" type="text" name="token" id="token" disabled
+                    value="If you have lost your code you will need to generate a new one">
             </div>
             <div class="form-group">
                 <label for="expiry">Expiry Date</label>
@@ -486,6 +490,7 @@
     document.getElementById('account').classList.remove('active')
     document.getElementById('api-tab').classList.add('active')
     document.getElementById('api').classList.add('active')
+    document.getElementById('token').value = '{{Session::get('newToken')}}'
     @endif
 </script>
 @endsection

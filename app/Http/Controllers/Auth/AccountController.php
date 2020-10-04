@@ -113,9 +113,9 @@ class AccountController extends Controller
         $apiUser->user_id = Auth::user()->id;
         $apiUser->save();
 
-        $apiUser->createToken($request->name)->accessToken;
+        $token = $apiUser->createToken($request->name, ['public'])->accessToken;
 
-        Session::flash('newToken');
+        Session::flash('newToken', $token);
 
         return redirect()->back();;
     }
