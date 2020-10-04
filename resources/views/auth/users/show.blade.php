@@ -259,7 +259,7 @@
                 <div class="form-group">
                     <label for="usage">API Usage</label>
                     <select name="usage" id="usage" class="form-control" onchange="checkUsage(this.value)" required>
-                        <option value="select" disabled selected>Select your usage for the API</option>
+                        <option disabled selected>Select your usage for the API</option>
                         <option value="va">Virtual Airline</option>
                         <option value="community">Community</option>
                         <option value="other">Other</option>
@@ -476,6 +476,7 @@
         if(val == 'other') {
             element.style.display='block';
         } else {
+            element.value = val;
             element.style.display='none';
         }
     }
