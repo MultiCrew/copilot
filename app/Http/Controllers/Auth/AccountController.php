@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users\UserNotification;
 use \App\Http\Controllers\Controller as Controller;
+use App\Models\Users\APIUser;
 
 class AccountController extends Controller
 {
@@ -93,17 +94,26 @@ class AccountController extends Controller
     }
 
     /**
-     * Create a personal access token
+     * Create an api access token
      * @param \Illuminate\Http\Request $request Token details
      * @return redirect
      */
     public function createToken(Request $request)
     {
         $request->validate([
-            'url' => 'required|url'
+            'url' => 'required|url',
+            'name' => 'required',
+            'usage' => 'required'
         ]);
 
-        Auth::user()->createToken($request->url)->accessToken;
+        $apiUser = new APIUser();
+        $apiUser->url = $request->url;
+        $apiUser->name = $request->name;
+        $apiUser->usage = $request->usage;
+        $apiUser->user_id = Auth::user()->id;
+        $apiUser->save();
+
+        $apiUser->createToken($request->name)->accessToken;
 
         Session::flash('newToken');
 
@@ -111,15 +121,17 @@ class AccountController extends Controller
     }
 
     /**
-     * Delete a personal access token
+     * Delete an api access token
      * @param
      * @return redirect
      */
     public function deleteToken()
     {
-        Auth::user()->tokens->each(function($token, $key) {
+        Auth::user()->apiUser->tokens->each(function($token, $key) {
             $token->delete();
         });
+
+        Auth::user()->apiUser->delete();
 
         return redirect()->back();
     }
