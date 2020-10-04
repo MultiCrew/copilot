@@ -103,13 +103,17 @@ class AccountController extends Controller
         $request->validate([
             'url' => 'required|url',
             'name' => 'required',
-            'usage' => 'required'
+            'usage' => 'required',
+            'email' => 'required|email',
+            'email_contact' => 'required'
         ]);
 
         $apiUser = new APIUser();
         $apiUser->url = $request->url;
         $apiUser->name = $request->name;
         $apiUser->usage = $request->usage;
+        $apiUser->email = $request->email;
+        $apiUser->email_contact = $request->email_contact;
         $apiUser->user_id = Auth::user()->id;
         $apiUser->save();
 
