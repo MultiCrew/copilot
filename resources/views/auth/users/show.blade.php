@@ -268,6 +268,17 @@
                         value="" />
                 </div>
 
+                <div class="form-group">
+                    <label for="email">Contact Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input type="checkbox" class="form-check-input" name="email_contact" id="email_contact" required value="1">
+                    <label for="email_contact" class="form-check-label">Tick this box if you would like to receive email
+                        updates about the MultiCrew API</label>
+                </div>
+
                 <button type="submit" class="btn btn-success">
                     <i class="fas fa-fw fa-plus mr-2"></i>Create
                 </button>

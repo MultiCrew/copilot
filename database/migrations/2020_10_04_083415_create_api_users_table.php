@@ -19,6 +19,8 @@ class CreateAPIUsersTable extends Migration
             $table->string('name');
             $table->string('url');
             $table->string('usage');
+            $table->string('email');
+            $table->boolean('email_contact');
             $table->timestamps();
         });
     }
