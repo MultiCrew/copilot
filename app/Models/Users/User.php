@@ -8,13 +8,11 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
-    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -94,6 +92,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canManageBlogEtcPosts()
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * The API User relating to the main User
+     */
+    public function apiUser()
+    {
+        return $this->hasOne('App\Models\Users\APIUser', 'user_id', 'id');
     }
 
     /**

@@ -241,14 +241,30 @@
                 Spiel about the API, enter details below and all that
             </p>
 
-            @if ($user->tokens->isEmpty())
+            @if (!$user->apiUser)
             <form action="{{route('account.create-token')}}" id="tokenForm" method="POST">
                 @csrf
 
                 <div class="form-group">
-                    <label for="url">URL</label>
+                    <label for="name">Application Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="url">Application URL</label>
                     <input type="url" class="form-control" placeholder="http://example.com" id="url" name="url"
                         required>
+                </div>
+
+                <div class="form-group">
+                    <label for="usage">API Usage</label>
+                    <select name="usage" id="usage" class="form-control" onchange="checkUsage(this.value)" required>
+                        <option value="select" disabled selected>Select your usage for the API</option>
+                        <option value="va">Virtual Airline</option>
+                        <option value="community">Community</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="usage" id="otherUsage" style='display:none;' class="form-control mt-2"/>
                 </div>
 
                 <button type="submit" class="btn btn-success">
@@ -258,12 +274,13 @@
             @else
             <div class="form-group">
                 <label for="token">API Token</label>
-                <input class="form-control" type="text" name="token" disabled value="{{$user->tokens->first()->id}}">
+                <input class="form-control" type="text" name="token" disabled
+                    value="{{$user->apiUser->tokens->first()->id}}">
             </div>
             <div class="form-group">
                 <label for="expiry">Expiry Date</label>
                 <input type="text" class="form-control" name="expiry" disabled
-                    value="{{$user->tokens->first()->expires_at->format('d/m/Y')}}">
+                    value="{{$user->apiUser->tokens->first()->expires_at->format('d/m/Y')}}">
             </div>
             <form action="{{route('account.delete-token')}}" method="post">
                 @csrf
@@ -452,6 +469,15 @@
             processData: false,
             contentType: false
         })
+    }
+
+    function checkUsage(val){
+        var element = document.getElementById('otherUsage');
+        if(val == 'other') {
+            element.style.display='block';
+        } else {
+            element.style.display='none';
+        }
     }
 
     @if (Session::has('newToken'))
