@@ -66,7 +66,9 @@ class Kernel extends HttpKernel
         'flight_role' => \App\Http\Middleware\CheckFlightRole::class,
         'plan_role' => \App\Http\Middleware\CheckPlanRole::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
     ];
 
     /**
