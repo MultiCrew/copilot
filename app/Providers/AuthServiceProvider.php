@@ -29,7 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
 
         Passport::tokensCan([
-            'public' => 'Access the public api',
+            'request' => 'Perform flight requests on your behalf',
+            'manage' => 'Manage, including accept, flight requests',
         ]);
     }
 }
