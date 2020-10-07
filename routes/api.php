@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::middleware('client')->group(function() {
     // Route::get('/test', function (Request $request) {
     //     return 'test';
@@ -28,6 +24,9 @@ Route::middleware('client')->group(function() {
     //add all API requests for the discord bot here
 });
 
-Route::middleware(['auth:api', 'public'])->group(function() {
-    // All API routes here
+Route::group([
+    'middleware' => ['auth:api'],
+    'prefix' => 'v1'
+], function () {
+    // API Routes here
 });
