@@ -251,10 +251,7 @@
             @if ($clients)
                 <div class="card-columns">
                     @foreach ($clients as $client)
-                        @if ($loop->index % 3 == 0)
-                            <div class="card-deck">
-                        @endif
-                        <div class="card shadow cursor-pointer">
+                        <div class="card shadow cursor-pointer h-100">
                             <a onclick="showModal({{json_encode($client)}})" class="stretched-link text-decoration-none">
                                 <div class="card-body">
                                     <div class="card-title">
@@ -266,9 +263,6 @@
                                 </div>
                             </a>
                         </div>
-                        @if ($loop->index %3 == 0)
-                            </div>
-                        @endif
                     @endforeach
                 </div>
             @endif
