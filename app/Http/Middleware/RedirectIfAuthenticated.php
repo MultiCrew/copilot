@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect()->indented('/flights');
+            return redirect()->intended('/flights');
         }
 
         return $next($request);
