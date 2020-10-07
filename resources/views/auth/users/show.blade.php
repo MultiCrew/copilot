@@ -237,74 +237,40 @@
         </div>
 
         <div class="tab-pane fade show card-text" id="api" role="tabpanel">
-            <p class="class-text">
-                Spiel about the API, enter details below and all that
-            </p>
+            <div class="d-flex justify-content-between">
+                <p class="class-text">
+                    Spiel about the API, enter details below and all that
+                </p>
 
-            @if (!$user->apiUser)
-            <form action="{{route('account.create-token')}}" id="tokenForm" method="POST">
-                @csrf
-
-                <div class="form-group">
-                    <label for="name">Application Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="url">Application URL</label>
-                    <input type="url" class="form-control" placeholder="http://example.com" id="url" name="url"
-                        required>
-                </div>
-
-                <div class="form-group">
-                    <label for="usage">API Usage</label>
-                    <select name="usage" id="usage" class="form-control" onchange="checkUsage(this.value)" required>
-                        <option disabled selected>Select your usage for the API</option>
-                        <option value="va">Virtual Airline</option>
-                        <option value="community">Community</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <input type="text" name="usage" id="otherUsage" style='display:none;' class="form-control mt-2"
-                        value="" />
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Contact Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-
-                <div class="form-check mb-2">
-                    <input type="checkbox" class="form-check-input" name="email_contact" id="email_contact" required value="1">
-                    <label for="email_contact" class="form-check-label">Tick this box if you would like to receive email
-                        updates about the MultiCrew API</label>
-                </div>
-
-                <button type="submit" class="btn btn-success">
-                    <i class="fas fa-fw fa-plus mr-2"></i>Create
-                </button>
-            </form>
-            @else
-            <div class="form-group">
-                <label for="token">API Token</label><br>
-                @if (Session::has('newToken'))
-                <strong>Make sure you copy your token down, it will be unavailable after a page refresh</strong>
-                @endif
-                <input class="form-control" type="text" name="token" id="token" disabled
-                    value="If you have lost your code you will need to generate a new one">
+                <p class="class-text">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createClientModal">
+                        <i class="fas fa-fw mr-2 fa-plus"></i> Create Client
+                    </button>
+                </p>
             </div>
-            <div class="form-group">
-                <label for="expiry">Expiry Date</label>
-                <input type="text" class="form-control" name="expiry" disabled
-                    value="{{$user->apiUser->tokens->first()->expires_at->format('d/m/Y')}}">
-            </div>
-            <form action="{{route('account.delete-token')}}" method="post">
-                @csrf
-                @method('delete')
-                <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-fw fa-times mr-2"></i>Delete
-                </button>
-            </form>
+            @if ($clients)
+                <div class="card-deck">
+                    @foreach ($clients as $client)
+                        @if ($loop->index % 3 == 0)
+                            <div class="w-100"></div>
+                            <br>
+                        @endif
+                        <div class="card shadow cursor-pointer">
+                            <a onclick="showModal({{json_encode($client)}})" class="stretched-link text-decoration-none">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        {{$client['name']}}
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    {{Carbon\Carbon::parse($client['created_at'])->format('d/m/Y')}}
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
             @endif
+
         </div>
 
         @role('new')
@@ -336,6 +302,9 @@
         @endrole
     </div>
 </div>
+
+@include('auth.users.client.create')
+@include('auth.users.client.show')
 
 @endsection
 
@@ -495,6 +464,20 @@
             element.style.display='none';
         }
     }
+
+    function showModal(client) {
+        $('#client_show_name').val(client.name);
+        $('#client_show_id').val(client.id);
+        $('#client_show_secret').val(client.secret);
+        client.redirect = client.redirect.replaceAll(',', '\n')
+        $('#client_show_redirect').val(client.redirect);
+        $('#showClientModal').modal('show')
+    }
+
+    $('#showClientModal').on('hide.bs.modal', function() {
+        $('#client_show_secret').attr('hidden', true);
+        $('#show_secret').removeAttr('hidden');
+    })
 
     @if (Session::has('newToken'))
     document.getElementById('account-tab').classList.remove('active')
