@@ -113,8 +113,6 @@ Route::group([
 ], function () {
     Route::get('/', 'Auth\AccountController@index')->name('index');
     Route::patch('/update', 'Auth\AccountController@update')->name('update');
-    Route::post('/token', 'Auth\AccountController@createToken')->name('create-token');
-    Route::delete('/token', 'Auth\AccountController@deleteToken')->name('delete-token');
 });
 
 Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
