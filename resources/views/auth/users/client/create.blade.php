@@ -57,8 +57,7 @@
             }
             axios.post('/oauth/clients', data).then(response => {
                 if(response.status == 201) {
-                    window.location.href = '/account#api';
-                    location.reload();
+                    window.location.reload(true);
                 }
             }).catch(err => {
                 console.log(err);
