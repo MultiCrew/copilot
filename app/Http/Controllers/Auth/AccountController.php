@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use Session;
 use Illuminate\Http\Request;
+use App\Models\Users\APIUser;
 use App\Models\Airports\Airport;
 use App\Models\Aircraft\Aircraft;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use App\Models\Users\UserNotification;
 use \App\Http\Controllers\Controller as Controller;
-use App\Models\Users\APIUser;
 
 class AccountController extends Controller
 {
@@ -58,12 +59,18 @@ class AccountController extends Controller
             $role = 'Regular User';
         }
 
+        $request = Request::create(config('app.url') .'/oauth/clients');
+        $response = Route::dispatch($request);
+
+        $clients = json_decode($response->getContent(), true);
+
         return view('auth.users.show', [
             'user' => $user,
             'role' => $role,
             'userNotifications' => $userNotifications,
 			'airports' => $airports,
-			'aircrafts' => $aircrafts
+            'aircrafts' => $aircrafts,
+            'clients' => $clients
         ]);
     }
 
