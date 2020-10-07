@@ -49,7 +49,7 @@ class LoginController extends Controller
             return redirect()->route('apply.create');
         }
 
-        return redirect('/flights');
+        return redirect()->intended('/flights');
     }
 
     /**
