@@ -76,6 +76,7 @@
         var id = $('#client_show_id').val()
         axios.put(`/oauth/clients/${id}`, data).then(response => {
             if(response.status == 200) {
+                window.location.href = '/account#api';
                 window.location.reload(true);
             }
         }).catch(err => {
@@ -88,6 +89,7 @@
         var id = $('#client_show_id').val()
         axios.delete(`/oauth/clients/${id}`, {withCredentials: true}).then(response => {
             if (response.status == 204) {
+                window.location.href = '/account#api';
                 window.location.reload(true);
             }
         })

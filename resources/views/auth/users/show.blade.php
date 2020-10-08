@@ -251,7 +251,7 @@
             @if ($clients)
                 <div class="card-columns">
                     @foreach ($clients as $client)
-                        <div class="card shadow cursor-pointer h-100">
+                        <div class="card shadow cursor-pointer h-100" id="card-{{$client['id']}}">
                             <a onclick="showModal({{json_encode($client)}})" class="stretched-link text-decoration-none">
                                 <div class="card-body">
                                     <div class="card-title">
@@ -474,13 +474,5 @@
         $('#client_show_secret').attr('hidden', true);
         $('#show_secret').removeAttr('hidden');
     })
-
-    @if (Session::has('newToken'))
-    document.getElementById('account-tab').classList.remove('active')
-    document.getElementById('account').classList.remove('active')
-    document.getElementById('api-tab').classList.add('active')
-    document.getElementById('api').classList.add('active')
-    document.getElementById('token').value = '{{Session::get('newToken')}}'
-    @endif
 </script>
 @endsection
