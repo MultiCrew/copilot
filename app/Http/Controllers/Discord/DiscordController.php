@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Discord;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Users\UserNotification;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Users\UserNotification;
 use App\Notifications\DiscordSendData;
 use Wohali\OAuth2\Client\Provider\Discord;
 
@@ -51,7 +52,7 @@ class DiscordController extends Controller
 				$user->discord_id = $discordUser->getId();
 				$user->save();
 				$message = $user->username . ', this is a confirmation that your MultiCrew account is now connected to Discord.';
-				$roleList = Auth::user()->with('roles')->get()->pluck('roles')->flatten();
+				$roleList = $user->roles;
 				$roles = array();
 				for ($i=0; $i < count($roleList); $i++) { 
 					$role = $roleList[$i];
@@ -63,7 +64,7 @@ class DiscordController extends Controller
 			} catch (Exception $e) {
 		
 				// Failed to get user details
-				exit('Oh dear...');
+				Log::error($e);
 		
 			}
 		}
