@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Users\Profile;
 use App\Models\FlightSim\Simulator;
@@ -20,8 +21,6 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        $profile = \Auth::user()->profile;
-
         // correct null values for empty array
         if ($profile->sims === null) {
             $profile->sims = [0];
@@ -47,6 +46,10 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
+        if (Auth::user()->id != $profile->user_id) {
+            return redirect()->route('profile.show', Auth::user()->profile);
+        }
+
         if (isset($request->showName)) {
             $profile->show_name = $request->showName;
             $profile->location = $request->location;

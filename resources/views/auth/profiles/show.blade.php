@@ -3,25 +3,28 @@
 @section('content')
 
 <div class="row">
-    <div class="col-md-4">
-        <h3 class="mb-3">Your Profile</h1>
+    <div class="col-md-3">
+        <div class="card mb-4 shadow">
+            <div class="card-body">
+                <h3 class="text-center card-title">{{ $profile->user->name }}</h3>
+                <h5 class="text-center card-subtitle mb-3">{{ $profile->user->username }}</h5>
 
                 <div class="rounded-circle mx-auto img-thumbnail mb-3"
                 style="background: url('{{ !empty($profile->picture) ? Storage::url($profile->picture) : asset('img/icon_sqcirc_lightondark.png') }}'); background-size: cover;
                 height: 200px; width: 200px;"></div>
 
-        <form action="{{ route('profile.picture.update', $profile) }}" method="POST" enctype="multipart/form-data" class="mb-4">
-            @csrf
-            @method('PATCH')
+                <form action="{{ route('profile.picture.update', $profile) }}" method="POST" enctype="multipart/form-data" class="mb-4">
+                    @csrf
+                    @method('PATCH')
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" name="picture" class="custom-file-input" required>
-                        <label class="custom-file-label">New picture</label>
-                    </div>
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top"
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="picture" class="custom-file-input" required>
+                                <label class="custom-file-label">New picture</label>
+                            </div>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top"
                                 title="Upload new image">
                                     <i class="fas fa-upload"></i>
                                 </button>
@@ -32,39 +35,29 @@
                             </div>
                         </div>
                         <small class="form-text text-muted">Max. file size 2MB. Recommended 200x200 pixels.</small>
-            </div>
-        </form>
+                    </div>
+                </form>
 
                 <form method="POST" action="{{ route('profile.picture.destroy', $profile) }}" id="removePicture">
                     @csrf
-            @method('DELETE')
-        </form>
+                    @method('DELETE')
+                </form>
 
-        <div class="card mb-4">
-            <div class="card-body">
+                <hr>
+
                 <form method="POST" action="{{ route('profile.update', $profile) }}">
                     @csrf
                     @method('PATCH')
 
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" readonly value="{{ Auth::user()->username }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" readonly value="{{ Auth::user()->name }}">
-                    </div>
-
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="hidden" name="showName" value="0">
-                        <input type="checkbox" class="custom-control-input" id="showName" name="showName" value="1">
-                        <label class="custom-control-label" for="showName">Show name on profile</label>
+                        <input type="checkbox" class="custom-control-input" id="showName" name="showName" value="1" @if($profile->show_name != false) checked @endif>
+                        <label class="custom-control-label" for="showName">Show name on public profile</label>
                     </div>
 
                     <div class="form-group">
                         <label>Location</label>
-                        <input type="text" class="form-control" name="location">
+                        <input type="text" class="form-control" name="location" value="{{ $profile->location }}">
                     </div>
 
                     <button type="submit" class="btn btn-primary card-text">
@@ -75,11 +68,11 @@
         </div>
     </div>
 
-    <div class="col-md-8">
-        <h3 class="mb-3">Your Preferences</h3>
-
-        <div class="card">
+    <div class="col-md-9">
+        <div class="card mb-4 shadow">
             <div class="card-body">
+                <h3 class="card-title mb-3">Your Preferences</h3>
+
                 <p>
                     Setting your preferences here helps prospective copilots picking up your requests know a bit more about
                     your flying style, simulator experience and compatability. Fill it out as much as you like - the more
@@ -112,6 +105,7 @@
                                 Navigation Data<i class="fas fa-question-circle ml-2"></i>
                             </label>
                             <select class="form-control selectpicker" name="airac">
+                                <option value @if(empty($profile->airac)) selected @endif>Nothing selected</option>
                                 <option value="0" @if($profile->airac === 0) selected @endif>Outdated</option>
                                 <option value="1" @if($profile->airac === 1) selected @endif>Kept up-to-date</option>
                             </select>
@@ -125,9 +119,10 @@
                                 Level<i class="fas fa-question-circle ml-2"></i>
                             </label>
                             <select class="form-control selectpicker" name="level">
-                                <option value="Beginner">Beginner</option>
-                                <option value="Intermediate">Intermediate</option>
-                                <option value="Advanced">Advanced</option>
+                                <option value @if(empty($profile->level)) selected @endif>Nothing selected</option>
+                                <option @if($profile->level === 'Beginner') selected @endif value="Beginner">Beginner</option>
+                                <option @if($profile->level === 'Intermediate') selected @endif value="Intermediate">Intermediate</option>
+                                <option @if($profile->level === 'Advanced') selected @endif value="Advanced">Advanced</option>
                             </select>
                         </div>
 
@@ -137,8 +132,14 @@
                                 Connection Method<i class="fas fa-question-circle ml-2"></i>
                             </label>
                             <select class="form-control selectpicker" name="connection">
-                                <option value="Tunnelling Engine (e.g. Hamachi)">Tunnelling Engine (e.g. Hamachi)</option>
-                                <option value="Port Forwarding">Port Forwarding</option>
+                                <option value @if(empty($profile->connection)) selected @endif>Nothing selected</option>
+
+                                <option @if($profile->connection === 'Tunnelling Engine (e.g. Hamachi)') selected @endif value="Tunnelling Engine (e.g. Hamachi)">
+                                    Tunnelling Engine (e.g. Hamachi)
+                                </option>
+                                <option @if($profile->connection === 'Port Forwarding') selected @endif value="Port Forwarding">
+                                    Port Forwarding
+                                </option>
                             </select>
                         </div>
 
@@ -148,16 +149,18 @@
                                 Procedures<i class="fas fa-question-circle ml-2"></i>
                             </label>
                             <select class="form-control selectpicker" name="procedures">
-                                <option value="No preference">
+                                <option value @if(empty($profile->procedures)) selected @endif>Nothing selected</option>
+
+                                <option @if ($profile->procedures === 'No preference') selected @endif value="No preference">
                                     No preference
                                 </option>
-                                <option value="Beginner - Looking to learn">
+                                <option @if ($profile->procedures === 'Beginner - Looking to learn') selected @endif value="Beginner - Looking to learn">
                                     Beginner - Looking to learn
                                 </option>
-                                <option value="MultiCrew flows - I use flows from the Internet">
+                                <option @if ($profile->procedures === 'MultiCrew flows - I use flows from the Internet') selected @endif value="MultiCrew flows - I use flows from the Internet">
                                     MultiCrew flows - I use flows from the Internet
                                 </option>
-                                <option value="Real World - I follow real-world procedures">
+                                <option @if ($profile->procedures === 'Real World - I follow real-world procedures') selected @endif value="Real World - I follow real-world procedures">
                                     Real World - I follow real-world procedures
                                 </option>
                             </select>
