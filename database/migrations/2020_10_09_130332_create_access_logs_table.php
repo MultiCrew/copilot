@@ -17,6 +17,7 @@ class CreateAccessLogsTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->string('ip');
+            $table->string('user_agent');
             $table->timestamps();
         });
     }
