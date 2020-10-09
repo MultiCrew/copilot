@@ -9,5 +9,6 @@ class AccessLog extends Model
     protected $fillable = [
         'user_id',
         'ip',
+        'user_agent'
     ];
 }

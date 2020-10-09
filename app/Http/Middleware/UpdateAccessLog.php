@@ -28,7 +28,8 @@ class UpdateAccessLog
             } else {
                 AccessLog::create([
                     'user_id' => Auth::id(),
-                    'ip' => $ip
+                    'ip' => $ip,
+                    'user_agent' => $request->header('User-Agent'),
                 ]);
                 return $next($request);
             }
