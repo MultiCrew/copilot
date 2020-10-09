@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('client', 'bot')->group(function() {
-    // Route::get('/test', function (Request $request) {
-    //     return 'test';
-    // });
     Route::get('/search', 'API\Discord\FlightController@search');
     Route::get('/aircraft', 'API\Discord\FlightController@aircraft');
     Route::post('/create', 'API\Discord\FlightController@store');
@@ -26,7 +23,11 @@ Route::middleware('client', 'bot')->group(function() {
 
 Route::group([
     'middleware' => ['auth:api'],
-    'prefix' => 'v1'
+    'prefix' => 'v1',
+    'namespace' => 'API\v1'
 ], function () {
+    Route::group(['namespace' => 'Flights'], function () {
+        Route::apiResource('requests', 'RequestController');
+    });
     // API Routes here
 });
