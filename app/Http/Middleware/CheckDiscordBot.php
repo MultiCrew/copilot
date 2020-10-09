@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Exception;
 use Lcobucci\JWT\Parser;
 use Laravel\Passport\Token;
 use Illuminate\Support\Facades\Log;
@@ -19,12 +20,17 @@ class CheckDiscordBot
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('api')->id() != config('app.discord_local_id')) {
+        try {
             $bearerToken = request()->bearerToken();
             $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
-
+            $client = Token::find($tokenId)->client;
+        } catch (Exception $e) {
+            Log::error($e);
+        }
+        if ($client->id != config('app.discord_local_id')) {
+            
             Log::info('Access to bot endpoint attempted', [
-                'client' => Token::find($tokenId)->client,
+                'client' => $client,
                 'user' => Auth::guard('api')->user(),
                 'endpoint' => $request->getRequestUri(),
                 'data' => $request->getContent(),
