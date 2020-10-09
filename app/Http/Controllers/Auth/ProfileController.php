@@ -75,13 +75,17 @@ class ProfileController extends Controller
      */
     public function updatePicture(Request $request, Profile $profile)
     {
+        if (Auth::user()->id != $profile->user_id) {
+            return redirect()->route('profile.show', Auth::user()->profile);
+        }
+
         $request->validate([
             'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         Storage::delete($profile->picture);
 
-        $profile->picture = $request->file('picture')->store('profile');
+        $profile->picture = $request->file('picture')->store('public/profile');
         $profile->save();
 
         return redirect()->route('profile.show', $profile);

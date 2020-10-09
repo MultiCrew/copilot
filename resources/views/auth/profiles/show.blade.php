@@ -6,10 +6,9 @@
     <div class="col-md-4">
         <h3 class="mb-3">Your Profile</h1>
 
-        <div class="rounded-circle mx-auto img-thumbnail mb-3"
-        style="background: url('{!! $profile->picture ?? asset('img/icon_sqcirc_lightondark.png') !!}') center no-repeat;
-        background-size: auto 200px; height: 200px; width: 200px;">
-        </div>
+                <div class="rounded-circle mx-auto img-thumbnail mb-3"
+                style="background: url('{{ !empty($profile->picture) ? Storage::url($profile->picture) : asset('img/icon_sqcirc_lightondark.png') }}'); background-size: cover;
+                height: 200px; width: 200px;"></div>
 
         <form action="{{ route('profile.picture.update', $profile) }}" method="POST" enctype="multipart/form-data" class="mb-4">
             @csrf
@@ -23,21 +22,21 @@
                     </div>
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top"
-                        title="Upload new image">
-                            <i class="fas fa-upload"></i>
-                        </button>
-                        <a href="#" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top"
-                        title="Remove current image">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </div>
-                </div>
-                <small class="form-text text-muted">Max. file size 500KB. Recommended 200x200 pixels.</small>
+                                title="Upload new image">
+                                    <i class="fas fa-upload"></i>
+                                </button>
+                                <a href="#" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Remove current image"
+                                onclick="document.getElementById('removePicture').submit();">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <small class="form-text text-muted">Max. file size 2MB. Recommended 200x200 pixels.</small>
             </div>
         </form>
 
-        <form method="POST" action="{{ route('profile.picture.destroy', $profile) }}">
-            @csrf
+                <form method="POST" action="{{ route('profile.picture.destroy', $profile) }}" id="removePicture">
+                    @csrf
             @method('DELETE')
         </form>
 

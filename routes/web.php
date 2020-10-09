@@ -27,6 +27,9 @@ Route::group([
     Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
 });
 
+// cookie message route
+Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
+
 /*
  * Auth, account and profile routes
  *
@@ -48,17 +51,17 @@ Route::group([
     Route::patch('/update', 'Auth\AccountController@update')->name('update');
 });
 
-// profile routes
-Route::resource('profile', 'Auth\ProfileController')->only(['show', 'update'])->middleware('verified');
 // profile picture routes
 Route::group([
     'as'        => 'profile.picture.',
-    'prefix'    => 'profile/picture',
+    'prefix'    => 'profile/{profile}/picture',
     'middleware' => 'verified'
 ], function () {
-    Route::patch('', 'Auth\ProfileController@updatePicture')->name('update');
-    Route::delete('', 'Auth\ProfileController@removePicture')->name('destroy');
+    Route::patch('/', 'Auth\ProfileController@updatePicture')->name('update');
+    Route::delete('/', 'Auth\ProfileController@removePicture')->name('destroy');
 });
+// profile routes
+Route::resource('profile', 'Auth\ProfileController')->only(['show', 'update'])->middleware('verified');
 
 // administration routes
 Route::group([
@@ -70,9 +73,6 @@ Route::group([
     Route::resource('applications', 'Auth\Application\ApplicationAdminController')
          ->except(['create', 'store']);
 });
-
-// cookie message route
-Route::get('cookie-consent', 'Home\LegalController@cookieConsent')->name('cookie-consent');
 
 /*
  * Notification routes
