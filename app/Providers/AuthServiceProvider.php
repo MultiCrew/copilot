@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::tokensCan([
             'request' => 'Perform flight requests on your behalf',
-            'manage' => 'Manage, including accept, flight requests',
+            'manage' => 'Manage, including accept and reject, flight requests on your behalf',
         ]);
     }
 }
