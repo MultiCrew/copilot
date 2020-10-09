@@ -94,13 +94,17 @@ class APIController extends Controller
      * @param  string $errorCode
      * @return json
      */
-    protected function respondWithError($message, $errorCode, $errors = [])
+    protected function respondWithError($message, $errors = [], $errorCode = null)
     {
         if ($this->statusCode === 200) {
             trigger_error(
                 "There better be a good reason for this...",
                 E_USER_WARNING
             );
+        }
+
+        if (!$errorCode) {
+            $errorCode = $this->statusCode;
         }
 
         return $this->respondWithArray([
