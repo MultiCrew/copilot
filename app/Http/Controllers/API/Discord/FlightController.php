@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Discord;
 
 use App\Models\Users\User;
 use Illuminate\Http\Request;

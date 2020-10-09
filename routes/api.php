@@ -13,14 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('client')->group(function() {
+Route::middleware('client', 'bot')->group(function() {
     // Route::get('/test', function (Request $request) {
     //     return 'test';
     // });
-    Route::get('/search', 'API\FlightController@search');
-    Route::get('/aircraft', 'API\FlightController@aircraft');
-    Route::post('/create', 'API\FlightController@store');
-    Route::post('/accept', 'API\FlightController@accept');
+    Route::get('/search', 'API\Discord\FlightController@search');
+    Route::get('/aircraft', 'API\Discord\FlightController@aircraft');
+    Route::post('/create', 'API\Discord\FlightController@store');
+    Route::post('/accept', 'API\Discord\FlightController@accept');
     //add all API requests for the discord bot here
 });
 
