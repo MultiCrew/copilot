@@ -29,6 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
 
         Passport::tokensCan([
+            'identity' => 'to add',
+            'email' => 'to add',
             'request' => 'Perform flight requests on your behalf',
             'manage' => 'Manage, including accept and reject, flight requests on your behalf',
         ]);
