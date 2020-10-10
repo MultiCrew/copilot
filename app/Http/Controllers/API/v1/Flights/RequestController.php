@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API\v1\Flights;
 
+use App\Http\Controllers\API\APIController as Controller;
+use App\Http\Resources\User;
+use App\Models\Aircraft\ApprovedAircraft;
+use App\Models\Flights\FlightRequest;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\Flights\FlightRequest;
-use App\Models\Aircraft\ApprovedAircraft;
 use Illuminate\Validation\ValidationException;
-use App\Http\Controllers\API\APIController as Controller;
 
 class RequestController extends Controller
 {
@@ -26,7 +26,7 @@ class RequestController extends Controller
                 try {
                     $request->validate([
                         'aircraft' => 'array|exists:approved_aircraft,icao',
-                        'airport' => 'array|exists:airports,icao'
+                        'airport' => 'array|exists:airports,icao',
                     ]);
                 } catch (ValidationException $e) {
                     return $this->errorWrongArgs($e->errors());
@@ -34,7 +34,8 @@ class RequestController extends Controller
 
                 $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $query['aircraft'])->pluck('id')->all();
 
-                $data = FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
+                $data = 
+                    FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
                     ->where('public', 1)
                     ->where(function ($q) use ($query) {
                         foreach ($query['airport'] as $apt) {
@@ -47,12 +48,12 @@ class RequestController extends Controller
                     ->orderBy('id', 'asc')
                     ->get();
             } else {
-                $data =
-                    FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
-                    ->where('public', 1)
-                    ->whereNull('acceptee_id')
-                    ->orderBy('id')
-                    ->get();
+                $data = 
+                    User::collection(FlightRequest::with('aircraft:id,icao,name,sim', 'requestee')
+                        ->where('public', 1)
+                        ->whereNull('acceptee_id')
+                        ->orderBy('id')
+                        ->get());
             }
 
             return $this->respondWithObject($data);
