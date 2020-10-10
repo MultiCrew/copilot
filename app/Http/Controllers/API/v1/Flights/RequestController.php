@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\v1\Flights;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\Flights\FlightRequest;
 use App\Models\Aircraft\ApprovedAircraft;
+use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\API\APIController as Controller;
 
 class RequestController extends Controller
@@ -21,13 +23,21 @@ class RequestController extends Controller
         try {
             $query = $request->all();
             if ($query) {
-                $aircraft = preg_grep('/^[A-Z]{1,}[0-9]{1,}[A-Z]?$/i', $query['aircraft']);
-                $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $aircraft)->pluck('id')->all();
+                try {
+                    $request->validate([
+                        'aircraft' => 'array|exists:approved_aircraft,icao',
+                        'airport' => 'array|exists:airports,icao'
+                    ]);
+                } catch (ValidationException $e) {
+                    return $this->errorWrongArgs($e->errors());
+                }
+
+                $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $query['aircraft'])->pluck('id')->all();
 
                 $data = FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
                     ->where('public', 1)
-                    ->where(function ($q) use ($request) {
-                        foreach ($request as $apt) {
+                    ->where(function ($q) use ($query) {
+                        foreach ($query['airport'] as $apt) {
                             $q->whereJsonContains('departure', $apt);
                             $q->orWhereJsonContains('arrival', $apt);
                         }
@@ -48,7 +58,7 @@ class RequestController extends Controller
             return $this->respondWithObject($data);
 
         } catch (Exception $e) {
-            return $this->errorInternalError($e->getMessage());
+            return $this->errorInternalError(array($e->getMessage()));
         }
     }
 
