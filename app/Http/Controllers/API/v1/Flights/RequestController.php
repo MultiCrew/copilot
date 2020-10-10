@@ -24,7 +24,8 @@ class RequestController extends Controller
                 $aircraft = preg_grep('/^[A-Z]{1,}[0-9]{1,}[A-Z]?$/i', $query['aircraft']);
                 $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $aircraft)->pluck('id')->all();
 
-                $data = FlightRequest::where('public', 1)
+                $data = FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
+                    ->where('public', 1)
                     ->where(function ($q) use ($request) {
                         foreach ($request as $apt) {
                             $q->whereJsonContains('departure', $apt);
@@ -34,15 +35,14 @@ class RequestController extends Controller
                     ->orWhereIn('aircraft_id', $aircraftArray)
                     ->whereNull('acceptee_id')
                     ->orderBy('id', 'asc')
-                    ->get()
-                    ->load('aircraft:id,icao,name,sim', 'requestee:id,username');
+                    ->get();
             } else {
                 $data =
-                    FlightRequest::get()
+                    FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
                     ->where('public', 1)
                     ->whereNull('acceptee_id')
-                    ->sortBy('id')
-                    ->load('aircraft:id,icao,name,sim', 'requestee:id,username');
+                    ->orderBy('id')
+                    ->get();
             }
 
             return $this->respondWithObject($data);
