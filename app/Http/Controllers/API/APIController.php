@@ -94,7 +94,7 @@ class APIController extends Controller
      * @param  string $errorCode
      * @return json
      */
-    protected function respondWithError($message, $errors = [], $errorCode = null)
+    protected function respondWithError(string $message, array  $errors = [], $errorCode = null)
     {
         if ($this->statusCode === 200) {
             trigger_error(
@@ -107,11 +107,18 @@ class APIController extends Controller
             $errorCode = $this->statusCode;
         }
 
-        return $this->respondWithArray([
-            'errors'  => $errors,
-            'code'    => $errorCode,
-            'message' => $message,
-        ]);
+        if (count($errors) > 0) {
+            return $this->respondWithArray([
+                'errors'  => $errors,
+                'code'    => $errorCode,
+                'message' => $message,
+            ]);
+        } else {
+            return $this->respondWithArray([
+                'code'    => $errorCode,
+                'message' => $message,
+            ]);
+        }
     }
 
     /**
@@ -120,7 +127,7 @@ class APIController extends Controller
      * @param  string $message
      * @return json
      */
-    public function errorForbidden($message = 'FORBIDDEN', $errors = [])
+    public function errorForbidden(array $errors = [], string $message = 'FORBIDDEN')
     {
         return $this->setStatusCode(403)
                     ->respondWithError($message, $errors);
@@ -132,7 +139,7 @@ class APIController extends Controller
      * @param  string $message
      * @return json
      */
-    public function errorInternalError($message = 'INTERNAL_SERVER_ERROR', $errors = [])
+    public function errorInternalError(array $errors = [], string $message = 'INTERNAL_SERVER_ERROR')
     {
         return $this->setStatusCode(500)
                     ->respondWithError($message, $errors);
@@ -144,7 +151,7 @@ class APIController extends Controller
      * @param  string $message
      * @return json
      */
-    public function errorNotFound($message = 'RESOURCE_NOT_FOUND', $errors = [])
+    public function errorNotFound(array $errors = [], string $message = 'RESOURCE_NOT_FOUND')
     {
         return $this->setStatusCode(404)
                     ->respondWithError($message, $errors);
@@ -156,7 +163,7 @@ class APIController extends Controller
      * @param  string $message
      * @return json
      */
-    public function errorUnauthorized($message = 'UNAUTHORIZED', $errors = [])
+    public function errorUnauthorized(array $errors = [], string $message = 'UNAUTHORIZED')
     {
         return $this->setStatusCode(401)
                     ->respondWithError($message, $errors);
@@ -168,7 +175,7 @@ class APIController extends Controller
      * @param  string $message
      * @return json
      */
-    public function errorWrongArgs($message = 'INVALID_ARGUMENTS', $errors = [])
+    public function errorWrongArgs(array $errors = [], string $message = 'INVALID_ARGUMENTS')
     {
         return $this->setStatusCode(422)
                     ->respondWithError($message, $errors);
