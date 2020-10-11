@@ -42,5 +42,10 @@ class AppServiceProvider extends ServiceProvider
             'aircraft',
             'App\Rules\Aircraft@passes'
         );
+
+        Validator::extend(
+            'apiAircraft',
+            'App\Rules\APIAircraft@passes'
+        );
     }
 }
