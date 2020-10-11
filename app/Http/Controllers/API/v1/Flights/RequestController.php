@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1\Flights;
 
 use App\Http\Controllers\API\APIController as Controller;
 use App\Http\Requests\StoreFlightRequestRequest;
+use App\Http\Requests\UpdateFlightRequestRequest;
 use App\Http\Resources\Flights\RequestResource;
 use App\Models\Aircraft\ApprovedAircraft;
 use App\Models\Flights\FlightRequest;
@@ -138,9 +139,32 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFlightRequestRequest $request, $id)
     {
-        $request = FlightRequest::findOrFail($id);
+        try {
+            $flightRequest = FlightRequest::findOrFail($id);
+            $aircraft = ApprovedAircraft::where('icao', $request->aircraft)->pluck('id')->first();
+
+            $flightRequest->fill([
+                'departure' => $request->departure,
+                'arrival' => $request->arrival,
+                'aircraft_id' => $aircraft,
+                'requestee_id' => Auth::id(),
+                'public' => $request->public,
+            ]);
+            if (!$request->public) {
+                $flightRequest->code = FlightRequest::generateCode();
+            }
+            if ($request->public && $flightRequest->code) {
+                $flightRequest->code = null;
+            }
+            $flightRequest->save();
+            $flightRequest->fresh();
+
+            return $this->respondWithObject(new RequestResource($flightRequest));
+        } catch (Exception $e) {
+            return $this->errorInternalError(array($e->getMessage()));
+        }
     }
 
     /**
