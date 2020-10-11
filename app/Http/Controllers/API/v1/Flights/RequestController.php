@@ -124,7 +124,7 @@ class RequestController extends Controller
         }
         if (!$request->public && ($request->acceptee_id == Auth::id() || $request->requestee_id == Auth::id())) {
             return new RequestResource($request);
-        } else if (!$request->public && ($request->acceptee_id != Auth::id() || $request->requestee_id != Auth::id())){
+        } else if (!$request->public && ($request->acceptee_id != Auth::id() || $request->requestee_id != Auth::id())) {
             return $this->errorUnauthorized();
         } else {
             return new RequestResource($request);
@@ -151,6 +151,20 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $request = FlightRequest::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound(array($e->getMessage()));
+        }
+        if ($request->requestee_id == Auth::id()) {
+            try {
+                $request->delete();
+                return $this->respondWithMessage('Resource deleted');
+            } catch (Exception $e) {
+                return $this->errorInternalError(array($e->getMessage()));
+            }
+        } else {
+            return $this->errorUnauthorized();
+        }
     }
 }
