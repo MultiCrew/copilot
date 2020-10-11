@@ -48,7 +48,7 @@ return [
 
         'websocket' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
+            'key' => env('WEBSOCKET_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
             'app_id' => env('WEBSOCKET_APP_ID'),
             'options' => [
