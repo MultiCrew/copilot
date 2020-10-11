@@ -24,6 +24,7 @@ class RequestResource extends JsonResource
             'departure' => $this->departure,
             'arrival' => $this->arrival,
             'created_at' => (string) $this->created_at,
+            'updated_at' => (string) $this->updated_at,
             'expiry' => $this->expiry,
             'aircraft' => new AircraftResource($this->aircraft),
             'requestee' => new UserResource($this->requestee),
