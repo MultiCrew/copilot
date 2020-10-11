@@ -10,6 +10,7 @@ use App\Models\Aircraft\ApprovedAircraft;
 use App\Models\Flights\FlightRequest;
 use App\Models\Users\UserNotification;
 use App\Notifications\NewRequest;
+use App\Notifications\RequestAccepted;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -176,19 +177,55 @@ class RequestController extends Controller
     public function destroy($id)
     {
         try {
-            $request = FlightRequest::findOrFail($id);
+            $flightRequest = FlightRequest::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound(array($e->getMessage()));
         }
-        if ($request->requestee_id == Auth::id()) {
+        if ($flightRequest->requestee_id == Auth::id()) {
             try {
-                $request->delete();
+                $flightRequest->delete();
                 return $this->respondWithMessage('Resource deleted');
             } catch (Exception $e) {
                 return $this->errorInternalError(array($e->getMessage()));
             }
         } else {
             return $this->errorUnauthorized();
+        }
+    }
+
+    /**
+     * Accept a speficied request
+     *
+     * @param int $id
+     * @param string $code
+     * @return \Illuminate\Http\Response
+     */
+    public function accept($id, $code = null)
+    {
+        try {
+            if (!$code) {
+                $flightRequest = FlightRequest::where('id', $id)->whereNull('code')->firstOrFail();
+            } else {
+                $flightRequest = FlightRequest::where('id', $id)->where('code', $code)->firstOrFail();
+            }
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound(array($e->getMessage()));
+        }
+
+        try {
+            if ($flightRequest->isRequestee(Auth::user()) || $flightRequest->isAcceptee(Auth::user())) {
+                return $this->respondWithError('The authenticated user is already a participant of this request', [], 400);
+            } else {
+                $flightRequest->acceptee_id = Auth::id();
+                $flightRequest->save();
+
+                $requestee = $flightRequest->requestee;
+                $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flightRequest));
+
+                return $this->respondWithObject(new RequestResource($flightRequest));
+            }
+        } catch (Exception $e) {
+            return $this->errorInternalError(array($e->getMessage()));
         }
     }
 }

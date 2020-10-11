@@ -96,7 +96,7 @@ class APIController extends Controller
      */
     protected function respondWithError(string $message, array  $errors = [], $errorCode = null)
     {
-        if ($this->statusCode === 200) {
+        if ($this->statusCode === 200 && !$errorCode) {
             trigger_error(
                 "There better be a good reason for this...",
                 E_USER_WARNING
