@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API\v1\Flights;
 
 use App\Http\Controllers\API\APIController as Controller;
-use App\Http\Resources\User;
+use App\Http\Resources\Flights\RequestResource;
+use App\Http\Resources\UserResource;
 use App\Models\Aircraft\ApprovedAircraft;
 use App\Models\Flights\FlightRequest;
 use Exception;
@@ -35,8 +36,8 @@ class RequestController extends Controller
                 $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $query['aircraft'])->pluck('id')->all();
 
                 $data = 
-                    FlightRequest::with('aircraft:id,icao,name,sim', 'requestee:id,username')
-                    ->where('public', 1)
+                    RequestResource::collection(FlightRequest::where('public', 1)
+                    ->whereNull('acceptee_id')
                     ->where(function ($q) use ($query) {
                         foreach ($query['airport'] as $apt) {
                             $q->whereJsonContains('departure', $apt);
@@ -44,13 +45,11 @@ class RequestController extends Controller
                         }
                     })
                     ->orWhereIn('aircraft_id', $aircraftArray)
-                    ->whereNull('acceptee_id')
-                    ->orderBy('id', 'asc')
-                    ->get();
+                    ->orderBy('id')
+                    ->get());
             } else {
                 $data = 
-                    User::collection(FlightRequest::with('aircraft:id,icao,name,sim', 'requestee')
-                        ->where('public', 1)
+                    RequestResource::collection(FlightRequest::where('public', 1)
                         ->whereNull('acceptee_id')
                         ->orderBy('id')
                         ->get());
