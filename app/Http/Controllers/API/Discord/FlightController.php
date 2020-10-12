@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\API\Discord;
 
+use Exception;
+use GuzzleHttp\Client;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Flights\FlightRequest;
 use App\Notifications\RequestAccepted;
 use App\Models\Aircraft\ApprovedAircraft;
+use App\Http\Resources\Flights\RequestResource;
 
 class FlightController extends Controller
 {
@@ -145,6 +149,24 @@ class FlightController extends Controller
 
             $requestee = $flight->requestee;
             $requestee->notify(new RequestAccepted($user, $requestee, $flight));
+
+            try {
+                if ($flight->callback) {
+                    $client = new Client();
+                    $client->post($flight->callback, [
+                        'headers' => [
+                            'Content-Type' => 'application/json'
+                        ],
+                        'body' => new RequestResource($flight),
+                    ]);
+                }
+            } catch (Exception $e) {
+                Log::error('Attempted to send request to callback url', [
+                    'url' => $flight->callback,
+                    'message' => $e->getMessage(),
+                    'error' => $e
+                ]);
+            }
 
             return response()->json([
                 'code' => '200',

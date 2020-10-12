@@ -34,6 +34,7 @@ class UpdateFlightRequestRequest extends FormRequest
             'arrival.*' => 'required|size:4|airport|string',
             'aircraft' => 'required|apiAircraft|string',
             'public' => 'required|boolean',
+            'callback' => 'nullable|url'
         ];
     }
 

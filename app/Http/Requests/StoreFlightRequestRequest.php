@@ -29,7 +29,8 @@ class StoreFlightRequestRequest extends FormRequest
             'departure.*' => 'required|size:4|airport|string',
             'arrival.*' => 'required|size:4|airport|string',
             'aircraft' => 'required|apiAircraft|string',
-            'public' => 'required|boolean'
+            'public' => 'required|boolean',
+            'callback' => 'nullable|url'
         ];
     }
 }

@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\API\v1\Flights;
 
-use App\Http\Controllers\API\APIController as Controller;
-use App\Http\Requests\StoreFlightRequestRequest;
-use App\Http\Requests\UpdateFlightRequestRequest;
-use App\Http\Resources\Flights\RequestResource;
-use App\Models\Aircraft\ApprovedAircraft;
+use Exception;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
+use App\Notifications\NewRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\FlightRequest;
 use App\Models\Users\UserNotification;
-use App\Notifications\NewRequest;
 use App\Notifications\RequestAccepted;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Aircraft\ApprovedAircraft;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\Flights\RequestResource;
+use App\Http\Requests\StoreFlightRequestRequest;
+use App\Http\Requests\UpdateFlightRequestRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Controllers\API\APIController as Controller;
 
 class RequestController extends Controller
 {
@@ -221,6 +223,24 @@ class RequestController extends Controller
 
                 $requestee = $flightRequest->requestee;
                 $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flightRequest));
+
+                try {
+                    if ($flightRequest->callback) {
+                        $client = new Client();
+                        $client->post($flightRequest->callback, [
+                            'headers' => [
+                                'Content-Type' => 'application/json'
+                            ],
+                            'body' => new RequestResource($flightRequest),
+                        ]);
+                    }
+                } catch (Exception $e) {
+                    Log::error('Attempted to send request to callback url', [
+                        'url' => $flightRequest->callback,
+                        'message' => $e->getMessage(),
+                        'error' => $e
+                    ]);
+                }
 
                 return $this->respondWithObject(new RequestResource($flightRequest));
             }
