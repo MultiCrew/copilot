@@ -1,9 +1,13 @@
 <?php
 namespace App\Http\Traits;
 
-use App\Models\Flights\FlightRequest;
+use Exception;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Flights\FlightRequest;
 use App\Notifications\RequestAccepted;
+use App\Http\Resources\Flights\RequestResource;
 
 trait FlightJoinTrait {
 
@@ -25,6 +29,24 @@ trait FlightJoinTrait {
 
         $requestee = $flight->requestee;
         $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flight));
+
+        try {
+            if ($flight->callback) {
+                $client = new Client();
+                $client->post($flight->callback, [
+                    'headers' => [
+                        'Content-Type' => 'application/json'
+                    ],
+                    'body' => new RequestResource($flight),
+                ]);
+            }
+        } catch (Exception $e) {
+            Log::error('Attempted to send request to callback url', [
+                'url' => $flight->callback,
+                'message' => $e->getMessage(),
+                'error' => $e
+            ]);
+        }
 
         return $flight;
     }
