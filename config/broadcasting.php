@@ -30,11 +30,6 @@ return [
 
     'connections' => [
 
-        'multiple' => [
-            'driver' => 'multiple',
-            'connections' => ['pusher', 'websocket'],
-        ],
-
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),
@@ -43,20 +38,6 @@ return [
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
-            ],
-        ],
-
-        'websocket' => [
-            'driver' => 'pusher',
-            'key' => env('WEBSOCKET_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('WEBSOCKET_APP_ID'),
-            'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => true,
-                'host' => '127.0.0.1',
-                'port' => 6001,
-                'scheme' => 'http',
             ],
         ],
 
