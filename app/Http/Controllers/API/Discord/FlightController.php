@@ -83,7 +83,7 @@ class FlightController extends Controller
         if (!$user) {
             return response()->json([
                 'code' => '401',
-                'message' => 'You have not linked your Discord account with Copilot, please visit ' . env('APP_URL') . '/account to link your accounts.'
+                'message' => 'You have not linked your Discord account with Copilot, please visit ' . config('app.url') . '/account to link your accounts.'
             ]);
         }
 
@@ -124,7 +124,7 @@ class FlightController extends Controller
         if (!$user) {
             return response()->json([
                 'code' => '401',
-                'message' => 'You have not linked your Discord account with Copilot, please visit ' . env('APP_URL') . '/account to link your accounts.'
+                'message' => 'You have not linked your Discord account with Copilot, please visit ' . config('app.url') . '/account to link your accounts.'
             ]);
         }
 

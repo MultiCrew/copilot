@@ -283,16 +283,4 @@ return [
         'FlightPlan' => App\Models\Flights\FlightPlan::class,
         'User' => App\Models\Users\User::class,
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Discord Details
-    | --------------------------------------------------------------------------
-    |
-    */
-    'discord_id' => env('DISCORD_CLIENT_ID'),
-	'discord_secret' => env('DISCORD_CLIENT_SECRET'),
-    'discord_redirect' => env('DISCORD_REDIRECT_URI'),
-    'discord_local_id' => env('LOCAL_CLIENT_ID'),
-
 ];

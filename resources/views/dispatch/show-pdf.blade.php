@@ -5,7 +5,7 @@
 <div class="card mb-4">
     <div class="card-body">
         <div class="float-right">
-            @if(url()->previous() == env('APP_URL').'/dispatch')
+            @if(url()->previous() == config('app.url').'/dispatch')
                 <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-info">
                     Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
                 </a>
