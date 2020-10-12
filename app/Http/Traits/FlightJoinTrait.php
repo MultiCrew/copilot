@@ -37,7 +37,7 @@ trait FlightJoinTrait {
                     'headers' => [
                         'Content-Type' => 'application/json'
                     ],
-                    'body' => new RequestResource($flight),
+                    'body' => json_encode(new RequestResource($flight)),
                 ]);
             }
         } catch (Exception $e) {
