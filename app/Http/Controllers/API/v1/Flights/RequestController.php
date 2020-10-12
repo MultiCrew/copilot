@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API\v1\Flights;
 
 use Exception;
-use GuzzleHttp\Client;
+use Lcobucci\JWT\Parser;
+use Laravel\Passport\Token;
 use Illuminate\Http\Request;
+use App\Http\Traits\WebhookTrait;
 use App\Notifications\NewRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +24,7 @@ use App\Http\Controllers\API\APIController as Controller;
 
 class RequestController extends Controller
 {
+    use WebhookTrait;
     /**
      * Display a listing of the resource.
      *
@@ -90,7 +93,19 @@ class RequestController extends Controller
                 'requestee_id' => Auth::id(),
                 'public' => $request->public,
             ]);
-            $flightRequest->callback = $request->callback;
+            
+            if ($request->callback) {
+                $flightRequest->callback = $request->callback;
+
+                try {
+                    $bearerToken = request()->bearerToken();
+                    $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+                    $client = Token::find($tokenId)->client;
+                } catch (Exception $e) {
+                    Log::error($e);
+                }
+                $flightRequest->client_id = $client->id;
+            }
 
             if (!$request->public) {
                 $flightRequest->code = FlightRequest::generateCode();
@@ -156,7 +171,18 @@ class RequestController extends Controller
                 'requestee_id' => Auth::id(),
                 'public' => $request->public,
             ]);
-            $flightRequest->callback = $request->callback;
+            if ($request->callback) {
+                $flightRequest->callback = $request->callback;
+
+                try {
+                    $bearerToken = request()->bearerToken();
+                    $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+                    $client = Token::find($tokenId)->client;
+                } catch (Exception $e) {
+                    Log::error($e);
+                }
+                $flightRequest->client_id = $client->id;
+            }
 
             if (!$request->public) {
                 $flightRequest->code = FlightRequest::generateCode();
@@ -227,22 +253,8 @@ class RequestController extends Controller
                 $requestee = $flightRequest->requestee;
                 $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flightRequest));
 
-                try {
-                    if ($flightRequest->callback) {
-                        $client = new Client();
-                        $client->post($flightRequest->callback, [
-                            'headers' => [
-                                'Content-Type' => 'application/json'
-                            ],
-                            'body' => json_encode(new RequestResource($flightRequest)),
-                        ]);
-                    }
-                } catch (Exception $e) {
-                    Log::error('Attempted to send request to callback url', [
-                        'url' => $flightRequest->callback,
-                        'message' => $e->getMessage(),
-                        'error' => $e
-                    ]);
+                if ($flightRequest->callback) {
+                    $this->requestCall($flightRequest, 'Accepted');
                 }
 
                 return $this->respondWithObject(new RequestResource($flightRequest));

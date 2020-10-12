@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\API\Discord;
 
-use Exception;
-use GuzzleHttp\Client;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Flights\FlightRequest;
 use App\Notifications\RequestAccepted;
 use App\Models\Aircraft\ApprovedAircraft;
-use App\Http\Resources\Flights\RequestResource;
+use App\Http\Traits\WebhookTrait;
 
 class FlightController extends Controller
 {
+    use WebhookTrait;
     /**
      * Search the database for flights, based on a query parameter if given in the request
      * Method can be called either in ajax or PHP, see below
@@ -150,22 +148,8 @@ class FlightController extends Controller
             $requestee = $flight->requestee;
             $requestee->notify(new RequestAccepted($user, $requestee, $flight));
 
-            try {
-                if ($flight->callback) {
-                    $client = new Client();
-                    $client->post($flight->callback, [
-                        'headers' => [
-                            'Content-Type' => 'application/json'
-                        ],
-                        'body' => json_encode(new RequestResource($flight)),
-                    ]);
-                }
-            } catch (Exception $e) {
-                Log::error('Attempted to send request to callback url', [
-                    'url' => $flight->callback,
-                    'message' => $e->getMessage(),
-                    'error' => $e
-                ]);
+            if ($flight->callback) {
+                $this->requestCall($flight, 'Accepted');
             }
 
             return response()->json([

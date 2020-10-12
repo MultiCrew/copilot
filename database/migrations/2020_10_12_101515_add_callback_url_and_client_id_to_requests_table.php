@@ -15,6 +15,7 @@ class AddCallbackUrlToRequestsTable extends Migration
     {
         Schema::table('flight_requests', function (Blueprint $table) {
             $table->string('callback')->nullable();
+            $table->unsignedInteger('client_id')->nullable();
         });
     }
 
@@ -25,7 +26,7 @@ class AddCallbackUrlToRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::table('requests', function (Blueprint $table) {
+        Schema::table('flight_requests', function (Blueprint $table) {
             $table->dropColumn('callback');
         });
     }
