@@ -90,6 +90,8 @@ class RequestController extends Controller
                 'requestee_id' => Auth::id(),
                 'public' => $request->public,
             ]);
+            $flightRequest->callback = $request->callback;
+
             if (!$request->public) {
                 $flightRequest->code = FlightRequest::generateCode();
             }
@@ -147,7 +149,6 @@ class RequestController extends Controller
         try {
             $flightRequest = FlightRequest::findOrFail($id);
             $aircraft = ApprovedAircraft::where('icao', $request->aircraft)->pluck('id')->first();
-
             $flightRequest->fill([
                 'departure' => $request->departure,
                 'arrival' => $request->arrival,
@@ -155,6 +156,8 @@ class RequestController extends Controller
                 'requestee_id' => Auth::id(),
                 'public' => $request->public,
             ]);
+            $flightRequest->callback = $request->callback;
+
             if (!$request->public) {
                 $flightRequest->code = FlightRequest::generateCode();
             }
@@ -231,7 +234,7 @@ class RequestController extends Controller
                             'headers' => [
                                 'Content-Type' => 'application/json'
                             ],
-                            'body' => new RequestResource($flightRequest),
+                            'body' => json_encode(new RequestResource($flightRequest)),
                         ]);
                     }
                 } catch (Exception $e) {
