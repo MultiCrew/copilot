@@ -30,4 +30,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'mapbox' => [
+        'token' => env('MAPBOX_TOKEN')
+    ],
+
+    'discord' => [
+        'id' => env('DISCORD_CLIENT_ID'),
+        'secret' => env('DISCORD_CLIENT_SECRET'),
+        'redirect' => env('DISCORD_REDIRECT_URI'),
+        'local_id' => env('LOCAL_CLIENT_ID'),
+        'bot_url' => env('BOT_URL')
+    ]
+
 ];

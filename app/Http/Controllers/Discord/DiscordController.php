@@ -26,9 +26,9 @@ class DiscordController extends Controller
      */
     public function connect(Request $request) {
 		$provider = new Discord([
-			'clientId' => config('app.discord_id'),
-    		'clientSecret' => config('app.discord_secret'),
-    		'redirectUri' => config('app.discord_redirect')
+			'clientId' => config('services.discord.id'),
+    		'clientSecret' => config('services.discord.secret'),
+    		'redirectUri' => config('services.discord.redirect')
 		]);
 		$options = [
 			'scope' => 'identify'

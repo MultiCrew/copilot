@@ -27,7 +27,7 @@ class CheckDiscordBot
         } catch (Exception $e) {
             Log::error($e);
         }
-        if ($client->id != config('app.discord_local_id')) {
+        if ($client->id != config('services.discord.local_id')) {
             
             Log::info('Access to bot endpoint attempted', [
                 'client' => $client,
