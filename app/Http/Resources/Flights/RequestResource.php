@@ -26,6 +26,7 @@ class RequestResource extends JsonResource
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'expiry' => $this->expiry,
+            'callback' => $this->when(Auth::id() == $this->requestee_id, $this->callback),
             'aircraft' => new AircraftResource($this->aircraft),
             'requestee' => new UserResource($this->requestee),
             'acceptee' => new UserResource($this->acceptee)
