@@ -22,6 +22,11 @@ use App\Http\Requests\UpdateFlightRequestRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\API\APIController as Controller;
 
+/**
+ * @group Flight Requests
+ *
+ * Endpoints for managing flight requests
+ */
 class RequestController extends Controller
 {
     use WebhookTrait;
@@ -93,7 +98,7 @@ class RequestController extends Controller
                 'requestee_id' => Auth::id(),
                 'public' => $request->public,
             ]);
-            
+
             if ($request->callback) {
                 $flightRequest->callback = $request->callback;
 

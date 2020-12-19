@@ -19,8 +19,8 @@
                     </div>
 
                     <div class="form-group">
-                        <h5 class="mb-2"><label>Redirects</label></h5>
-                        <small>You must specify at least one URL for authentication. If you pass a URL in an OAuth
+                        <h5><label>Redirects</label></h5>
+                        <small class="mb-2">You must specify at least one URL for authentication. If you pass a URL in an OAuth
                             request, it must be one of the URLs below. Enter a new URL on a new line.</small>
                         <textarea class="form-control" name="redirect" id="redirect" rows="5" required placeholder="http://example.com&#10;http://another-example.com"></textarea>
                     </div>
@@ -48,7 +48,7 @@
             $.each($('#redirect').val().split(/\n/), function(i, line){
                 if(line && line.includes('http')){
                     lines.push(line);
-                } 
+                }
             });
             var redirectList = lines.join(',');
             var data = {
