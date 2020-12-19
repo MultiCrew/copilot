@@ -39,7 +39,10 @@ return [
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
         'redirect' => env('DISCORD_REDIRECT_URI'),
         'local_id' => env('LOCAL_CLIENT_ID'),
-        'bot_url' => env('BOT_URL')
+        'bot_url' => env('BOT_URL'),
+        'bot_token' => env('BOT_TOKEN'),
+        'base_url' => env('DISCORD_URL', 'https://discord.com/api/v/6'),
+        'guild' => env('DISCORD_GUILD_ID'),
     ]
 
 ];
