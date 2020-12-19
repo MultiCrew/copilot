@@ -12,8 +12,8 @@ Endpoints for managing flight requests
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests" \
-    -H "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    -G "https://multicrew.co.uk/api/v1/requests?aircraft[]=iure&airport[]=aut" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/*"
 ```
@@ -23,8 +23,15 @@ const url = new URL(
     "https://multicrew.co.uk/api/v1/requests"
 );
 
+let params = {
+    "aircraft[]": "iure",
+    "airport[]": "aut",
+};
+Object.keys(params)
+    .forEach(key => url.searchParams.append(key, params[key]));
+
 let headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Authorization": "Bearer {access_token}",
     "Content-Type": "application/json",
     "Accept": "application/*",
 };
@@ -43,9 +50,13 @@ $response = $client->get(
     'https://multicrew.co.uk/api/v1/requests',
     [
         'headers' => [
-            'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
+            'Authorization' => 'Bearer {access_token}',
             'Content-Type' => 'application/json',
             'Accept' => 'application/*',
+        ],
+        'query' => [
+            'aircraft[]'=> 'iure',
+            'airport[]'=> 'aut',
         ],
     ]
 );
@@ -54,22 +65,39 @@ print_r(json_decode((string) $body));
 ```
 
 
-> Example response (302):
+> Example response (200):
 
 ```json
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="refresh" content="0;url='http://multicrew.co.uk/login'" />
-
-        <title>Redirecting to http://multicrew.co.uk/login</title>
-    </head>
-    <body>
-        Redirecting to <a href="http://multicrew.co.uk/login">http://multicrew.co.uk/login</a>.
-    </body>
-</html>
+{
+  "id": 1,
+  "plan_id": null,
+  "public": 1,
+  "departure": [
+      "EGLL"
+  ],
+  "arrival": [
+      "EGPD",
+      "EGPH",
+      "EGPF"
+  ],
+  "created_at": "2020-10-01 18:26:36",
+  "updated_at": "2020-10-01 18:26:36",
+  "expiry": null,
+  "aircraft": {
+      "id": 1,
+      "icao": "B738",
+      "name": "Zibo 737-800",
+      "sim": "X-Plane 11"
+  },
+  "requestee": {
+      "id": 1,
+      "username": "user1"
+  },
+  "acceptee": {
+      "id": 2,
+      "username": "user2"
+  }
 ```
 <div id="execution-results-GETapi-v1-requests" hidden>
     <blockquote>Received response<span id="execution-response-status-GETapi-v1-requests"></span>:</blockquote>
@@ -79,7 +107,7 @@ print_r(json_decode((string) $body));
     <blockquote>Request failed with error:</blockquote>
     <pre><code id="execution-error-message-GETapi-v1-requests"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests" data-method="GET" data-path="api/v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests', this);">
+<form id="form-GETapi-v1-requests" data-method="GET" data-path="api/v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
@@ -90,6 +118,17 @@ print_r(json_decode((string) $body));
 <p>
 <label id="auth-GETapi-v1-requests" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-requests" data-component="header"></label>
 </p>
+<h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+<p>
+<b><code>aircraft[]</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+<input type="text" name="aircraft.0" data-endpoint="GETapi-v1-requests" data-component="query"  hidden>
+<br>
+array An array of aircraft ICAO codes</p>
+<p>
+<b><code>airport[]</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+<input type="text" name="airport.0" data-endpoint="GETapi-v1-requests" data-component="query"  hidden>
+<br>
+array An array of airport ICAO codes</p>
 </form>
 
 
@@ -104,10 +143,10 @@ print_r(json_decode((string) $body));
 ```bash
 curl -X POST \
     "https://multicrew.co.uk/api/v1/requests" \
-    -H "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/*" \
-    -d '{"departure":["perspiciatis","totam"],"arrival":["odio","ut"],"aircraft":"sit","public":false,"callback":"http:\/\/tillman.com\/minima-non-odio-atque.html"}'
+    -d '{"departure":["et","qui"],"arrival":["dolorem","expedita"],"aircraft":"laborum","public":false,"callback":"http:\/\/www.murazik.biz\/praesentium-occaecati-quidem-voluptates-non-fugit-inventore-hic"}'
 
 ```
 
@@ -117,23 +156,23 @@ const url = new URL(
 );
 
 let headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Authorization": "Bearer {access_token}",
     "Content-Type": "application/json",
     "Accept": "application/*",
 };
 
 let body = {
     "departure": [
-        "perspiciatis",
-        "totam"
+        "et",
+        "qui"
     ],
     "arrival": [
-        "odio",
-        "ut"
+        "dolorem",
+        "expedita"
     ],
-    "aircraft": "sit",
+    "aircraft": "laborum",
     "public": false,
-    "callback": "http:\/\/tillman.com\/minima-non-odio-atque.html"
+    "callback": "http:\/\/www.murazik.biz\/praesentium-occaecati-quidem-voluptates-non-fugit-inventore-hic"
 }
 
 fetch(url, {
@@ -150,22 +189,22 @@ $response = $client->post(
     'https://multicrew.co.uk/api/v1/requests',
     [
         'headers' => [
-            'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
+            'Authorization' => 'Bearer {access_token}',
             'Content-Type' => 'application/json',
             'Accept' => 'application/*',
         ],
         'json' => [
             'departure' => [
-                'perspiciatis',
-                'totam',
+                'et',
+                'qui',
             ],
             'arrival' => [
-                'odio',
-                'ut',
+                'dolorem',
+                'expedita',
             ],
-            'aircraft' => 'sit',
+            'aircraft' => 'laborum',
             'public' => false,
-            'callback' => 'http://tillman.com/minima-non-odio-atque.html',
+            'callback' => 'http://www.murazik.biz/praesentium-occaecati-quidem-voluptates-non-fugit-inventore-hic',
         ],
     ]
 );
@@ -182,7 +221,7 @@ print_r(json_decode((string) $body));
     <blockquote>Request failed with error:</blockquote>
     <pre><code id="execution-error-message-POSTapi-v1-requests"></code></pre>
 </div>
-<form id="form-POSTapi-v1-requests" data-method="POST" data-path="api/v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-requests', this);">
+<form id="form-POSTapi-v1-requests" data-method="POST" data-path="api/v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-requests', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
@@ -236,19 +275,19 @@ The value must be a valid URL.</p>
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/et" \
-    -H "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    -G "https://multicrew.co.uk/api/v1/requests/voluptatem" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/*"
 ```
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/et"
+    "https://multicrew.co.uk/api/v1/requests/voluptatem"
 );
 
 let headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Authorization": "Bearer {access_token}",
     "Content-Type": "application/json",
     "Accept": "application/*",
 };
@@ -264,10 +303,10 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/et',
+    'https://multicrew.co.uk/api/v1/requests/voluptatem',
     [
         'headers' => [
-            'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
+            'Authorization' => 'Bearer {access_token}',
             'Content-Type' => 'application/json',
             'Accept' => 'application/*',
         ],
@@ -303,7 +342,7 @@ print_r(json_decode((string) $body));
     <blockquote>Request failed with error:</blockquote>
     <pre><code id="execution-error-message-GETapi-v1-requests--request-"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests--request-" data-method="GET" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--request-', this);">
+<form id="form-GETapi-v1-requests--request-" data-method="GET" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--request-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
@@ -333,37 +372,37 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/veniam" \
-    -H "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    "https://multicrew.co.uk/api/v1/requests/omnis" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/*" \
-    -d '{"departure":["et","illo"],"arrival":["omnis","sit"],"aircraft":"laborum","public":false,"callback":"http:\/\/www.johnston.org\/fugiat-quos-in-hic-alias"}'
+    -d '{"departure":["minus","et"],"arrival":["nihil","officiis"],"aircraft":"deserunt","public":false,"callback":"http:\/\/www.kemmer.com\/dolorum-numquam-quidem-consequatur-voluptas"}'
 
 ```
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/veniam"
+    "https://multicrew.co.uk/api/v1/requests/omnis"
 );
 
 let headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Authorization": "Bearer {access_token}",
     "Content-Type": "application/json",
     "Accept": "application/*",
 };
 
 let body = {
     "departure": [
-        "et",
-        "illo"
+        "minus",
+        "et"
     ],
     "arrival": [
-        "omnis",
-        "sit"
+        "nihil",
+        "officiis"
     ],
-    "aircraft": "laborum",
+    "aircraft": "deserunt",
     "public": false,
-    "callback": "http:\/\/www.johnston.org\/fugiat-quos-in-hic-alias"
+    "callback": "http:\/\/www.kemmer.com\/dolorum-numquam-quidem-consequatur-voluptas"
 }
 
 fetch(url, {
@@ -377,25 +416,25 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://multicrew.co.uk/api/v1/requests/veniam',
+    'https://multicrew.co.uk/api/v1/requests/omnis',
     [
         'headers' => [
-            'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
+            'Authorization' => 'Bearer {access_token}',
             'Content-Type' => 'application/json',
             'Accept' => 'application/*',
         ],
         'json' => [
             'departure' => [
+                'minus',
                 'et',
-                'illo',
             ],
             'arrival' => [
-                'omnis',
-                'sit',
+                'nihil',
+                'officiis',
             ],
-            'aircraft' => 'laborum',
+            'aircraft' => 'deserunt',
             'public' => false,
-            'callback' => 'http://www.johnston.org/fugiat-quos-in-hic-alias',
+            'callback' => 'http://www.kemmer.com/dolorum-numquam-quidem-consequatur-voluptas',
         ],
     ]
 );
@@ -412,7 +451,7 @@ print_r(json_decode((string) $body));
     <blockquote>Request failed with error:</blockquote>
     <pre><code id="execution-error-message-PUTapi-v1-requests--request-"></code></pre>
 </div>
-<form id="form-PUTapi-v1-requests--request-" data-method="PUT" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-requests--request-', this);">
+<form id="form-PUTapi-v1-requests--request-" data-method="PUT" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-requests--request-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
@@ -476,19 +515,19 @@ The value must be a valid URL.</p>
 
 ```bash
 curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/ipsa" \
-    -H "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    "https://multicrew.co.uk/api/v1/requests/commodi" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/*"
 ```
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/ipsa"
+    "https://multicrew.co.uk/api/v1/requests/commodi"
 );
 
 let headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Authorization": "Bearer {access_token}",
     "Content-Type": "application/json",
     "Accept": "application/*",
 };
@@ -504,10 +543,10 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->delete(
-    'https://multicrew.co.uk/api/v1/requests/ipsa',
+    'https://multicrew.co.uk/api/v1/requests/commodi',
     [
         'headers' => [
-            'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
+            'Authorization' => 'Bearer {access_token}',
             'Content-Type' => 'application/json',
             'Accept' => 'application/*',
         ],
@@ -526,7 +565,7 @@ print_r(json_decode((string) $body));
     <blockquote>Request failed with error:</blockquote>
     <pre><code id="execution-error-message-DELETEapi-v1-requests--request-"></code></pre>
 </div>
-<form id="form-DELETEapi-v1-requests--request-" data-method="DELETE" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-requests--request-', this);">
+<form id="form-DELETEapi-v1-requests--request-" data-method="DELETE" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-requests--request-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
@@ -556,19 +595,19 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/ratione/accept/qui" \
-    -H "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    -G "https://multicrew.co.uk/api/v1/requests/aperiam/accept/repudiandae" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/*"
 ```
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/ratione/accept/qui"
+    "https://multicrew.co.uk/api/v1/requests/aperiam/accept/repudiandae"
 );
 
 let headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Authorization": "Bearer {access_token}",
     "Content-Type": "application/json",
     "Accept": "application/*",
 };
@@ -584,10 +623,10 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/ratione/accept/qui',
+    'https://multicrew.co.uk/api/v1/requests/aperiam/accept/repudiandae',
     [
         'headers' => [
-            'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
+            'Authorization' => 'Bearer {access_token}',
             'Content-Type' => 'application/json',
             'Accept' => 'application/*',
         ],
@@ -623,7 +662,7 @@ print_r(json_decode((string) $body));
     <blockquote>Request failed with error:</blockquote>
     <pre><code id="execution-error-message-GETapi-v1-requests--id--accept--code--"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests--id--accept--code--" data-method="GET" data-path="api/v1/requests/{id}/accept/{code?}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--id--accept--code--', this);">
+<form id="form-GETapi-v1-requests--id--accept--code--" data-method="GET" data-path="api/v1/requests/{id}/accept/{code?}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/*"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--id--accept--code--', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
