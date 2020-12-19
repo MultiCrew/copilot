@@ -221,7 +221,7 @@
                 <dd>Not connected</dd>
             </dl>
 
-            <a class="btn btn-lg btn-primary" role="button" href="{{ route('home.connect') }}">
+            <a class="btn btn-lg btn-primary" role="button" href="{{ route('home.discord.redirect') }}">
                 <i class="fas fa-link mr-2"></i>Connect to Discord
             </a>
             @else
@@ -230,7 +230,7 @@
                 <dd>Connected to Discord with Client ID: {{ $user->discord_id }}</dd>
             </dl>
 
-            <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.disconnect') }}">
+            <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.discord.disconnect') }}">
                 <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
             </a>
             @endif
