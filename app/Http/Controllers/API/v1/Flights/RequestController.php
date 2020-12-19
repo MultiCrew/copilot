@@ -35,6 +35,39 @@ class RequestController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     *
+     * @queryParam aircraft[] array An array of aircraft ICAO codes
+     * @queryParam airport[] array An array of airport ICAO codes
+     *
+     * @response {
+     *   "id": 1,
+     *   "plan_id": null,
+     *   "public": 1,
+     *   "departure": [
+     *       "EGLL"
+     *   ],
+     *   "arrival": [
+     *       "EGPD",
+     *       "EGPH",
+     *       "EGPF"
+     *   ],
+     *   "created_at": "2020-10-01 18:26:36",
+     *   "updated_at": "2020-10-01 18:26:36",
+     *   "expiry": null,
+     *   "aircraft": {
+     *       "id": 1,
+     *       "icao": "B738",
+     *       "name": "Zibo 737-800",
+     *       "sim": "X-Plane 11"
+     *   },
+     *   "requestee": {
+     *       "id": 1,
+     *       "username": "user1"
+     *   },
+     *   "acceptee": {
+     *       "id": 2,
+     *       "username": "user2"
+     *   }
      */
     public function index(Request $request)
     {
