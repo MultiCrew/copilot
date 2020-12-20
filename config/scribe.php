@@ -66,7 +66,7 @@ return [
                  */
                 'headers' => [
                     'Content-Type' => 'application/json',
-                    'Accept' => 'application/*',
+                    'Accept' => 'application/json',
                 ],
 
                 /*
