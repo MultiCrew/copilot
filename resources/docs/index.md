@@ -13,11 +13,9 @@ includes:
 - "./errors.md"
 - "./append.md"
 
-logo: img/logo_long_dark.png
+logo: img/logo_long_light.png
 
 toc_footers:
-- <a href="./collection.json">View Postman collection</a>
-- <a href="./openapi.yaml">View OpenAPI (Swagger) spec</a>
 - <a href='http://github.com/knuckleswtf/scribe'>Documentation powered by Scribe ✍</a>
 
 ---
@@ -26,7 +24,7 @@ toc_footers:
 
 
 
-This documentation aims to provide all the information you need to work with our API.
+This documentation aims to provide all the information you need to use the MultiCrew API.
 
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
 You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>

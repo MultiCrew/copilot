@@ -26,7 +26,7 @@
       </span>
 </a>
 <div class="tocify-wrapper">
-        <img src="img/logo_long_dark.png" alt="logo" class="logo" style="padding-top: 10px;" width="230px"/>
+        <img src="img/logo_long_light.png" alt="logo" class="logo" style="padding-top: 10px;" width="230px"/>
                 <div class="lang-selector">
                             <a href="#" data-language-name="bash">bash</a>
                             <a href="#" data-language-name="javascript">javascript</a>
@@ -41,8 +41,6 @@
     </ul>
 
             <ul class="toc-footer" id="toc-footer">
-                            <li><a href="{{ route("scribe.postman") }}">View Postman collection</a></li>
-                            <li><a href="{{ route("scribe.openapi") }}">View OpenAPI (Swagger) spec</a></li>
                             <li><a href='http://github.com/knuckleswtf/scribe'>Documentation powered by Scribe ✍</a></li>
                     </ul>
             <ul class="toc-footer" id="last-updated">
@@ -53,7 +51,7 @@
     <div class="dark-box"></div>
     <div class="content">
         <h1>Introduction</h1>
-<p>This documentation aims to provide all the information you need to work with our API.</p>
+<p>This documentation aims to provide all the information you need to use the MultiCrew API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
 You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
 <blockquote>
@@ -96,20 +94,16 @@ You can switch the language used with the tabs at the top right (or from the nav
 </thead>
 <tbody>
 <tr>
-<td>identity</td>
-<td>some description</td>
-</tr>
-<tr>
 <td>email</td>
-<td>some description</td>
+<td>adds the authenticated user's email to the user object</td>
 </tr>
 <tr>
 <td>request</td>
-<td>flight request description</td>
+<td>create flight requests on behalf of the user</td>
 </tr>
 <tr>
 <td>manage</td>
-<td>manage request description</td>
+<td>manage flight requests on behalf of the user</td>
 </tr>
 </tbody>
 </table><h1>Flight Requests</h1>
@@ -400,12 +394,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/3" \
+    -G "https://multicrew.co.uk/api/v1/requests/5" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/3"
+    "https://multicrew.co.uk/api/v1/requests/5"
 );
 
 let headers = {
@@ -421,7 +415,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/3',
+    'https://multicrew.co.uk/api/v1/requests/5',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -495,14 +489,14 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/15" \
+    "https://multicrew.co.uk/api/v1/requests/12" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/15"
+    "https://multicrew.co.uk/api/v1/requests/12"
 );
 
 let headers = {
@@ -529,7 +523,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/requests/15',
+    'https://multicrew.co.uk/api/v1/requests/12',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -643,12 +637,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/5" \
+    "https://multicrew.co.uk/api/v1/requests/18" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/5"
+    "https://multicrew.co.uk/api/v1/requests/18"
 );
 
 let headers = {
@@ -664,7 +658,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;delete(
-    'https://multicrew.co.uk/api/v1/requests/5',
+    'https://multicrew.co.uk/api/v1/requests/18',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -715,12 +709,12 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/13/accept/aut" \
+    -G "https://multicrew.co.uk/api/v1/requests/18/accept/ipsum" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/13/accept/aut"
+    "https://multicrew.co.uk/api/v1/requests/18/accept/ipsum"
 );
 
 let headers = {
@@ -736,7 +730,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/13/accept/aut',
+    'https://multicrew.co.uk/api/v1/requests/18/accept/ipsum',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
