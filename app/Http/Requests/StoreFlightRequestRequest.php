@@ -4,6 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @bodyParam departure string[] An array of all the departure ICAO codes, leave blank for no preference. Example: ["EGLL", "EGKK"]
+ * @bodyParam arrival string[] An array of all the arrival ICAO codes, leave blank for no preference. No-example
+ * @bodyParam aircraft string required An ICAO code for the requested aircraft. Example: A320
+ * @bodyParam public boolean required Whether the request should be public or not. Example: true
+ * @bodyParam callback string The full URL to receive notifications for this request. Example: example.com
+ */
 class StoreFlightRequestRequest extends FormRequest
 {
     /**
