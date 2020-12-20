@@ -61,7 +61,7 @@ class RequestController extends Controller
                 $aircraftArray = ApprovedAircraft::where('approved', 1)->whereIn('icao', $query['aircraft'])->pluck('id')->all();
 
                 $data =
-                RequestResource::collection(FlightRequest::where('public', 1)
+                    RequestResource::collection(FlightRequest::where('public', 1)
                         ->whereNull('acceptee_id')
                         ->where(function ($q) use ($query) {
                             foreach ($query['airport'] as $apt) {
@@ -74,14 +74,13 @@ class RequestController extends Controller
                         ->get());
             } else {
                 $data =
-                RequestResource::collection(FlightRequest::where('public', 1)
+                    RequestResource::collection(FlightRequest::where('public', 1)
                         ->whereNull('acceptee_id')
                         ->orderBy('id')
                         ->get());
             }
 
             return $this->respondWithObject($data);
-
         } catch (Exception $e) {
             return $this->errorInternalError(array($e->getMessage()));
         }
@@ -103,52 +102,55 @@ class RequestController extends Controller
      */
     public function store(StoreFlightRequestRequest $request)
     {
-        try {
-            $aircraft = ApprovedAircraft::where('icao', $request->aircraft)->pluck('id')->first();
+        if ($request->user()->tokenCan('request.create')) {
+            try {
+                $aircraft = ApprovedAircraft::where('icao', $request->aircraft)->pluck('id')->first();
 
-            $flightRequest = new FlightRequest();
-            $flightRequest->fill([
-                'departure' => $request->departure,
-                'arrival' => $request->arrival,
-                'aircraft_id' => $aircraft,
-                'requestee_id' => Auth::id(),
-                'public' => $request->public,
-            ]);
+                $flightRequest = new FlightRequest();
+                $flightRequest->fill([
+                    'departure' => $request->departure,
+                    'arrival' => $request->arrival,
+                    'aircraft_id' => $aircraft,
+                    'requestee_id' => Auth::id(),
+                    'public' => $request->public,
+                ]);
 
-            if ($request->callback) {
-                $flightRequest->callback = $request->callback;
+                if ($request->callback) {
+                    $flightRequest->callback = $request->callback;
 
-                try {
-                    $bearerToken = request()->bearerToken();
-                    $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
-                    $client = Token::find($tokenId)->client;
-                } catch (Exception $e) {
-                    Log::error($e);
+                    try {
+                        $bearerToken = request()->bearerToken();
+                        $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+                        $client = Token::find($tokenId)->client;
+                    } catch (Exception $e) {
+                        Log::error($e);
+                    }
+                    $flightRequest->client_id = $client->id;
                 }
-                $flightRequest->client_id = $client->id;
+
+                if (!$request->public) {
+                    $flightRequest->code = FlightRequest::generateCode();
+                }
+                $flightRequest->save();
+
+                $users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
+                    ->orWhereJsonContains('new_request->airports', $request->arrival)
+                    ->orWhereJsonContains('new_request->aircrafts', $aircraft)
+                    ->where('user_id', '!=', Auth::id())
+                    ->with('user')
+                    ->get()
+                    ->pluck('user')
+                    ->flatten();
+                Notification::send($users, new NewRequest(Auth::user(), $flightRequest));
+                $flightRequest->fresh();
+
+                return $this->respondWithObject(new RequestResource($flightRequest));
+            } catch (Exception $e) {
+                return $this->errorInternalError(array($e->getMessage()));
             }
-
-            if (!$request->public) {
-                $flightRequest->code = FlightRequest::generateCode();
-            }
-            $flightRequest->save();
-
-            $users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
-                ->orWhereJsonContains('new_request->airports', $request->arrival)
-                ->orWhereJsonContains('new_request->aircrafts', $aircraft)
-                ->where('user_id', '!=', Auth::id())
-                ->with('user')
-                ->get()
-                ->pluck('user')
-                ->flatten();
-            Notification::send($users, new NewRequest(Auth::user(), $flightRequest));
-            $flightRequest->fresh();
-
-            return $this->respondWithObject(new RequestResource($flightRequest));
-        } catch (Exception $e) {
-            return $this->errorInternalError(array($e->getMessage()));
+        } else {
+            return $this->errorUnauthorized(['INVALID_SCOPE']);
         }
-
     }
 
     /**
@@ -194,41 +196,45 @@ class RequestController extends Controller
      */
     public function update(UpdateFlightRequestRequest $request, $id)
     {
-        try {
-            $flightRequest = FlightRequest::findOrFail($id);
-            $aircraft = ApprovedAircraft::where('icao', $request->aircraft)->pluck('id')->first();
-            $flightRequest->fill([
-                'departure' => $request->departure,
-                'arrival' => $request->arrival,
-                'aircraft_id' => $aircraft,
-                'requestee_id' => Auth::id(),
-                'public' => $request->public,
-            ]);
-            if ($request->callback) {
-                $flightRequest->callback = $request->callback;
+        if (Auth::user()->tokenCan('request.manage')) {
+            try {
+                $flightRequest = FlightRequest::findOrFail($id);
+                $aircraft = ApprovedAircraft::where('icao', $request->aircraft)->pluck('id')->first();
+                $flightRequest->fill([
+                    'departure' => $request->departure,
+                    'arrival' => $request->arrival,
+                    'aircraft_id' => $aircraft,
+                    'requestee_id' => Auth::id(),
+                    'public' => $request->public,
+                ]);
+                if ($request->callback) {
+                    $flightRequest->callback = $request->callback;
 
-                try {
-                    $bearerToken = request()->bearerToken();
-                    $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
-                    $client = Token::find($tokenId)->client;
-                } catch (Exception $e) {
-                    Log::error($e);
+                    try {
+                        $bearerToken = request()->bearerToken();
+                        $tokenId = (new Parser())->parse($bearerToken)->getClaim('jti');
+                        $client = Token::find($tokenId)->client;
+                    } catch (Exception $e) {
+                        Log::error($e);
+                    }
+                    $flightRequest->client_id = $client->id;
                 }
-                $flightRequest->client_id = $client->id;
-            }
 
-            if (!$request->public) {
-                $flightRequest->code = FlightRequest::generateCode();
-            }
-            if ($request->public && $flightRequest->code) {
-                $flightRequest->code = null;
-            }
-            $flightRequest->save();
-            $flightRequest->fresh();
+                if (!$request->public) {
+                    $flightRequest->code = FlightRequest::generateCode();
+                }
+                if ($request->public && $flightRequest->code) {
+                    $flightRequest->code = null;
+                }
+                $flightRequest->save();
+                $flightRequest->fresh();
 
-            return $this->respondWithObject(new RequestResource($flightRequest));
-        } catch (Exception $e) {
-            return $this->errorInternalError(array($e->getMessage()));
+                return $this->respondWithObject(new RequestResource($flightRequest));
+            } catch (Exception $e) {
+                return $this->errorInternalError(array($e->getMessage()));
+            }
+        } else {
+            return $this->errorUnauthorized(['INVALID_SCOPE']);
         }
     }
 
@@ -245,20 +251,24 @@ class RequestController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $flightRequest = FlightRequest::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            return $this->errorNotFound(array($e->getMessage()));
-        }
-        if ($flightRequest->requestee_id == Auth::id()) {
+        if (Auth::user()->tokenCan('request.manage')) {
             try {
-                $flightRequest->delete();
-                return $this->respondWithMessage('Resource deleted');
-            } catch (Exception $e) {
-                return $this->errorInternalError(array($e->getMessage()));
+                $flightRequest = FlightRequest::findOrFail($id);
+            } catch (ModelNotFoundException $e) {
+                return $this->errorNotFound(array($e->getMessage()));
+            }
+            if ($flightRequest->requestee_id == Auth::id()) {
+                try {
+                    $flightRequest->delete();
+                    return $this->respondWithMessage('Resource deleted');
+                } catch (Exception $e) {
+                    return $this->errorInternalError(array($e->getMessage()));
+                }
+            } else {
+                return $this->errorUnauthorized();
             }
         } else {
-            return $this->errorUnauthorized();
+            return $this->errorUnauthorized(['INVALID_SCOPE']);
         }
     }
 
@@ -279,34 +289,38 @@ class RequestController extends Controller
      */
     public function accept($id, $code = null)
     {
-        try {
-            if (!$code) {
-                $flightRequest = FlightRequest::where('id', $id)->whereNull('code')->firstOrFail();
-            } else {
-                $flightRequest = FlightRequest::where('id', $id)->where('code', $code)->firstOrFail();
-            }
-        } catch (ModelNotFoundException $e) {
-            return $this->errorNotFound(array($e->getMessage()));
-        }
-
-        try {
-            if ($flightRequest->isRequestee(Auth::user()) || $flightRequest->isAcceptee(Auth::user())) {
-                return $this->respondWithError('The authenticated user is already a participant of this request', [], 400);
-            } else {
-                $flightRequest->acceptee_id = Auth::id();
-                $flightRequest->save();
-
-                $requestee = $flightRequest->requestee;
-                $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flightRequest));
-
-                if ($flightRequest->callback) {
-                    $this->requestCall($flightRequest, 'Accepted');
+        if (Auth::user()->tokenCan('request.manage')) {
+            try {
+                if (!$code) {
+                    $flightRequest = FlightRequest::where('id', $id)->whereNull('code')->firstOrFail();
+                } else {
+                    $flightRequest = FlightRequest::where('id', $id)->where('code', $code)->firstOrFail();
                 }
-
-                return $this->respondWithObject(new RequestResource($flightRequest));
+            } catch (ModelNotFoundException $e) {
+                return $this->errorNotFound(array($e->getMessage()));
             }
-        } catch (Exception $e) {
-            return $this->errorInternalError(array($e->getMessage()));
+
+            try {
+                if ($flightRequest->isRequestee(Auth::user()) || $flightRequest->isAcceptee(Auth::user())) {
+                    return $this->respondWithError('The authenticated user is already a participant of this request', [], 400);
+                } else {
+                    $flightRequest->acceptee_id = Auth::id();
+                    $flightRequest->save();
+
+                    $requestee = $flightRequest->requestee;
+                    $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flightRequest));
+
+                    if ($flightRequest->callback) {
+                        $this->requestCall($flightRequest, 'Accepted');
+                    }
+
+                    return $this->respondWithObject(new RequestResource($flightRequest));
+                }
+            } catch (Exception $e) {
+                return $this->errorInternalError(array($e->getMessage()));
+            }
+        } else {
+            return $this->errorUnauthorized(['INVALID_SCOPE']);
         }
     }
 }

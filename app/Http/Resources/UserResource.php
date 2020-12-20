@@ -18,7 +18,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'email' => $this->when($request->user()->tokenCan('email') && Auth::id() == $this->id, $this->email),
+            'email' => $this->when($request->user()->tokenCan('user.email') && Auth::id() == $this->id, $this->email),
         ];
     }
 }
