@@ -7,6 +7,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
     - uses: actions/checkout@v2
@@ -30,4 +31,17 @@ jobs:
         host: ${{ secrets.SERVER_IP }}
         username: ${{ secrets.LARAVEL_USERNAME }}
         password: ${{ secrets.LARAVEL_PASSWORD }}
-        script: 'cd /var/www/copilot-dev && ./deploy-dev.sh'
+        script: |
+          cd /var/www/copilot-dev
+          echo "Deploying application ..."
+          (php artisan down) || true
+            git fetch origin dev
+            git reset --hard origin/dev
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+            npm install
+            npm run prod
+            php artisan optimize
+          php artisan up
+          echo "Application deployed!"
+

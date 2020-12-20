@@ -30,4 +30,16 @@ jobs:
         host: ${{ secrets.SERVER_IP }}
         username: ${{ secrets.LARAVEL_USERNAME }}
         password: ${{ secrets.LARAVEL_PASSWORD }}
-        script: 'cd /var/www/copilot && ./deploy-master.sh'
+        script: |
+          cd /var/www/copilot
+          echo "Deploying application ..."
+          (php artisan down) || true
+            git fetch origin master
+            git reset --hard origin/master
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+            npm install
+            npm run prod
+            php artisan optimize
+          php artisan up
+          echo "Application deployed!"
