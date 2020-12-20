@@ -32,7 +32,9 @@ class RequestController extends Controller
     use WebhookTrait;
 
     /**
-     * Display a listing of the resource.
+     * Search Requests
+     *
+     * Search for all flight requests or narrow down the search using the optional paramaters
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -86,7 +88,15 @@ class RequestController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a Request
+     *
+     * Create a new public or private Flight Request.
+     *
+     * Include the optional `callback` parameter to get notified when the request is accepted.
+     *
+     * Note: Either `departure` or `arrival` must have at least 1 ICAO code for the request to be stored.
+     *
+     * @responseFile responses/request.json
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
