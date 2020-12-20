@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
             'user.email' => 'View your email address',
             'user.update' => 'Update your user information',
             'request.create' => 'Create flight requests on your behalf',
-            'request.manage' => 'Manage, including accept and reject, flight requests on your behalf',
+            'request.manage' => 'Manage, including accept and delete, flight requests on your behalf',
         ]);
     }
 }
