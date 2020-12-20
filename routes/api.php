@@ -30,5 +30,8 @@ Route::group([
         Route::apiResource('requests', 'RequestController');
         Route::get('requests/{request}/accept/{code?}')->uses('RequestController@accept');
     });
+    Route::group(['namespace' => 'Users', 'prefix' => 'users'], function () {
+        Route::apiResource('/', 'UserController')->except(['destroy', 'store']);
+    });
     // API Routes here
 });
