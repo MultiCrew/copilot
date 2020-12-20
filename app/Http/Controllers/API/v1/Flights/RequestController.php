@@ -39,8 +39,8 @@ class RequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      *
-     * @queryParam aircraft[] array An array of aircraft ICAO codes
-     * @queryParam airport[] array An array of airport ICAO codes
+     * @queryParam aircraft string[] An array of aircraft ICAO codes. Example: ["A318"]
+     * @queryParam airport string[] An array of airport ICAO codes. Example: ["EGKK", "EHAM"]
      *
      * @responseFile responses/request.index.json
      */
