@@ -12,7 +12,7 @@ Search for all flight requests or narrow down the search using the optional para
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests?aircraft[]=et&airport[]=iusto" \
+    -G "https://multicrew.co.uk/api/v1/requests?aircraft[]=B737&airport[]=EGKK" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -24,8 +24,8 @@ const url = new URL(
 );
 
 let params = {
-    "aircraft[]": "et",
-    "airport[]": "iusto",
+    "aircraft[]": "B737",
+    "airport[]": "EGKK",
 };
 Object.keys(params)
     .forEach(key => url.searchParams.append(key, params[key]));
@@ -55,8 +55,8 @@ $response = $client->get(
             'Accept' => 'application/json',
         ],
         'query' => [
-            'aircraft[]'=> 'et',
-            'airport[]'=> 'iusto',
+            'aircraft[]'=> 'B737',
+            'airport[]'=> 'EGKK',
         ],
     ]
 );
@@ -143,15 +143,17 @@ print_r(json_decode((string) $body));
 </p>
 <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
 <p>
-<b><code>aircraft[]</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+<b><code>aircraft</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
 <input type="text" name="aircraft.0" data-endpoint="GETapi-v1-requests" data-component="query"  hidden>
+<input type="text" name="aircraft.1" data-endpoint="GETapi-v1-requests" data-component="query" hidden>
 <br>
-array An array of aircraft ICAO codes</p>
+An array of aircraft ICAO codes.</p>
 <p>
-<b><code>airport[]</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+<b><code>airport</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
 <input type="text" name="airport.0" data-endpoint="GETapi-v1-requests" data-component="query"  hidden>
+<input type="text" name="airport.1" data-endpoint="GETapi-v1-requests" data-component="query" hidden>
 <br>
-array An array of airport ICAO codes</p>
+An array of airport ICAO codes.</p>
 </form>
 
 
@@ -247,7 +249,7 @@ print_r(json_decode((string) $body));
     "created_at": "2020-01-01 00:00:00",
     "updated_at": "2020-01-01 00:00:00",
     "expiry": null,
-    "callback": "http:\/\/example.com",
+    "callback": "example.com",
     "aircraft": {
         "id": 1,
         "icao": "A320",
@@ -323,7 +325,7 @@ The full URL to receive notifications for this request.</p>
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/nemo" \
+    -G "https://multicrew.co.uk/api/v1/requests/explicabo" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -331,7 +333,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/nemo"
+    "https://multicrew.co.uk/api/v1/requests/explicabo"
 );
 
 let headers = {
@@ -351,7 +353,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/nemo',
+    'https://multicrew.co.uk/api/v1/requests/explicabo',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -410,17 +412,17 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/voluptatum" \
+    "https://multicrew.co.uk/api/v1/requests/sint" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"departure":["aut","non"],"arrival":["tenetur","ut"],"aircraft":"eum","public":false,"callback":"https:\/\/www.oconnell.com\/qui-occaecati-non-quis-aliquid-omnis-id"}'
+    -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 
 ```
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/voluptatum"
+    "https://multicrew.co.uk/api/v1/requests/sint"
 );
 
 let headers = {
@@ -431,16 +433,12 @@ let headers = {
 
 let body = {
     "departure": [
-        "aut",
-        "non"
+        "EGLL",
+        "EGKK"
     ],
-    "arrival": [
-        "tenetur",
-        "ut"
-    ],
-    "aircraft": "eum",
-    "public": false,
-    "callback": "https:\/\/www.oconnell.com\/qui-occaecati-non-quis-aliquid-omnis-id"
+    "aircraft": "A320",
+    "public": true,
+    "callback": "example.com"
 }
 
 fetch(url, {
@@ -454,7 +452,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://multicrew.co.uk/api/v1/requests/voluptatum',
+    'https://multicrew.co.uk/api/v1/requests/sint',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -463,16 +461,12 @@ $response = $client->put(
         ],
         'json' => [
             'departure' => [
-                'aut',
-                'non',
+                'EGLL',
+                'EGKK',
             ],
-            'arrival' => [
-                'tenetur',
-                'ut',
-            ],
-            'aircraft' => 'eum',
-            'public' => false,
-            'callback' => 'https://www.oconnell.com/qui-occaecati-non-quis-aliquid-omnis-id',
+            'aircraft' => 'A320',
+            'public' => true,
+            'callback' => 'example.com',
         ],
     ]
 );
@@ -512,33 +506,33 @@ print_r(json_decode((string) $body));
 </p>
 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
 <p>
-<b><code>departure</code></b>&nbsp;&nbsp;<small>string[]</small>  &nbsp;
-<input type="text" name="departure.0" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required  hidden>
+<b><code>departure</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
+<input type="text" name="departure.0" data-endpoint="PUTapi-v1-requests--request-" data-component="body"  hidden>
 <input type="text" name="departure.1" data-endpoint="PUTapi-v1-requests--request-" data-component="body" hidden>
 <br>
-</p>
+An array of all the departure ICAO codes, leave blank for no preference.</p>
 <p>
-<b><code>arrival</code></b>&nbsp;&nbsp;<small>string[]</small>  &nbsp;
-<input type="text" name="arrival.0" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required  hidden>
+<b><code>arrival</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
+<input type="text" name="arrival.0" data-endpoint="PUTapi-v1-requests--request-" data-component="body"  hidden>
 <input type="text" name="arrival.1" data-endpoint="PUTapi-v1-requests--request-" data-component="body" hidden>
 <br>
-</p>
+An array of all the arrival ICAO codes, leave blank for no preference.</p>
 <p>
 <b><code>aircraft</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
 <input type="text" name="aircraft" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required  hidden>
 <br>
-</p>
+An ICAO code for the requested aircraft.</p>
 <p>
 <b><code>public</code></b>&nbsp;&nbsp;<small>boolean</small>  &nbsp;
 <label data-endpoint="PUTapi-v1-requests--request-" hidden><input type="radio" name="public" value="true" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required ><code>true</code></label>
 <label data-endpoint="PUTapi-v1-requests--request-" hidden><input type="radio" name="public" value="false" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required ><code>false</code></label>
 <br>
-</p>
+Whether the request should be public or not.</p>
 <p>
 <b><code>callback</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
 <input type="text" name="callback" data-endpoint="PUTapi-v1-requests--request-" data-component="body"  hidden>
 <br>
-The value must be a valid URL.</p>
+The full URL to receive notifications for this request.</p>
 
 </form>
 
@@ -553,7 +547,7 @@ The value must be a valid URL.</p>
 
 ```bash
 curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/doloremque" \
+    "https://multicrew.co.uk/api/v1/requests/sapiente" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -561,7 +555,7 @@ curl -X DELETE \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/doloremque"
+    "https://multicrew.co.uk/api/v1/requests/sapiente"
 );
 
 let headers = {
@@ -581,7 +575,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->delete(
-    'https://multicrew.co.uk/api/v1/requests/doloremque',
+    'https://multicrew.co.uk/api/v1/requests/sapiente',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -633,7 +627,7 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/modi/accept/et" \
+    -G "https://multicrew.co.uk/api/v1/requests/reprehenderit/accept/non" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -641,7 +635,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/modi/accept/et"
+    "https://multicrew.co.uk/api/v1/requests/reprehenderit/accept/non"
 );
 
 let headers = {
@@ -661,7 +655,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/modi/accept/et',
+    'https://multicrew.co.uk/api/v1/requests/reprehenderit/accept/non',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
