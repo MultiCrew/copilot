@@ -102,7 +102,7 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/users/ratione" \
+    -G "https://multicrew.co.uk/api/v1/users/12" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -110,7 +110,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/ratione"
+    "https://multicrew.co.uk/api/v1/users/12"
 );
 
 let headers = {
@@ -130,7 +130,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/users/ratione',
+    'https://multicrew.co.uk/api/v1/users/12',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -182,10 +182,10 @@ print_r(json_decode((string) $body));
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
-<b><code>user</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="user" data-endpoint="GETapi-v1-users--user-" data-component="url" required  hidden>
+<b><code>user</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+<input type="number" name="user" data-endpoint="GETapi-v1-users--user-" data-component="url" required  hidden>
 <br>
-</p>
+The ID of the user</p>
 </form>
 
 
@@ -193,13 +193,13 @@ print_r(json_decode((string) $body));
 
 <small class="badge badge-darkred">requires authentication</small>
 
-
+// TODO implement user updating along with add comments
 
 > Example request:
 
 ```bash
 curl -X PUT \
-    "https://multicrew.co.uk/api/v1/users/provident" \
+    "https://multicrew.co.uk/api/v1/users/distinctio" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -207,7 +207,7 @@ curl -X PUT \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/provident"
+    "https://multicrew.co.uk/api/v1/users/distinctio"
 );
 
 let headers = {
@@ -227,7 +227,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://multicrew.co.uk/api/v1/users/provident',
+    'https://multicrew.co.uk/api/v1/users/distinctio',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
