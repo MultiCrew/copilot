@@ -167,6 +167,8 @@ Include the optional `callback` parameter to get notified when the request is ac
 
 Note: Either `departure` or `arrival` must have at least 1 ICAO code for the request to be stored.
 
+*Requires `request.create` scope*
+
 > Example request:
 
 ```bash
@@ -325,7 +327,7 @@ The full URL to receive notifications for this request.</p>
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/14" \
+    -G "https://multicrew.co.uk/api/v1/requests/1" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -333,7 +335,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/14"
+    "https://multicrew.co.uk/api/v1/requests/1"
 );
 
 let headers = {
@@ -353,7 +355,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/14',
+    'https://multicrew.co.uk/api/v1/requests/1',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -434,11 +436,13 @@ Include the optional callback parameter to get notified when the request is acce
 
 Note: Either departure or arrival must have at least 1 ICAO code for the request to be stored.
 
+*Requires `request.manage` scope*
+
 > Example request:
 
 ```bash
 curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/16" \
+    "https://multicrew.co.uk/api/v1/requests/20" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -448,7 +452,7 @@ curl -X PUT \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/16"
+    "https://multicrew.co.uk/api/v1/requests/20"
 );
 
 let headers = {
@@ -478,7 +482,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://multicrew.co.uk/api/v1/requests/16',
+    'https://multicrew.co.uk/api/v1/requests/20',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -596,13 +600,13 @@ The full URL to receive notifications for this request.</p>
 
 <small class="badge badge-darkred">requires authentication</small>
 
-
+*Requires `request.manage` scope*
 
 > Example request:
 
 ```bash
 curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/14" \
+    "https://multicrew.co.uk/api/v1/requests/17" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -610,7 +614,7 @@ curl -X DELETE \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/14"
+    "https://multicrew.co.uk/api/v1/requests/17"
 );
 
 let headers = {
@@ -630,7 +634,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->delete(
-    'https://multicrew.co.uk/api/v1/requests/14',
+    'https://multicrew.co.uk/api/v1/requests/17',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -685,13 +689,15 @@ The ID of the Request</p>
 
 Accept a public or private Request.
 
-Note: To accept a private Request, a valid `code` must be passed with the request
+Note: To accept a private Request, a valid `code` must be passed with the request.
+
+*Requires `request.manage` scope*
 
 > Example request:
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/17/accept/qui" \
+    -G "https://multicrew.co.uk/api/v1/requests/14/accept/quae" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -699,7 +705,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/17/accept/qui"
+    "https://multicrew.co.uk/api/v1/requests/14/accept/quae"
 );
 
 let headers = {
@@ -719,7 +725,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/17/accept/qui',
+    'https://multicrew.co.uk/api/v1/requests/14/accept/quae',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',

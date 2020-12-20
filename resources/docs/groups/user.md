@@ -102,7 +102,7 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/users/14" \
+    -G "https://multicrew.co.uk/api/v1/users/9" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -110,7 +110,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/14"
+    "https://multicrew.co.uk/api/v1/users/9"
 );
 
 let headers = {
@@ -130,7 +130,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/users/14',
+    'https://multicrew.co.uk/api/v1/users/9',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -199,7 +199,7 @@ TODO implement user updating along with add comments
 
 ```bash
 curl -X PUT \
-    "https://multicrew.co.uk/api/v1/users/18" \
+    "https://multicrew.co.uk/api/v1/users/7" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -207,7 +207,7 @@ curl -X PUT \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/18"
+    "https://multicrew.co.uk/api/v1/users/7"
 );
 
 let headers = {
@@ -227,7 +227,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://multicrew.co.uk/api/v1/users/18',
+    'https://multicrew.co.uk/api/v1/users/7',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',

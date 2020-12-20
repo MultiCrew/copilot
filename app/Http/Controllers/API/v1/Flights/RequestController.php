@@ -95,6 +95,8 @@ class RequestController extends Controller
      *
      * Note: Either `departure` or `arrival` must have at least 1 ICAO code for the request to be stored.
      *
+     * *Requires `request.create` scope*
+     *
      * @responseFile responses/request.json
      *
      * @param  \Illuminate\Http\Request  $request
@@ -187,6 +189,8 @@ class RequestController extends Controller
 
      * Note: Either departure or arrival must have at least 1 ICAO code for the request to be stored.
      *
+     * *Requires `request.manage` scope*
+     *
      * @urlParam request integer required The ID of the Request
      * @responseFile responses/request.json
      *
@@ -241,6 +245,8 @@ class RequestController extends Controller
     /**
      * Remove a Request
      *
+     * *Requires `request.manage` scope*
+     *
      * @urlParam request integer required The ID of the Request
      * @response {
      *      "message": "Resource deleted"
@@ -277,7 +283,9 @@ class RequestController extends Controller
      *
      * Accept a public or private Request.
      *
-     * Note: To accept a private Request, a valid `code` must be passed with the request
+     * Note: To accept a private Request, a valid `code` must be passed with the request.
+     *
+     * *Requires `request.manage` scope*
      *
      * @urlParam request integer required The ID of the Request
      * @urlParam code string The code required to accept a private Request
