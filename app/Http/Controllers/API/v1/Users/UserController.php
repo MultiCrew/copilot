@@ -54,7 +54,7 @@ class UserController extends Controller
     /**
      * Update the specified User
      *
-     * // TODO implement user updating along with add comments
+     * TODO implement user updating along with add comments
      *
      * @urlParam user integer required The ID of the user
      *

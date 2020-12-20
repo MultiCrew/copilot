@@ -1,8 +1,12 @@
-# Authenticating requests
+# Authenticating Requests
 
 This API is secured using the OAuth2 authorization flow.
 
-The steps below will detail how to setup your applicaiton in order to perform authorized requests to this API.
+All authenticated endpoints are marked with a `requires authentication` badge in the documentation below.
+
+## Authenticating Your Application
+
+The steps below will detail how to setup your application in order to perform authorized requests to this API.
 
 1. Create a client on the [MultiCrew API Page](http://localhost:8000/account#api).
 2. Copy the `Client ID` and `Client Secret`, these are what will be used to create access tokens.
@@ -15,8 +19,6 @@ The steps below will detail how to setup your applicaiton in order to perform au
 
 4. When implementing your client, use the `/oauth/authorize` endpoint for user authorization and `/oauth/tokens` endpoint to get all the authorized tokens for a user.
 5. Once your client is setup you will need to send a request containing the header `Authorization: Bearer access_token` where `access_token` is the user specific token you have received using the OAuth2 flow.
-
-All authenticated endpoints are marked with a `requires authentication` badge in the documentation below.
 
 ## Query Scopes
 
