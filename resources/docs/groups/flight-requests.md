@@ -12,7 +12,7 @@ Search for all flight requests or narrow down the search using the optional para
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests?aircraft[]=B737&airport[]=EGKK" \
+    -G "https://multicrew.co.uk/api/v1/requests?aircraft[]=A318&airport[]=EGKK" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -24,7 +24,7 @@ const url = new URL(
 );
 
 let params = {
-    "aircraft[]": "B737",
+    "aircraft[]": "A318",
     "airport[]": "EGKK",
 };
 Object.keys(params)
@@ -55,7 +55,7 @@ $response = $client->get(
             'Accept' => 'application/json',
         ],
         'query' => [
-            'aircraft[]'=> 'B737',
+            'aircraft[]'=> 'A318',
             'airport[]'=> 'EGKK',
         ],
     ]
@@ -315,7 +315,7 @@ The full URL to receive notifications for this request.</p>
 </form>
 
 
-## Display the specified resource.
+## Get a specific Request
 
 <small class="badge badge-darkred">requires authentication</small>
 
@@ -325,7 +325,7 @@ The full URL to receive notifications for this request.</p>
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/explicabo" \
+    -G "https://multicrew.co.uk/api/v1/requests/accusamus" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -333,7 +333,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/explicabo"
+    "https://multicrew.co.uk/api/v1/requests/accusamus"
 );
 
 let headers = {
@@ -353,7 +353,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/explicabo',
+    'https://multicrew.co.uk/api/v1/requests/accusamus',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -367,11 +367,33 @@ print_r(json_decode((string) $body));
 ```
 
 
-> Example response (401):
+> Example response (200):
 
 ```json
 {
-    "message": "Unauthenticated."
+    "id": 1,
+    "plan_id": null,
+    "public": 1,
+    "departure": [
+        "EGLL",
+        "EGKK"
+    ],
+    "arrival": null,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "expiry": null,
+    "callback": "example.com",
+    "aircraft": {
+        "id": 1,
+        "icao": "A320",
+        "name": "Aerosoft Airbus A320 Professional",
+        "sim": "P3D v4"
+    },
+    "requestee": {
+        "id": 1,
+        "username": "user1"
+    },
+    "acceptee": null
 }
 ```
 <div id="execution-results-GETapi-v1-requests--request-" hidden>
@@ -402,7 +424,7 @@ print_r(json_decode((string) $body));
 </form>
 
 
-## Update the specified resource in storage.
+## Update a Request
 
 <small class="badge badge-darkred">requires authentication</small>
 
@@ -412,7 +434,7 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/sint" \
+    "https://multicrew.co.uk/api/v1/requests/omnis" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -422,7 +444,7 @@ curl -X PUT \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/sint"
+    "https://multicrew.co.uk/api/v1/requests/omnis"
 );
 
 let headers = {
@@ -452,7 +474,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://multicrew.co.uk/api/v1/requests/sint',
+    'https://multicrew.co.uk/api/v1/requests/omnis',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -475,6 +497,35 @@ print_r(json_decode((string) $body));
 ```
 
 
+> Example response (200):
+
+```json
+{
+    "id": 1,
+    "plan_id": null,
+    "public": 1,
+    "departure": [
+        "EGLL",
+        "EGKK"
+    ],
+    "arrival": null,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "expiry": null,
+    "callback": "example.com",
+    "aircraft": {
+        "id": 1,
+        "icao": "A320",
+        "name": "Aerosoft Airbus A320 Professional",
+        "sim": "P3D v4"
+    },
+    "requestee": {
+        "id": 1,
+        "username": "user1"
+    },
+    "acceptee": null
+}
+```
 <div id="execution-results-PUTapi-v1-requests--request-" hidden>
     <blockquote>Received response<span id="execution-response-status-PUTapi-v1-requests--request-"></span>:</blockquote>
     <pre class="json"><code id="execution-response-content-PUTapi-v1-requests--request-"></code></pre>
@@ -537,7 +588,7 @@ The full URL to receive notifications for this request.</p>
 </form>
 
 
-## Remove the specified resource from storage.
+## Remove a Request
 
 <small class="badge badge-darkred">requires authentication</small>
 
@@ -547,7 +598,7 @@ The full URL to receive notifications for this request.</p>
 
 ```bash
 curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/sapiente" \
+    "https://multicrew.co.uk/api/v1/requests/incidunt" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -555,7 +606,7 @@ curl -X DELETE \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/sapiente"
+    "https://multicrew.co.uk/api/v1/requests/incidunt"
 );
 
 let headers = {
@@ -575,7 +626,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->delete(
-    'https://multicrew.co.uk/api/v1/requests/sapiente',
+    'https://multicrew.co.uk/api/v1/requests/incidunt',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -589,6 +640,13 @@ print_r(json_decode((string) $body));
 ```
 
 
+> Example response (200):
+
+```json
+{
+    "message": "Resource deleted"
+}
+```
 <div id="execution-results-DELETEapi-v1-requests--request-" hidden>
     <blockquote>Received response<span id="execution-response-status-DELETEapi-v1-requests--request-"></span>:</blockquote>
     <pre class="json"><code id="execution-response-content-DELETEapi-v1-requests--request-"></code></pre>
@@ -617,7 +675,7 @@ print_r(json_decode((string) $body));
 </form>
 
 
-## Accept a speficied request
+## Accept a speficied Request
 
 <small class="badge badge-darkred">requires authentication</small>
 
@@ -627,7 +685,7 @@ print_r(json_decode((string) $body));
 
 ```bash
 curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/reprehenderit/accept/non" \
+    -G "https://multicrew.co.uk/api/v1/requests/iusto/accept/distinctio" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -635,7 +693,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/reprehenderit/accept/non"
+    "https://multicrew.co.uk/api/v1/requests/iusto/accept/distinctio"
 );
 
 let headers = {
@@ -655,7 +713,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://multicrew.co.uk/api/v1/requests/reprehenderit/accept/non',
+    'https://multicrew.co.uk/api/v1/requests/iusto/accept/distinctio',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -669,11 +727,33 @@ print_r(json_decode((string) $body));
 ```
 
 
-> Example response (401):
+> Example response (200):
 
 ```json
 {
-    "message": "Unauthenticated."
+    "id": 1,
+    "plan_id": null,
+    "public": 1,
+    "departure": [
+        "EGLL",
+        "EGKK"
+    ],
+    "arrival": null,
+    "created_at": "2020-01-01 00:00:00",
+    "updated_at": "2020-01-01 00:00:00",
+    "expiry": null,
+    "callback": "example.com",
+    "aircraft": {
+        "id": 1,
+        "icao": "A320",
+        "name": "Aerosoft Airbus A320 Professional",
+        "sim": "P3D v4"
+    },
+    "requestee": {
+        "id": 1,
+        "username": "user1"
+    },
+    "acceptee": null
 }
 ```
 <div id="execution-results-GETapi-v1-requests--id--accept--code--" hidden>

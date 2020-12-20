@@ -152,7 +152,9 @@ class RequestController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Get a specific Request
+     *
+     * @responseFile responses/request.json
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -174,7 +176,9 @@ class RequestController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a Request
+     *
+     * @responseFile responses/request.json
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -221,7 +225,11 @@ class RequestController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove a Request
+     *
+     * @response {
+     *      "message": "Resource deleted"
+     * }
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -246,7 +254,9 @@ class RequestController extends Controller
     }
 
     /**
-     * Accept a speficied request
+     * Accept a speficied Request
+     *
+     * @responseFile responses/request.json
      *
      * @param int $id
      * @param string $code
