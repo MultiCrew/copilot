@@ -57,7 +57,45 @@ You can switch the language used with the tabs at the top right (or from the nav
 <blockquote>
 <p>Base URL</p>
 </blockquote>
-<pre><code class="language-yaml">https://multicrew.co.uk</code></pre><h1>Authenticating Requests</h1>
+<pre><code class="language-yaml">https://multicrew.co.uk</code></pre><h1>Webhook Calls</h1>
+<h2>Webhook Signing</h2>
+<p>All Webhook Calls are signed using the sha256 hash, combining the Webhook payload with your client <code>secret</code></p>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre><code class="language-json">{
+    "type": "Accepted",
+    "request": {
+        "id": 1,
+        "plan_id": null,
+        "code": "7Ag5h0lYC0",
+        "public": 0,
+        "departure": [
+            "EGKK"
+        ],
+        "arrival": [
+            "EGPD"
+        ],
+        "created_at": "2020-01-01 00:00:00",
+        "updated_at": "2020-01-01 00:00:00",
+        "expiry": null,
+        "aircraft": {
+            "id": 2,
+            "icao": "A320",
+            "name": "FlightFactor A320 Ultimate",
+            "sim": "X-Plane 11"
+        },
+        "requestee": {
+            "id": 1,
+            "username": "user1"
+        },
+        "acceptee": {
+            "id": 2,
+            "username": "user2",
+            "email": "user@test.com"
+        }
+    }
+}</code></pre><h1>Authenticating Requests</h1>
 <p>This API is secured using the OAuth2 authorization flow.</p>
 <p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
 <h2>Authenticating Your Application</h2>
@@ -400,12 +438,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/1" \
+    -G "https://multicrew.co.uk/api/v1/requests/2" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/1"
+    "https://multicrew.co.uk/api/v1/requests/2"
 );
 
 let headers = {
@@ -421,7 +459,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/1',
+    'https://multicrew.co.uk/api/v1/requests/2',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -496,14 +534,14 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/20" \
+    "https://multicrew.co.uk/api/v1/requests/18" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/20"
+    "https://multicrew.co.uk/api/v1/requests/18"
 );
 
 let headers = {
@@ -530,7 +568,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/requests/20',
+    'https://multicrew.co.uk/api/v1/requests/18',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -645,12 +683,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/17" \
+    "https://multicrew.co.uk/api/v1/requests/11" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/17"
+    "https://multicrew.co.uk/api/v1/requests/11"
 );
 
 let headers = {
@@ -666,7 +704,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;delete(
-    'https://multicrew.co.uk/api/v1/requests/17',
+    'https://multicrew.co.uk/api/v1/requests/11',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -718,12 +756,12 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/14/accept/quae" \
+    -G "https://multicrew.co.uk/api/v1/requests/9/accept/et" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/14/accept/quae"
+    "https://multicrew.co.uk/api/v1/requests/9/accept/et"
 );
 
 let headers = {
@@ -739,7 +777,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/14/accept/quae',
+    'https://multicrew.co.uk/api/v1/requests/9/accept/et',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -888,12 +926,12 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/users/9" \
+    -G "https://multicrew.co.uk/api/v1/users/19" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/9"
+    "https://multicrew.co.uk/api/v1/users/19"
 );
 
 let headers = {
@@ -909,7 +947,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/users/9',
+    'https://multicrew.co.uk/api/v1/users/19',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -968,12 +1006,12 @@ The ID of the user</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/users/7" \
+    "https://multicrew.co.uk/api/v1/users/9" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/7"
+    "https://multicrew.co.uk/api/v1/users/9"
 );
 
 let headers = {
@@ -989,7 +1027,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/users/7',
+    'https://multicrew.co.uk/api/v1/users/9',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
