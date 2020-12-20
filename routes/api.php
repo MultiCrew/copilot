@@ -28,7 +28,7 @@ Route::group([
 ], function () {
     Route::group(['namespace' => 'Flights'], function () {
         Route::apiResource('requests', 'RequestController');
-        Route::get('requests/{id}/accept/{code?}')->uses('RequestController@accept');
+        Route::get('requests/{request}/accept/{code?}')->uses('RequestController@accept');
     });
     // API Routes here
 });
