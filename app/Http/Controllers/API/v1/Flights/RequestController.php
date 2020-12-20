@@ -168,11 +168,11 @@ class RequestController extends Controller
             return $this->errorNotFound(array($e->getMessage()));
         }
         if (!$request->public && ($request->acceptee_id == Auth::id() || $request->requestee_id == Auth::id())) {
-            return new RequestResource($request);
+            return $this->respondWithObject(new RequestResource($request));
         } else if (!$request->public && ($request->acceptee_id != Auth::id() || $request->requestee_id != Auth::id())) {
             return $this->errorUnauthorized();
         } else {
-            return new RequestResource($request);
+            return $this->respondWithObject(new RequestResource($request));
         }
     }
 
