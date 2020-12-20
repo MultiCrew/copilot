@@ -154,6 +154,7 @@ class RequestController extends Controller
     /**
      * Get a specific Request
      *
+     * @urlParam request integer required The ID of the Request
      * @responseFile responses/request.json
      *
      * @param  int  $id
@@ -178,6 +179,13 @@ class RequestController extends Controller
     /**
      * Update a Request
      *
+     * Update a public or private Flight Request.
+
+     * Include the optional callback parameter to get notified when the request is accepted.
+
+     * Note: Either departure or arrival must have at least 1 ICAO code for the request to be stored.
+     *
+     * @urlParam request integer required The ID of the Request
      * @responseFile responses/request.json
      *
      * @param  \Illuminate\Http\Request  $request
@@ -227,6 +235,7 @@ class RequestController extends Controller
     /**
      * Remove a Request
      *
+     * @urlParam request integer required The ID of the Request
      * @response {
      *      "message": "Resource deleted"
      * }
@@ -254,8 +263,14 @@ class RequestController extends Controller
     }
 
     /**
-     * Accept a speficied Request
+     * Accept a Request
      *
+     * Accept a public or private Request.
+     *
+     * Note: To accept a private Request, a valid `code` must be passed with the request
+     *
+     * @urlParam request integer required The ID of the Request
+     * @urlParam code string The code required to accept a private Request
      * @responseFile responses/request.json
      *
      * @param int $id

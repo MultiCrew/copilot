@@ -400,12 +400,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/accusamus" \
+    -G "https://multicrew.co.uk/api/v1/requests/3" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/accusamus"
+    "https://multicrew.co.uk/api/v1/requests/3"
 );
 
 let headers = {
@@ -421,7 +421,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/accusamus',
+    'https://multicrew.co.uk/api/v1/requests/3',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -481,25 +481,28 @@ print_r(json_decode((string) $body));</code></pre>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
-<b><code>request</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="request" data-endpoint="GETapi-v1-requests--request-" data-component="url" required  hidden>
+<b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+<input type="number" name="request" data-endpoint="GETapi-v1-requests--request-" data-component="url" required  hidden>
 <br>
-</p>
+The ID of the Request</p>
 </form>
 <h2>Update a Request</h2>
 <p><small class="badge badge-darkred">requires authentication</small></p>
+<p>Update a public or private Flight Request.</p>
+<p>Include the optional callback parameter to get notified when the request is accepted.</p>
+<p>Note: Either departure or arrival must have at least 1 ICAO code for the request to be stored.</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/omnis" \
+    "https://multicrew.co.uk/api/v1/requests/15" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/omnis"
+    "https://multicrew.co.uk/api/v1/requests/15"
 );
 
 let headers = {
@@ -526,7 +529,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/requests/omnis',
+    'https://multicrew.co.uk/api/v1/requests/15',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -599,10 +602,10 @@ print_r(json_decode((string) $body));</code></pre>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
-<b><code>request</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="request" data-endpoint="PUTapi-v1-requests--request-" data-component="url" required  hidden>
+<b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+<input type="number" name="request" data-endpoint="PUTapi-v1-requests--request-" data-component="url" required  hidden>
 <br>
-</p>
+The ID of the Request</p>
 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
 <p>
 <b><code>departure</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
@@ -640,12 +643,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/incidunt" \
+    "https://multicrew.co.uk/api/v1/requests/5" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/incidunt"
+    "https://multicrew.co.uk/api/v1/requests/5"
 );
 
 let headers = {
@@ -661,7 +664,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;delete(
-    'https://multicrew.co.uk/api/v1/requests/incidunt',
+    'https://multicrew.co.uk/api/v1/requests/5',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -699,23 +702,25 @@ print_r(json_decode((string) $body));</code></pre>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
-<b><code>request</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="request" data-endpoint="DELETEapi-v1-requests--request-" data-component="url" required  hidden>
+<b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+<input type="number" name="request" data-endpoint="DELETEapi-v1-requests--request-" data-component="url" required  hidden>
 <br>
-</p>
+The ID of the Request</p>
 </form>
-<h2>Accept a speficied Request</h2>
+<h2>Accept a Request</h2>
 <p><small class="badge badge-darkred">requires authentication</small></p>
+<p>Accept a public or private Request.</p>
+<p>Note: To accept a private Request, a valid <code>code</code> must be passed with the request</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/iusto/accept/distinctio" \
+    -G "https://multicrew.co.uk/api/v1/requests/13/accept/aut" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/iusto/accept/distinctio"
+    "https://multicrew.co.uk/api/v1/requests/13/accept/aut"
 );
 
 let headers = {
@@ -731,7 +736,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/iusto/accept/distinctio',
+    'https://multicrew.co.uk/api/v1/requests/13/accept/aut',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -770,36 +775,36 @@ print_r(json_decode((string) $body));</code></pre>
     },
     "acceptee": null
 }</code></pre>
-<div id="execution-results-GETapi-v1-requests--id--accept--code--" hidden>
-    <blockquote>Received response<span id="execution-response-status-GETapi-v1-requests--id--accept--code--"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-requests--id--accept--code--"></code></pre>
+<div id="execution-results-GETapi-v1-requests--request--accept--code--" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETapi-v1-requests--request--accept--code--"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-requests--request--accept--code--"></code></pre>
 </div>
-<div id="execution-error-GETapi-v1-requests--id--accept--code--" hidden>
+<div id="execution-error-GETapi-v1-requests--request--accept--code--" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-requests--id--accept--code--"></code></pre>
+    <pre><code id="execution-error-message-GETapi-v1-requests--request--accept--code--"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests--id--accept--code--" data-method="GET" data-path="api/v1/requests/{id}/accept/{code?}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--id--accept--code--', this);">
+<form id="form-GETapi-v1-requests--request--accept--code--" data-method="GET" data-path="api/v1/requests/{request}/accept/{code?}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--request--accept--code--', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-green">GET</small>
- <b><code>api/v1/requests/{id}/accept/{code?}</code></b>
+ <b><code>api/v1/requests/{request}/accept/{code?}</code></b>
 </p>
 <p>
-<label id="auth-GETapi-v1-requests--id--accept--code--" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-requests--id--accept--code--" data-component="header"></label>
+<label id="auth-GETapi-v1-requests--request--accept--code--" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
-<b><code>id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="id" data-endpoint="GETapi-v1-requests--id--accept--code--" data-component="url" required  hidden>
+<b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+<input type="number" name="request" data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="url" required  hidden>
 <br>
-</p>
+The ID of the Request</p>
 <p>
 <b><code>code</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-<input type="text" name="code" data-endpoint="GETapi-v1-requests--id--accept--code--" data-component="url"  hidden>
+<input type="text" name="code" data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="url"  hidden>
 <br>
-</p>
+The code required to accept a private Request</p>
 </form>
     </div>
     <div class="dark-box">
