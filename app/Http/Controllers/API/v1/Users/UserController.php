@@ -34,6 +34,8 @@ class UserController extends Controller
     /**
      * Get a specified User
      *
+     * @urlParam user integer required The ID of the user
+     *
      * @responseFile responses/user.json
      * @responseFile scenario="when using the email scope" responses/user.email.json
      *
@@ -42,13 +44,19 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        try {
+            return $this->respondWithObject(new UserResource($user));
+        } catch (ModelNotFoundException $e) {
+            return $this->errorNotFound(array($e->getMessage()));
+        }
     }
 
     /**
      * Update the specified User
      *
      * // TODO implement user updating along with add comments
+     *
+     * @urlParam user integer required The ID of the user
      *
      * @responseFile responses/user.json
      * @responseFile scenario="when using the email scope" responses/user.email.json
