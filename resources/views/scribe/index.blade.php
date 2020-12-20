@@ -394,12 +394,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/5" \
+    -G "https://multicrew.co.uk/api/v1/requests/20" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/5"
+    "https://multicrew.co.uk/api/v1/requests/20"
 );
 
 let headers = {
@@ -415,7 +415,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/5',
+    'https://multicrew.co.uk/api/v1/requests/20',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -489,14 +489,14 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/12" \
+    "https://multicrew.co.uk/api/v1/requests/19" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/12"
+    "https://multicrew.co.uk/api/v1/requests/19"
 );
 
 let headers = {
@@ -523,7 +523,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/requests/12',
+    'https://multicrew.co.uk/api/v1/requests/19',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -637,12 +637,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/18" \
+    "https://multicrew.co.uk/api/v1/requests/1" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/18"
+    "https://multicrew.co.uk/api/v1/requests/1"
 );
 
 let headers = {
@@ -658,7 +658,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;delete(
-    'https://multicrew.co.uk/api/v1/requests/18',
+    'https://multicrew.co.uk/api/v1/requests/1',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -709,12 +709,12 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/18/accept/ipsum" \
+    -G "https://multicrew.co.uk/api/v1/requests/4/accept/labore" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/18/accept/ipsum"
+    "https://multicrew.co.uk/api/v1/requests/4/accept/labore"
 );
 
 let headers = {
@@ -730,7 +730,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/18/accept/ipsum',
+    'https://multicrew.co.uk/api/v1/requests/4/accept/labore',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -799,6 +799,241 @@ The ID of the Request</p>
 <input type="text" name="code" data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="url"  hidden>
 <br>
 The code required to accept a private Request</p>
+</form><h1>User</h1>
+<h2>Get the authenticated User</h2>
+<p><small class="badge badge-darkred">requires authentication</small></p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "https://multicrew.co.uk/api/v1/users" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "https://multicrew.co.uk/api/v1/users"
+);
+
+let headers = {
+    "Authorization": "Bearer {access_token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://multicrew.co.uk/api/v1/users',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {access_token}',
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "username": "user1"
+}</code></pre>
+<blockquote>
+<p>Example response (200, when using the email scope):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "username": "user1",
+    "email": "user1@example.com"
+}</code></pre>
+<div id="execution-results-GETapi-v1-users" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETapi-v1-users"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-users"></code></pre>
+</div>
+<div id="execution-error-GETapi-v1-users" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-users"></code></pre>
+</div>
+<form id="form-GETapi-v1-users" data-method="GET" data-path="api/v1/users" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users', this);">
+<h3>
+    Request&nbsp;&nbsp;&nbsp;
+    </h3>
+<p>
+<small class="badge badge-green">GET</small>
+ <b><code>api/v1/users</code></b>
+</p>
+<p>
+<label id="auth-GETapi-v1-users" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-users" data-component="header"></label>
+</p>
+</form>
+<h2>Get a specified User</h2>
+<p><small class="badge badge-darkred">requires authentication</small></p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "https://multicrew.co.uk/api/v1/users/ratione" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "https://multicrew.co.uk/api/v1/users/ratione"
+);
+
+let headers = {
+    "Authorization": "Bearer {access_token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://multicrew.co.uk/api/v1/users/ratione',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {access_token}',
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "username": "user1"
+}</code></pre>
+<blockquote>
+<p>Example response (200, when using the email scope):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "username": "user1",
+    "email": "user1@example.com"
+}</code></pre>
+<div id="execution-results-GETapi-v1-users--user-" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETapi-v1-users--user-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-users--user-"></code></pre>
+</div>
+<div id="execution-error-GETapi-v1-users--user-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-users--user-"></code></pre>
+</div>
+<form id="form-GETapi-v1-users--user-" data-method="GET" data-path="api/v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users--user-', this);">
+<h3>
+    Request&nbsp;&nbsp;&nbsp;
+    </h3>
+<p>
+<small class="badge badge-green">GET</small>
+ <b><code>api/v1/users/{user}</code></b>
+</p>
+<p>
+<label id="auth-GETapi-v1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-users--user-" data-component="header"></label>
+</p>
+<h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+<p>
+<b><code>user</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+<input type="text" name="user" data-endpoint="GETapi-v1-users--user-" data-component="url" required  hidden>
+<br>
+</p>
+</form>
+<h2>Update the specified User</h2>
+<p><small class="badge badge-darkred">requires authentication</small></p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT \
+    "https://multicrew.co.uk/api/v1/users/provident" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "https://multicrew.co.uk/api/v1/users/provident"
+);
+
+let headers = {
+    "Authorization": "Bearer {access_token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;put(
+    'https://multicrew.co.uk/api/v1/users/provident',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {access_token}',
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "username": "user1"
+}</code></pre>
+<blockquote>
+<p>Example response (200, when using the email scope):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "id": 1,
+    "username": "user1",
+    "email": "user1@example.com"
+}</code></pre>
+<div id="execution-results-PUTapi-v1-users--user-" hidden>
+    <blockquote>Received response<span id="execution-response-status-PUTapi-v1-users--user-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-users--user-"></code></pre>
+</div>
+<div id="execution-error-PUTapi-v1-users--user-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-users--user-"></code></pre>
+</div>
+<form id="form-PUTapi-v1-users--user-" data-method="PUT" data-path="api/v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-users--user-', this);">
+<h3>
+    Request&nbsp;&nbsp;&nbsp;
+    </h3>
+<p>
+<small class="badge badge-darkblue">PUT</small>
+ <b><code>api/v1/users/{user}</code></b>
+</p>
+<p>
+<small class="badge badge-purple">PATCH</small>
+ <b><code>api/v1/users/{user}</code></b>
+</p>
+<p>
+<label id="auth-PUTapi-v1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTapi-v1-users--user-" data-component="header"></label>
+</p>
+<h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+<p>
+<b><code>user</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+<input type="text" name="user" data-endpoint="PUTapi-v1-users--user-" data-component="url" required  hidden>
+<br>
+</p>
 </form>
     </div>
     <div class="dark-box">

@@ -14,9 +14,10 @@ use App\Http\Resources\UserResource;
 class UserController extends Controller
 {
     /**
-     * Get the Authenticated User
+     * Get the authenticated User
      *
-     * @responseFile
+     * @responseFile responses/user.json
+     * @responseFile scenario="when using the email scope" responses/user.email.json
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -27,11 +28,14 @@ class UserController extends Controller
             return $this->errorNotFound(array($e->getMessage()));
         }
 
-        return new UserResource($user);
+        return $this->respondWithObject(new UserResource($user));
     }
 
     /**
-     * Get the specified User
+     * Get a specified User
+     *
+     * @responseFile responses/user.json
+     * @responseFile scenario="when using the email scope" responses/user.email.json
      *
      * @param  \App\Models\Users\User  $user
      * @return \Illuminate\Http\Response
@@ -43,6 +47,11 @@ class UserController extends Controller
 
     /**
      * Update the specified User
+     *
+     * // TODO implement user updating along with add comments
+     *
+     * @responseFile responses/user.json
+     * @responseFile scenario="when using the email scope" responses/user.email.json
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Users\User  $user
