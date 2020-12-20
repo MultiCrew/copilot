@@ -22,7 +22,6 @@ All authenticated endpoints are marked with a `requires authentication` badge in
 
 | Name | Description |
 | -------|--------|
-|identity|some description|
-|email| some description|
-|request| flight request description|
-|manage| manage request description|
+|email|adds the authenticated user's email to the user object |
+|request|create flight requests on behalf of the user|
+|manage|manage flight requests on behalf of the user|
