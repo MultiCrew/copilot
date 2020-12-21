@@ -253,16 +253,18 @@
             <div class="card-columns">
                 @foreach ($tokens as $token)
                 <div class="card shadow cursor-pointer h-100" id="card-{{$token['id']}}">
-                    <a onclick="revokeToken({{json_encode($token['id'])}})" class="stretched-link text-decoration-none">
-                        <div class="card-body">
+                    <div class="card-body">
+                        <a onclick="showConfirmation({{json_encode($token['id'])}})" href="javascript:void(0)">
                             <div class="card-title">
                                 {{$token['client']['name']}}
                             </div>
-                        </div>
-                        <div class="card-footer text-muted">
-                            {{Carbon\Carbon::parse($token['created_at'])->format('d/m/Y')}}
-                        </div>
-                    </a>
+                        </a>
+                        <button hidden id="confirm-{{$token['id']}}" type="button" class="btn btn-danger"
+                            onclick="revokeToken({{json_encode($token['id'])}})">Confirm</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{Carbon\Carbon::parse($token['created_at'])->format('d/m/Y')}}
+                    </div>
                 </div>
                 @endforeach
             </div>
@@ -503,6 +505,10 @@
         client.redirect = client.redirect.replaceAll(',', '\n')
         $('#client_show_redirect').val(client.redirect);
         $('#showClientModal').modal('show')
+    }
+
+    function showConfirmation(token) {
+        $(`#confirm-${token}`).removeAttr('hidden');
     }
 
     function revokeToken(token) {
