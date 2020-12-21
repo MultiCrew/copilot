@@ -11,7 +11,7 @@
 
 ```bash
 curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/users/19" \
+    -G "https://api.multicrew.co.uk/v1/users/12" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -19,7 +19,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api.multicrew.co.uk/v1/users/19"
+    "https://api.multicrew.co.uk/v1/users/12"
 );
 
 let headers = {
@@ -39,7 +39,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api.multicrew.co.uk/v1/users/19',
+    'https://api.multicrew.co.uk/v1/users/12',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -193,7 +193,7 @@ print_r(json_decode((string) $body));
 
 <small class="badge badge-darkred">requires authentication</small>
 
-TODO implement updating user profiles
+*Requires `user.manage` and `user.email` scope*
 
 > Example request:
 

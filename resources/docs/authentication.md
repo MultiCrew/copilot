@@ -25,6 +25,6 @@ The steps below will detail how to setup your application in order to perform au
 | Name | Description |
 | -------|--------|
 |user.email|Adds the authenticated User's email to the User object |
-|user.update|Update the authenticated User|
+|user.manage|Update the authenticated User|
 |request.create|Create Flight Requests on behalf of the User|
 |request.manage|Manage Flight Requests on behalf of the User|

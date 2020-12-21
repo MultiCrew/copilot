@@ -137,7 +137,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 <td>Adds the authenticated User's email to the User object</td>
 </tr>
 <tr>
-<td>user.update</td>
+<td>user.manage</td>
 <td>Update the authenticated User</td>
 </tr>
 <tr>
@@ -438,12 +438,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/requests/20" \
+    -G "https://api.multicrew.co.uk/v1/requests/9" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/20"
+    "https://api.multicrew.co.uk/v1/requests/9"
 );
 
 let headers = {
@@ -459,7 +459,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api.multicrew.co.uk/v1/requests/20',
+    'https://api.multicrew.co.uk/v1/requests/9',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -534,14 +534,14 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://api.multicrew.co.uk/v1/requests/20" \
+    "https://api.multicrew.co.uk/v1/requests/17" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/20"
+    "https://api.multicrew.co.uk/v1/requests/17"
 );
 
 let headers = {
@@ -568,7 +568,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://api.multicrew.co.uk/v1/requests/20',
+    'https://api.multicrew.co.uk/v1/requests/17',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -756,12 +756,12 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/requests/11/accept/doloremque" \
+    -G "https://api.multicrew.co.uk/v1/requests/17/accept/quia" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/11/accept/doloremque"
+    "https://api.multicrew.co.uk/v1/requests/17/accept/quia"
 );
 
 let headers = {
@@ -777,7 +777,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api.multicrew.co.uk/v1/requests/11/accept/doloremque',
+    'https://api.multicrew.co.uk/v1/requests/17/accept/quia',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -853,12 +853,12 @@ The code required to accept a private Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/users/19" \
+    -G "https://api.multicrew.co.uk/v1/users/12" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/users/19"
+    "https://api.multicrew.co.uk/v1/users/12"
 );
 
 let headers = {
@@ -874,7 +874,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api.multicrew.co.uk/v1/users/19',
+    'https://api.multicrew.co.uk/v1/users/12',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -1001,7 +1001,7 @@ print_r(json_decode((string) $body));</code></pre>
 </form>
 <h2>Update the authenticated User</h2>
 <p><small class="badge badge-darkred">requires authentication</small></p>
-<p>TODO implement updating user profiles</p>
+<p><em>Requires <code>user.manage</code> and <code>user.email</code> scope</em></p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>

@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::tokensCan([
             'user.email' => 'View your email address',
-            'user.update' => 'Update your user information',
+            'user.manage' => 'Update your user information',
             'request.create' => 'Create flight requests on your behalf',
             'request.manage' => 'Manage, including accept and delete, flight requests on your behalf',
         ]);
