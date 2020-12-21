@@ -239,7 +239,9 @@
         <div class="tab-pane fade show card-text" id="api" role="tabpanel">
             <div class="d-flex justify-content-between">
                 <p class="class-text">
-                    Spiel about the API, enter details below and all that
+                    Create clients to allow your third party applications access to the MultiCrew API.
+                    <br>
+                    Find more information on the <a href="{{config('app.url')}}/docs">MultiCrew Documentation page</a>.
                 </p>
 
                 <p class="class-text">
@@ -249,22 +251,22 @@
                 </p>
             </div>
             @if ($clients)
-                <div class="card-columns">
-                    @foreach ($clients as $client)
-                        <div class="card shadow cursor-pointer h-100" id="card-{{$client['id']}}">
-                            <a onclick="showModal({{json_encode($client)}})" class="stretched-link text-decoration-none">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        {{$client['name']}}
-                                    </div>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    {{Carbon\Carbon::parse($client['created_at'])->format('d/m/Y')}}
-                                </div>
-                            </a>
+            <div class="card-columns">
+                @foreach ($clients as $client)
+                <div class="card shadow cursor-pointer h-100" id="card-{{$client['id']}}">
+                    <a onclick="showModal({{json_encode($client)}})" class="stretched-link text-decoration-none">
+                        <div class="card-body">
+                            <div class="card-title">
+                                {{$client['name']}}
+                            </div>
                         </div>
-                    @endforeach
+                        <div class="card-footer text-muted">
+                            {{Carbon\Carbon::parse($client['created_at'])->format('d/m/Y')}}
+                        </div>
+                    </a>
                 </div>
+                @endforeach
+            </div>
             @endif
 
         </div>
