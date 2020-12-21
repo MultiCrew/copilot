@@ -54,7 +54,7 @@ class UserController extends Controller
     /**
      * Update the authenticated User
      *
-     * TODO implement updating user profiles
+     * *Requires `user.manage` and `user.email` scope*
      *
      * @bodyParam email string The updated email of the User. Example: user@example.com
      *
@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        if ($request->user()->tokenCan('user.update') && $request->user->tokenCan('user.email')) {
+        if ($request->user()->tokenCan('user.manage') && $request->user->tokenCan('user.email')) {
             try {
                 $user = $request->user();
 
