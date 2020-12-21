@@ -44,7 +44,7 @@
                             <li><a href='http://github.com/knuckleswtf/scribe'>Documentation powered by Scribe ✍</a></li>
                     </ul>
             <ul class="toc-footer" id="last-updated">
-            <li>Last updated: December 20 2020</li>
+            <li>Last updated: December 21 2020</li>
         </ul>
 </div>
 <div class="page-wrapper">
@@ -57,7 +57,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 <blockquote>
 <p>Base URL</p>
 </blockquote>
-<pre><code class="language-yaml">https://multicrew.co.uk</code></pre><h1>Webhook Calls</h1>
+<pre><code class="language-yaml">https://api.multicrew.co.uk</code></pre><h1>Webhook Calls</h1>
 <h2>Webhook Signing</h2>
 <p>All Webhook Calls are signed using the sha256 hash, combining the Webhook payload with your client <code>secret</code></p>
 <blockquote>
@@ -158,12 +158,12 @@ You can switch the language used with the tabs at the top right (or from the nav
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests?aircraft[]=A318&amp;airport[]=EGKK" \
+    -G "https://api.multicrew.co.uk/v1/requests?aircraft[]=A318&amp;airport[]=EGKK" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests"
+    "https://api.multicrew.co.uk/v1/requests"
 );
 
 let params = {
@@ -186,7 +186,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests',
+    'https://api.multicrew.co.uk/v1/requests',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -257,36 +257,36 @@ print_r(json_decode((string) $body));</code></pre>
         "acceptee": null
     }
 ]</code></pre>
-<div id="execution-results-GETapi-v1-requests" hidden>
-    <blockquote>Received response<span id="execution-response-status-GETapi-v1-requests"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-requests"></code></pre>
+<div id="execution-results-GETv1-requests" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETv1-requests"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETv1-requests"></code></pre>
 </div>
-<div id="execution-error-GETapi-v1-requests" hidden>
+<div id="execution-error-GETv1-requests" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-requests"></code></pre>
+    <pre><code id="execution-error-message-GETv1-requests"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests" data-method="GET" data-path="api/v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests', this);">
+<form id="form-GETv1-requests" data-method="GET" data-path="v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETv1-requests', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-green">GET</small>
- <b><code>api/v1/requests</code></b>
+ <b><code>v1/requests</code></b>
 </p>
 <p>
-<label id="auth-GETapi-v1-requests" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-requests" data-component="header"></label>
+<label id="auth-GETv1-requests" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETv1-requests" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
 <p>
 <b><code>aircraft</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
-<input type="text" name="aircraft.0" data-endpoint="GETapi-v1-requests" data-component="query"  hidden>
-<input type="text" name="aircraft.1" data-endpoint="GETapi-v1-requests" data-component="query" hidden>
+<input type="text" name="aircraft.0" data-endpoint="GETv1-requests" data-component="query"  hidden>
+<input type="text" name="aircraft.1" data-endpoint="GETv1-requests" data-component="query" hidden>
 <br>
 An array of aircraft ICAO codes.</p>
 <p>
 <b><code>airport</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
-<input type="text" name="airport.0" data-endpoint="GETapi-v1-requests" data-component="query"  hidden>
-<input type="text" name="airport.1" data-endpoint="GETapi-v1-requests" data-component="query" hidden>
+<input type="text" name="airport.0" data-endpoint="GETv1-requests" data-component="query"  hidden>
+<input type="text" name="airport.1" data-endpoint="GETv1-requests" data-component="query" hidden>
 <br>
 An array of airport ICAO codes.</p>
 </form>
@@ -300,14 +300,14 @@ An array of airport ICAO codes.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://multicrew.co.uk/api/v1/requests" \
+    "https://api.multicrew.co.uk/v1/requests" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests"
+    "https://api.multicrew.co.uk/v1/requests"
 );
 
 let headers = {
@@ -334,7 +334,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://multicrew.co.uk/api/v1/requests',
+    'https://api.multicrew.co.uk/v1/requests',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -382,52 +382,52 @@ print_r(json_decode((string) $body));</code></pre>
     },
     "acceptee": null
 }</code></pre>
-<div id="execution-results-POSTapi-v1-requests" hidden>
-    <blockquote>Received response<span id="execution-response-status-POSTapi-v1-requests"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-v1-requests"></code></pre>
+<div id="execution-results-POSTv1-requests" hidden>
+    <blockquote>Received response<span id="execution-response-status-POSTv1-requests"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-POSTv1-requests"></code></pre>
 </div>
-<div id="execution-error-POSTapi-v1-requests" hidden>
+<div id="execution-error-POSTv1-requests" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-v1-requests"></code></pre>
+    <pre><code id="execution-error-message-POSTv1-requests"></code></pre>
 </div>
-<form id="form-POSTapi-v1-requests" data-method="POST" data-path="api/v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-requests', this);">
+<form id="form-POSTv1-requests" data-method="POST" data-path="v1/requests" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('POSTv1-requests', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-black">POST</small>
- <b><code>api/v1/requests</code></b>
+ <b><code>v1/requests</code></b>
 </p>
 <p>
-<label id="auth-POSTapi-v1-requests" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="POSTapi-v1-requests" data-component="header"></label>
+<label id="auth-POSTv1-requests" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="POSTv1-requests" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
 <p>
 <b><code>departure</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
-<input type="text" name="departure.0" data-endpoint="POSTapi-v1-requests" data-component="body"  hidden>
-<input type="text" name="departure.1" data-endpoint="POSTapi-v1-requests" data-component="body" hidden>
+<input type="text" name="departure.0" data-endpoint="POSTv1-requests" data-component="body"  hidden>
+<input type="text" name="departure.1" data-endpoint="POSTv1-requests" data-component="body" hidden>
 <br>
 An array of all the departure ICAO codes, leave blank for no preference.</p>
 <p>
 <b><code>arrival</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
-<input type="text" name="arrival.0" data-endpoint="POSTapi-v1-requests" data-component="body"  hidden>
-<input type="text" name="arrival.1" data-endpoint="POSTapi-v1-requests" data-component="body" hidden>
+<input type="text" name="arrival.0" data-endpoint="POSTv1-requests" data-component="body"  hidden>
+<input type="text" name="arrival.1" data-endpoint="POSTv1-requests" data-component="body" hidden>
 <br>
 An array of all the arrival ICAO codes, leave blank for no preference.</p>
 <p>
 <b><code>aircraft</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="aircraft" data-endpoint="POSTapi-v1-requests" data-component="body" required  hidden>
+<input type="text" name="aircraft" data-endpoint="POSTv1-requests" data-component="body" required  hidden>
 <br>
 An ICAO code for the requested aircraft.</p>
 <p>
 <b><code>public</code></b>&nbsp;&nbsp;<small>boolean</small>  &nbsp;
-<label data-endpoint="POSTapi-v1-requests" hidden><input type="radio" name="public" value="true" data-endpoint="POSTapi-v1-requests" data-component="body" required ><code>true</code></label>
-<label data-endpoint="POSTapi-v1-requests" hidden><input type="radio" name="public" value="false" data-endpoint="POSTapi-v1-requests" data-component="body" required ><code>false</code></label>
+<label data-endpoint="POSTv1-requests" hidden><input type="radio" name="public" value="true" data-endpoint="POSTv1-requests" data-component="body" required ><code>true</code></label>
+<label data-endpoint="POSTv1-requests" hidden><input type="radio" name="public" value="false" data-endpoint="POSTv1-requests" data-component="body" required ><code>false</code></label>
 <br>
 Whether the request should be public or not.</p>
 <p>
 <b><code>callback</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-<input type="text" name="callback" data-endpoint="POSTapi-v1-requests" data-component="body"  hidden>
+<input type="text" name="callback" data-endpoint="POSTv1-requests" data-component="body"  hidden>
 <br>
 The full URL to receive notifications for this request.</p>
 
@@ -438,12 +438,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/2" \
+    -G "https://api.multicrew.co.uk/v1/requests/9" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/2"
+    "https://api.multicrew.co.uk/v1/requests/9"
 );
 
 let headers = {
@@ -459,7 +459,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/2',
+    'https://api.multicrew.co.uk/v1/requests/9',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -498,29 +498,29 @@ print_r(json_decode((string) $body));</code></pre>
     },
     "acceptee": null
 }</code></pre>
-<div id="execution-results-GETapi-v1-requests--request-" hidden>
-    <blockquote>Received response<span id="execution-response-status-GETapi-v1-requests--request-"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-requests--request-"></code></pre>
+<div id="execution-results-GETv1-requests--request-" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETv1-requests--request-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETv1-requests--request-"></code></pre>
 </div>
-<div id="execution-error-GETapi-v1-requests--request-" hidden>
+<div id="execution-error-GETv1-requests--request-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-requests--request-"></code></pre>
+    <pre><code id="execution-error-message-GETv1-requests--request-"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests--request-" data-method="GET" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--request-', this);">
+<form id="form-GETv1-requests--request-" data-method="GET" data-path="v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETv1-requests--request-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-green">GET</small>
- <b><code>api/v1/requests/{request}</code></b>
+ <b><code>v1/requests/{request}</code></b>
 </p>
 <p>
-<label id="auth-GETapi-v1-requests--request-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-requests--request-" data-component="header"></label>
+<label id="auth-GETv1-requests--request-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETv1-requests--request-" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
 <b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="request" data-endpoint="GETapi-v1-requests--request-" data-component="url" required  hidden>
+<input type="number" name="request" data-endpoint="GETv1-requests--request-" data-component="url" required  hidden>
 <br>
 The ID of the Request</p>
 </form>
@@ -534,14 +534,14 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/requests/18" \
+    "https://api.multicrew.co.uk/v1/requests/5" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/18"
+    "https://api.multicrew.co.uk/v1/requests/5"
 );
 
 let headers = {
@@ -568,7 +568,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/requests/18',
+    'https://api.multicrew.co.uk/v1/requests/5',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -616,62 +616,62 @@ print_r(json_decode((string) $body));</code></pre>
     },
     "acceptee": null
 }</code></pre>
-<div id="execution-results-PUTapi-v1-requests--request-" hidden>
-    <blockquote>Received response<span id="execution-response-status-PUTapi-v1-requests--request-"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-PUTapi-v1-requests--request-"></code></pre>
+<div id="execution-results-PUTv1-requests--request-" hidden>
+    <blockquote>Received response<span id="execution-response-status-PUTv1-requests--request-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-PUTv1-requests--request-"></code></pre>
 </div>
-<div id="execution-error-PUTapi-v1-requests--request-" hidden>
+<div id="execution-error-PUTv1-requests--request-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-PUTapi-v1-requests--request-"></code></pre>
+    <pre><code id="execution-error-message-PUTv1-requests--request-"></code></pre>
 </div>
-<form id="form-PUTapi-v1-requests--request-" data-method="PUT" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-requests--request-', this);">
+<form id="form-PUTv1-requests--request-" data-method="PUT" data-path="v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTv1-requests--request-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-darkblue">PUT</small>
- <b><code>api/v1/requests/{request}</code></b>
+ <b><code>v1/requests/{request}</code></b>
 </p>
 <p>
 <small class="badge badge-purple">PATCH</small>
- <b><code>api/v1/requests/{request}</code></b>
+ <b><code>v1/requests/{request}</code></b>
 </p>
 <p>
-<label id="auth-PUTapi-v1-requests--request-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTapi-v1-requests--request-" data-component="header"></label>
+<label id="auth-PUTv1-requests--request-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTv1-requests--request-" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
 <b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="request" data-endpoint="PUTapi-v1-requests--request-" data-component="url" required  hidden>
+<input type="number" name="request" data-endpoint="PUTv1-requests--request-" data-component="url" required  hidden>
 <br>
 The ID of the Request</p>
 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
 <p>
 <b><code>departure</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
-<input type="text" name="departure.0" data-endpoint="PUTapi-v1-requests--request-" data-component="body"  hidden>
-<input type="text" name="departure.1" data-endpoint="PUTapi-v1-requests--request-" data-component="body" hidden>
+<input type="text" name="departure.0" data-endpoint="PUTv1-requests--request-" data-component="body"  hidden>
+<input type="text" name="departure.1" data-endpoint="PUTv1-requests--request-" data-component="body" hidden>
 <br>
 An array of all the departure ICAO codes, leave blank for no preference.</p>
 <p>
 <b><code>arrival</code></b>&nbsp;&nbsp;<small>string[]</small>     <i>optional</i> &nbsp;
-<input type="text" name="arrival.0" data-endpoint="PUTapi-v1-requests--request-" data-component="body"  hidden>
-<input type="text" name="arrival.1" data-endpoint="PUTapi-v1-requests--request-" data-component="body" hidden>
+<input type="text" name="arrival.0" data-endpoint="PUTv1-requests--request-" data-component="body"  hidden>
+<input type="text" name="arrival.1" data-endpoint="PUTv1-requests--request-" data-component="body" hidden>
 <br>
 An array of all the arrival ICAO codes, leave blank for no preference.</p>
 <p>
 <b><code>aircraft</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
-<input type="text" name="aircraft" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required  hidden>
+<input type="text" name="aircraft" data-endpoint="PUTv1-requests--request-" data-component="body" required  hidden>
 <br>
 An ICAO code for the requested aircraft.</p>
 <p>
 <b><code>public</code></b>&nbsp;&nbsp;<small>boolean</small>  &nbsp;
-<label data-endpoint="PUTapi-v1-requests--request-" hidden><input type="radio" name="public" value="true" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required ><code>true</code></label>
-<label data-endpoint="PUTapi-v1-requests--request-" hidden><input type="radio" name="public" value="false" data-endpoint="PUTapi-v1-requests--request-" data-component="body" required ><code>false</code></label>
+<label data-endpoint="PUTv1-requests--request-" hidden><input type="radio" name="public" value="true" data-endpoint="PUTv1-requests--request-" data-component="body" required ><code>true</code></label>
+<label data-endpoint="PUTv1-requests--request-" hidden><input type="radio" name="public" value="false" data-endpoint="PUTv1-requests--request-" data-component="body" required ><code>false</code></label>
 <br>
 Whether the request should be public or not.</p>
 <p>
 <b><code>callback</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-<input type="text" name="callback" data-endpoint="PUTapi-v1-requests--request-" data-component="body"  hidden>
+<input type="text" name="callback" data-endpoint="PUTv1-requests--request-" data-component="body"  hidden>
 <br>
 The full URL to receive notifications for this request.</p>
 
@@ -683,12 +683,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE \
-    "https://multicrew.co.uk/api/v1/requests/11" \
+    "https://api.multicrew.co.uk/v1/requests/4" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/11"
+    "https://api.multicrew.co.uk/v1/requests/4"
 );
 
 let headers = {
@@ -704,7 +704,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;delete(
-    'https://multicrew.co.uk/api/v1/requests/11',
+    'https://api.multicrew.co.uk/v1/requests/4',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -721,29 +721,29 @@ print_r(json_decode((string) $body));</code></pre>
 <pre><code class="language-json">{
     "message": "Resource deleted"
 }</code></pre>
-<div id="execution-results-DELETEapi-v1-requests--request-" hidden>
-    <blockquote>Received response<span id="execution-response-status-DELETEapi-v1-requests--request-"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-DELETEapi-v1-requests--request-"></code></pre>
+<div id="execution-results-DELETEv1-requests--request-" hidden>
+    <blockquote>Received response<span id="execution-response-status-DELETEv1-requests--request-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEv1-requests--request-"></code></pre>
 </div>
-<div id="execution-error-DELETEapi-v1-requests--request-" hidden>
+<div id="execution-error-DELETEv1-requests--request-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-DELETEapi-v1-requests--request-"></code></pre>
+    <pre><code id="execution-error-message-DELETEv1-requests--request-"></code></pre>
 </div>
-<form id="form-DELETEapi-v1-requests--request-" data-method="DELETE" data-path="api/v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-requests--request-', this);">
+<form id="form-DELETEv1-requests--request-" data-method="DELETE" data-path="v1/requests/{request}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('DELETEv1-requests--request-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-red">DELETE</small>
- <b><code>api/v1/requests/{request}</code></b>
+ <b><code>v1/requests/{request}</code></b>
 </p>
 <p>
-<label id="auth-DELETEapi-v1-requests--request-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="DELETEapi-v1-requests--request-" data-component="header"></label>
+<label id="auth-DELETEv1-requests--request-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="DELETEv1-requests--request-" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
 <b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="request" data-endpoint="DELETEapi-v1-requests--request-" data-component="url" required  hidden>
+<input type="number" name="request" data-endpoint="DELETEv1-requests--request-" data-component="url" required  hidden>
 <br>
 The ID of the Request</p>
 </form>
@@ -756,12 +756,12 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/requests/9/accept/et" \
+    -G "https://api.multicrew.co.uk/v1/requests/1/accept/fugit" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/requests/9/accept/et"
+    "https://api.multicrew.co.uk/v1/requests/1/accept/fugit"
 );
 
 let headers = {
@@ -777,7 +777,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/requests/9/accept/et',
+    'https://api.multicrew.co.uk/v1/requests/1/accept/fugit',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -816,34 +816,34 @@ print_r(json_decode((string) $body));</code></pre>
     },
     "acceptee": null
 }</code></pre>
-<div id="execution-results-GETapi-v1-requests--request--accept--code--" hidden>
-    <blockquote>Received response<span id="execution-response-status-GETapi-v1-requests--request--accept--code--"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-requests--request--accept--code--"></code></pre>
+<div id="execution-results-GETv1-requests--request--accept--code--" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETv1-requests--request--accept--code--"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETv1-requests--request--accept--code--"></code></pre>
 </div>
-<div id="execution-error-GETapi-v1-requests--request--accept--code--" hidden>
+<div id="execution-error-GETv1-requests--request--accept--code--" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-requests--request--accept--code--"></code></pre>
+    <pre><code id="execution-error-message-GETv1-requests--request--accept--code--"></code></pre>
 </div>
-<form id="form-GETapi-v1-requests--request--accept--code--" data-method="GET" data-path="api/v1/requests/{request}/accept/{code?}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-requests--request--accept--code--', this);">
+<form id="form-GETv1-requests--request--accept--code--" data-method="GET" data-path="v1/requests/{request}/accept/{code?}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETv1-requests--request--accept--code--', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-green">GET</small>
- <b><code>api/v1/requests/{request}/accept/{code?}</code></b>
+ <b><code>v1/requests/{request}/accept/{code?}</code></b>
 </p>
 <p>
-<label id="auth-GETapi-v1-requests--request--accept--code--" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="header"></label>
+<label id="auth-GETv1-requests--request--accept--code--" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETv1-requests--request--accept--code--" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
 <b><code>request</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="request" data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="url" required  hidden>
+<input type="number" name="request" data-endpoint="GETv1-requests--request--accept--code--" data-component="url" required  hidden>
 <br>
 The ID of the Request</p>
 <p>
 <b><code>code</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-<input type="text" name="code" data-endpoint="GETapi-v1-requests--request--accept--code--" data-component="url"  hidden>
+<input type="text" name="code" data-endpoint="GETv1-requests--request--accept--code--" data-component="url"  hidden>
 <br>
 The code required to accept a private Request</p>
 </form><h1>User</h1>
@@ -853,12 +853,12 @@ The code required to accept a private Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/users" \
+    -G "https://api.multicrew.co.uk/v1/users" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/users"
+    "https://api.multicrew.co.uk/v1/users"
 );
 
 let headers = {
@@ -874,7 +874,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/users',
+    'https://api.multicrew.co.uk/v1/users',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -900,24 +900,24 @@ print_r(json_decode((string) $body));</code></pre>
     "username": "user1",
     "email": "user1@example.com"
 }</code></pre>
-<div id="execution-results-GETapi-v1-users" hidden>
-    <blockquote>Received response<span id="execution-response-status-GETapi-v1-users"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-users"></code></pre>
+<div id="execution-results-GETv1-users" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETv1-users"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETv1-users"></code></pre>
 </div>
-<div id="execution-error-GETapi-v1-users" hidden>
+<div id="execution-error-GETv1-users" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-users"></code></pre>
+    <pre><code id="execution-error-message-GETv1-users"></code></pre>
 </div>
-<form id="form-GETapi-v1-users" data-method="GET" data-path="api/v1/users" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users', this);">
+<form id="form-GETv1-users" data-method="GET" data-path="v1/users" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETv1-users', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-green">GET</small>
- <b><code>api/v1/users</code></b>
+ <b><code>v1/users</code></b>
 </p>
 <p>
-<label id="auth-GETapi-v1-users" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-users" data-component="header"></label>
+<label id="auth-GETv1-users" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETv1-users" data-component="header"></label>
 </p>
 </form>
 <h2>Get a specified User</h2>
@@ -926,12 +926,12 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://multicrew.co.uk/api/v1/users/19" \
+    -G "https://api.multicrew.co.uk/v1/users/2" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/19"
+    "https://api.multicrew.co.uk/v1/users/2"
 );
 
 let headers = {
@@ -947,7 +947,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://multicrew.co.uk/api/v1/users/19',
+    'https://api.multicrew.co.uk/v1/users/2',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -973,29 +973,29 @@ print_r(json_decode((string) $body));</code></pre>
     "username": "user1",
     "email": "user1@example.com"
 }</code></pre>
-<div id="execution-results-GETapi-v1-users--user-" hidden>
-    <blockquote>Received response<span id="execution-response-status-GETapi-v1-users--user-"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-users--user-"></code></pre>
+<div id="execution-results-GETv1-users--user-" hidden>
+    <blockquote>Received response<span id="execution-response-status-GETv1-users--user-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-GETv1-users--user-"></code></pre>
 </div>
-<div id="execution-error-GETapi-v1-users--user-" hidden>
+<div id="execution-error-GETv1-users--user-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-users--user-"></code></pre>
+    <pre><code id="execution-error-message-GETv1-users--user-"></code></pre>
 </div>
-<form id="form-GETapi-v1-users--user-" data-method="GET" data-path="api/v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users--user-', this);">
+<form id="form-GETv1-users--user-" data-method="GET" data-path="v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('GETv1-users--user-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-green">GET</small>
- <b><code>api/v1/users/{user}</code></b>
+ <b><code>v1/users/{user}</code></b>
 </p>
 <p>
-<label id="auth-GETapi-v1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETapi-v1-users--user-" data-component="header"></label>
+<label id="auth-GETv1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETv1-users--user-" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
 <b><code>user</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="user" data-endpoint="GETapi-v1-users--user-" data-component="url" required  hidden>
+<input type="number" name="user" data-endpoint="GETv1-users--user-" data-component="url" required  hidden>
 <br>
 The ID of the user</p>
 </form>
@@ -1006,12 +1006,12 @@ The ID of the user</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://multicrew.co.uk/api/v1/users/9" \
+    "https://api.multicrew.co.uk/v1/users/3" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://multicrew.co.uk/api/v1/users/9"
+    "https://api.multicrew.co.uk/v1/users/3"
 );
 
 let headers = {
@@ -1027,7 +1027,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://multicrew.co.uk/api/v1/users/9',
+    'https://api.multicrew.co.uk/v1/users/3',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -1053,33 +1053,33 @@ print_r(json_decode((string) $body));</code></pre>
     "username": "user1",
     "email": "user1@example.com"
 }</code></pre>
-<div id="execution-results-PUTapi-v1-users--user-" hidden>
-    <blockquote>Received response<span id="execution-response-status-PUTapi-v1-users--user-"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-PUTapi-v1-users--user-"></code></pre>
+<div id="execution-results-PUTv1-users--user-" hidden>
+    <blockquote>Received response<span id="execution-response-status-PUTv1-users--user-"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-PUTv1-users--user-"></code></pre>
 </div>
-<div id="execution-error-PUTapi-v1-users--user-" hidden>
+<div id="execution-error-PUTv1-users--user-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-PUTapi-v1-users--user-"></code></pre>
+    <pre><code id="execution-error-message-PUTv1-users--user-"></code></pre>
 </div>
-<form id="form-PUTapi-v1-users--user-" data-method="PUT" data-path="api/v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-users--user-', this);">
+<form id="form-PUTv1-users--user-" data-method="PUT" data-path="v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTv1-users--user-', this);">
 <h3>
     Request&nbsp;&nbsp;&nbsp;
     </h3>
 <p>
 <small class="badge badge-darkblue">PUT</small>
- <b><code>api/v1/users/{user}</code></b>
+ <b><code>v1/users/{user}</code></b>
 </p>
 <p>
 <small class="badge badge-purple">PATCH</small>
- <b><code>api/v1/users/{user}</code></b>
+ <b><code>v1/users/{user}</code></b>
 </p>
 <p>
-<label id="auth-PUTapi-v1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTapi-v1-users--user-" data-component="header"></label>
+<label id="auth-PUTv1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTv1-users--user-" data-component="header"></label>
 </p>
 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
 <p>
 <b><code>user</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="user" data-endpoint="PUTapi-v1-users--user-" data-component="url" required  hidden>
+<input type="number" name="user" data-endpoint="PUTv1-users--user-" data-component="url" required  hidden>
 <br>
 The ID of the user</p>
 </form>
