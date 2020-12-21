@@ -11,7 +11,7 @@
 
 ```bash
 curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/users/14" \
+    -G "https://api.multicrew.co.uk/v1/users/19" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -19,7 +19,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api.multicrew.co.uk/v1/users/14"
+    "https://api.multicrew.co.uk/v1/users/19"
 );
 
 let headers = {
@@ -39,7 +39,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api.multicrew.co.uk/v1/users/14',
+    'https://api.multicrew.co.uk/v1/users/19',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -93,107 +93,6 @@ print_r(json_decode((string) $body));
 <p>
 <b><code>user</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
 <input type="number" name="user" data-endpoint="GETv1-users--user-" data-component="url" required  hidden>
-<br>
-The ID of the user</p>
-</form>
-
-
-## Update the specified User
-
-<small class="badge badge-darkred">requires authentication</small>
-
-TODO implement user updating along with add comments
-
-> Example request:
-
-```bash
-curl -X PUT \
-    "https://api.multicrew.co.uk/v1/users/19" \
-    -H "Authorization: Bearer {access_token}" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json"
-```
-
-```javascript
-const url = new URL(
-    "https://api.multicrew.co.uk/v1/users/19"
-);
-
-let headers = {
-    "Authorization": "Bearer {access_token}",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-
-fetch(url, {
-    method: "PUT",
-    headers,
-}).then(response => response.json());
-```
-
-```php
-
-$client = new \GuzzleHttp\Client();
-$response = $client->put(
-    'https://api.multicrew.co.uk/v1/users/19',
-    [
-        'headers' => [
-            'Authorization' => 'Bearer {access_token}',
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ],
-    ]
-);
-$body = $response->getBody();
-print_r(json_decode((string) $body));
-```
-
-
-> Example response (200):
-
-```json
-{
-    "id": 1,
-    "username": "user1"
-}
-```
-> Example response (200, when using the email scope):
-
-```json
-{
-    "id": 1,
-    "username": "user1",
-    "email": "user1@example.com"
-}
-```
-<div id="execution-results-PUTv1-users--user-" hidden>
-    <blockquote>Received response<span id="execution-response-status-PUTv1-users--user-"></span>:</blockquote>
-    <pre class="json"><code id="execution-response-content-PUTv1-users--user-"></code></pre>
-</div>
-<div id="execution-error-PUTv1-users--user-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-PUTv1-users--user-"></code></pre>
-</div>
-<form id="form-PUTv1-users--user-" data-method="PUT" data-path="v1/users/{user}" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTv1-users--user-', this);">
-<h3>
-    Request&nbsp;&nbsp;&nbsp;
-    </h3>
-<p>
-<small class="badge badge-darkblue">PUT</small>
- <b><code>v1/users/{user}</code></b>
-</p>
-<p>
-<small class="badge badge-purple">PATCH</small>
- <b><code>v1/users/{user}</code></b>
-</p>
-<p>
-<label id="auth-PUTv1-users--user-" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTv1-users--user-" data-component="header"></label>
-</p>
-<h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-<p>
-<b><code>user</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-<input type="number" name="user" data-endpoint="PUTv1-users--user-" data-component="url" required  hidden>
 <br>
 The ID of the user</p>
 </form>
@@ -287,6 +186,113 @@ print_r(json_decode((string) $body));
 <p>
 <label id="auth-GETv1-users-me" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="GETv1-users-me" data-component="header"></label>
 </p>
+</form>
+
+
+## Update the authenticated User
+
+<small class="badge badge-darkred">requires authentication</small>
+
+TODO implement updating user profiles
+
+> Example request:
+
+```bash
+curl -X PUT \
+    "https://api.multicrew.co.uk/v1/users/me" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"email":"user@example.com"}'
+
+```
+
+```javascript
+const url = new URL(
+    "https://api.multicrew.co.uk/v1/users/me"
+);
+
+let headers = {
+    "Authorization": "Bearer {access_token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "user@example.com"
+}
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response => response.json());
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->put(
+    'https://api.multicrew.co.uk/v1/users/me',
+    [
+        'headers' => [
+            'Authorization' => 'Bearer {access_token}',
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ],
+        'json' => [
+            'email' => 'user@example.com',
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "id": 1,
+    "username": "user1"
+}
+```
+> Example response (200, when using the email scope):
+
+```json
+{
+    "id": 1,
+    "username": "user1",
+    "email": "user1@example.com"
+}
+```
+<div id="execution-results-PUTv1-users-me" hidden>
+    <blockquote>Received response<span id="execution-response-status-PUTv1-users-me"></span>:</blockquote>
+    <pre class="json"><code id="execution-response-content-PUTv1-users-me"></code></pre>
+</div>
+<div id="execution-error-PUTv1-users-me" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTv1-users-me"></code></pre>
+</div>
+<form id="form-PUTv1-users-me" data-method="PUT" data-path="v1/users/me" data-authed="1" data-hasfiles="0" data-headers='{"Authorization":"Bearer {access_token}","Content-Type":"application\/json","Accept":"application\/json"}' onsubmit="event.preventDefault(); executeTryOut('PUTv1-users-me', this);">
+<h3>
+    Request&nbsp;&nbsp;&nbsp;
+    </h3>
+<p>
+<small class="badge badge-darkblue">PUT</small>
+ <b><code>v1/users/me</code></b>
+</p>
+<p>
+<label id="auth-PUTv1-users-me" hidden>Authorization header: <b><code>Bearer </code></b><input type="text" name="Authorization" data-prefix="Bearer " data-endpoint="PUTv1-users-me" data-component="header"></label>
+</p>
+<h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+<p>
+<b><code>email</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+<input type="text" name="email" data-endpoint="PUTv1-users-me" data-component="body"  hidden>
+<br>
+The updated email of the User.</p>
+
 </form>
 
 
