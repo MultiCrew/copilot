@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\API\v1\Users;
 
+use Exception;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\API\APIController as Controller;
-use App\Http\Resources\UserResource;
 
 /**
  * @group User
@@ -24,11 +25,10 @@ class UserController extends Controller
     {
         try {
             $user = User::find(auth()->id());
+            return $this->respondWithObject(new UserResource($user));
         } catch (ModelNotFoundException $e) {
             return $this->errorNotFound(array($e->getMessage()));
         }
-
-        return $this->respondWithObject(new UserResource($user));
     }
 
     /**
@@ -52,21 +52,40 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified User
+     * Update the authenticated User
      *
-     * TODO implement user updating along with add comments
+     * TODO implement updating user profiles
      *
-     * @urlParam user integer required The ID of the user
+     * @bodyParam email string The updated email of the User. Example: user@example.com
      *
      * @responseFile responses/user.json
      * @responseFile scenario="when using the email scope" responses/user.email.json
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Users\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        if ($request->user()->tokenCan('user.update')) {
+            try {
+                $user = $request->user();
+
+                $request->validate([
+                    'email' => 'email|max:255'
+                ]);
+
+                if ($request->email) {
+                    $user->email = $request->email;
+                }
+
+                $user->save();
+
+                return $this->respondWithObject(new UserResource($user));
+            } catch (Exception $e) {
+                return $this->errorInternalError(array($e->getMessage()));
+            }
+        } else {
+            return $this->errorUnauthorized(['INVALID_SCOPE']);
+        }
     }
 }

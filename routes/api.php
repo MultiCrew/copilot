@@ -27,8 +27,9 @@ Route::group([
     'namespace' => 'API\v1'
 ], function () {
     Route::group(['namespace' => 'Users'], function () {
-        Route::apiResource('users', 'UserController')->only(['show', 'update']);
+        Route::get('users/{user}', 'UserController@show');
         Route::get('users/me')->uses('UserController@index');
+        Route::put('users/me')->uses('UserController@update');
     });
     Route::get('users/me/requests')->uses('Flights\RequestController@userRequests');
     Route::group(['namespace' => 'Flights'], function () {
