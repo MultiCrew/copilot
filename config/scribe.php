@@ -28,12 +28,12 @@ return [
                 /*
                  * Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.
                  */
-                'domains' => ['*'],
+                'domains' => ['api.*'],
 
                 /*
                  * Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
                  */
-                'prefixes' => ['api/v1/*'],
+                'prefixes' => ['v1/*'],
 
                 /*
                  * [Dingo router only] Match only routes registered under this version. Wildcards are not supported.
@@ -243,7 +243,7 @@ INTRO
     /*
      * The base URL to be used in examples. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => 'https://multicrew.co.uk',
+    'base_url' => 'https://api.multicrew.co.uk/',
 
     /*
      * Generate a Postman collection (v2.1.0) in addition to HTML docs.
