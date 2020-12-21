@@ -11,6 +11,7 @@ use App\Notifications\NewRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\FlightRequest;
+use App\Models\Flights\ArchivedFlight;
 use App\Models\Users\UserNotification;
 use App\Notifications\RequestAccepted;
 use App\Models\Aircraft\ApprovedAircraft;
@@ -324,6 +325,63 @@ class RequestController extends Controller
 
                     return $this->respondWithObject(new RequestResource($flightRequest));
                 }
+            } catch (Exception $e) {
+                return $this->errorInternalError(array($e->getMessage()));
+            }
+        } else {
+            return $this->errorUnauthorized(['INVALID_SCOPE']);
+        }
+    }
+
+    /**
+     * @group User
+     *
+     * Get all the User's Requests
+     *
+     * Returns 3 arrays containing the User's `open` (unaccepted), `accepted` and `archived` Requests
+     *
+     * @responseFile responses/UserRequest.json
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function userRequests(Request $request)
+    {
+        if ($request->user()->tokenCan('request.manage')) {
+            try {
+                try {
+                    $openRequests = FlightRequest::whereNull('acceptee_id')
+                    ->where('requestee_id', '=', $request->user()->id)
+                    ->get();
+                } catch (ModelNotFoundException $e) {
+                    return $this->errorNotFound(array($e->getMessage()));
+                }
+
+                try {
+                    $acceptedRequests = FlightRequest::whereNotNull('acceptee_id')
+                    ->where(function ($query) use ($request)  {
+                        $query->where('requestee_id', '=', $request->user()->id)
+                            ->orWhere('acceptee_id', '=', $request->user()->id);
+                    })->get();
+                } catch (ModelNotFoundException $e) {
+                    return $this->errorNotFound(array($e->getMessage()));
+                }
+
+                try {
+                    $archivedFlights = ArchivedFlight::where('requestee_id', '=', $request->user()->id)
+                    ->orWhere('acceptee_id', '=', $request->user()->id)
+                    ->get();
+                } catch (ModelNotFoundException $e) {
+                    return $this->errorNotFound(array($e->getMessage()));
+                }
+
+                $responseObject = (object)[
+                    'open' => RequestResource::collection($openRequests),
+                    'accepted' => RequestResource::collection($acceptedRequests),
+                    'archived' => RequestResource::collection($archivedFlights),
+                ];
+
+                return $this->respondWithObject($responseObject);
             } catch (Exception $e) {
                 return $this->errorInternalError(array($e->getMessage()));
             }

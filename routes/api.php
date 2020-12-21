@@ -26,12 +26,14 @@ Route::group([
     'prefix' => 'v1',
     'namespace' => 'API\v1'
 ], function () {
+    Route::group(['namespace' => 'Users'], function () {
+        Route::apiResource('users', 'UserController')->only(['show', 'update']);
+        Route::get('users/me')->uses('UserController@index');
+    });
+    Route::get('users/me/requests')->uses('Flights\RequestController@userRequests');
     Route::group(['namespace' => 'Flights'], function () {
         Route::apiResource('requests', 'RequestController');
         Route::get('requests/{request}/accept/{code?}')->uses('RequestController@accept');
-    });
-    Route::group(['namespace' => 'Users'], function () {
-        Route::apiResource('users', 'UserController')->except(['destroy', 'store']);
     });
     // API Routes here
 });
