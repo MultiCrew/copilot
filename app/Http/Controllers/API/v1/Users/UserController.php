@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        if ($request->user()->tokenCan('user.update')) {
+        if ($request->user()->tokenCan('user.update') && $request->user->tokenCan('user.email')) {
             try {
                 $user = $request->user();
 
