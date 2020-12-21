@@ -17,6 +17,7 @@ logo: img/logo_long_light.png
 
 toc_footers:
 - <a href='http://github.com/knuckleswtf/scribe'>Documentation powered by Scribe ✍</a>
+- <a href='http://multicrew.co.uk/account#api'>Back to MultiCrew</a>
 
 ---
 

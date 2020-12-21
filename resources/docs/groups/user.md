@@ -11,7 +11,7 @@
 
 ```bash
 curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/users/12" \
+    -G "https://api.multicrew.co.uk/v1/users/17" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -19,7 +19,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api.multicrew.co.uk/v1/users/12"
+    "https://api.multicrew.co.uk/v1/users/17"
 );
 
 let headers = {
@@ -39,7 +39,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api.multicrew.co.uk/v1/users/12',
+    'https://api.multicrew.co.uk/v1/users/17',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -50,6 +50,21 @@ $response = $client->get(
 );
 $body = $response->getBody();
 print_r(json_decode((string) $body));
+```
+
+```python
+import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/17'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()
 ```
 
 
@@ -147,6 +162,21 @@ $response = $client->get(
 );
 $body = $response->getBody();
 print_r(json_decode((string) $body));
+```
+
+```python
+import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/me'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()
 ```
 
 
@@ -249,6 +279,24 @@ $body = $response->getBody();
 print_r(json_decode((string) $body));
 ```
 
+```python
+import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/me'
+payload = {
+    "email": "user@example.com"
+}
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('PUT', url, headers=headers, json=payload)
+response.json()
+```
+
 
 > Example response (200):
 
@@ -347,6 +395,21 @@ $response = $client->get(
 );
 $body = $response->getBody();
 print_r(json_decode((string) $body));
+```
+
+```python
+import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/me/requests'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()
 ```
 
 
