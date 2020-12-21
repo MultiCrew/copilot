@@ -42,6 +42,7 @@
 
             <ul class="toc-footer" id="toc-footer">
                             <li><a href='http://github.com/knuckleswtf/scribe'>Documentation powered by Scribe ✍</a></li>
+                            <li><a href='http://multicrew.co.uk/account#api'>Back to MultiCrew</a></li>
                     </ul>
             <ul class="toc-footer" id="last-updated">
             <li>Last updated: December 21 2020</li>
@@ -201,6 +202,22 @@ $response = $client-&gt;get(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/requests'
+params = {
+  'aircraft[]': 'A318',
+  'airport[]': 'EGKK',
+}
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers, params=params)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -354,6 +371,27 @@ $response = $client-&gt;post(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/requests'
+payload = {
+    "departure": [
+        "EGLL",
+        "EGKK"
+    ],
+    "aircraft": "A320",
+    "public": true,
+    "callback": "example.com"
+}
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('POST', url, headers=headers, json=payload)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -438,12 +476,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/requests/9" \
+    -G "https://api.multicrew.co.uk/v1/requests/1" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/9"
+    "https://api.multicrew.co.uk/v1/requests/1"
 );
 
 let headers = {
@@ -459,7 +497,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api.multicrew.co.uk/v1/requests/9',
+    'https://api.multicrew.co.uk/v1/requests/1',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -470,6 +508,18 @@ $response = $client-&gt;get(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/requests/1'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -534,14 +584,14 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "https://api.multicrew.co.uk/v1/requests/17" \
+    "https://api.multicrew.co.uk/v1/requests/20" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"departure":["EGLL","EGKK"],"aircraft":"A320","public":true,"callback":"example.com"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/17"
+    "https://api.multicrew.co.uk/v1/requests/20"
 );
 
 let headers = {
@@ -568,7 +618,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;put(
-    'https://api.multicrew.co.uk/v1/requests/17',
+    'https://api.multicrew.co.uk/v1/requests/20',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -588,6 +638,27 @@ $response = $client-&gt;put(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/requests/20'
+payload = {
+    "departure": [
+        "EGLL",
+        "EGKK"
+    ],
+    "aircraft": "A320",
+    "public": true,
+    "callback": "example.com"
+}
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('PUT', url, headers=headers, json=payload)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -683,12 +754,12 @@ The full URL to receive notifications for this request.</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X DELETE \
-    "https://api.multicrew.co.uk/v1/requests/11" \
+    "https://api.multicrew.co.uk/v1/requests/19" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/11"
+    "https://api.multicrew.co.uk/v1/requests/19"
 );
 
 let headers = {
@@ -704,7 +775,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;delete(
-    'https://api.multicrew.co.uk/v1/requests/11',
+    'https://api.multicrew.co.uk/v1/requests/19',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -715,6 +786,18 @@ $response = $client-&gt;delete(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/requests/19'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('DELETE', url, headers=headers)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -756,12 +839,12 @@ The ID of the Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/requests/17/accept/quia" \
+    -G "https://api.multicrew.co.uk/v1/requests/3/accept/quo" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/17/accept/quia"
+    "https://api.multicrew.co.uk/v1/requests/3/accept/quo"
 );
 
 let headers = {
@@ -777,7 +860,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api.multicrew.co.uk/v1/requests/17/accept/quia',
+    'https://api.multicrew.co.uk/v1/requests/3/accept/quo',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -788,6 +871,18 @@ $response = $client-&gt;get(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/requests/3/accept/quo'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -853,12 +948,12 @@ The code required to accept a private Request</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/users/12" \
+    -G "https://api.multicrew.co.uk/v1/users/17" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api.multicrew.co.uk/v1/users/12"
+    "https://api.multicrew.co.uk/v1/users/17"
 );
 
 let headers = {
@@ -874,7 +969,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api.multicrew.co.uk/v1/users/12',
+    'https://api.multicrew.co.uk/v1/users/17',
     [
         'headers' =&gt; [
             'Authorization' =&gt; 'Bearer {access_token}',
@@ -885,6 +980,18 @@ $response = $client-&gt;get(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/17'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -964,6 +1071,18 @@ $response = $client-&gt;get(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/me'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -1048,6 +1167,21 @@ $response = $client-&gt;put(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/me'
+payload = {
+    "email": "user@example.com"
+}
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('PUT', url, headers=headers, json=payload)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
@@ -1129,6 +1263,18 @@ $response = $client-&gt;get(
 );
 $body = $response-&gt;getBody();
 print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-python">import requests
+import json
+
+url = 'https://api.multicrew.co.uk/v1/users/me/requests'
+headers = {
+  'Authorization': 'Bearer {access_token}',
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()</code></pre>
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
