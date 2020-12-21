@@ -22,6 +22,12 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" id="tokens-tab" data-toggle="pill" href="#tokens" role="tab">
+            <i class="fas fa-fw mr-2 fa-people-arrows"></i>Third Party Applications
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" id="api-tab" data-toggle="pill" href="#api" role="tab">
             <i class="fas fa-fw mr-2 fa-laptop-code"></i>API
         </a>
@@ -233,6 +239,33 @@
             <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.discord.disconnect') }}">
                 <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
             </a>
+            @endif
+        </div>
+
+        <div class="tab-pane fade show card-text" id="tokens" role="tabpanel">
+            <div class="d-flex justify-content-between">
+                <p class="class-text">
+                    View all the third party applications that you have authorized to perform actions on your behalf.
+                    You are able to revoke their access to your account by clicking on the name of the application.
+                </p>
+            </div>
+            @if ($tokens)
+            <div class="card-columns">
+                @foreach ($tokens as $token)
+                <div class="card shadow cursor-pointer h-100" id="card-{{$token['id']}}">
+                    <a onclick="revokeToken({{json_encode($token['id'])}})" class="stretched-link text-decoration-none">
+                        <div class="card-body">
+                            <div class="card-title">
+                                {{$token['client']['name']}}
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{Carbon\Carbon::parse($token['created_at'])->format('d/m/Y')}}
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            </div>
             @endif
         </div>
 
@@ -470,6 +503,13 @@
         client.redirect = client.redirect.replaceAll(',', '\n')
         $('#client_show_redirect').val(client.redirect);
         $('#showClientModal').modal('show')
+    }
+
+    function revokeToken(token) {
+        axios.delete('/oauth/tokens/' + token).then(res => {
+            window.location.href = '/account#tokens';
+            window.location.reload(true);
+        });
     }
 
     $('#showClientModal').on('hide.bs.modal', function() {
