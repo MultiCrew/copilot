@@ -14,15 +14,16 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <h5 class="mb-2"><label>Client Name</label></h5>
-                        <input class="form-control" type="text" id="client_name" name="client_name" required>
+                        <h5><label>Client Name</label></h5>
+                        <small>We recommend setting this to your application name as this will be publicly shown to all users using your app.</small>
+                        <input class="form-control mt-2" type="text" id="client_name" name="client_name" required>
                     </div>
 
                     <div class="form-group">
                         <h5><label>Redirects</label></h5>
-                        <small class="mb-2">You must specify at least one URL for authentication. If you pass a URL in an OAuth
+                        <small>You must specify at least one URL for authentication. If you pass a URL in an OAuth
                             request, it must be one of the URLs below. Enter a new URL on a new line.</small>
-                        <textarea class="form-control" name="redirect" id="redirect" rows="5" required placeholder="http://example.com&#10;http://another-example.com"></textarea>
+                        <textarea class="form-control mt-2" name="redirect" id="redirect" rows="5" required placeholder="http://example.com&#10;http://another-example.com"></textarea>
                     </div>
 
 
