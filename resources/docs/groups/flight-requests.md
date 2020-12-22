@@ -370,7 +370,7 @@ The full URL to receive notifications for this request.</p>
 
 ```bash
 curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/requests/1" \
+    -G "https://api.multicrew.co.uk/v1/requests/6" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -378,7 +378,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/1"
+    "https://api.multicrew.co.uk/v1/requests/6"
 );
 
 let headers = {
@@ -398,7 +398,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api.multicrew.co.uk/v1/requests/1',
+    'https://api.multicrew.co.uk/v1/requests/6',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -415,7 +415,7 @@ print_r(json_decode((string) $body));
 import requests
 import json
 
-url = 'https://api.multicrew.co.uk/v1/requests/1'
+url = 'https://api.multicrew.co.uk/v1/requests/6'
 headers = {
   'Authorization': 'Bearer {access_token}',
   'Content-Type': 'application/json',
@@ -500,7 +500,7 @@ Note: Either departure or arrival must have at least 1 ICAO code for the request
 
 ```bash
 curl -X PUT \
-    "https://api.multicrew.co.uk/v1/requests/20" \
+    "https://api.multicrew.co.uk/v1/requests/15" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -510,7 +510,7 @@ curl -X PUT \
 
 ```javascript
 const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/20"
+    "https://api.multicrew.co.uk/v1/requests/15"
 );
 
 let headers = {
@@ -540,7 +540,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->put(
-    'https://api.multicrew.co.uk/v1/requests/20',
+    'https://api.multicrew.co.uk/v1/requests/15',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -566,7 +566,7 @@ print_r(json_decode((string) $body));
 import requests
 import json
 
-url = 'https://api.multicrew.co.uk/v1/requests/20'
+url = 'https://api.multicrew.co.uk/v1/requests/15'
 payload = {
     "departure": [
         "EGLL",
@@ -794,7 +794,7 @@ Note: To accept a private Request, a valid `code` must be passed with the reques
 
 ```bash
 curl -X GET \
-    -G "https://api.multicrew.co.uk/v1/requests/3/accept/quo" \
+    -G "https://api.multicrew.co.uk/v1/requests/19/accept/animi" \
     -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
@@ -802,7 +802,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api.multicrew.co.uk/v1/requests/3/accept/quo"
+    "https://api.multicrew.co.uk/v1/requests/19/accept/animi"
 );
 
 let headers = {
@@ -822,7 +822,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api.multicrew.co.uk/v1/requests/3/accept/quo',
+    'https://api.multicrew.co.uk/v1/requests/19/accept/animi',
     [
         'headers' => [
             'Authorization' => 'Bearer {access_token}',
@@ -839,7 +839,7 @@ print_r(json_decode((string) $body));
 import requests
 import json
 
-url = 'https://api.multicrew.co.uk/v1/requests/3/accept/quo'
+url = 'https://api.multicrew.co.uk/v1/requests/19/accept/animi'
 headers = {
   'Authorization': 'Bearer {access_token}',
   'Content-Type': 'application/json',
