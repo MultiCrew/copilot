@@ -24,7 +24,7 @@ class AirportImport implements ToModel, WithProgressBar, WithStartRow, WithBatch
     public function model(array $row)
     {
         if($row['type'] == 'heliport' || $row['type'] == 'closed_airport') return null;
-        
+
         if(!Airport::where('icao', $row['ident'])->exists()) {
             return new Airport([
                 'icao' => $row['ident'],
@@ -32,6 +32,7 @@ class AirportImport implements ToModel, WithProgressBar, WithStartRow, WithBatch
                 'latitude' => $row['latitude_deg'],
                 'longitude' => $row['longitude_deg'],
                 'elevation' => $row['elevation_ft'],
+                'iso_country' => $row['iso_country']
             ]);
         }
     }
