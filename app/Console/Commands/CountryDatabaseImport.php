@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Imports\AircraftImport;
+use App\Imports\CountryImport;
 use Illuminate\Console\Command;
 
 class CountryDatabaseImport extends Command
@@ -41,7 +41,7 @@ class CountryDatabaseImport extends Command
         $this->output->title('Starting import');
         $data = file_get_contents('https://ourairports.com/data/countries.csv');
         file_put_contents('countries.csv', $data);
-        (new AircraftImport)->withOutput($this->output)->import('countries.csv', null, \Maatwebsite\Excel\Excel::CSV);
+        (new CountryImport)->withOutput($this->output)->import('countries.csv', null, \Maatwebsite\Excel\Excel::CSV);
         unlink('countries.csv');
         $this->output->success('Import successful');
     }
