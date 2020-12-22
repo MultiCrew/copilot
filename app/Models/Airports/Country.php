@@ -3,6 +3,7 @@
 namespace App\Models\Airports;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Country extends Model
 {
@@ -15,6 +16,22 @@ class Country extends Model
         'code', 'name', 'continent',
     ];
 
+    /**
+     * Return all the Airports in the Country
+     *
+     * @return HasMany
+     */
+    public function airports(): HasMany
+    {
+        return $this->hasMany('App\Models\Airports\Airport', 'iso_country', 'code');
+    }
+
+    /**
+     * Get the human readable version of the Country Continent
+     *
+     * @param [type] $value
+     * @return void
+     */
     public function getContinentAttribute($value)
     {
         switch ($value) {
