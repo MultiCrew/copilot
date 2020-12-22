@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
 
-class CountryImport implements ToModel, WithProgressBar, WithStartRow, WithHeadingRow
+class CountryImport implements ToModel, WithProgressBar, WithHeadingRow
 {
     use Importable;
 
@@ -20,7 +20,6 @@ class CountryImport implements ToModel, WithProgressBar, WithStartRow, WithHeadi
      */
     public function model(array $row)
     {
-
         if (!Country::where('code', $row['code'])->exists()) {
             return new Country([
                 'code' => $row['code'],
@@ -28,10 +27,5 @@ class CountryImport implements ToModel, WithProgressBar, WithStartRow, WithHeadi
                 'continent' => $row['continent'],
             ]);
         }
-    }
-
-    public function startRow(): int
-    {
-        return 2;
     }
 }
