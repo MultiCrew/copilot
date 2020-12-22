@@ -22,14 +22,14 @@ Route::middleware('client', 'bot')->group(function() {
 });
 
 Route::group([
-    'middleware' => ['auth:api'],
+    'middleware' => ['auth:api', 'role:user'],
     'prefix' => 'v1',
     'namespace' => 'API\v1'
 ], function () {
     Route::group(['namespace' => 'Users'], function () {
-        Route::get('users/{user}', 'UserController@show');
         Route::get('users/me')->uses('UserController@index');
         Route::put('users/me')->uses('UserController@update');
+        Route::get('users/{user}', 'UserController@show');
     });
     Route::get('users/me/requests')->uses('Flights\RequestController@userRequests');
     Route::group(['namespace' => 'Flights'], function () {
