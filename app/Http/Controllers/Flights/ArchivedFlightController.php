@@ -7,8 +7,6 @@ use App\Models\Flights\FlightRequest;
 use App\Models\Flights\ArchivedFlight;
 use App\Models\Flights\FlightPlan;
 use App\Models\Airports\Airport;
-use Illuminate\Http\Request;
-use Auth;
 
 class ArchivedFlightController extends Controller
 {

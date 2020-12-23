@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use Session;
 use Illuminate\Http\Request;
-use App\Models\Users\APIUser;
 use App\Models\Airports\Airport;
 use App\Models\Aircraft\Aircraft;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
