@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Discord;
 
-use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Users\UserNotification;
 use App\Notifications\DiscordSendData;
 use Laravel\Socialite\Facades\Socialite;
-use Wohali\OAuth2\Client\Provider\Discord;
 
 class DiscordController extends Controller
 {
