@@ -1,7 +1,8 @@
 @extends('layouts.base')
 
 @push('prepend-scripts')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
 @endpush
 
 @section('content')
@@ -155,10 +156,14 @@ aria-hidden="true">
 @push('append-scripts')
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#fleet-table').DataTable();
+        $('#fleet-table').DataTable({
+            columnDefs: [{ orderable: false, targets: 4 }],
+        });
     });
 
     $('.selectpicker').selectpicker({
