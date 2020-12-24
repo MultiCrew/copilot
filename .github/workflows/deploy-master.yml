@@ -18,6 +18,8 @@ jobs:
         coverage: xdebug
     - name: Install dependencies
       uses: php-actions/composer@v5
+      with:
+        php_version: 7.4
     - name: Create .env file
       run: cp .env.example .env
     - name: Generate application key
