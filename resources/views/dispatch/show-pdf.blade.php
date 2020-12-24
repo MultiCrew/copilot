@@ -19,8 +19,8 @@
         <h3 class="card-title">Flight Plan @unless($plan->isApproved()) Review @endunless</h3>
         <p class="lead text-muted">
             Flight
-            from {{ $flight->departure }})
-            to {{ $flight->arrival }})
+            from {{ $flight->departure[0] }})
+            to {{ $flight->arrival[0] }})
         </p>
         <p class="card-text">
             @if($plan->isApproved())
@@ -51,17 +51,17 @@
                         <dl class="row card-text">
                             <dt class="col-5 card-text">Departure</dt>
                             <dd class="col-7 text-right card-text">
-                                <samp>{{ $flight->departure }}</samp>
+                                <samp>{{ $flight->departure[0] }}</samp>
                             </dd>
 
                             <dt class="col-5 card-text">Arrival</dt>
                             <dd class="col-7 text-right card-text">
-                                <samp>{{ $flight->arrival }}</samp>
+                                <samp>{{ $flight->arrival[0] }}</samp>
                             </dd>
 
                             <dt class="col-5 card-text">Aircraft</dt>
                             <dd class="col-7 text-right card-text">
-                                <samp>{{ $flight->aircraft }}</samp>
+                                <samp>{{ $flight->aircraft->name }}</samp>
                             </dd>
                         </dl>
                     </div>
