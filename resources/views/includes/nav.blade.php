@@ -96,6 +96,13 @@
             @endif
 
             @else
+            <li class="nav-item">
+                <span class="nav-link mr-2" id="time"></span>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link mr-2" id="time-local"></span>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link mr-2" href="#" id="notificationDropdown" data-toggle="dropdown">
                     <i class="fas fa-bell notification-bell mr-lg-2"></i>

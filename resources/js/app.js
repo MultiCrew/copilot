@@ -195,7 +195,8 @@ var moment = require('moment');
  */
 function updateTime()
 {
-    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+    $('#time').html(moment.utc().format('HH:mm') + " Z");
+    $('#time-local').html(moment().format('HH:mm') + " L");
 };
 
 
