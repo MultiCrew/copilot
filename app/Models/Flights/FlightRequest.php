@@ -74,6 +74,16 @@ class FlightRequest extends Model
     }
 
     /**
+     * Checks if a request is public
+     *
+     * @return boolean
+     */
+    public function isPublic()
+    {
+        return $this->public;
+    }
+
+    /**
      * Checks if the flight can be disaptched
      *
      * @return boolean true if both departure and arrival contain a single airport

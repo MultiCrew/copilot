@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Airports\Airport;
 use App\Models\Aircraft\Aircraft;
 use App\Models\Aircraft\ApprovedAircraft;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class SearchController extends Controller

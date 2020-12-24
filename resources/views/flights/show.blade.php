@@ -643,7 +643,7 @@ crossorigin></script>
     L.tileLayer('https://api.mapbox.com/styles/v1/{style}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: '&copy; <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         style: 'mapbox/dark-v10',
-        accessToken: "{{ env('MAPBOX_TOKEN') }}"
+        accessToken: "{{ config('services.mapbox.token') }}"
     }).addTo(mymap);
 
     // add markers

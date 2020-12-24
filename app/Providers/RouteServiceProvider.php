@@ -65,7 +65,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        $shortUrl = preg_replace("(^https?://)", "", config('app.url'));
+        Route::domain('api.' . $shortUrl)
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
