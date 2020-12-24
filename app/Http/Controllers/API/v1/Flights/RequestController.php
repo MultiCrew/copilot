@@ -312,10 +312,6 @@ class RequestController extends Controller
             try {
                 if ($flightRequest->isRequestee(Auth::user()) || $flightRequest->isAcceptee(Auth::user())) {
                     return $this->respondWithError('The authenticated user is already a participant of this request', ['USER_PARTICIPATION'], 400);
-                } elseif (($flightRequest->departure && count($flightRequest->departure) > 1) || ($flightRequest->arrival && count($flightRequest->arrival) > 1)) {
-                    return $this->respondWithError('There are multiple departure or arrival airports selected', ['AIRPORT_COUNT'], 400);
-                } elseif ($flightRequest->departure == null || $flightRequest->arrival == null) {
-                    return $this->respondWithError('Either the departure or arrival airport is set to null', ['AIRPORT_COUNT'], 400);
                 } else {
                     $flightRequest->acceptee_id = Auth::id();
                     $flightRequest->save();
