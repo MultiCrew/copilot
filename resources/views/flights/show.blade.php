@@ -138,39 +138,38 @@ crossorigin>
                     </dl>
                 @endif
             </div>
+        </div>
 
-            @if($flight->isRequestee(Auth::user()))
-                <p class="card-text mt-4">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editRequestModal">
-                        <i class="fas fa-fw mr-2 fa-edit"></i>Edit
-                    </button>
-                </p>
-            @endif
+        @if($flight->isRequestee(Auth::user()))
+            <p class="card-text mt-4">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editRequestModal">
+                    <i class="fas fa-fw mr-2 fa-edit"></i>Edit
+                </button>
+            </p>
+        @endif
 
-            @if(!$flight->public && !$flight->acceptee)
-                <hr>
-                <p class="card-text">
+        @if(!$flight->public && !$flight->acceptee)
+            <hr>
+            <div class="form-group card-text">
+                <label>
                     As your flight is private, you'll need to share it with someone
                     directly for them to join it. Just send them the link below!
-                </p>
-                <div class="form-group card-text">
-                    <label>Join link</label>
-                    <div class="input-group">
-                        <input
-                        type="text"
-                        readonly
-                        value="{{ route('flights.accept.private', ['code' => $flight->code]) }}"
-                        class="form-control"
-                        id="privateCode">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" onclick="copyLink()">
-                                <i class="fas fa-paste"></i>
-                            </button>
-                        </div>
+                </label>
+                <div class="input-group">
+                    <input
+                    type="text"
+                    readonly
+                    value="{{ route('flights.accept.private', ['code' => $flight->code]) }}"
+                    class="form-control"
+                    id="privateCode">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="copyLink()">
+                            <i class="fas fa-paste"></i>
+                        </button>
                     </div>
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
 
         <div class="mt-3" id="map" style="height: 360px;"></div>
     </div>
