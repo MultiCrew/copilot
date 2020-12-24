@@ -42,16 +42,16 @@ class PlanAccepted extends Notification
 
         $channels = [];
 
-        if($userNotifications->plan_reviewed) {
+        if ($userNotifications->plan_reviewed) {
             array_push($channels, 'database', 'broadcast');
 
-            if($userNotifications->plan_reviewed_push) {
+            if ($userNotifications->plan_reviewed_push) {
                 array_push($channels, 'webhook');
             }
 
-            if($userNotifications->plan_reviewed_email) {
-                array_push($channels, 'email');
-            }
+            // if ($userNotifications->plan_reviewed_email) {
+            //     array_push($channels, 'mail');
+            // }
         }
 
         return $channels;
@@ -68,7 +68,7 @@ class PlanAccepted extends Notification
         return [
             'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->user->username.' has just accepted the plan for your flight from '.$this->flight->departure[0].' to '.$this->flight->arrival[0],
+            'text' => $this->user->username . ' has just accepted the plan for your flight from ' . $this->flight->departure[0] . ' to ' . $this->flight->arrival[0],
             'title' => 'Flight Plan Accepted'
         ];
     }
@@ -85,7 +85,7 @@ class PlanAccepted extends Notification
             'id' => $this->id,
             'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->user->username.' has just accepted the plan for your flight from '.$this->flight->departure[0].' to '.$this->flight->arrival[0],
+            'text' => $this->user->username . ' has just accepted the plan for your flight from ' . $this->flight->departure[0] . ' to ' . $this->flight->arrival[0],
             'title' => 'Flight Plan Accepted'
         ]);
     }

@@ -49,9 +49,9 @@ class PlanRejected extends Notification
                 array_push($channels, 'webhook');
             }
 
-            if($userNotifications->plan_reviewed_email) {
-                array_push($channels, 'email');
-            }
+            // if($userNotifications->plan_reviewed_email) {
+            //     array_push($channels, 'mail');
+            // }
         }
 
         return $channels;
