@@ -31,8 +31,8 @@ crossorigin>
         <div class="row">
             <div class="col-md-6">
                 <dl class="row align-items-center card-text">
-                    <dt class="col-lg-3 card-text">Departure</dt>
-                    <dd class="col-lg-9 card-text">
+                    <dt class="col-lg-5 card-text">Departure</dt>
+                    <dd class="col-lg-7 card-text">
                         @if($type == 'FlightRequest')
                             {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
                         @else
@@ -40,8 +40,8 @@ crossorigin>
                         @endif
                     </dd>
 
-                    <dt class="col-lg-3 card-text">Arrival</dt>
-                    <dd class="col-lg-9 card-text">
+                    <dt class="col-lg-5 card-text">Arrival</dt>
+                    <dd class="col-lg-7 card-text">
                         @if($type == 'FlightRequest')
                             {{ is_array($flight->arrival) ? implode('/', $flight->arrival) : 'Not set' }}
                         @else
@@ -49,15 +49,15 @@ crossorigin>
                         @endif
                     </dd>
 
-                    <dt class="col-lg-3 card-text">Aircraft</dt>
-                    <dd class="col-lg-9 card-text">{{ $flight->aircraft->name }}</dd>
+                    <dt class="col-lg-5 card-text">Aircraft</dt>
+                    <dd class="col-lg-7 card-text">{{ $flight->aircraft->name }}</dd>
                 </dl>
             </div>
             <div class="col-md-6">
                 @if($type === 'FlightRequest')
                     <dl class="row align-items-center card-text">
-                        <dt class="col-lg-3 card-text">Copilot</dt>
-                        <dd class="col-lg-9 card-text">
+                        <dt class="col-lg-4 card-text">Copilot</dt>
+                        <dd class="col-lg-8 card-text">
                             @if($otherUser = $flight->otherUser())
                                 <a href="#" class="text-decoration-none">
                                     <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
@@ -68,8 +68,8 @@ crossorigin>
                             @endif
                         </dd>
 
-                        <dt class="col-lg-3 card-text">Flight Plan</dt>
-                        <dd class="col-lg-9 card-text">
+                        <dt class="col-lg-4 card-text">Plan</dt>
+                        <dd class="col-lg-8 card-text">
                             @if($flight->isPlanned())
                                 <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
                                     View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
@@ -84,16 +84,22 @@ crossorigin>
                                         Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </button>
                                 @else
-                                    There must be one departure and one arrival airport before you can dispatch this
-                                    flight!
+                                    <span data-toggle="tooltip" data-placement="right"
+                                    title="There must be one departure and one arrival airport before you can dispatch this flight!">
+                                        None<i class="fas fa-info-circle ml-2"></i>
+                                    </span>
                                 @endif
                             @else
-                                You need a copilot before you can dispatch this flight!
+                                <span data-toggle="tooltip" data-placement="right"
+                                  title="You need a copilot before you can dispatch this flight!">
+                                    None<i class="fas fa-info-circle ml-2"></i>
+                                </span>
+
                             @endif
                         </dd>
 
-                        <dt class="col-lg-3 card-text">Status</dt>
-                        <dd class="col-lg-9 card-text">
+                        <dt class="col-lg-4 card-text">Status</dt>
+                        <dd class="col-lg-8 card-text">
                             @if($flight->planAccepted())
                                 <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
                                     @csrf
@@ -421,6 +427,10 @@ integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUT
 crossorigin></script>
 
 <script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
     /*
      * AIRPORT SELECT PICKERS
      */
