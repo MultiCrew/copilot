@@ -333,10 +333,9 @@ aria-hidden="true">
 
                     @unless(empty($flight->expiry))
                         <div class="form-group">
-                            <h5 class="mb-2"><label>Request expires in...</label></h5>
+                            <h5 class="mb-2"><label>Expires</label></h5>
                             <input type="text" class="form-control" readonly
-                            value="{{ \Carbon\Carbon::now()
-                                    ->diffForHumans(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $flight->expiry), ['syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}">
+                            value="{{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}">
                         </div>
                     @endunless
 
