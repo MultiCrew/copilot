@@ -1,3 +1,9 @@
+<h5>v0.2.5</h5>
+
+<ul>
+    <li>Added Zulu and local time display to navbar</li>
+</ul>
+
 <h5>v0.2.4</h5>
 
 <ul>
