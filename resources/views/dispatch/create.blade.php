@@ -24,26 +24,15 @@ z-index: 2;">
         </div>
         <h3 class="card-title">Dispatch Flight</h3>
 
-        <div class="row">
-            <div class="col-md-9">
-                <p class="card-text text-justify">
-                    The following form makes use of the SimBrief API to generate a draft flight plan which both
-                    pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
-                    plan you will be prompted to sign in to or create your SimBrief account.
-                </p>
-                <p class="card-text text-justify">
-                    If you already have a plan, you may wish to <a href="{{ route('dispatch.upload', $flight) }}">upload
-                    a PDF plan</a>.
-                </p>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group text-right">
-                    <label>Current UTC Time</label>
-                    <input type="text" id="time" class="form-control text-right" readonly value="">
-                </div>
-            </div>
-        </div>
+        <p class="card-text text-justify">
+            The following form makes use of the SimBrief API to generate a draft flight plan which both
+            pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
+            plan you will be prompted to sign in to or create your SimBrief account.
+        </p>
+        <p class="card-text text-justify">
+            If you already have a plan, you may wish to <a href="{{ route('dispatch.upload', $flight) }}">upload
+            a PDF plan</a>.
+        </p>
     </div>
 </div>
 
