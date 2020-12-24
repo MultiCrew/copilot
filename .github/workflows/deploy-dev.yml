@@ -40,7 +40,7 @@ jobs:
       run: php artisan key:generate
 
     - name: Run tests
-      uses: vendor/bin/phpunit
+      run: vendor/bin/phpunit
 
   deploy:
     runs-on: ubuntu-latest
