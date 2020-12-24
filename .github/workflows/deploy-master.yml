@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy (Master)
 
 on:
   push:
@@ -9,16 +9,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
+    - name: Check out repository
+      uses: actions/checkout@v2
+    - name: Setup PHP with extensions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        coverage: xdebug
     - name: Install dependencies
-      run: composer install
+      uses: php-actions/composer@v5
     - name: Create .env file
       run: cp .env.example .env
     - name: Generate application key
       run: php artisan key:generate
     - name: Run tests
-      run: vendor/bin/phpunit
+      uses: php-actions/phpunit@v2
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,3 +48,4 @@ jobs:
             php artisan optimize
           php artisan up
           echo "Application deployed!"
+
