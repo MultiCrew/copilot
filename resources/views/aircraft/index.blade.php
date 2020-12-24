@@ -1,5 +1,10 @@
 @extends('layouts.base')
 
+@push('prepend-scripts')
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+@endpush
+
 @section('content')
 
 
@@ -16,7 +21,7 @@
             </p>
         </div>
 
-        <table class="table table-hover card-text border mb-3">
+        <table class="table table-hover card-text border mb-3" id="fleet-table">
             <caption>
                 Rows in yellow are <strong>pending approval</strong> and cannot be used in flight requests.
             </caption>
@@ -55,8 +60,6 @@
                 @endforelse
             </tbody>
         </table>
-
-        <div class="card-text mb-0">{{ $aircrafts->links() }}</div>
     </div>
 </div>
 
@@ -152,8 +155,17 @@ aria-hidden="true">
 
 @push('append-scripts')
 
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('#fleet-table').DataTable({
+            columnDefs: [{ orderable: false, targets: 4 }],
+        });
+    });
+
     $('.selectpicker').selectpicker({
         liveSearch: true
     })

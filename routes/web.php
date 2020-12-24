@@ -17,8 +17,14 @@ Route::group([
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('/about', 'Home\HomeController@about')->name('about');
     Route::get('/policies', 'Home\HomeController@policy')->name('policy');
-    Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
-    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
+    Route::group([
+        'as' => 'discord.',
+        'prefix' => 'discord'
+    ], function() {
+        Route::get('redirect', 'Discord\DiscordController@redirect')->name('redirect')->middleware('verified');
+        Route::get('callback', 'Discord\DiscordController@callback')->name('callback')->middleware('verified');
+        Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
+    });
 });
 
 /**

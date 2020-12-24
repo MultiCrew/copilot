@@ -31,8 +31,8 @@ crossorigin>
         <div class="row">
             <div class="col-md-6">
                 <dl class="row align-items-center card-text">
-                    <dt class="col-lg-3 card-text">Departure</dt>
-                    <dd class="col-lg-9 card-text">
+                    <dt class="col-lg-5 card-text">Departure</dt>
+                    <dd class="col-lg-7 card-text">
                         @if($type == 'FlightRequest')
                             {{ is_array($flight->departure) ? implode('/', $flight->departure) : 'Not set' }}
                         @else
@@ -40,8 +40,8 @@ crossorigin>
                         @endif
                     </dd>
 
-                    <dt class="col-lg-3 card-text">Arrival</dt>
-                    <dd class="col-lg-9 card-text">
+                    <dt class="col-lg-5 card-text">Arrival</dt>
+                    <dd class="col-lg-7 card-text">
                         @if($type == 'FlightRequest')
                             {{ is_array($flight->arrival) ? implode('/', $flight->arrival) : 'Not set' }}
                         @else
@@ -49,15 +49,15 @@ crossorigin>
                         @endif
                     </dd>
 
-                    <dt class="col-lg-3 card-text">Aircraft</dt>
-                    <dd class="col-lg-9 card-text">{{ $flight->aircraft->name }}</dd>
+                    <dt class="col-lg-5 card-text">Aircraft</dt>
+                    <dd class="col-lg-7 card-text">{{ $flight->aircraft->name }}</dd>
                 </dl>
             </div>
             <div class="col-md-6">
                 @if($type === 'FlightRequest')
                     <dl class="row align-items-center card-text">
-                        <dt class="col-lg-3 card-text">Copilot</dt>
-                        <dd class="col-lg-9 card-text">
+                        <dt class="col-lg-4 card-text">Copilot</dt>
+                        <dd class="col-lg-8 card-text">
                             @if($otherUser = $flight->otherUser())
                                 <a href="#" class="text-decoration-none">
                                     <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
@@ -68,8 +68,8 @@ crossorigin>
                             @endif
                         </dd>
 
-                        <dt class="col-lg-3 card-text">Flight Plan</dt>
-                        <dd class="col-lg-9 card-text">
+                        <dt class="col-lg-4 card-text">Plan</dt>
+                        <dd class="col-lg-8 card-text">
                             @if($flight->isPlanned())
                                 <a href="{{ route('dispatch.show', $flight->plan_id) }}" class="btn btn-sm btn-info m-0">
                                     View<i class="fas fa-fw ml-1 fa-angle-double-right"></i>
@@ -84,16 +84,22 @@ crossorigin>
                                         Create Plan<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </button>
                                 @else
-                                    There must be one departure and one arrival airport before you can dispatch this
-                                    flight!
+                                    <span data-toggle="tooltip" data-placement="right"
+                                    title="There must be one departure and one arrival airport before you can dispatch this flight!">
+                                        None<i class="fas fa-info-circle ml-2"></i>
+                                    </span>
                                 @endif
                             @else
-                                You need a copilot before you can dispatch this flight!
+                                <span data-toggle="tooltip" data-placement="right"
+                                  title="You need a copilot before you can dispatch this flight!">
+                                    None<i class="fas fa-info-circle ml-2"></i>
+                                </span>
+
                             @endif
                         </dd>
 
-                        <dt class="col-lg-3 card-text">Status</dt>
-                        <dd class="col-lg-9 card-text">
+                        <dt class="col-lg-4 card-text">Status</dt>
+                        <dd class="col-lg-8 card-text">
                             @if($flight->planAccepted())
                                 <form method="post" action="{{ route('flights.archive', ['flight' => $flight]) }}">
                                     @csrf
@@ -132,39 +138,38 @@ crossorigin>
                     </dl>
                 @endif
             </div>
+        </div>
 
-            @if($flight->isRequestee(Auth::user()))
-                <p class="card-text mt-4">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editRequestModal">
-                        <i class="fas fa-fw mr-2 fa-edit"></i>Edit
-                    </button>
-                </p>
-            @endif
+        @if($flight->isRequestee(Auth::user()))
+            <p class="card-text mt-4">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editRequestModal">
+                    <i class="fas fa-fw mr-2 fa-edit"></i>Edit
+                </button>
+            </p>
+        @endif
 
-            @if(!$flight->public && !$flight->acceptee)
-                <hr>
-                <p class="card-text">
+        @if(!$flight->public && !$flight->acceptee)
+            <hr>
+            <div class="form-group card-text">
+                <label>
                     As your flight is private, you'll need to share it with someone
                     directly for them to join it. Just send them the link below!
-                </p>
-                <div class="form-group card-text">
-                    <label>Join link</label>
-                    <div class="input-group">
-                        <input
-                        type="text"
-                        readonly
-                        value="{{ route('flights.accept.private', ['code' => $flight->code]) }}"
-                        class="form-control"
-                        id="privateCode">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" onclick="copyLink()">
-                                <i class="fas fa-paste"></i>
-                            </button>
-                        </div>
+                </label>
+                <div class="input-group">
+                    <input
+                    type="text"
+                    readonly
+                    value="{{ route('flights.accept.private', ['code' => $flight->code]) }}"
+                    class="form-control"
+                    id="privateCode">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="copyLink()">
+                            <i class="fas fa-paste"></i>
+                        </button>
                     </div>
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
 
         <div class="mt-3" id="map" style="height: 360px;"></div>
     </div>
@@ -327,10 +332,9 @@ aria-hidden="true">
 
                     @unless(empty($flight->expiry))
                         <div class="form-group">
-                            <h5 class="mb-2"><label>Request expires in...</label></h5>
+                            <h5 class="mb-2"><label>Expires</label></h5>
                             <input type="text" class="form-control" readonly
-                            value="{{ \Carbon\Carbon::now()
-                                    ->diffForHumans(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $flight->expiry), ['syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]) }}">
+                            value="{{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}">
                         </div>
                     @endunless
 
@@ -421,6 +425,10 @@ integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUT
 crossorigin></script>
 
 <script type="text/javascript">
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
     /*
      * AIRPORT SELECT PICKERS
      */
@@ -643,7 +651,7 @@ crossorigin></script>
     L.tileLayer('https://api.mapbox.com/styles/v1/{style}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: '&copy; <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         style: 'mapbox/dark-v10',
-        accessToken: "{{ env('MAPBOX_TOKEN') }}"
+        accessToken: "{{ config('services.mapbox.token') }}"
     }).addTo(mymap);
 
     // add markers

@@ -33,7 +33,7 @@ class WebhookChannel
         } else {
             $body = $notification->toArray($notifiable);
         }
-        $endpoint = env('BOT_URL') ."/webhook";
+        $endpoint = config('services.discord.bot_url') ."/webhook";
 		$client = new \GuzzleHttp\Client();
 		$response = $client->request('POST', $endpoint, 
 		['form_params' => $body]);

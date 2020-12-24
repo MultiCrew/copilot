@@ -7,7 +7,7 @@
 
     <a href="#" data-toggle="modal" data-target="#versionModal">
         <h5 class="pt-2 ml-2 mr-3">
-            <span class="badge badge-primary">v0.2.4</span>
+            <span class="badge badge-primary">v0.2.5</span>
         </h5>
     </a>
 
@@ -96,6 +96,13 @@
             @endif
 
             @else
+            <li class="nav-item">
+                <span class="nav-link mr-2" id="time"></span>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link mr-2" id="time-local"></span>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link mr-2" href="#" id="notificationDropdown" data-toggle="dropdown">
                     <i class="fas fa-bell notification-bell mr-lg-2"></i>
