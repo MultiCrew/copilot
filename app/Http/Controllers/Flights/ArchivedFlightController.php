@@ -24,8 +24,16 @@ class ArchivedFlightController extends Controller
      * @param  \Illuminate\Http\FlightRequest $flight
      * @return \Illuminate\Http\Response
      */
-    public function store(FlightRequest $flight)
+    public function store($flight)
     {
+        $flight = FlightRequest::find($flight);
+        if (empty($flight)) {
+            $recentFlight = ArchivedFlight::where('requestee_id', Auth::user()->id)
+                                        ->orWhere('acceptee_id', Auth::user()->id)
+                                        ->orderBy('created_at', 'desc')
+                                        ->first();
+            return redirect()->route('flights.archive.show', $recentFlight);
+        }
         $archived = new ArchivedFlight();
 
         $archived->fill([
