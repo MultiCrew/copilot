@@ -28,6 +28,12 @@ class ApprovedAircraftController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'icao' => 'required|exists:aircraft,icao',
+            'name' => 'required|max:100',
+            'sim' => 'required|max:50'
+        ]);
+
         $aircraft = ApprovedAircraft::create([
             'icao' => $request->icao,
             'name' => $request->name,
