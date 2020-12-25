@@ -33,11 +33,15 @@ This project and everyone participating in it is governed by the [MultiCrew Code
 
 ### MultiCrew and its Software
 
-MultiCrew's software is all open source projects. Currently, only the Copilot project exists, as this is MultiCrew's primary project in development right now. This is version 2 of Copilot (version 1 was closed-source and no longer exists). We have redesigned the software from the ground up, and 
+MultiCrew's software is all open source projects.
 
-### Copilot
+#### Copilot
 
 MultiCrew Copilot is primarily a tool for organising shared cockpit flights, creating, reviewing and distributing flight plans and logging flights. Users can create public 'flight requests' for other users to join, or private ones to share with friends. When connected together, users can then make use of the dispatch options available to create a SimBrief flight plan, through the SimBrief API. They must then review and accept this plan, or reject and re-plan, before flying. The flight should be marked as complete when the flight plan is no longer in use (the flight has arrived).
+
+#### Discord Bot
+
+We also host a [Discord Bot](https://github.com/MultiCrew/bot) for the purposes of integrating our services and providing mobile push notifications.
 
 ## How Can I Contribute?
 
@@ -113,7 +117,7 @@ Both issue lists are sorted by total number of comments. While not perfect, numb
 
 #### Local development
 
-MultiCrew uses Homestead, the Laravel development environment shipped as a vagrant box, to develop locally. For instructions on how to do this, read up on the [Laravel docs](https://laravel.com/docs/6.x/homestead). MutliCrew also ships a `Vagrantfile` with each of its repositories so you can simply `vagrant up` in the repository once you've cloned it.
+MultiCrew uses Homestead, the Laravel development environment shipped as a vagrant box, to develop locally. For instructions on how to do this, read up on the [Laravel docs](https://laravel.com/docs/7.x/homestead). MutliCrew also ships a `Vagrantfile` with each of its repositories so you can simply `vagrant up` in the repository once you've cloned it.
 
 ### Pull Requests
 
@@ -136,9 +140,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 ### Git Commit Messages
 
-* Use the past tense ("added feature" not "add feature")
-* Should be able to be read as a sentence from username ("[calumshep] changed method" not "[calumshep] method changed")
-* Limit the first line to 72 characters or less
+* Please follow [this guide](https://chris.beams.io/posts/git-commit/) when writing commit messages.
 
 ### PHP Styleguide
 

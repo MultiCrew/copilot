@@ -46,6 +46,7 @@
                             <th>Departure</th>
                             <th>Arrival</th>
                             <th>Aircraft</th>
+                            <th>Expires</th>
 
                             <th class="text-right p-2">
                                 <button type="button" class="btn btn-primary btn-sm m-0" data-toggle="modal" data-target="#createRequestModal">
@@ -66,6 +67,8 @@
                                 </td>
 
                                 <td class="align-middle">{{ $flight->aircraft->name }}</td>
+                                <td class="align-middle">{{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}</td>
+
                                 <td class="align-middle text-right">
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View Flight<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
