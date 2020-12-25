@@ -37,17 +37,23 @@ class ApprovedAircraftAdminController extends Controller
      */
     public function update(ApprovedAircraft $aircraft, Request $request)
     {
-            $aircraft->icao = $request->icao;
-            $aircraft->name = $request->name;
-            $aircraft->sim = $request->sim;
+        $request->validate([
+            'icao' => 'required|exists:aircraft,icao',
+            'name' => 'required|max:100',
+            'sim' => 'required|max:50'
+        ]);
 
-            if ($request->action == 'approve') {
-                $aircraft->approved = true;
-            }
+        $aircraft->icao = $request->icao;
+        $aircraft->name = $request->name;
+        $aircraft->sim = $request->sim;
 
-            $aircraft->save();
+        if ($request->action == 'approve') {
+            $aircraft->approved = true;
+        }
 
-            return redirect()->route('aircraft.show', $aircraft);
+        $aircraft->save();
+
+        return redirect()->route('aircraft.show', $aircraft);
     }
 
     /**
