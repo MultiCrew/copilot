@@ -18,7 +18,7 @@ class Profile extends Model
      * @var array
      */
     protected $fillable = [
-        'show_name', 'location', 'sims', 'weather', 'airac', 'level', 'connection', 'procedures'
+        'show_name', 'location', 'sims', 'weather', 'airac', 'level', 'connection', 'procedures', 'user_id'
     ];
 
     /**
