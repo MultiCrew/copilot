@@ -19,16 +19,19 @@ class SearchController extends Controller
     {
         if ($request->ajax()) {
 
-			$airports = Airport::where('icao', 'LIKE', '%'. $request->query('q').'%')
-								->orWhere('name', 'LIKE', '%'. $request->query('q').'%')
-								->get();
+            $request->validate([
+                'q' => 'string'
+            ]);
+
+            $airports = Airport::where('icao', 'LIKE', '%' . $request->query('q') . '%')
+                ->orWhere('name', 'LIKE', '%' . $request->query('q') . '%')
+                ->get();
 
             return $airports;
-
         }
-	}
+    }
 
-	/**
+    /**
      * Return all the aircrafts in the database
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -37,12 +40,16 @@ class SearchController extends Controller
     {
         if ($request->ajax()) {
 
-			$aircrafts = Aircraft::where('icao', 'LIKE', '%'. $request->query('q').'%')
-								->orWhere('name', 'LIKE', '%'. $request->query('q').'%')
-								->get();
+            $request->validate([
+                'q' => 'string'
+            ]);
+
+
+            $aircrafts = Aircraft::where('icao', 'LIKE', '%' . $request->query('q') . '%')
+                ->orWhere('name', 'LIKE', '%' . $request->query('q') . '%')
+                ->get();
 
             return $aircrafts;
-
         }
     }
 
@@ -55,12 +62,15 @@ class SearchController extends Controller
     {
         if ($request->ajax()) {
 
-            $aircrafts = ApprovedAircraft::where('icao', 'LIKE', '%'. $request->query('q').'%')
-                                ->orWhere('name', 'LIKE', '%'. $request->query('q').'%')
-                                ->get();
+            $request->validate([
+                'q' => 'string'
+            ]);
+
+            $aircrafts = ApprovedAircraft::where('icao', 'LIKE', '%' . $request->query('q') . '%')
+                ->orWhere('name', 'LIKE', '%' . $request->query('q') . '%')
+                ->get();
 
             return $aircrafts;
-
         }
     }
 }

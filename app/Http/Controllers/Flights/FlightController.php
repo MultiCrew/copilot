@@ -39,11 +39,10 @@ class FlightController extends Controller
     public function index()
     {
         // select flights the user can accept
-        $acceptableRequests =   FlightRequest::
-                                  where('requestee_id', '<>', Auth::user()->id)
-                                ->where('public', '=', 1)
-                                ->whereNull('acceptee_id')
-                                ->get();
+        $acceptableRequests =   FlightRequest::where('requestee_id', '<>', Auth::user()->id)
+            ->where('public', '=', 1)
+            ->whereNull('acceptee_id')
+            ->get();
 
         return view('flights.index', [
             'title'     => 'All Requests',
@@ -109,18 +108,18 @@ class FlightController extends Controller
         // work out expiry time
         $flight->fresh();
         $flight->expiry = Carbon::createFromFormat('Y-m-d H:i:s', $flight->created_at)
-                            ->add($request->time_number, $request->time_units);
+            ->add($request->time_number, $request->time_units);
         $flight->save();
 
         // notify subscribed users
         $users = UserNotification::whereJsonContains('new_request->airports', $request->departure)
-                               ->orWhereJsonContains('new_request->airports', $request->arrival)
-                               ->orWhereJsonContains('new_request->aircrafts', $request->aircraft)
-                               ->where('user_id', '!=', Auth::id())
-                               ->with('user')
-                               ->get()
-                               ->pluck('user')
-                               ->flatten();
+            ->orWhereJsonContains('new_request->airports', $request->arrival)
+            ->orWhereJsonContains('new_request->aircrafts', $request->aircraft)
+            ->where('user_id', '!=', Auth::id())
+            ->with('user')
+            ->get()
+            ->pluck('user')
+            ->flatten();
         Notification::send($users, new NewRequest(Auth::user(), $flight));
 
         // redirect to flight page
@@ -175,6 +174,12 @@ class FlightController extends Controller
      */
     public function update(Request $request, FlightRequest $flight)
     {
+        $request->validate([
+            'departure.*' => 'required|size:4|airport',
+            'arrival.*' => 'required|size:4|airport',
+            'aircraft' => 'required|aircraft'
+        ]);
+
         $flight->fill([
             'departure' => $request->departure,
             'arrival'   => $request->arrival,
@@ -190,7 +195,7 @@ class FlightController extends Controller
         $flight->save();
         $flight->fresh();
         $flight->expiry = Carbon::createFromFormat('Y-m-d H:i:s', $flight->updated_at)
-                            ->add($request->time_number, $request->time_units);
+            ->add($request->time_number, $request->time_units);
 
         $flight->save();
 
@@ -218,17 +223,17 @@ class FlightController extends Controller
     {
         // select flights where requestee_id IS the authed user and the flights are NOT accepted
         $openRequests = FlightRequest::whereNull('acceptee_id')
-                        ->where('requestee_id', '=', Auth::user()->id)
-                        ->get();
+            ->where('requestee_id', '=', Auth::user()->id)
+            ->get();
         // select flights where an involved user IS the authed user and the flights ARE accepted
         $acceptedRequests = FlightRequest::whereNotNull('acceptee_id')
-                            ->where(function($query) {
-                                $query->where('requestee_id', '=', Auth::user()->id)
-                                      ->orWhere('acceptee_id', '=', Auth::user()->id);
-                            })->get();
+            ->where(function ($query) {
+                $query->where('requestee_id', '=', Auth::user()->id)
+                    ->orWhere('acceptee_id', '=', Auth::user()->id);
+            })->get();
         $archivedFlights = ArchivedFlight::where('requestee_id', '=', Auth::user()->id)
-                                         ->orWhere('acceptee_id', '=', Auth::user()->id)
-                                         ->get();
+            ->orWhere('acceptee_id', '=', Auth::user()->id)
+            ->get();
 
         return view('flights.user', [
             'openRequests'      => $openRequests,
@@ -252,28 +257,25 @@ class FlightController extends Controller
 
         $query = $request->get('query');
 
-        if($query != '')
-        {
+        if ($query != '') {
             $data =
                 DB::table('flights')
                 ->where('public', 1)
-                ->where(function ($q) use ($query){
-                    $q->where('departure', 'like', '%'.$query.'%')
-                    ->orWhere('arrival', 'like', '%'.$query.'%')
-                    ->orWhere('aircraft', 'like', '%'.$query.'%')
-                    ->where('public', 1);
+                ->where(function ($q) use ($query) {
+                    $q->where('departure', 'like', '%' . $query . '%')
+                        ->orWhere('arrival', 'like', '%' . $query . '%')
+                        ->orWhere('aircraft', 'like', '%' . $query . '%')
+                        ->where('public', 1);
                 })
                 ->orderBy('id', 'asc')
                 ->get();
-        }
-        else
-        {
+        } else {
             $data =
                 FlightRequest::get()
                 ->where('public', 1)
                 ->sortBy('id');
         }
-        if($request->ajax())
+        if ($request->ajax())
             echo json_encode($data);
         else
             return $data;

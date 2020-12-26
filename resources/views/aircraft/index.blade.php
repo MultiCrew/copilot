@@ -38,33 +38,38 @@
 
             <tbody>
                 @forelse($aircrafts as $aircraft)
-                <tr @unless($aircraft->approved) class="table-warning" @endif>
-                    <td class="align-middle"><samp>{{ $aircraft->icao }}</samp></td>
-                    <td class="align-middle">{{ $aircraft->name }}</td>
-                    <td class="align-middle">{{ $aircraft->simulator->name }}</td>
-                    <td class="align-middle">
-                        {{ $aircraft->added_by ? $aircraft->added_by : 'MultiCrew' }}
-                    </td>
-                    @role('admin')
-                    <td class="text-right">
-                        <a href="{{ route('aircraft.show', $aircraft) }}" class="btn btn-primary btn-sm my-0">
-                            View<i class="fas fa-angle-double-right ml-2"></i>
-                        </a>
-                    </td>
-                    @endrole
-                </tr>
+                    <tr @unless($aircraft->approved) class="table-warning" @endif>
+                        <td class="align-middle"><samp>{{ $aircraft->icao }}</samp></td>
+                        <td class="align-middle">{{ $aircraft->name }}</td>
+                        <td class="align-middle">{{ $aircraft->sim }}</td>
+                        <td class="align-middle">
+                            {{ $aircraft->added_by ? $aircraft->added_by : 'MultiCrew' }}
+                        </td>
+                        @role('admin')
+                            <td class="text-right">
+                                <a href="{{ route('aircraft.show', $aircraft) }}" class="btn btn-primary btn-sm my-0">
+                                    View<i class="fas fa-angle-double-right ml-2"></i>
+                                </a>
+                            </td>
+                        @endrole
+                    </tr>
                 @empty
-                <tr>
-                    <td colspan="3">No aircraft!</td>
-                </tr>
+                    <tr>
+                        <td colspan="3">No aircraft!</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </div>
 
-<div class="modal fade" id="createAircraftModal" tabindex="-1" role="dialog" aria-labelledby="createAircraftModalLabel"
-    aria-hidden="true">
+<div
+class="modal fade"
+id="createAircraftModal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="createAircraftModalLabel"
+aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form method="post" action="{{ route('aircraft.store') }}">
@@ -85,38 +90,52 @@
 
                     <div class="form-group">
                         <h5 class="mb-2"><label>ICAO Code</label></h5>
-                        <select name="icao" id="icao"
-                            class="selectpicker mt-1 mb-3 form-control {{ $errors->has('icao') ? 'border-danger' : '' }}"
-                            data-live-search="true" value="{{ is_null(old('icao')) ? '' : old('icao') }}"></select>
+                        <select
+                        name="icao"
+                        id="icao"
+                        class="selectpicker mt-1 mb-3 form-control {{ $errors->has('icao') ? 'border-danger' : '' }}"
+                        data-live-search="true"
+                        value="{{ is_null(old('icao')) ? '' : old('icao') }}"></select>
 
                         @if($errors->has('icao'))
-                        <p class="help text-danger">
-                            {{ $errors->first('icao') }}
-                        </p>
+                            <p class="help text-danger">
+                                {{ $errors->first('icao') }}
+                            </p>
                         @endif
                     </div>
 
                     <div class="form-group">
                         <h5 class="mb-2"><label>Name</label></h5>
-                        <input type="text" name="name" id="name"
-                            class="form-control {{ $errors->has('name') ? 'border-danger' : '' }}"
-                            value="{{ is_null(old('name')) ? '' : old('name') }}" required>
+                        <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        class="form-control {{ $errors->has('name') ? 'border-danger' : '' }}"
+                        value="{{ is_null(old('name')) ? '' : old('name') }}"
+                        required>
                         @if($errors->has('name'))
-                        <p class="help text-danger">
-                            {{ $errors->first('name') }}
-                        </p>
+                            <p class="help text-danger">
+                                {{ $errors->first('name') }}
+                            </p>
                         @endif
                         <small class="form-text">Please describe the aircraft addon</small>
                     </div>
 
                     <div class="form-group">
                         <h5 class="mb-2"><label>Simulator</label></h5>
-                        <select name="sim" id="sim" class="custom-select" required>
+                        <select
+                        name="sim"
+                        id="sim"
+                        class="custom-select"
+                        required>
                             <option selected disabled value>Choose one...</option>
-                            @foreach ($simulators as $simulator)
-                            <option value="{{$simulator->id}}" @if($aircraft->sim == $simulator->id)
-                                selected @endif>{{$simulator->name}}</option>
-                            @endforeach
+                            <option value="FSX">FSX</option>
+                            <option value="P3D v3">P3D v3</option>
+                            <option value="P3D v4">P3D v4</option>
+                            <option value="P3D v5">P3D v5</option>
+                            <option value="X-Plane 10">X-Plane 10</option>
+                            <option value="X-Plane 11">X-Plane 11</option>
+                            <option value="MSFS 2020">MSFS 2020</option>
                         </select>
                     </div>
                 </div>
@@ -138,8 +157,7 @@
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js">
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -194,4 +212,3 @@
 </script>
 
 @endpush
-

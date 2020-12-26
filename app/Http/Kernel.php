@@ -66,17 +66,13 @@ class Kernel extends HttpKernel
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'plan_role' => \App\Http\Middleware\CheckPlanRole::class,
+        'profile' => \App\Http\Middleware\CheckProfileRole::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'flight_role' => \App\Http\Middleware\CheckFlightRole::class,
-        'plan_role' => \App\Http\Middleware\CheckPlanRole::class,
-        'profile' => \App\Http\Middleware\CheckProfileRole::class,
-        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class
     ];
 
     /**

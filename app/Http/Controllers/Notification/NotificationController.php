@@ -84,6 +84,11 @@ class NotificationController extends Controller
     public function airport(Request $request)
     {
         if($request->ajax()) {
+
+            $request->validate([
+                'data' => 'exists:airports,icao'
+            ]);
+
             $userNotification = UserNotification::where('user_id', Auth::id())->first();
 
             $new_request = $userNotification->new_request;
@@ -105,6 +110,11 @@ class NotificationController extends Controller
     public function aircraft(Request $request)
     {
         if($request->ajax()) {
+
+            $request->validate([
+                'data' => 'exists:aircraft,icao'
+            ]);
+
             $userNotification = UserNotification::where('user_id', Auth::id())->first();
 
             $new_request = $userNotification->new_request;
