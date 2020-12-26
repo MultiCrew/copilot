@@ -195,7 +195,8 @@ var moment = require('moment');
  */
 function updateTime()
 {
-    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+    $('#time').html(moment.utc().format('HH:mm') + " Z");
+    $('#time-local').html(moment().format('HH:mm') + " L");
 };
 
 
@@ -206,6 +207,11 @@ $(document).ready(function()
     if ($('#time').length) {
         setInterval(updateTime, 60000);
     }
+
+    $('#logoutFormSubmit').click(function() {
+        event.preventDefault();
+        document.getElementById('logout-form').submit();
+    });
 
     // initialise any file input placeholders via plugin
     bsCustomFileInput.init();

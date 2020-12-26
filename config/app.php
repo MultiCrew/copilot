@@ -2,10 +2,6 @@
 
 return [
 
-    'discord_id' => env('DISCORD_CLIENT_ID'),
-	'discord_secret' => env('DISCORD_CLIENT_SECRET'),
-    'discord_redirect' => env('DISCORD_REDIRECT_URI'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -289,5 +285,4 @@ return [
         'WeatherEngine' => App\Models\FlightSim\WeatherEngine::class,
         'User' => App\Models\Users\User::class,
     ],
-
 ];

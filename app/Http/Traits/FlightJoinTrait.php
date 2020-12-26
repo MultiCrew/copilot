@@ -1,11 +1,13 @@
 <?php
 namespace App\Http\Traits;
 
-use App\Models\Flights\FlightRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Flights\FlightRequest;
 use App\Notifications\RequestAccepted;
 
 trait FlightJoinTrait {
+
+    use WebhookTrait;
 
     public function accept(FlightRequest $flight)
     {
@@ -25,6 +27,10 @@ trait FlightJoinTrait {
 
         $requestee = $flight->requestee;
         $requestee->notify(new RequestAccepted(Auth::user(), $requestee, $flight));
+
+        if ($flight->callback) {
+            $this->requestCall($flight, 'Accepted');
+        }
 
         return $flight;
     }
