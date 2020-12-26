@@ -14,7 +14,7 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['profile_role'])->except('show');
+        $this->middleware(['profile'])->except('show');
     }
     /**
      * Display the specified resource.
