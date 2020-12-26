@@ -9,6 +9,7 @@ class Profile extends Model
     protected $casts = [
         'sims' => 'array',
         'weather' => 'array',
+        'show_name' => 'boolean',
         'airac' => 'boolean'
     ];
 

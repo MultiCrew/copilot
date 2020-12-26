@@ -48,7 +48,7 @@
         <a
         href="{{ route('profile.show', Auth::user()->profile) }}"
         class="bg-dark list-group-item list-group-item-action
-        @if(strpos(Route::currentRouteName(), 'profile') !== false) active @endif">
+        @if(isset($profile) && ($profile->id === Auth::user()->profile->id)) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
                 <i class="fa fa-id-card fa-fw mr-3"></i>Profile
             </div>
@@ -57,7 +57,7 @@
         <a
         href="{{ route('account.index') }}"
         class="bg-dark list-group-item list-group-item-action
-        @if(strpos(Route::currentRouteName(), 'account') !== false && !(strpos(Route::currentRouteName(), 'account.admin') !== false)) active @endif">
+        @if(Route::currentRouteNamed('account*')) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
                 <i class="fa fa-user-cog fa-fw mr-3"></i>Account
             </div>

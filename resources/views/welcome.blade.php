@@ -93,6 +93,8 @@
                 </div>
 
                 <div class="text-links">
+                    <a href="{{ route('home.about') }}">About</a>
+                    <a href="{{ route('home.policy') }}">Policies</a>
                     @auth
                         @role('new')
                         @else
