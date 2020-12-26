@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Flights;
 
+use App\Models\Airports\Airport;
+use App\Models\Flights\FlightPlan;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\FlightRequest;
 use App\Models\Flights\ArchivedFlight;
-use App\Models\Flights\FlightPlan;
-use App\Models\Airports\Airport;
 
 class ArchivedFlightController extends Controller
 {
@@ -27,9 +28,9 @@ class ArchivedFlightController extends Controller
         $flight = FlightRequest::find($flight);
         if (empty($flight)) {
             $recentFlight = ArchivedFlight::where('requestee_id', Auth::user()->id)
-                                        ->orWhere('acceptee_id', Auth::user()->id)
-                                        ->orderBy('created_at', 'desc')
-                                        ->first();
+                ->orWhere('acceptee_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
             return redirect()->route('flights.archive.show', $recentFlight);
         }
         $archived = new ArchivedFlight();
