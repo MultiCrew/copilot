@@ -85,9 +85,11 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-baseline">
                     <h3 class="card-title mb-3">Preferences</h3>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
-                        <i class="fas fa-angle-double-left mr-2"></i>Back
-                    </a>
+                    @if($profile->id !== Auth::user()->profile->id)
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                            <i class="fas fa-angle-double-left mr-2"></i>Back
+                        </a>
+                    @endif
                 </div>
 
                 @if($profile->id === Auth::user()->profile->id)

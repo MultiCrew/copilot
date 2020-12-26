@@ -34,7 +34,12 @@
             <tbody>
                 @foreach ($flights as $flight)
                     <tr>
-                        <td class="align-middle">{{ User::find($flight->requestee_id)->username }}</td>
+                        <td class="align-middle">
+                            <a href="{{ route('profile.show', $flight->requestee->profile) }}" class="text-decoration-none">
+                                <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                {{ $flight->requestee->username }}
+                            </a>
+                        </td>
                         <td class="align-middle">
                             {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
                         </td>
