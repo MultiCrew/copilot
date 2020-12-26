@@ -208,6 +208,11 @@ $(document).ready(function()
         setInterval(updateTime, 60000);
     }
 
+    $('#logoutFormSubmit').click(function() {
+        event.preventDefault();
+        document.getElementById('logout-form').submit();
+    });
+
     // initialise any file input placeholders via plugin
     bsCustomFileInput.init();
 

@@ -148,11 +148,10 @@
                     </a>
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
-                    </a>
 
+                    <a class="dropdown-item" href="{{ route('logout') }}" id="logoutFormSubmit">
+                        <i class="fas fa-sign-out-alt fa-fw mr-3"></i>Logout
+                    </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
