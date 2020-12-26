@@ -85,10 +85,8 @@ class RegisterController extends Controller
 		$userNotifications->new_request = $new_request;
 		$userNotifications->save();
 
-        $profile = new Profile();
-        $profile->fill([
-            'name'      => $data['name'],
-            'username'  => $data['username']
+        $profile = Profile::create([
+            'user_id' => $user->id
         ]);
         $profile->save();
 
