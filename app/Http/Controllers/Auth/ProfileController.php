@@ -12,6 +12,10 @@ use App\Models\FlightSim\WeatherEngine;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['profile_role'])->except('show');
+    }
     /**
      * Display the specified resource.
      *
@@ -46,10 +50,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        if (Auth::user()->id != $profile->user_id) {
-            return redirect()->route('profile.show', Auth::user()->profile);
-        }
-
         if (isset($request->showName)) {
             $profile->show_name = $request->showName;
             $profile->location = $request->location;
@@ -78,10 +78,6 @@ class ProfileController extends Controller
      */
     public function updatePicture(Request $request, Profile $profile)
     {
-        if (Auth::user()->id != $profile->user_id) {
-            return redirect()->route('profile.show', Auth::user()->profile);
-        }
-
         $request->validate([
             'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
