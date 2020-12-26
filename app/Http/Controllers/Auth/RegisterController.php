@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Users\User;
+use App\Models\Users\Profile;
 use App\Http\Controllers\Controller;
-use App\Models\Users\UserNotification;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Users\UserNotification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
