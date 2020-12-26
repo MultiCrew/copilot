@@ -26,6 +26,17 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a
+                class="nav-link
+                @if(Route::currentRouteName() === 'home.policy')
+                    active
+                @endif"
+                href="{{ route('home.policy') }}">
+                    <i class="fas fa-file-alt fa-fw mr-2"></i>Policies
+                </a>
+            </li>
+
             @auth
                 @role('new')
                     @can('apply to beta')
@@ -50,30 +61,6 @@
                     </li>
                 @endrole
             @endauth
-            <li class="nav-item">
-                <a
-                class="nav-link
-                @if(Route::currentRouteName() === 'home.policy')
-                    active
-                @endif"
-                href="{{ route('home.policy') }}">
-                    <i class="fas fa-file-alt fa-fw mr-2"></i>Policies
-                </a>
-            </li>
-        </ul>
-
-        <!-- left nav (without sidebar) -->
-        <ul class="navbar-nav mr-auto d-block d-lg-none">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('flights.index') }}">
-                    <i class="fas fa-search fa-fw mr-2"></i>Find Flights
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('flights.user-flights') }}">
-                    <i class="fas fa-user fa-fw mr-2"></i>My Flights
-                </a>
-            </li>
         </ul>
 
         <!-- Right Side Of Navbar -->
@@ -130,16 +117,18 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown @if(strpos(Route::currentRouteName(), 'account') !== false) active @endif">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <a id="navbarDropdown" class="nav-link dropdown-toggle
+                @if(Route::currentRouteNamed('account*') ||
+                isset($profile) && ($profile->id === Auth::user()->profile->id)) active @endif"
+                href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw mr-2 fa-user-circle"></i>{{ Auth::user()->username }}
                     <span class="caret"></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item disabled @if(Route::currentRouteName() === 'account.profile') active @endif"
-                        href="#">
+                    <a class="dropdown-item @if(isset($profile) && ($profile->id === Auth::user()->profile->id)) active @endif"
+                         href="{{ route('profile.show', Auth::user()->profile) }}">
                         <i class="fas fa-user fa-fw mr-3"></i>Profile
                     </a>
                     <a class="dropdown-item @if(Route::currentRouteName() === 'account.index') active @endif"
