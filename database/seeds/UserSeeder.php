@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
         $this->makeUser('Admin User', 'adminuser', 'admin@multicrew.co.uk', 'test', ['admin', 'user']);
         $this->makeUser('Beta User', 'betauser', 'beta@multicrew.co.uk', 'test', ['user']);
         $this->makeUser('Test User', 'testuser', 'test@multicrew.co.uk', 'test', ['new']);
+        User::where('username', 'testuser')->first()->givePermissionTo('apply to beta');
     }
 
     /**
