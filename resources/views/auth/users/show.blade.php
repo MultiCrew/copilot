@@ -45,9 +45,6 @@
 <div class="card">
     <div class="card-body tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active card-text" id="account" role="tabpanel">
-
-            <p>{{ Route::currentRouteName() }}</p>
-
             <form method="post" action="{{ route('account.update') }}">
                 @method('patch')
                 @csrf
