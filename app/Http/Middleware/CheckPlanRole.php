@@ -20,23 +20,23 @@ class CheckPlanRole
     {
         /** @var \App\Models\Flights\FlightPlan $plan */
         $plan = $request->route('plan');
-        
+
         /** @var string $id */
         $id = $request->route('id');
 
-        switch($role){
+        switch ($role) {
             case 'requestee':
-                if(!$plan->flight->isRequestee(Auth::user())) abort(403);
+                if (!$plan->flight->isRequestee(Auth::user())) abort(403);
                 break;
             case 'acceptee':
-                if(!$plan->flight->isAcceptee(Auth::user())) abort(403);
+                if (!$plan->flight->isAcceptee(Auth::user())) abort(403);
                 break;
             case 'member':
-                if(!$plan->flight->isRequestee(Auth::user()) && !$plan->flight->isAcceptee(Auth::user())) abort(403);
+                if (!$plan->flight->isRequestee(Auth::user()) && !$plan->flight->isAcceptee(Auth::user())) abort(403);
                 break;
             case 'guest':
-                $plan = Plan::find($id);
-                if($plan->flight->isRequestee(Auth::user()) || $plan->flight->isAcceptee(Auth::user())) abort(403);
+                $plan = FlightPlan::find($id);
+                if ($plan->flight->isRequestee(Auth::user()) || $plan->flight->isAcceptee(Auth::user())) abort(403);
                 break;
         }
         return $next($request);

@@ -111,7 +111,11 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes(['verify' => true]);
+
+// beta application routes
 Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
+
+// account management routes
 Route::group([
     'as' => 'account.',
     'prefix' => 'account',
@@ -121,7 +125,17 @@ Route::group([
     Route::patch('/update', 'Auth\AccountController@update')->name('update');
 });
 
-Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
+// profile picture routes
+Route::group([
+    'as'        => 'profile.picture.',
+    'prefix'    => 'profile/{profile}/picture',
+    'middleware' => 'verified'
+], function () {
+    Route::patch('/', 'Auth\ProfileController@updatePicture')->name('update');
+    Route::delete('/', 'Auth\ProfileController@removePicture')->name('destroy');
+});
+// profile routes
+Route::resource('profile', 'Auth\ProfileController')->only(['show', 'update'])->middleware('verified');
 
 // administration routes
 Route::group([

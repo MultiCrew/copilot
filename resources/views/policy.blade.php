@@ -1,11 +1,12 @@
 @extends('layouts.base')
 
+@section('title', 'Terms and Policies')
+
 @section('content')
 
-<h1>Terms and Policies</h1>
-<h5 class="text-muted">Revised April 2020</h5>
+<h5 class="text-muted text-center">Revised April 2020</h5>
 <p>
-    MultiCrew is a not-for-profit, community-driven, recreational flight
+    MultiCrew is a community driven and funded recreational flight
     simulation organisation. We specialise in shared cockpit services by
     providing: unofficial support, means to organise and coordinate shared
     cockpit and group flights, flight simulator training and online network
@@ -35,7 +36,7 @@
 <h5>Use license</h5>
 <p>
     MultiCrew's software is governed by the
-    <a href="https://github.com/MultiCrew/copilot/blob/master/LICENSE">MIT license</a>.
+    <a href="https://github.com/MultiCrew/copilot/blob/master/LICENSE">MIT license<i class="fas fa-external-link-alt ml-2"></i></a>.
 </p>
 <h5>Disclaimer</h5>
 <p>
@@ -77,7 +78,10 @@
 <p>
     An HTTP cookie is defined as “a small piece of data sent from a website and
     stored on the user's computer by the user's web browser while the user is
-    browsing.” [<a>Wikipedia</a>]  https://en.wikipedia.org/wiki/HTTP_cookie
+    browsing.”
+    <a href="https://en.wikipedia.org/wiki/HTTP_cookie">
+        [Wikipedia]  https://en.wikipedia.org/wiki/HTTP_cookie<i class="fas fa-external-link-alt ml-2"></i>
+    </a>
 </p>
 <p>
     The MultiCrew website, that is
@@ -92,7 +96,7 @@
 <h5>Analytics</h5>
 <p>
     MultiCrew uses
-    <a href="https://analytics.google.com/analytics/web/">Google Analytics</a>,
+    <a href="https://analytics.google.com/analytics/web/">Google Analytics<i class="fas fa-external-link-alt ml-2"></i></a>,
     a web traffic analysis from Google, to better understand data about its
     visitors. This may include, but is not limited to, approximate age, country
     of origin, number of times visited and duration of each visit. All of the
@@ -102,7 +106,7 @@
     to further improve the services it provides. Google may use the data in a
     similar way, however, their policy on this data may differ from the
     MultiCrew policies. More information on Google’s policies may be found at
-    <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a>.
+    <a href="https://policies.google.com/privacy">https://policies.google.com/privacy<i class="fas fa-external-link-alt ml-2"></i></a>.
     By using our website, you are giving MultiCrew and Google consent to collect
     and use the anonymous data as described.
 </p>
@@ -113,7 +117,7 @@
     relevant to MultiCrew, flight simulation and/or MultiCrew’s partners, and
     should not be considered spam. However, should you not wish to receive any
     non-essential communication, please send an email to
-    <a href="mailto:admin@multicrew.co.uk">admin@multicrew.co.uk</a>
+    <a href='&#109;ailt&#111;&#58;&#105;&#110;fo%40&#109;u&#108;ticrew&#46;c&#111;%&#50;Eu%&#54;B'>i&#110;fo&#64;mul&#116;i&#99;r&#101;w&#46;&#99;o&#46;u&#107;</a>
     from the email address you wish to be removed from mailing lists. You will
     still receive emails regarding your account. Unregistered users will never
     receive any communication from MultiCrew, nor are email addresses obtainable
@@ -136,7 +140,7 @@
 </p>
 <p>
     Upon request, by email to
-    <a href="mailto:admin@multicrew.co.uk">admin@multicrew.co.uk</a>,
+    <a href='&#109;ailt&#111;&#58;&#105;&#110;fo%40&#109;u&#108;ticrew&#46;c&#111;%&#50;Eu%&#54;B'>i&#110;fo&#64;mul&#116;i&#99;r&#101;w&#46;&#99;o&#46;u&#107;</a>,
     users will be given a copy of all the data which MultiCrew holds about them,
     in compliance with the EU General Data Protection Regulation.
 </p>

@@ -61,13 +61,9 @@
                 id="sim"
                 class="custom-select"
                 required>
-                    <option value="FSX" @if($aircraft->sim == 'FSX') selected @endif>FSX</option>
-                    <option value="P3D v3" @if($aircraft->sim == 'P3D v3') selected @endif>P3D v3</option>
-                    <option value="P3D v4" @if($aircraft->sim == 'P3D v4') selected @endif>P3D v4</option>
-                    <option value="P3D v5" @if($aircraft->sim == 'P3D v5') selected @endif>P3D v5</option>
-                    <option value="X-Plane 10" @if($aircraft->sim == 'X-Plane 10') selected @endif>X-Plane 10</option>
-                    <option value="X-Plane 11" @if($aircraft->sim == 'X-Plane 11') selected @endif>X-Plane 11</option>
-                    <option value="MSFS 2020" @if($aircraft->sim == 'MSFS 2020') selected @endif>MSFS 2020</option>
+                    @foreach ($simulators as $simulator)
+                        <option value="{{$simulator->id}}" @if($aircraft->sim == $simulator->id) selected @endif>{{$simulator->name}}</option>
+                    @endforeach
                 </select>
             </div>
 

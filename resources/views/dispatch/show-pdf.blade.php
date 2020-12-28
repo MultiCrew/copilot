@@ -19,8 +19,8 @@
         <h3 class="card-title">Flight Plan @unless($plan->isApproved()) Review @endunless</h3>
         <p class="lead text-muted">
             Flight
-            from {{ $flight->departure[0] }})
-            to {{ $flight->arrival[0] }})
+            from {{ $flight->departure[0] }}
+            to {{ $flight->arrival[0] }}
         </p>
         <p class="card-text">
             @if($plan->isApproved())
@@ -62,6 +62,14 @@
                             <dt class="col-5 card-text">Aircraft</dt>
                             <dd class="col-7 text-right card-text">
                                 <samp>{{ $flight->aircraft->name }}</samp>
+                            </dd>
+
+                            <dt class="col-5 card-text">Copilot</dt>
+                            <dd class="col-7 text-right card-text">
+                                <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
+                                    <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                    {{ $flight->otherUser()->username }}
+                                </a>
                             </dd>
                         </dl>
                     </div>

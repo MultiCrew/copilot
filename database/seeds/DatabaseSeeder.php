@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            ApprovedAircraftSeeder::class
+            ApprovedAircraftSeeder::class,
+            SimulatorSeeder::class,
+            WeatherEngineSeeder::class
         ]);
 
         if (App::environment('local')) {

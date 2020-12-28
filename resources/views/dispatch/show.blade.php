@@ -84,6 +84,14 @@
                             <dd class="col-7 text-right">
                                 <samp>{{ $fpl['aircraft']['icaocode'] }}</samp>
                             </dd>
+
+                            <dt class="col-5 card-text">Copilot</dt>
+                            <dd class="col-7 text-right card-text">
+                                <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
+                                    <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                    {{ $flight->otherUser()->username }}
+                                </a>
+                            </dd>
                         </dl>
                     </div>
                 </div>
