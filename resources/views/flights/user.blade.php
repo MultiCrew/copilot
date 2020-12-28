@@ -84,7 +84,7 @@
                         @forelse($acceptedRequests as $flight)
                             <tr>
                                 <td class="align-middle">
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                         {{ $flight->otherUser()->username }}
                                     </a>
@@ -138,7 +138,7 @@
                                 <td class="align-middle">{{ $flight->arrival }}</td>
                                 <td class="align-middle">{{ $flight->aircraft->name }}</td>
                                 <td class="align-middle">
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>{{ $flight->otherUser()->username }}
                                     </a>
                                 </td>

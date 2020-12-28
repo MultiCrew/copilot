@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStandsToFplTable extends Migration
+class AddUserIdToProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddStandsToFplTable extends Migration
      */
     public function up()
     {
-        Schema::table('flight_plans', function (Blueprint $table) {
-            $table->string('dep_stand')->nullable();
-            $table->string('arr_stand')->nullable();
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
         });
     }
 
@@ -26,9 +25,8 @@ class AddStandsToFplTable extends Migration
      */
     public function down()
     {
-        Schema::table('flight_plans', function (Blueprint $table) {
-            $table->dropColumn('dep_stand');
-            $table->dropColumn('arr_stand');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('profile_id');
         });
     }
 }

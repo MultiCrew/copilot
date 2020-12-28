@@ -312,7 +312,7 @@ class RequestController extends Controller
             try {
                 if ($flightRequest->isRequestee(Auth::user()) || $flightRequest->isAcceptee(Auth::user())) {
                     return $this->respondWithError('The authenticated user is already a participant of this request', ['USER_PARTICIPATION'], 400);
-                } else {
+                }  else {
                     $flightRequest->acceptee_id = Auth::id();
                     $flightRequest->save();
 

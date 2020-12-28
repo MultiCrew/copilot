@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Aircraft;
 
 use App\Http\Controllers\Controller;
 use App\Models\Aircraft\ApprovedAircraft;
+use App\Models\FlightSim\Simulator;
 use Illuminate\Http\Request;
 
 class ApprovedAircraftController extends Controller
@@ -16,7 +17,8 @@ class ApprovedAircraftController extends Controller
     public function index()
     {
         return view('aircraft.index', [
-            'aircrafts' => ApprovedAircraft::orderBy('approved', 'asc')->orderBy('icao', 'asc')->get()
+            'aircrafts' => ApprovedAircraft::orderBy('approved', 'asc')->orderBy('icao', 'asc')->get(),
+            'simulators' => Simulator::all(),
         ]);
     }
 

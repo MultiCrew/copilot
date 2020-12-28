@@ -59,7 +59,7 @@ crossorigin=""/>
                         <dt class="col-lg-4 card-text">Copilot</dt>
                         <dd class="col-lg-8 card-text">
                             @if($otherUser = $flight->otherUser())
-                                <a href="#" class="text-decoration-none">
+                                <a href="{{ route('profile.show', $otherUser->profile) }}" class="text-decoration-none">
                                     <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                     {{ $otherUser->username }}
                                 </a>
@@ -86,15 +86,14 @@ crossorigin=""/>
                                 @else
                                     <span data-toggle="tooltip" data-placement="right"
                                     title="There must be one departure and one arrival airport before you can dispatch this flight!">
-                                        None<i class="fas fa-info-circle ml-2"></i>
+                                        None<i class="fas fa-exclamation-circle ml-2"></i>
                                     </span>
                                 @endif
                             @else
                                 <span data-toggle="tooltip" data-placement="right"
                                   title="You need a copilot before you can dispatch this flight!">
-                                    None<i class="fas fa-info-circle ml-2"></i>
+                                    None<i class="fas fa-exclamation-circle ml-2"></i>
                                 </span>
-
                             @endif
                         </dd>
 
@@ -124,7 +123,7 @@ crossorigin=""/>
                     <dl class="row card-text">
                         <dt class="col-sm-3 card-text">Copilot</dt>
                         <dd class="col-sm-9 card-text">
-                            <a href="#" class="text-decoration-none">
+                            <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
                                 <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                 {{ $flight->otherUser()->username }}
                             </a>

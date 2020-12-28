@@ -129,6 +129,16 @@ z-index: 2;">
                                     value="{{ $flight->aircraft->icao }}">
                                 </div>
                             </div>
+
+                            <div class="form-group row mb-n1">
+                                <label class="col-6 col-form-label">Copilot</label>
+                                <div class="col-6 pt-2">
+                                    <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                        {{ $flight->otherUser()->username }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /end summary box -->

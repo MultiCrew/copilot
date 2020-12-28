@@ -84,6 +84,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * The user's profile
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Users\Profile');
+    }
+
+    /**
      * Required for the WebDevEtc\BlogEtc package.
      * Enter your own logic (e.g. if ($this->id === 1) to
      *   enable this user to be able to add/edit blog posts

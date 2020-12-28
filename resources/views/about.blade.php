@@ -4,50 +4,68 @@
 
 @section('content')
 
-<h2>Our History</h2>
+<h2 class="display-2 text-center mt-4 mb-3">Our History</h2>
 
-<p style="line-height: 1.5; font-size: 1.2rem;">
+<p style="line-height: 1.75; font-size: 1.1rem;">
     MultiCrew was an idea coined by two high school students in late 2016 as a brand name to encompass some social media
     groups promoting shared cockpit flying. Starting out as a Facebook page, several iterations of a static website
     containing information and advice on shared cockpit were developed. The development of the MultiCrew Academy brought
     some basic community-organised training through shared cockpit, and we trialed the first version of our Copilot
     software.
 </p>
-<p style="line-height: 1.5; font-size: 1.2rem;">
+<p style="line-height: 1.75; font-size: 1.1rem;">
     We took a break in 2019, and in 2020 started development again, from scratch, this time fully open source. We are
     now working towards a public release of our Copilot software, which is currently in beta testing!
 </p>
 
-<hr class="my-5">
+<h2 class="display-4 text-center mt-5 py-3">Features</h2>
 
-<h2>Staff Team</h2>
-
-<div class="row">
-    <div class="col-md-6 mb-3 text-center">
-        <!--<img class="rounded-circle my-4" src="https://via.placeholder.com/200">-->
-        <h5>Harry Cameron</h5>
-        <p class="mb-0 text-left">
-            Harry, the first half of the development team, brings the real-world experience, being in the aviation
-            industry himself. Harry, the founder of MultiCrew, has been actively involved in VATSIM UK and other
-            similar-sized flight sim projects.<br>
-            Harry's main development tasks include most of the backend systems and well as third-party intergations.
-        </p>
+<div class="card-deck">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="text-center mb-3">
+                <h3 class="card-title">Flight Planning</h3>
+                <i class="fas fa-plane-departure fa-6x"></i>
+            </div>
+            <p class="text-justify card-text">
+                Pick your copilot, your flight and your aircraft, and plan your flight with our seamless
+                <a href="http://simbrief.com/" target="_blank">SimBrief <i class="fas fa-external-link-alt"></i></a> integration. To help you
+                coordinate flight plans, both pilots must review the flight plan, and a single version is stored in the cloud for the duration of
+                your flight!
+            </p>
+        </div>
     </div>
 
-    <div class="col-md-6 text-center">
-        <!--<img class="rounded-circle my-4" src="https://via.placeholder.com/200">-->
-        <h5>Calum Shepherd</h5>
-        <p class="mb-0 text-left">
-            An Engineering student, Calum is the other half of the development team at MultiCrew. A passionate flight
-            simmer, as well as VATSIM controller, his main motivation is to get more involvement in shared cockpit, as
-            he feels it is <em>the</em> most immersive feature of any aircraft addon.<br>
-            Calum does most of the frontend work at MultiCrew, as well as some backend too.
-        </p>
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="text-center mb-3">
+                <h3 class="card-title">Pilot Reviews</h3>
+                <i class="fas fa-user-check fa-6x"></i>
+            </div>
+            <p class="text-justify card-text">
+                After each flight, you get the chance to leave some constructive feedback about your experience with your copilot. This contributes
+                to that pilot's overall rating, and is visible to everyone, so helps you pick more like-minded copilots in future!
+            </p>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="text-center mb-3">
+                <h3 class="card-title">API</h3>
+                <i class="fas fa-plug fa-6x"></i>
+            </div>
+            <p class="text-justify card-text">
+                Our API allows authorised third-party applications to access certain features, for example creating and managing flight requests,
+                viewing user profiles and more. The API is secured using an implementation of OAuth2 making it easily accessible for most applications.
+            </p>
+        </div>
     </div>
 </div>
+
 <hr class="my-5">
 
-<h2>Frequenty Asked Questions</h2>
+<h2 class="text-center">Frequenty Asked Questions</h2>
 
 <div class="accordion" id="faqAccordion">
     <div class="card">
@@ -55,7 +73,7 @@
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
                     data-target="#collapseOne">
-                    Can I do shared cockpit with MultiCrew?
+                    Can I make a shared cockpit connection with MultiCrew?
                 </button>
             </h2>
         </div>
@@ -145,6 +163,32 @@
                 context, join our <a href="https://discord.gg/3jHRAkE">Discord server</a> and speak to a staff member.
             </div>
         </div>
+    </div>
+</div>
+
+<h2 class="text-center mt-5">Staff Team</h2>
+
+<div class="row">
+    <div class="col-md-6 mb-3 text-center">
+        <!--<img class="rounded-circle my-4" src="https://via.placeholder.com/200">-->
+        <h5>Harry Cameron</h5>
+        <p class="mb-0 text-justify">
+            Harry, the first half of the development team, brings the real-world experience, being in the aviation
+            industry himself. Harry, the founder of MultiCrew, has been actively involved in VATSIM UK and other
+            similar-sized flight sim projects.<br>
+            Harry's main development tasks include most of the backend systems and well as third-party intergations.
+        </p>
+    </div>
+
+    <div class="col-md-6 text-center">
+        <!--<img class="rounded-circle my-4" src="https://via.placeholder.com/200">-->
+        <h5>Calum Shepherd</h5>
+        <p class="mb-0 text-justify">
+            An Engineering student, Calum is the other half of the development team at MultiCrew. A passionate flight
+            simmer, as well as VATSIM controller, his main motivation is to get more involvement in shared cockpit, as
+            he feels it is <em>the</em> most immersive feature of any aircraft addon.<br>
+            Calum does most of the frontend work at MultiCrew, as well as some backend too.
+        </p>
     </div>
 </div>
 

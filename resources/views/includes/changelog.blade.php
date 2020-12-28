@@ -1,3 +1,9 @@
+<h5>v0.3.0</h5>
+
+<ul>
+    <li>Added user profiles</li>
+</ul>
+
 <h5>v0.2.5</h5>
 
 <ul>
