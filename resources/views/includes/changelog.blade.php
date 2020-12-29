@@ -2,6 +2,7 @@
 
 <ul>
     <li>Added user profiles</li>
+    <li>Added ability to edit or delete pending fleet additions</li>
 </ul>
 
 <h5>v0.2.5</h5>
