@@ -7,7 +7,6 @@
 
 @section('content')
 
-
 <div class="card">
     <div class="card-body">
         <div class="card-title mb-0 d-flex justify-content-between align-items-baseline">
@@ -32,7 +31,7 @@
                     <th>Name</th>
                     <th>Simulator</th>
                     <th>Added by</th>
-                    @role('admin') <th></th> @endrole
+                    <th></th>
                 </tr>
             </thead>
 
@@ -43,15 +42,27 @@
                         <td class="align-middle">{{ $aircraft->name }}</td>
                         <td class="align-middle">{{ $aircraft->sim }}</td>
                         <td class="align-middle">
-                            {{ $aircraft->added_by ? $aircraft->added_by : 'MultiCrew' }}
+                            @if($aircraft->added_by)
+                                @if($aircraft->added_by === Auth::user()->username)
+                                    You!
+                                @else
+                                    <a
+                                    href="{{ route('profile.show', User::where('username', $aircraft->added_by)->first()->profile) }}"
+                                    class="text-decoration-none">
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>{{ $aircraft->added_by }}
+                                    </a>
+                                @endif
+                            @else
+                                MultiCrew
+                            @endif
                         </td>
-                        @role('admin')
-                            <td class="text-right">
+                        <td class="text-right">
+                            @if($aircraft->added_by === Auth::user()->username || Auth::user()->hasRole('admin'))
                                 <a href="{{ route('aircraft.show', $aircraft) }}" class="btn btn-primary btn-sm my-0">
                                     View<i class="fas fa-angle-double-right ml-2"></i>
                                 </a>
-                            </td>
-                        @endrole
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -94,8 +105,7 @@ aria-hidden="true">
                         name="icao"
                         id="icao"
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('icao') ? 'border-danger' : '' }}"
-                        data-live-search="true"
-                        value="{{ is_null(old('icao')) ? '' : old('icao') }}"></select>
+                        data-live-search="true"></select>
 
                         @if($errors->has('icao'))
                             <p class="help text-danger">
@@ -181,29 +191,27 @@ aria-hidden="true">
             emptyTitle: 'Start typing to search...',
             statusInitialized: '',
         },
-        preprocessData: function(data){
-            var aircraft = [];
+        preprocessData: function(data) {
+            let aircraft = [];
             let count;
-            if(data.length > 0){
-                if(data.length >= 10) {
+            if (data.length > 0) {
+                if (data.length >= 10) {
                     count = 10;
                 } else {
                     count = data.length;
                 }
-                for(var i = 0; i < count; i++){
-                    var curr = data[i];
-                    aircraft.push(
-                        {
+
+                for (let i = 0; i < count; i++) {
+                    let curr = data[i];
+                    aircraft.push({
                             'value': curr.icao,
                             'text': curr.icao + ' - ' + curr.name,
                             'disabled': false
-                        }
-                    );
+                    });
                 }
             }
             return aircraft;
-        },
-        preserveSelected: true
+        }, preserveSelected: true
     });
 
     $(document).ready(function() {
