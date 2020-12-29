@@ -14,7 +14,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a href="#" data-toggle="modal" data-target="#versionModal">
-                    <h5 class="pt-2 ml-2 mr-3">
+                    <h5 class="pt-2">
                         <span class="badge badge-primary">v0.3.0</span>
                     </h5>
                 </a>

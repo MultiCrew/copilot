@@ -25,8 +25,7 @@
                 name="icao"
                 id="icao"
                 class="selectpicker mt-1 mb-3 form-control {{ $errors->has('icao') ? 'border-danger' : '' }}"
-                data-live-search="true"
-                value="{{ is_null(old('icao')) ? '' : old('icao') }}">
+                data-live-search="true">
                     <option value="{{ $icao_acft->icao }}" selected>{{ $icao_acft->name }}</option>
                 </select>
 
@@ -56,36 +55,36 @@
 
             <div class="form-group card-text">
                 <h5 class="mb-2"><label>Simulator</label></h5>
-                <select
-                name="sim"
-                id="sim"
-                class="custom-select"
-                required>
+                <select name="sim" id="sim" class="custom-select" required>
                     @foreach ($simulators as $simulator)
-                        <option value="{{$simulator->id}}" @if($aircraft->sim == $simulator->id) selected @endif>{{$simulator->name}}</option>
+                        <option value="{{ $simulator->id }}" @if($aircraft->sim === $simulator->id) selected @endif>
+                            {{ $simulator->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
 
-            <button type="submit" name="action" value="edit" class="btn btn-secondary">
-                <i class="fas fa-pencil-alt mr-2"></i>Edit
+            <button type="submit" name="action" value="edit" class="btn btn-primary">
+                <i class="fas fa-save mr-2"></i>Save
             </button>
 
-            @unless($aircraft->approved)
+            @if(Auth::user()->hasRole('admin') && !$aircraft->approved)
                 <button type="submit" name="action" value="approve" class="btn btn-success">
                     <i class="fas fa-check mr-2"></i>Approve
                 </button>
-            @endunless
+            @endif
         </form>
 
-        <form method="POST" action="{{ route('aircraft.destroy', $aircraft) }}" class="mt-3">
-            @method('DELETE')
-            @csrf
+        @if(Auth::user()->hasRole('admin') || $aircraft->added_by === Auth::user()->username)
+            <form method="POST" action="{{ route('aircraft.destroy', $aircraft) }}" class="mt-3">
+                @method('DELETE')
+                @csrf
 
-            <button type="submit" class="btn btn-danger">
-                <i class="fas fa-trash-alt mr-2"></i>Delete
-            </button>
-        </form>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt mr-2"></i>Delete
+                </button>
+            </form>
+        @endif
     </div>
 </div>
 

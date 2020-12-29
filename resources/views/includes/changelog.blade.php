@@ -4,6 +4,7 @@
     <li>Added user profiles</li>
     <li>Added great circle line to flight maps</li>
     <li>Route from flights dispatched via SimBrief now archived and displayed in logbook</li>
+    <li>Added ability to edit or delete pending fleet additions</li>
 </ul>
 
 <h5>v0.2.5</h5>

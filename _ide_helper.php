@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.28.3.
+ * Generated for Laravel 7.28.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -13943,6 +13943,24 @@
      
 }
 
+    namespace App\Models\FlightSim { 
+            /**
+     * 
+     *
+     */ 
+        class Simulator {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class WeatherEngine {
+         
+    }
+     
+}
+
     namespace App\Models\Users { 
             /**
      * 
@@ -17909,6 +17927,8 @@ namespace  {
             class FlightRequest extends \App\Models\Flights\FlightRequest {}
             class ArchivedFlight extends \App\Models\Flights\ArchivedFlight {}
             class FlightPlan extends \App\Models\Flights\FlightPlan {}
+            class Simulator extends \App\Models\FlightSim\Simulator {}
+            class WeatherEngine extends \App\Models\FlightSim\WeatherEngine {}
             class User extends \App\Models\Users\User {}
             class NoCaptcha extends \Anhskohbo\NoCaptcha\Facades\NoCaptcha {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
