@@ -735,8 +735,8 @@ crossorigin=""></script>
         let route = {!! json_encode($flight->route) !!};
 
         for (let i = 0; i < route.length; i++) {
-            let marker = L.marker([route[i].pos_lat, route[i].pos_long]).addTo(flightMap);
-            marker.bindPopup(route[i].name);
+            //let marker = L.marker([route[i].pos_lat, route[i].pos_long]).addTo(flightMap);
+            //marker.bindPopup(route[i].name);
             if (i > 0) {
                 L.polyline([[route[i-1].pos_lat, route[i-1].pos_long], [route[i].pos_lat, route[i].pos_long]]).addTo(flightMap);
             }
