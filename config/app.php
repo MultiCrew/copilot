@@ -283,6 +283,7 @@ return [
         'FlightPlan' => App\Models\Flights\FlightPlan::class,
         'Simulator' => App\Models\FlightSim\Simulator::class,
         'WeatherEngine' => App\Models\FlightSim\WeatherEngine::class,
+        'Network' => App\Models\FlightSim\Network::class,
         'User' => App\Models\Users\User::class,
     ],
 ];
