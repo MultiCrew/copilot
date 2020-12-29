@@ -645,49 +645,106 @@ crossorigin=""></script>
     } else {
         flightMap.setView(markers[0].getLatLng(), 4);
     }
+</script>
 
-    function midCoords(airports)
-    {
-        if (airports.length <= 1) {
-            return L.latLng([airports[0].latitude, airports[0].longitude]);
-        }
+@if($type === 'FlightRequest' || empty($flight->route))
+    <!-- Draws great circle line for all flight requests, and archived flights with no route -->
+    <script type="text/javascript">
 
-        var coords = [];
-        for (var i = 0; i < airports.length; i++) {
-            coords.push(L.latLng(
-                parseFloat(airports[i].latitude), parseFloat(airports[i].longitude)
-            ));
-        }
+        /**
+         * Get the coordinates of the centre of an array of airports
+         * Returns the middle of several airports, or the coordinates of the airport given only one
+         *
+         * @param      array  airports  Array of airports with .latitude and .longitude properties
+         * @return     L.LatLng         LatLng object (containing coords) of middle
+         */
+        function midCoords(airports)
+        {
+            // Only one airport so the midpoint is its coords
+            if (airports.length <= 1) {
+                return L.latLng([airports[0].latitude, airports[0].longitude]);
+            }
 
-        return L.polyline(coords, {opacity: 0.0}).addTo(flightMap).getCenter();
-    }
-
-    function addCircle(airports, midpoint)
-    {
-        if (airports.length > 1) {
-            // Find max distance from midpoint to an airport - will be the circle radius
-            var max = 0;
+            // Create an array of LatLng objects for each airport
+            var coords = [];
             for (var i = 0; i < airports.length; i++) {
-                var dist = midpoint.distanceTo(L.latLng(airports[i].latitude, airports[i].longitude));
-                if (dist > max) {
-                    max = dist;
+                coords.push(L.latLng(
+                    parseFloat(airports[i].latitude), parseFloat(airports[i].longitude)
+                ));
+            }
+
+            // Use Leaflet.js' getCenter() on a polyline to get the midpoint
+            return L.polyline(coords, {opacity: 0.0}).addTo(flightMap).getCenter();
+        }
+
+        /**
+         * Calculates whether or not to draw a circle encompassing airport(s), and if so, calculates the circle radius
+         *
+         * @param      array        airports    Array of airports with .latitude and .longitude properties
+         * @param      L.LatLng     midpoint    The midpoint coordinates as a LatLng object
+         * @return     boolean|float            Radius of circle if airports are closer than 10km, otherwise false
+         */
+        function calcCircle(airports, midpoint)
+        {
+            if (airports.length > 1) {
+                // Find max distance from midpoint to an airport - will be the circle radius
+                let max = 0;
+                for (let i = 0; i < airports.length; i++) {
+                    let dist = midpoint.distanceTo(L.latLng(airports[i].latitude, airports[i].longitude));
+                    if (dist > max) {
+                        max = dist;
+                    }
+                }
+
+                if (max < 1000000) {
+                    // Only return max if < 100km (i.e. don't draw the circle otherwise)
+                    return max;
                 }
             }
 
-            // Create circle centred at midpoint and radius calculated above + 50%
-            L.circle(midpoint, {radius: max*1.5}).addTo(flightMap);
+            // Not enough airports, or airports too spread out, to draw circle
+            return false;
         }
-    }
 
-    if (departureAirports.length > 0 && arrivalAirports.length > 0) {
-        var depMid = midCoords(departureAirports);
-        var arrMid = midCoords(arrivalAirports);
-        L.geodesic([depMid, arrMid]).addTo(flightMap);
+        // Only draw any of this if there's at least one airport for each
+        if (departureAirports.length > 0 && arrivalAirports.length > 0) {
+            // Get the midpoint of departure and arrival airports
+            let depMid = midCoords(departureAirports);
+            let arrMid = midCoords(arrivalAirports);
 
-        addCircle(departureAirports, depMid);
-        addCircle(arrivalAirports, arrMid);
-    }
-</script>
+            // Get the radii of any encompassing circles
+            let depCircle = calcCircle(departureAirports, depMid);
+            let arrCircle = calcCircle(arrivalAirports, arrMid);
+
+            if (arrCircle !== false || depCircle !== false) {
+                L.geodesic([depMid, arrMid]).addTo(flightMap);
+                // Create circles centred at midpoint and radius calculated above + 50%
+                L.circle(depMid, {radius: depCircle*1.5}).addTo(flightMap);
+                L.circle(arrMid, {radius: arrCircle*1.5}).addTo(flightMap);
+            } else if (departureAirports.length === 1 && arrivalAirports.length === 1) {
+                L.geodesic([depMid, arrMid]).addTo(flightMap);
+            }
+        }
+    </script>
+
+@else
+
+    <!-- Draws route for archived flights with a route set -->
+    <script type="text/javascript">
+
+        let route = {!! json_encode($flight->route) !!};
+
+        for (let i = 0; i < route.length; i++) {
+            let marker = L.marker([route[i].pos_lat, route[i].pos_long]).addTo(flightMap);
+            marker.bindPopup(route[i].name);
+            if (i > 0) {
+                L.polyline([[route[i-1].pos_lat, route[i-1].pos_long], [route[i].pos_lat, route[i].pos_long]]).addTo(flightMap);
+            }
+        }
+
+    </script>
+
+@endif
 
 @endpush
 

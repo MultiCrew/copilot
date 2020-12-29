@@ -9,13 +9,17 @@ class ArchivedFlight extends Model
 {
     use FlightTrait;
 
+    protected $casts = [
+        'route' => 'array'
+    ];
+
     /**
      * Attributes that are mass assignable
      *
      * @var array
      */
     protected $fillable = [
-        'departure', 'arrival', 'aircraft_id', 'requestee_id', 'acceptee_id'
+        'departure', 'arrival', 'aircraft_id', 'requestee_id', 'acceptee_id', 'route'
     ];
 
     /**
