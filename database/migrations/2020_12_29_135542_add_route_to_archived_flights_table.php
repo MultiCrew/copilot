@@ -26,7 +26,7 @@ class AddRouteToArchivedFlightsTable extends Migration
     public function down()
     {
         Schema::table('archived_flights', function (Blueprint $table) {
-            //
+            $table->dropColumn('route');
         });
     }
 }
