@@ -1,78 +1,87 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+/*
+ * Import dependencies
  */
 
 require('./bootstrap');
 require('bootstrap-select');
 
-window.Vue = require('vue');
+import bsCustomFileInput from 'bs-custom-file-input';
+
+
+/*
+ * Notifications
+ */
 
 /**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
+ * Marks all notifications in dropdown as read
  *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ * @return void
  */
+window.markAllRead = function()
+{
+    // mark read in the backend
+    $.get('/notifications/mark-all-read');
+    // Remove all elements in dropdown, except the first 4 (buttons and hidden no notification <li>)
+    $('#notificationDropdownMenu').children().slice(3).remove();
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+    // reset count and hide it
+    $('#notify-count').text('');
+    $('#notify-count').addClass('d-none');
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+    // hide the mark all read button
+    $('#markAllRead').addClass('d-none');
+    // show the no notifications dropdown item
+    $('#noNotifications').removeClass('d-none');
+};
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
+ * Removes a specified notification from the dropdown
+ *
+ * @param  {int}    id  ID of notification
+ *
+ * @return void
  */
-
-const app = new Vue({
-    el: '#app',
-});
-
-// notification functions
-$(document).ready(function() {
-    $.get('/notifications', function(data) {
-        for (const notification of data) {
-            const nData = notification.data;
-            addNotification(notification.id, nData);
-        }
-    });
-    window.Echo.private(`App.Models.Users.User.${Laravel.userId}`).notification((notification) => {
-		console.log(notification);
-        newNotification(notification.id, notification);
-    });
-});
-
-window.removeNotification = function(id) {
-    if ($(`#${id}`).index() === 1) {
-        $(`#${id}`).next().remove();
-    } else {
-        $(`#${id}`).prev().remove();
-    }
+window.removeNotification = function(id)
+{
+    // remove the notification wrapper <div>
     $(`#${id}`).remove();
+
+    // decrement count
     var count = $('#notify-count').text();
-    count--;
-    $('#notify-count').text(count);
-    if ($('#notify-count').text() == 0) {
+    $('#notify-count').text(--count);
+
+    // if count now 0, reset and hide it
+    if (count == 0) {
         $('#notify-count').text('');
+        $('#notify-count').addClass('d-none');
     }
-    if ($('#notificationDropdownMenu').children().length <= 1) {
-        $('#noNotifications').removeAttr('hidden');
+
+    if ($('#notificationDropdownMenu').children().length <= 3) {
+        $('#noNotifications').removeClass('d-none');
+        $('#markAllRead').addClass('d-none');
     }
     $.get(`/notifications/${id}`);
 };
 
-window.viewNotification = function(id, notification) {
+/**
+ * Determines the appropriate page for the notification clicked, then redirects to it
+ *
+ * @param  {[type]} id           [description]
+ * @param  {[type]} notification [description]
+ * @return {[type]}              [description]
+ */
+window.viewNotification = function(id, notification)
+{
+    // call removeNotification() on the notification
     removeNotification(id);
+
+    // redirect as appropriate
     switch (notification.title) {
         case 'Request Accepted':
             window.location.href = `/flights/${notification.flight.id}`;
             break;
         case 'Flight Plan Accepted':
-            window.location.href = `/dispatch/review/${notification.plan_id}`;
+            window.location.href = `/dispatch/${notification.plan_id}`;
             break;
         case 'Flight Plan Rejected':
             window.location.href = `/flights/${notification.flight_id}`;
@@ -82,56 +91,133 @@ window.viewNotification = function(id, notification) {
     }
 };
 
-window.newNotification = function(id, notification) {
+/**
+ * Adds a notification to the dropdown with the given
+ *
+ * @param {int}     id              ID of the ???
+ * @param {string}  notification    Text the notification should contain
+ *
+ * @return void
+ */
+window.addNotification = function(id, notification)
+{
+    // if the no notifications item is visible
+    if (!$('#noNotifications').hasClass('d-none')) {
+        // hide the no notifications item
+        $('#noNotifications').addClass('d-none');
+        // show the mark all as read button
+        $('#markAllRead').removeClass('d-none');
+    }
+
+    // create the wrapper for the divider and notification <li>
+    $('<div/>', {'id': id}).append(
+        // add a new dropdown divider div above the notification
+        $('<div/>', {'class': 'dropdown-divider'})
+    ).append(
+        // add the notification dropdown <li>
+        $('<li/>', {'class': 'dropdown-item', 'id': id,}).append(
+            $('<button />', {
+                'html': notification.text,
+                'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
+                'class': 'btn',
+                'type': 'button'
+            })
+        // add the button to remove the notification to the <li>
+        ).append(
+            $('<button/>', {
+                'type': 'button',
+                'class': 'btn',
+                'onclick': `removeNotification('${id}')`,
+            }).append(
+                // uses unicode char for close icon
+                $('<span/>', {'aria-hidden': 'true'}).html('&#9587;')
+            )
+        )
+    // add notification <li> to dropdown
+    ).appendTo('#notificationDropdownMenu');
+
+    // increment, update and ensure the notification count is shown
+    var count = $('#notify-count').text();
+    $('#notify-count').text(++count);
+    $('#notify-count').removeClass('d-none');
+};
+
+/**
+ * Shows a toast for a new notification.
+ *     Also calls addNotification() to add the notification to the dropdown list
+ *
+ * @param  {int}    id
+ * @param  {string} notification    Object containing notification data
+ *
+ * @return void
+ */
+window.newNotification = function(id, notification)
+{
+    // create and append a toast to the container (see ../views/layouts/base.blade.php)
     $('#notification-div').append(
-        $('<div/>', {'class': 'toast', 'data-autohide': 'false', 'id': id}).append(
+        $('<div/>', {'class': 'toast', 'data-autohide': 'true', 'data-delay': '5000', 'id': id}).append(
             $('<div/>', {'class': 'toast-header'}).append(
                 $('<strong/>', {'class': 'mr-auto'}).text(notification.title)
             ).append(
                 $('<small/>').text('Just now')
             ).append(
+                // close button for toast (in case user is incredibly impatient lol)
                 $('<button/>', {
-                    'type': 'button', 
+                    'type': 'button',
                     'class': 'ml-2 mb-1 close',
-                    'data-dismiss': 'toast', 
-                    'aria-label': 'Close',
-                    'onclick': `removeNotification('${id}')`
-                    }).append(
-                        $('<span/>', {'aria-hidden': 'true'}).html('&times;')
-                    )
+                    'data-dismiss': 'toast',
+                    'aria-label': 'Close'
+                }).append(
+                    $('<span/>', {'aria-hidden': 'true'}).html('&times;')
+                )
             )
         ).append(
             $('<div/>', {'class': 'toast-body'}).text(notification.text)
         )
     );
+
+    // call the toast up to the view
     $(`#${id}`).toast('show');
+    // call addNotification() to add a dropdown item to the list
     addNotification(id, notification);
 };
 
-window.addNotification = function(id, notification) {
-    if ($('#notificationDropdownMenu').children().length == 1 && $('#noNotifications').not("hidden")) {
-        $('#noNotifications').attr('hidden', 'hidden');
-    }
-    if ($('#notificationDropdownMenu').children().length >= 2 ) {
-        $('<div/>', {'class': 'dropdown-divider'}).appendTo('#notificationDropdownMenu');
-    }
-    $('<li/>', {'class': 'dropdown-item', 'id': id,}).append(
-        $('<button />', {
-            'html': notification.text,
-            'onclick': `viewNotification('${id}', ${JSON.stringify(notification)})`,
-            'class': 'btn',
-            'type': 'button'
-        })
-    ).append(
-        $('<button/>', {
-            'type': 'button',
-            'class': 'btn btn-sm', 
-            'onclick': `removeNotification('${id}')`, 
-            }).append(
-                $('<span/>', {'aria-hidden': 'true'}).html('&times;')
-            )
-    ).appendTo('#notificationDropdownMenu');
-    var count = $('#notify-count').text();
-    count++;
-    $('#notify-count').text(count);
+
+/*
+ * Set up zulu time display
+ */
+var moment = require('moment');
+/**
+ * Sets the value attribute of an element with the id 'time' to the current zulu time
+ *
+ * @return void
+ */
+function updateTime()
+{
+    $('#time').html(moment.utc().format('HH:mm') + " Z");
+    $('#time-local').html(moment().format('HH:mm') + " L");
 };
+
+
+$(document).ready(function()
+{
+    // start automatic update of time display
+    updateTime();
+    if ($('#time').length) {
+        setInterval(updateTime, 60000);
+    }
+
+    // logout button script
+    $('#logoutFormSubmit').click(function() {
+        event.preventDefault();
+        document.getElementById('logout-form').submit();
+    });
+
+    // initialise any file input placeholders via plugin
+    bsCustomFileInput.init();
+
+    // show notification count where > 0
+    if ($('#notify-count').text() > 0) {
+        $('#notify-count').removeClass('d-none');
+    }
+});

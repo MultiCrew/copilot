@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,11 +11,13 @@ class HomeController extends Controller
         return view('welcome');
     }
 
-    public function dashboard()
+    public function about()
     {
-        if (Auth::check())
-            return view('home');
-        else
-            return route('login');
+        return view('about');
+    }
+
+    public function policy()
+    {
+        return view('policy');
     }
 }

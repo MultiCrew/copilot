@@ -46,6 +46,7 @@
                             <th>Departure</th>
                             <th>Arrival</th>
                             <th>Aircraft</th>
+                            <th>Expires</th>
 
                             <th class="text-right p-2">
                                 <button type="button" class="btn btn-primary btn-sm m-0" data-toggle="modal" data-target="#createRequestModal">
@@ -58,9 +59,16 @@
                     <tbody>
                         @forelse($openRequests as $flight)
                             <tr>
-                                <td class="align-middle">{{ $flight->departure }}</td>
-                                <td class="align-middle">{{ $flight->arrival }}</td>
-                                <td class="align-middle">{{ $flight->aircraft }}</td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
+                                </td>
+
+                                <td class="align-middle">{{ $flight->aircraft->name }}</td>
+                                <td class="align-middle">{{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}</td>
+
                                 <td class="align-middle text-right">
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View Flight<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
@@ -95,33 +103,22 @@
                         @forelse($acceptedRequests as $flight)
                             <tr>
                                 <td class="align-middle">
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
                                         {{ $flight->otherUser()->username }}
                                     </a>
                                 </td>
 
-                                <td class="align-middle">{{ $flight->departure }}</td>
-                                <td class="align-middle">{{ $flight->arrival }}</td>
-                                <td class="align-middle">{{ $flight->aircraft }}</td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
+                                </td>
+
+                                <td class="align-middle">{{ $flight->aircraft->name }}</td>
 
                                 <td class="align-middle text-right">
-                                    @if($flight->plan)
-                                        <a href="{{ route('dispatch.show', $flight->plan) }}" class="btn btn-sm btn-success">
-                                            <i class="fas fa-fw mr-2 fa-search"></i>
-
-                                            @if($flight->plan->isApproved())
-                                                View Plan
-                                            @else
-                                                Review Plan
-                                            @endif
-                                        </a>
-                                    @else
-                                        <a href="{{ route('dispatch.create', $flight) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-fw mr-2 fa-file-signature"></i>Create Plan
-                                        </a>
-                                    @endif
-
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
@@ -129,7 +126,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center">
+                                <td colspan="5" class="text-center lead p-2">
                                     You have no accepted flights. Maybe you want to
                                     <a href="{{ route('flights.index') }}#">search open flights</a>?
                                 </td>
@@ -155,19 +152,30 @@
                     <tbody>
                         @forelse($archivedFlights as $flight)
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($flight->created_at)->format('H:i, D j M Y') }}</td>
-                                <td>{{ $flight->departure }}</td>
-                                <td>{{ $flight->arrival }}</td>
-                                <td>{{ $flight->aircraft }}</td>
-                                <td>{{ $flight->arrival }}</td>
-                                <td>
-                                    <a href="#" class="text-decoration-none">
+                                <td class="align-middle">
+                                    {{ \Carbon\Carbon::parse($flight->created_at)
+                                        ->format('H:i, D j M Y') }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $flight->departure }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $flight->arrival }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $flight->aircraft->name }}
+                                </td>
+                                <td class="align-middle">
+                                    <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
                                         <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                        @if($flight->acceptee_id === Auth::id())
-                                            {{ User::find($flight->acceptee_id)->username }}
-                                        @else
-                                            {{ User::find($flight->flightee_id)->username }}
-                                        @endif
+                                        {{ $flight->otherUser()->username }}
+                                    </a>
+                                </td>
+                                <td class="align-middle text-right">
+                                    <a
+                                    href="{{ route('flights.archive.show', $flight) }}"
+                                    class="btn btn-primary btn-sm">
+                                        View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -185,4 +193,18 @@
 
 @include('flights.create')
 
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        if(window.location.href.indexOf('#createRequestModal') != -1) {
+            $('#createRequestModal').modal('show');
+        }
+    });
+
+    @if (count($errors) > 0)
+        $('#createRequestModal').modal('show');
+    @endif
+</script>
 @endsection

@@ -4,7 +4,7 @@ namespace App\Notifications;
 
 use App\Models\Users\User;
 use Illuminate\Bus\Queueable;
-use App\Models\Flights\Flight;
+use App\Models\Flights\FlightRequest;
 use App\Models\Users\UserNotification;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,7 +24,7 @@ class PlanAccepted extends Notification
      *
      * @return void
      */
-    public function __construct(User $user, Flight $flight)
+    public function __construct(User $user, FlightRequest $flight)
     {
         $this->user = $user;
         $this->flight = $flight;
@@ -39,19 +39,19 @@ class PlanAccepted extends Notification
     public function via($notifiable)
     {
         $userNotifications = UserNotification::where('user_id', $this->user->id)->first();
-        
+
         $channels = [];
 
-        if($userNotifications->plan_reviewed) {
+        if ($userNotifications->plan_reviewed) {
             array_push($channels, 'database', 'broadcast');
-            
-            if($userNotifications->plan_reviewed_push) {
+
+            if ($userNotifications->plan_reviewed_push) {
                 array_push($channels, 'webhook');
             }
-    
-            if($userNotifications->plan_reviewed_email) {
-                array_push($channels, 'email');
-            }
+
+            // if ($userNotifications->plan_reviewed_email) {
+            //     array_push($channels, 'mail');
+            // }
         }
 
         return $channels;
@@ -68,14 +68,14 @@ class PlanAccepted extends Notification
         return [
             'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->user->username.' has just accepted your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
+            'text' => $this->user->username . ' has just accepted the plan for your flight from ' . $this->flight->departure[0] . ' to ' . $this->flight->arrival[0],
             'title' => 'Flight Plan Accepted'
         ];
     }
 
     /**
      * Broadcast the notification
-     * 
+     *
      * @param mixed $notifiable
      * @return BroadcastMessage
      */
@@ -85,7 +85,7 @@ class PlanAccepted extends Notification
             'id' => $this->id,
             'user' => $this->user->username,
             'plan_id' => $this->flight->plan->id,
-            'text' => $this->user->username.' has just accepted your flight plan for your flight from '.$this->flight->departure.' to '.$this->flight->arrival,
+            'text' => $this->user->username . ' has just accepted the plan for your flight from ' . $this->flight->departure[0] . ' to ' . $this->flight->arrival[0],
             'title' => 'Flight Plan Accepted'
         ]);
     }

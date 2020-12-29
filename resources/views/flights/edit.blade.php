@@ -2,72 +2,138 @@
 
 @section('content')
 
-<form method="post" action="/flights/{{ $flight->id }}" class="w-50">
-    @csrf
-    @method('put')
+<div class="card">
+    <form method="post" action="/flights/{{ $flight->id }}" class="card-body">
+        @csrf
+        @method('put')
 
-    <div class="d-flex justify-content-between align-items-baseline">
-        <h3>Edit Flight</h3>
-        <a href="/flights/{{ $flight->id }}" class="btn btn-secondary mb-3">
-            &times; Cancel
-        </a>
-    </div>
+        <div class="d-flex justify-content-between align-items-baseline">
+            <h3 class="card-title">Edit Flight</h3>
+            <a href="/flights/{{ $flight->id }}" class="btn btn-secondary mb-3 card-text">
+                <i class="fas fa-times mr-2"></i>Cancel
+            </a>
+        </div>
 
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="departure">Departure</label>
-        <div class="col-sm-10">
-            <input
-            type="text"
-            name="departure"
-            id="departure"
-            class="form-control"
-            placeholder="Departure"
-            required
-            value="{{ $flight->departure }}">
+        <div class="form-group row card-text">
+            <label class="col-sm-2 col-form-label" for="departure">Departure</label>
+            <div class="col-sm-10">
+                <input
+                type="text"
+                name="departure"
+                id="departure"
+                class="form-control"
+                placeholder="Departure"
+                required
+                value="{{ $flight->departure }}">
+            </div>
+        </div>
+        <div class="form-group row card-text">
+            <label class="col-sm-2 col-form-label" for="arrival">Arrival</label>
+            <div class="col-sm-10">
+                <input
+                type="text"
+                name="arrival"
+                id="arrival"
+                class="form-control"
+                placeholder="Arrival"
+                required
+                value="{{ $flight->arrival }}">
+            </div>
+        </div>
+        <div class="form-group row card-text">
+            <label class="col-sm-2 col-form-label" for="aircraft">Aircraft</label>
+            <div class="col-sm-10">
+                <input
+                type="text"
+                name="aircraft"
+                id="aircraft"
+                class="form-control"
+                placeholder="Aircraft"
+                required
+                value="{{ $flight->aircraft }}">
+            </div>
+        </div>
+
+        @unless(empty($request->expiry))
+            <div class="form-group card-text">
+                <h5 class="mb-2"><label>Request expires at...</label></h5>
+                <input type="text" class="form-control"
+                value="{{ Carbon::now()->diffForHumans(Carbon::createFromFormat('Y-m-d H:i:s', $request->expiry)) }}">
+            </div>
+        @endunless
+
+        <div class="form-group card-text">
+            <h5 class="mb-2"><label>New expiry in...</label></h5>
+
+            <div class="input-group">
+                <input type="number" class="form-control" name="time_number">
+                <select class="custom-select" required name="time_units">
+                    <option value="hours" selected>hours(s)</option>
+                    <option value="days">day(s)</option>
+                    <option value="weeks">week(s)</option>
+                </select>
+                <small class="form-text">Expiry will be the above time from <strong>now</strong></small>
+            </div>
+        </div>
+
+        <div class="form-group align-self-center card-text">
+            <div class="custom-control custom-switch">
+                <input
+                type="checkbox"
+                class="custom-control-input"
+                id="public"
+                name="public"
+                @if($flight->public) checked @endif>
+                <label class="custom-control-label" for="public">Public flight</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success card-text">
+            <i class="fas fa-save fa-fw mr-2"></i>Save
+        </button>
+        <button
+        type="button"
+        class="btn btn-danger card-text float-right"
+        data-toggle="modal"
+        data-target="#deleteModal">
+            <i class="fas fa-trash fa-fw mr-2"></i>Delete
+        </button>
+    </form>
+</div>
+
+<div
+class="modal fade"
+id="deleteModal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="deleteModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete flight</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this flight?
+            </div>
+            <div class="modal-footer">
+                <form action="{{ route('flights.destroy', ['flight' => $flight]) }}" method="post">
+                    @csrf
+                    @method('delete')
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-2"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash mr-2"></i>Delete
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="arrival">Arrival</label>
-        <div class="col-sm-10">
-            <input
-            type="text"
-            name="arrival"
-            id="arrival"
-            class="form-control"
-            placeholder="Arrival"
-            required
-            value="{{ $flight->arrival }}">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="aircraft">Aircraft</label>
-        <div class="col-sm-10">
-            <input
-            type="text"
-            name="aircraft"
-            id="aircraft"
-            class="form-control"
-            placeholder="Aircraft"
-            required
-            value="{{ $flight->aircraft }}">
-        </div>
-    </div>
-
-    <div class="form-group align-self-center">
-        <div class="custom-control custom-switch">
-            <input
-            type="checkbox"
-            class="custom-control-input"
-            id="public"
-            name="public"
-            @if($flight->public) checked @endif>
-            <label class="custom-control-label" for="public">Public flight</label>
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        Save <i class="fas fa-save fa-fw ml-2"></i>
-    </button>
-</form>
+</div>
 
 @endsection

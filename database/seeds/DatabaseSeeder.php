@@ -12,7 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RoleSeeder::class
+            RoleSeeder::class,
+            ApprovedAircraftSeeder::class,
+            SimulatorSeeder::class,
+            WeatherEngineSeeder::class
         ]);
 
         if (App::environment('local')) {

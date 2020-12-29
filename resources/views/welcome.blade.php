@@ -86,24 +86,6 @@
 
     <body>
         <div class="flex-center position-ref full-height" id="app">
-            @if (Route::has('login'))
-                <div class="top-right text-links">
-                    @auth
-                        <a href="{{ route('account.index') }}">
-                            <i class="fas fa-fw fa-home mr-2"></i>Account
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}">
-                            <i class="fas fa-fw fa-key mr-2"></i>
-                            Login
-                        </a>
-                        <a href="{{ route('register') }}">
-                            <i class="fas fa-fw fa-user-plus mr-2"></i>
-                            Register
-                        </a>
-                    @endauth
-                </div>
-            @endif
 
             <div class="content">
                 <div class="title m-b-md">
@@ -111,8 +93,13 @@
                 </div>
 
                 <div class="text-links">
+                    <a href="{{ route('home.about') }}">About</a>
+                    <a href="{{ route('home.policy') }}">Policies</a>
                     @auth
-                        <a href="{{ route('flights.index') }}">Copilot</a>
+                        @role('new')
+                        @else
+                            <a href="{{ route('flights.index') }}">Copilot</a>
+                        @endrole
                         <a href="{{ route('account.index') }}">Account</a>
                     @else
                         <a href="{{ route('login') }}">

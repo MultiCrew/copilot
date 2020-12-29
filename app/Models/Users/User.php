@@ -2,15 +2,19 @@
 
 namespace App\Models\Users;
 
+use App\Mail\VerifyEmail;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -40,23 +44,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * The flights the user has requested.
+     * The user's flight requests
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function requests()
+    public function flightRequests()
     {
-        return $this->hasMany('App\Models\Flights\Flight', 'requestee_id')->where('acceptee_id', null);
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'id', 'requestee_id');
     }
 
     /**
-     * The flights the user has accepted.
+     * The user's flight requests
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function accepts()
+    public function flightAccepts()
     {
-        return $this->hasMany('App\Models\Flights\Flight', 'acceptee_id');
+        return $this->hasMany('App\Models\Flights\FlightRequests', 'id', 'acceptee_id');
     }
 
     /**
@@ -64,9 +68,9 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function userNotifications()
+    public function userNotification()
     {
-        return $this->hasOne('App\Models\Users\UserNotification', 'user_id');
+        return $this->hasOne('App\Models\Users\UserNotification');
     }
 
     /**
@@ -76,7 +80,17 @@ class User extends Authenticatable
      */
     public function application()
     {
-        return $this->hasOne('App\Models\Users\ApplicationForm', 'user_id');
+        return $this->hasOne('App\Models\Users\ApplicationForm');
+    }
+
+    /**
+     * The user's profile
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Users\Profile');
     }
 
     /**
@@ -91,4 +105,22 @@ class User extends Authenticatable
     {
         return $this->hasRole('admin');
     }
+
+    /**
+     * The API User relating to the main User
+     */
+    public function apiUser()
+    {
+        return $this->hasOne('App\Models\Users\APIUser', 'user_id', 'id');
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    // public function sendEmailVerificationNotification()
+    // {
+    //     Mail::to($this)->send(new VerifyEmail());
+    // }
 }

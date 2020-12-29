@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\Aircraft\Aircraft as AircraftModel;
+use App\Models\Aircraft\ApprovedAircraft as ApprovedAircraftModel;
 use Illuminate\Contracts\Validation\Rule;
 
 class Aircraft implements Rule
@@ -26,7 +26,7 @@ class Aircraft implements Rule
      */
     public function passes($attribute, $value)
     {
-        return AircraftModel::where('icao', $value)->exists(); 
+        return ApprovedAircraftModel::where('id', $value)->exists();
     }
 
     /**

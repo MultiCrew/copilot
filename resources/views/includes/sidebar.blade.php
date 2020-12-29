@@ -1,6 +1,6 @@
-<div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-2">
+<div id="sidebar-container" class="sidebar-expanded d-none d-lg-block col-lg-2">
     <!-- hidden on <=md -->
-    <ul class="list-group sticky-top sticky-offset">
+    <div class="list-group sticky-top sticky-offset">
         <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
             <small class="text-uppercase">Flights</small>
         </li>
@@ -8,27 +8,36 @@
         <a
         href="{{ route('flights.index') }}"
         class="bg-dark list-group-item list-group-item-action
-        @if(Route::currentRouteName() === 'flights.index')) active @endif">
+        @if(Route::is('flights.index'))) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
+                <i class="fas fa-fw mr-3 fa-search"></i>Find Flights
             </div>
         </a>
 
         <a
         href="{{ route('flights.user-flights') }}"
         class="bg-dark list-group-item list-group-item-action
-        @if(strpos(Route::currentRouteName(), 'flights') !== false && Route::currentRouteName() !== 'flights.index') active @endif">
+        @if(Route::is('flights*') && !(Route::is('flights.index'))) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+                <i class="fas fa-fw mr-3 fa-plane"></i>My Flights
             </div>
         </a>
 
         <a
         href="{{ route('dispatch.index') }}"
         class="bg-dark list-group-item list-group-item-action
-        @if(strpos(Route::currentRouteName(), 'dispatch') !== false) active @endif">
+        @if(Route::is('dispatch*')) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+                <i class="fas fa-fw mr-3 fa-file-contract"></i>Dispatch
+            </div>
+        </a>
+
+        <a
+        href="{{ route('aircraft.index') }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(Route::is('aircraft*')) active @endif">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+                <i class="fas fa-fw mr-3 fa-warehouse"></i>Fleet
             </div>
         </a>
 
@@ -36,7 +45,10 @@
             <small class="text-uppercase">Options</small>
         </li>
 
-        <a href="#" class="bg-dark list-group-item list-group-item-action disabled">
+        <a
+        href="{{ route('profile.show', Auth::user()->profile) }}"
+        class="bg-dark list-group-item list-group-item-action
+        @if(isset($profile) && ($profile->id === Auth::user()->profile->id)) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
                 <i class="fa fa-id-card fa-fw mr-3"></i>Profile
             </div>
@@ -45,7 +57,7 @@
         <a
         href="{{ route('account.index') }}"
         class="bg-dark list-group-item list-group-item-action
-        @if(strpos(Route::currentRouteName(), 'account') !== false && !(strpos(Route::currentRouteName(), 'account.admin') !== false)) active @endif">
+        @if(Route::is('passport.tokens.index')) active @endif">
             <div class="d-flex w-100 justify-content-start align-items-center">
                 <i class="fa fa-user-cog fa-fw mr-3"></i>Account
             </div>
@@ -55,13 +67,12 @@
             <a
             href="{{ route('admin.users.index') }}"
             class="bg-dark list-group-item list-group-item-action
-            @if(strpos(Route::currentRouteName(), 'admin') !== false) active @endif">
+            @if(Route::is('admin*')) active @endif">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <i class="fa fa-user-shield fa-fw mr-3"></i>Admin
                 </div>
             </a>
         @endrole
-
 
         <li class="list-group-item sidebar-separator menu-collapsed"></li>
 
@@ -71,8 +82,7 @@
         data-toggle="modal"
         data-target="#helpModal">
             <div class="d-flex w-100 justify-content-start align-items-center">
-                <i class="fa fa-question-circle fa-fw mr-3"></i>
-                <span class="menu-collapsed">Help</span>
+                <i class="fa fa-question-circle fa-fw mr-3"></i>Help
             </div>
         </a>
 
@@ -100,5 +110,60 @@
                 </a>
             </div>
         -->
-    </ul>
+    </div>
 </div>
+
+<nav id="pills-container" class="nav nav-pills nav-fill d-lg-none px-3 pt-3 mx-auto">
+    <a
+    href="{{ route('flights.index') }}"
+    class="nav-item nav-link
+    @if(Route::is('flights.index')) active @endif">
+        <i class="fas fa-fw mr-2 fa-search"></i>Find Flights
+    </a>
+
+    <a
+    href="{{ route('flights.user-flights') }}"
+    class="nav-item nav-link
+    @if(Route::is('flights*') && !(Route::is('flights.index'))) active @endif">
+        <i class="fas fa-fw mr-2 fa-plane"></i>My Flights
+    </a>
+
+    <a
+    href="{{ route('dispatch.index') }}"
+    class="nav-item nav-link
+    @if(Route::is('dispatch*')) active @endif">
+        <i class="fas fa-fw mr-2 fa-file-contract"></i>Dispatch
+    </a>
+
+    <a
+    href="{{ route('profile.show', Auth::user()->profile) }}"
+    class="nav-item nav-link
+    @if(isset($profile) && ($profile->id === Auth::user()->profile->id)) active @endif">
+        <i class="fa fa-id-card fa-fw mr-3"></i>Profile
+    </a>
+
+    <a
+    href="{{ route('account.index') }}"
+    class="nav-item nav-link
+    @if(Route::is('passport.tokens.index')) active @endif">
+        <i class="fa fa-user-cog fa-fw mr-3"></i>Account
+    </a>
+
+    @role('admin')
+        <a
+        href="{{ route('admin.users.index') }}"
+        class="nav-item nav-link
+        @if(Route::is('admin*')) active @endif">
+            <i class="fa fa-user-shield fa-fw mr-3"></i>Admin
+        </a>
+    @endrole
+
+    <a
+    href="#"
+    class="nav-item nav-link"
+    data-toggle="modal"
+    data-target="#helpModal">
+        <i class="fa fa-question-circle fa-fw mr-3"></i>Help
+    </a>
+
+</nav>

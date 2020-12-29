@@ -1,0 +1,68 @@
+name: Deploy (Dev)
+
+on:
+  push:
+    branches: dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Setup PHP with extensions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        coverage: xdebug
+        tools: composer
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: Install dependencies
+      run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+    - name: Create .env file
+      run: cp .env.example .env
+
+    - name: Generate application key
+      run: php artisan key:generate
+
+    - name: Run tests
+      run: vendor/bin/phpunit
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to development site
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.LARAVEL_USERNAME }}
+        password: ${{ secrets.LARAVEL_PASSWORD }}
+        script: |
+          cd /var/www/copilot-dev
+          echo "Deploying application ..."
+          (php artisan down) || true
+            git fetch origin dev
+            git reset --hard origin/dev
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+            npm install
+            npm run prod
+            php artisan optimize
+          php artisan up
+          echo "Application deployed!"
+
