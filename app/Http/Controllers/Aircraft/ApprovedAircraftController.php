@@ -11,6 +11,11 @@ use Auth;
 
 class ApprovedAircraftController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['fleet'])->except(['index', 'store']);
+    }
+
     /**
      * Resource index
      */
@@ -55,10 +60,6 @@ class ApprovedAircraftController extends Controller
      */
     public function show(ApprovedAircraft $aircraft)
     {
-        if (!($aircraft->added_by === Auth::user()->username || Auth::user()->hasRole('admin'))) {
-            return redirect()->route('aircraft.index');
-        }
-
         return view('aircraft.show', [
             'aircraft'      => $aircraft,
             'simulators'    => Simulator::all(),
@@ -75,10 +76,6 @@ class ApprovedAircraftController extends Controller
      */
     public function update(ApprovedAircraft $aircraft, Request $request)
     {
-        if (!($aircraft->added_by === Auth::user()->username || Auth::user()->hasRole('admin'))) {
-            return redirect()->route('aircraft.index');
-        }
-
         $request->validate([
             'icao' => 'required|exists:aircraft,icao',
             'name' => 'required|max:100',
@@ -106,10 +103,6 @@ class ApprovedAircraftController extends Controller
      */
     public function destroy(ApprovedAircraft $aircraft)
     {
-        if (!($aircraft->added_by === Auth::user()->username || Auth::user()->hasRole('admin'))) {
-            return redirect()->route('aircraft.index');
-        }
-
         $aircraft->delete();
         return redirect()->route('aircraft.index');
     }

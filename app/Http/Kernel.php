@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'client' => CheckClientCredentials::class,
         'flight_role' => \App\Http\Middleware\CheckFlightRole::class,
+        'fleet' => \App\Http\Middleware\CheckApprovedAircraftRole::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
