@@ -453,7 +453,7 @@ crossorigin=""></script>
             },
             preprocessData: function(data)
             {
-                var aircraft = [];
+                let result = [];
                 let count;
                 if (data.length > 0) {
                     if (data.length >= 10) {
@@ -461,18 +461,18 @@ crossorigin=""></script>
                     } else {
                         count = data.length;
                     }
-                    for (var i = 0; i < count; i++) {
-                        var curr = data[i];
+                    for (let i = 0; i < count; i++) {
+                        let curr = data[i];
 
                         if (hasSim === true) {
-                            var value = curr.id;
-                            var optText = curr.icao + ' - ' + curr.name + ' (' + curr.sim + ')';
+                            let value = curr.id;
+                            let optText = curr.icao + ' - ' + curr.name + ' (' + curr.sim + ')';
                         } else {
-                            var value = curr.icao
-                            var optText = curr.icao + ' - ' + curr.name;
+                            let value = curr.icao
+                            let optText = curr.icao + ' - ' + curr.name;
                         }
 
-                        aircraft.push({
+                        result.push({
                                 'value': value,
                                 'text': optText,
                                 'disabled': false
@@ -480,7 +480,7 @@ crossorigin=""></script>
                         );
                     }
                 }
-                return aircraft;
+                return result;
             }, preserveSelected: true
         });
     }
