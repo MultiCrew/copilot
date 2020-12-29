@@ -139,7 +139,7 @@ crossorigin=""/>
             </div>
         </div>
 
-        @if($flight->isRequestee(Auth::user()))
+        @if($flight->isRequestee(Auth::user()) && $type === 'FlightRequest')
             <p class="card-text mt-4">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editRequestModal">
                     <i class="fas fa-fw mr-2 fa-edit"></i>Edit
