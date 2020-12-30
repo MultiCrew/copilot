@@ -666,45 +666,41 @@ crossorigin></script>
 
 @endpush
 
-@section('help-title', 'Help | Flight Request')
+@if($type === 'FlightRequest')
+    @section('help-content')
 
-@section('help-content')
+    <h5>Flight Details</h5>
 
-<h5>Flight Details</h5>
+    <p>
+        This page shows you the details of your flight, including the airports,
+        your route (if applicable), the aircraft, and your copilot if you have one.
+    </p>
+    <p>
+        You can also see the status of your flight - whether it has been planned or not.
+    </p>
 
-<p>
-    This page shows you the details of your flight, including the departure and
-    arrival airport(s), if set, the aircraft and your copilot.
-</p>
-<p>
-    You can also see the status of your flight and, if applicable, dispatch the
-    flight or view the flight plan.
-</p>
+    <h5>Dispatch</h5>
 
-<h5>Dispatch</h5>
+    <p>
+        To dispatch your flight, you need to have <strong>one</strong> departure and
+        <strong>one</strong> arrival airport. If you have 'No preference', or more
+        than one option set for either your departure or arrival airport, you and
+        your copilot should first decide on a finalised departure and arrival
+        airport, and update the request accordingly - then you can dispatch your flight.
+    </p>
 
-<p>
-    To dispatch your flight, you need to have <strong>one</strong> departure and
-    <strong>one</strong> arrival airport. If you have 'No preference', or more
-    than one option, set for either your departure or arrival airport, you and
-    your copilot should first decide on a finalised departure and arrival
-    airport, and then you can dispatch your flight.
-</p>
+    @endsection
 
-@endsection
+@else
 
-@section('help-content')
+    @section('help-content')
 
-<p>
-    Here you can see all the details about a flight you're involved with. You
-    can see who your Copilot is, as well as whether the flight has been planned
-    or not.
-</p>
+    <h5>Archived Flight</h5>
 
-<p>
-    If the flight hasn't been planned, you can press "Create Plan" to be taken
-    to the dispatch form. If a flight plan is already available to review or
-    export, press "(Re)view Plan" to be taken to it.
-</p>
+    <p>
+        This page shows you the details of your flight, including the airports,
+        your route (if applicable), the aircraft, and who you flew with.
+    </p>
 
-@endsection
+    @endsection
+@endif

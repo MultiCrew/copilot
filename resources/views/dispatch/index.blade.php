@@ -170,3 +170,25 @@ aria-hidden="true">
 </script>
 
 @endsection
+
+@section('help-content')
+
+<p>This page shows all of your current flight plans, or flights which you are able to dispatch.</p>
+
+<p>For flights with a fligh plan, they may be in the review phase. If this is the case, you have two options:</p>
+<ul>
+    <li>Accept - your copilot is notified and, if they accept it too, the flight plan can be exported and used.</li>
+    <li>Reject - if either you or your copilot do this, the flight plan must be regenerated or reuploaded again.</li>
+</ul>
+
+<p>For flights without a flight plan, you have two options:</p>
+<ul>
+    <li>Upload PDF Plan - if you would rather use some other planning software, you can upload a PDF of this plan to share with your copilot.</li>
+    <li>
+        Create SimBrief Plan - you can use our integrated dispatcher to create a SimBrief flight plan (you need a
+        <a href="https://www.simbrief.com/" target="_blank">SimBrief account<i class="fas fa-external-link-alt ml-2"></i></a>).
+        This will generate a full briefing package including maps and weather data, and allow you to export it to various file formats.
+    </li>
+</ul>
+
+@endsection

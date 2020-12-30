@@ -82,8 +82,7 @@
 
 <p>
     If you'd like to create your own request, press "New Request" and fill out
-    the 4-letter ICAO codes for the departure and arrival airports and the
-    aircraft type you'd like to fly in.
+    the form as you see fit.
 </p>
 
 @endsection

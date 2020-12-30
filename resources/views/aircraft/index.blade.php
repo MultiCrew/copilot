@@ -220,3 +220,12 @@ aria-hidden="true">
 </script>
 
 @endpush
+
+@section('help-content')
+
+<p>
+    Here you can view all of the aircraft which you can use in a new flight request, as well as the pending additions to the MultiCrew fleet. You can make a request
+    to have an aicraft added if it doesn't already exist in the table.
+</p>
+
+@endsection
