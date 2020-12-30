@@ -523,3 +523,21 @@
     })
 </script>
 @endsection
+
+@section('help-content')
+<p>
+    In the settings tab you can update your Full Name, Email Address, and password, if you would like to edit your
+    username, please send an email to
+    <a href="mailto:&#105;&#110;&#102;&#111;&#064;&#109;&#117;&#108;&#116;&#105;&#099;&#114;&#101;&#119;&#046;&#099;&#111;&#046;&#117;&#107;">&#105;&#110;&#102;&#111;&#064;&#109;&#117;&#108;&#116;&#105;&#099;&#114;&#101;&#119;&#046;&#099;&#111;&#046;&#117;&#107;</a>.
+    You can also view your roles in this tab.
+
+    In the notifications tab you can update your preferences on how you would like us to notify you about different
+    events relating to your flights or flight requests. Below that you can subscribe to receive notifications when any
+    user creates a new public request with one of your chosen aircraft/airports.
+
+    In the Discord tab you can connect your Discord account to MultiCrew. Pressing the connect button will redirect you
+    to Discord's login page where you can view the data that MultiCrew will receive, before redirecting you back to the
+    account page.
+</p>
+
+@endsection
