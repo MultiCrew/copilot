@@ -15,6 +15,8 @@ class CheckPlannableFlight
      */
     public function handle($request, Closure $next)
     {
+        $flight = $request->route('flight');
+
         if ($flight->isPlanned()) {
             return redirect()->route('dispatch.show', $flight->plan_id);
         } elseif (!$flight->isAccepted() || !$flight->isDispatchable()) {
