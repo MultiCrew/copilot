@@ -7,32 +7,17 @@
 
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item">
-                <a
-                class="nav-link active"
-                id="open-requests-tab"
-                data-toggle="tab"
-                href="#open-requests"
-                role="tab">
+                <a class="nav-link active" id="open-requests-tab" data-toggle="tab" href="#open-requests" role="tab">
                     <i class="fas fa-fw mr-2 fa-plus"></i>Open Requests
                 </a>
             </li>
             <li class="nav-item">
-                <a
-                class="nav-link"
-                id="accepted-requests-tab"
-                data-toggle="tab"
-                href="#accepted-requests"
-                role="tab">
+                <a class="nav-link" id="accepted-requests-tab" data-toggle="tab" href="#accepted-requests" role="tab">
                     <i class="fas fa-fw mr-2 fa-check"></i>Accepted Requests
                 </a>
             </li>
             <li class="nav-item">
-                <a
-                class="nav-link"
-                id="logbook-tab"
-                data-toggle="tab"
-                href="#logbook"
-                role="tab">
+                <a class="nav-link" id="logbook-tab" data-toggle="tab" href="#logbook" role="tab">
                     <i class="fas fa-fw mr-2 fa-book"></i>Logbook
                 </a>
             </li>
@@ -50,7 +35,7 @@
 
                             <th class="text-right p-2">
                                 <button type="button" class="btn btn-primary btn-sm m-0" data-toggle="modal" data-target="#createRequestModal">
-                                    <i class="fas fa-fw mr-2 fa-plus"></i> New Request
+                                    <i class="fas fa-fw mr-2 fa-plus mr-2"></i>New Request
                                 </button>
                             </th>
                         </tr>
@@ -59,16 +44,12 @@
                     <tbody>
                         @forelse($openRequests as $flight)
                             <tr>
-                                <td class="align-middle">
-                                    {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
-                                </td>
-                                <td class="align-middle">
-                                    {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
-                                </td>
-
+                                <td class="align-middle">{{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}</td>
+                                <td class="align-middle">{{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}</td>
                                 <td class="align-middle">{{ $flight->aircraft->name }}</td>
-                                <td class="align-middle">{{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}</td>
-
+                                <td class="align-middle">
+                                    {{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}
+                                </td>
                                 <td class="align-middle text-right">
                                     <a href="{{ route('flights.show', $flight) }}" class="btn btn-sm btn-info">
                                         View Flight<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
@@ -77,7 +58,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center lead p-2" colspan="4">
+                                <td class="text-center lead p-2" colspan="5">
                                     You have no open flights. Maybe you want to
                                     <a href="#" data-toggle="modal" data-target="#createRequestModal">create a new one</a>?
                                 </td>
@@ -127,8 +108,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="text-center lead p-2">
-                                    You have no accepted flights. Maybe you want to
-                                    <a href="{{ route('flights.index') }}#">search open flights</a>?
+                                    You have no accepted flights. Maybe you want to <a href="{{ route('flights.index') }}#">search open flights</a>?
                                 </td>
                             </tr>
                         @endforelse
@@ -152,29 +132,18 @@
                     <tbody>
                         @forelse($archivedFlights as $flight)
                             <tr>
-                                <td class="align-middle">
-                                    {{ \Carbon\Carbon::parse($flight->created_at)
-                                        ->format('H:i, D j M Y') }}
+                                <td class="align-middle">{{ \Carbon\Carbon::parse($flight->created_at)->format('H:i, D j M Y') }}
                                 </td>
-                                <td class="align-middle">
-                                    {{ $flight->departure }}
-                                </td>
-                                <td class="align-middle">
-                                    {{ $flight->arrival }}
-                                </td>
-                                <td class="align-middle">
-                                    {{ $flight->aircraft->name }}
-                                </td>
+                                <td class="align-middle">{{ $flight->departure }}</td>
+                                <td class="align-middle">{{ $flight->arrival }}</td>
+                                <td class="align-middle">{{ $flight->aircraft->name }}</td>
                                 <td class="align-middle">
                                     <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
-                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
-                                        {{ $flight->otherUser()->username }}
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>{{ $flight->otherUser()->username }}
                                     </a>
                                 </td>
                                 <td class="align-middle text-right">
-                                    <a
-                                    href="{{ route('flights.archive.show', $flight) }}"
-                                    class="btn btn-primary btn-sm">
+                                    <a href="{{ route('flights.archive.show', $flight) }}" class="btn btn-primary btn-sm">
                                         View<i class="fas fa-fw ml-2 fa-angle-double-right"></i>
                                     </a>
                                 </td>

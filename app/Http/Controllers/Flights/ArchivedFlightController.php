@@ -42,6 +42,10 @@ class ArchivedFlightController extends Controller
             'requestee_id'      => $flight->requestee_id,
             'acceptee_id'       => $flight->acceptee_id,
         ]);
+        if (!empty($flight->plan->ofp_json)) {
+            $fpl = json_decode($flight->plan->ofp_json, true);
+            $archived->route = $fpl['navlog']['fix'];
+        }
 
         $archived->save();
         FlightPlan::archive($flight->plan);

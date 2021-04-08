@@ -2,9 +2,9 @@
 
 @push('prepend-scripts')
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-crossorigin>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
 
 @endpush
 
@@ -139,7 +139,7 @@ crossorigin>
             </div>
         </div>
 
-        @if($flight->isRequestee(Auth::user()))
+        @if($flight->isRequestee(Auth::user()) && $type === 'FlightRequest')
             <p class="card-text mt-4">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editRequestModal">
                     <i class="fas fa-fw mr-2 fa-edit"></i>Edit
@@ -261,7 +261,6 @@ aria-hidden="true">
                         id="departure"
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('departure') ? 'border-danger' : '' }}"
                         data-live-search="true"
-                        value="{{ is_null(old('departure')) ? '' : old('departure') }}"
                         multiple></select>
 
                         @if($errors->has('departure'))
@@ -298,7 +297,6 @@ aria-hidden="true">
                         id="arrival"
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('arrival') ? 'border-danger' : '' }}"
                         data-live-search="true"
-                        value="{{ is_null(old('arrival')) ? '' : old('arrival') }}"
                         multiple></select>
 
                         @if($errors->has('arrival'))
@@ -419,80 +417,95 @@ aria-hidden="true">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js">
 </script>
 
-<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-crossorigin></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.geodesic"></script>
 
 <script type="text/javascript">
-    $(function () {
+    // Enable tooltips
+    $(function() {
         $('[data-toggle="tooltip"]').tooltip()
     })
 
-    /*
-     * AIRPORT SELECT PICKERS
-     */
-    // initialise airport selectpickers with ajax live search
-    $('.selectpicker').selectpicker({
-        liveSearch: true
-    })
-    .ajaxSelectPicker({
-        ajax: {
-            url: '{{ route('search.airport') }}',
-            method: 'GET',
-            data: {
-                q: '@{{{q}}}'
-            }
-        },
-        locale: {
-            emptyTitle: 'Start typing to search...',
-            statusInitialized: '',
-        },
-        preprocessData: function(data){
-            var airports = [];
-            let count;
-            if(data.length > 0){
-                if(data.length >= 10) {
-                    count = 10;
-                } else {
-                    count = data.length;
-                }
-                for(var i = 0; i < count; i++){
-                    var curr = data[i];
-                    airports.push(
-                        {
-                            'value': curr.icao,
-                            'text': curr.icao + ' - ' + curr.name,
-                            'disabled': false
-                        }
-                    );
-                }
-            }
-            return airports;
-        },
-        preserveSelected: true
-    });
-
-    // disable select pickers by default
-    $('.selectpicker').prop('disabled', true);
-
-    // get airport objects
-    var departureAirports = {!! json_encode($departureAirports) !!};
-    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
-    var departureIcaos = [];
-    var arrivalIcaos = [];
-
     /**
-     * Hack to stop select picker breaking until search initiated
+     * Initialises the live search bootstrap-select pickers
+     *
+     * @param      string     selectPicker  The select picker element (DOM selector)
+     * @param      string     searchRoute   The search route (Laravel route())
+     * @param      boolean    hasSim        Indicates if selectable object has sim property
+     */
+    function initLiveSearch(selectPicker, searchRoute, hasSim)
+    {
+        $(selectPicker).selectpicker({
+            liveSearch: true
+        }).ajaxSelectPicker({
+            ajax: {
+                url: searchRoute,
+                method: 'GET',
+                data: {
+                    q: '@{{{q}}}'
+                }
+            },
+            locale: {
+                emptyTitle: 'Start typing to search...',
+                statusInitialized: '',
+            },
+            preprocessData: function(data)
+            {
+                let result = [];
+                let count;
+                if (data.length > 0) {
+                    if (data.length >= 10) {
+                        count = 10;
+                    } else {
+                        count = data.length;
+                    }
+                    for (let i = 0; i < count; i++) {
+                        let curr = data[i];
+
+                        if (hasSim === true) {
+                            let value = curr.id;
+                            let optText = curr.icao + ' - ' + curr.name + ' (' + curr.sim + ')';
+                        } else {
+                            let value = curr.icao
+                            let optText = curr.icao + ' - ' + curr.name;
+                        }
+
+                        result.push({
+                                'value': value,
+                                'text': optText,
+                                'disabled': false
+                            }
+                        );
+                    }
+                }
+                return result;
+            }, preserveSelected: true
+        });
+    }
+    // Initialise both airport and aircraft boostrap-select pickers
+    initLiveSearch('.selectpicker', '{{ route('search.airport') }}', false);
+    initLiveSearch('.aircraftpicker', '{{ route('search.approved_aircraft') }}', true);
+
+    /*
+     * Hack to stop bootstrap-select picker breaking before search initiated
      *
      * @see https://github.com/truckingsim/Ajax-Bootstrap-Select/issues/177
      */
-    $.fn.ajaxSelectPickerRefresh = function(){
-        return this.each(function () {
-            if(!$(this).data('AjaxBootstrapSelect')) return;
+    $.fn.ajaxSelectPickerRefresh = function()
+    {
+        return this.each(function ()
+        {
+            if(!$(this).data('AjaxBootstrapSelect')) {
+                return;
+            }
+
             var picker = $(this).data('AjaxBootstrapSelect');
             var selected = [];
             var selectValues = picker.$element.find('option:selected');
-            for(var i=0;i<selectValues.length;i++){
+
+            for (var i=0;i<selectValues.length;i++) {
                 selected.push({
                     value: selectValues[i].value,
                     text: selectValues[i].text,
@@ -507,32 +520,47 @@ crossorigin></script>
         });
     }
 
-    // add preselected options to each selectpicker
-    $.each(departureAirports, function (i, item) {
-        $('#departure').append($('<option>', {
-            value: item.icao,
-            text : item.icao + ' - ' + item.name
-        }));
-        departureIcaos.push(item.icao);
-    });
-    $('#departure').selectpicker('val', departureIcaos).ajaxSelectPickerRefresh();
+    /**
+     * Preselect defined options in the airport select pickers
+     *
+     * @param      string     selectPicker  The select picker element (DOM selector)
+     * @param      Object     airports      The airport objects (with icao and name properties)
+     *
+     * @return     Array                    ICAO codes of selected elements
+     */
+    function preselectOptions(selectPicker, airports)
+    {
+        icaos = [];
 
-    $.each(arrivalAirports, function (i, item) {
-        $('#arrival').append($('<option>', {
-            value: item.icao,
-            text : item.icao + ' - ' + item.name
-        }));
-        arrivalIcaos.push(item.icao);
-    });
-    $('#arrival').selectpicker('val', arrivalIcaos).ajaxSelectPickerRefresh();
+        $.each(airports, function (i, item)
+        {
+            $(selectPicker).append($('<option>', {
+                value: item.icao,
+                text : item.icao + ' - ' + item.name
+            }));
+            icaos.push(item.icao);
+        });
 
-    // enable/check appropriate selectpickers and radios
-    if (departureAirports.length > 0) {
+        $(selectPicker).selectpicker('val', icaos).ajaxSelectPickerRefresh();
+        return icaos;
+    }
+
+    var departureAirports = {!! json_encode($departureAirports) !!};
+    var arrivalAirports = {!! json_encode($arrivalAirports) !!};
+
+    // Add preselected options to each selectpicker
+    var departureIcaos = preselectOptions('#departure', departureAirports);
+    var arrivalIcaos = preselectOptions('#arrival', arrivalAirports);
+
+    // Set initial state of bootstrap-select pickers and radios based on database
+    if (departureAirports.length > 0)
+    {
         $('#departure').prop('disabled', false);
         $('#departureRadio1').prop('checked', false);
         $('#departureRadio2').prop('checked', true);
     }
-    if (arrivalAirports.length >0 ) {
+    if (arrivalAirports.length > 0)
+    {
         $('#arrival').prop('disabled', false);
         $('#arrivalRadio1').prop('checked', false);
         $('#arrivalRadio2').prop('checked', true);
@@ -542,7 +570,8 @@ crossorigin></script>
     /*
      * Event listeners for setting select picker disabled state based on radios
      */
-    $('input[name="departureRadio"]').click(function() {
+    $('input[name="departureRadio"]').click(function()
+    {
         if ($('#departureRadio2').is(":checked")) {
             $('#departure').prop('disabled', false);
         } else {
@@ -550,7 +579,8 @@ crossorigin></script>
         }
         $('.selectpicker').selectpicker('refresh');
     });
-    $('input[name="arrivalRadio"]').click(function() {
+    $('input[name="arrivalRadio"]').click(function()
+    {
         if ($('#arrivalRadio2').is(":checked")) {
             $('#arrival').prop('disabled', false);
         } else {
@@ -559,77 +589,33 @@ crossorigin></script>
         $('.selectpicker').selectpicker('refresh');
     });
 
-    /*
-     * AIRCRAFT SELECT PICKER
-     */
-    // initialise aircraft select picker with ajax live search
-    $('.aircraftpicker').selectpicker({
-        liveSearch: true
-    }).ajaxSelectPicker({
-        ajax: {
-            url: '{{ route('search.approved_aircraft') }}',
-            method: 'GET',
-            data: {
-                q: '@{{{q}}}'
-            }
-        },
-        locale: {
-            emptyTitle: 'Start typing to search...',
-            statusInitialized: '',
-        },
-        preprocessData: function(data){
-            var aircraft = [];
-            let count;
-            if (data.length > 0) {
-                if (data.length >= 10) {
-                    count = 10;
-                } else {
-                    count = data.length;
-                }
-                for (var i = 0; i < count; i++) {
-                    var curr = data[i];
-                    aircraft.push(
-                        {
-                            'value': curr.id,
-                            'text': curr.icao + ' - ' + curr.name + ' (' + curr.sim + ')',
-                            'disabled': false
-                        }
-                    );
-                }
-            }
-            return aircraft;
-        },
-        preserveSelected: true
-    });
-
     /**
      * Copies join link to clipboard
      *
      * @return void
      */
-    function copyLink() {
+    function copyLink()
+    {
         const link = document.getElementById('privateCode');
         link.select();
         document.execCommand('copy');
     }
 
-    /*
-     * MAPPING STUFF
-     */
-
     /**
      * Adds markers to map with popup, and returns an array of marker objects
      *
      * @param array airportsArray Array of objects with latitude, longitude, name and icao properties
+     *
      * @return array Array of marker objects
      */
-    function addMarkers(airportsArray) {
+    function addMarkers(airportsArray)
+    {
         var markerArray = [];
 
         for (var i = 0; i < airportsArray.length ; i++) {
             var airport = airportsArray[i];
 
-            var marker = L.marker([airport.latitude, airport.longitude]).addTo(mymap);
+            var marker = L.marker([airport.latitude, airport.longitude]).addTo(flightMap);
             marker.bindPopup(airport.name+" ("+airport.icao+")");
 
             markerArray.push(marker);
@@ -638,31 +624,127 @@ crossorigin></script>
         return markerArray;
     }
 
-    // concatenate dep and arr airports into single array for adding markers
-    var allPoints = departureAirports.concat(arrivalAirports);
-
-    // initialise map
-    var mymap = L.map('map', {
+    // Initialise Leaflet.js map
+    var flightMap = L.map('map', {
         zoomControl: false
     });
 
-    // add map tiles
+    // Add map tiles
     L.tileLayer('https://api.mapbox.com/styles/v1/{style}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: '&copy; <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         style: 'mapbox/dark-v10',
         accessToken: "{{ config('services.mapbox.token') }}"
-    }).addTo(mymap);
+    }).addTo(flightMap);
 
-    // add markers
-    var markers = addMarkers(allPoints);
+    // Add markers from departure and arrival airport arrays
+    var markers = addMarkers(departureAirports.concat(arrivalAirports));
 
-    // fit markers within map
+    // Fit markers within map
     if (markers.length > 1) {
-        mymap.fitBounds(new L.featureGroup(markers).getBounds(), {padding: [50, 50]});
+        flightMap.fitBounds(new L.featureGroup(markers).getBounds(), {padding: [50, 50]});
     } else {
-        mymap.setView(markers[0].getLatLng(), 4);
+        flightMap.setView(markers[0].getLatLng(), 4);
     }
 </script>
+
+@if($type === 'FlightRequest' || empty($flight->route))
+    <!-- Draws great circle line for all flight requests, and archived flights with no route -->
+    <script type="text/javascript">
+
+        /**
+         * Get the coordinates of the centre of an array of airports
+         * Returns the middle of several airports, or the coordinates of the airport given only one
+         *
+         * @param      array  airports  Array of airports with .latitude and .longitude properties
+         * @return     L.LatLng         LatLng object (containing coords) of middle
+         */
+        function midCoords(airports)
+        {
+            // Only one airport so the midpoint is its coords
+            if (airports.length <= 1) {
+                return L.latLng([airports[0].latitude, airports[0].longitude]);
+            }
+
+            // Create an array of LatLng objects for each airport
+            var coords = [];
+            for (var i = 0; i < airports.length; i++) {
+                coords.push(L.latLng(
+                    parseFloat(airports[i].latitude), parseFloat(airports[i].longitude)
+                ));
+            }
+
+            // Use Leaflet.js' getCenter() on a polyline to get the midpoint
+            return L.polyline(coords, {opacity: 0.0}).addTo(flightMap).getCenter();
+        }
+
+        /**
+         * Calculates whether or not to draw a circle encompassing airport(s), and if so, calculates the circle radius
+         *
+         * @param      array        airports    Array of airports with .latitude and .longitude properties
+         * @param      L.LatLng     midpoint    The midpoint coordinates as a LatLng object
+         * @return     boolean|float            Radius of circle if airports are closer than 10km, otherwise false
+         */
+        function calcCircle(airports, midpoint)
+        {
+            if (airports.length > 1) {
+                // Find max distance from midpoint to an airport - will be the circle radius
+                let max = 0;
+                for (let i = 0; i < airports.length; i++) {
+                    let dist = midpoint.distanceTo(L.latLng(airports[i].latitude, airports[i].longitude));
+                    if (dist > max) {
+                        max = dist;
+                    }
+                }
+
+                if (max < 1000000) {
+                    // Only return max if < 100km (i.e. don't draw the circle otherwise)
+                    return max;
+                }
+            }
+
+            // Not enough airports, or airports too spread out, to draw circle
+            return false;
+        }
+
+        // Only draw any of this if there's at least one airport for each
+        if (departureAirports.length > 0 && arrivalAirports.length > 0) {
+            // Get the midpoint of departure and arrival airports
+            let depMid = midCoords(departureAirports);
+            let arrMid = midCoords(arrivalAirports);
+
+            // Get the radii of any encompassing circles
+            let depCircle = calcCircle(departureAirports, depMid);
+            let arrCircle = calcCircle(arrivalAirports, arrMid);
+
+            if (arrCircle !== false || depCircle !== false) {
+                L.geodesic([depMid, arrMid]).addTo(flightMap);
+                // Create circles centred at midpoint and radius calculated above + 50%
+                L.circle(depMid, {radius: depCircle*1.5}).addTo(flightMap);
+                L.circle(arrMid, {radius: arrCircle*1.5}).addTo(flightMap);
+            } else if (departureAirports.length === 1 && arrivalAirports.length === 1) {
+                L.geodesic([depMid, arrMid]).addTo(flightMap);
+            }
+        }
+    </script>
+
+@else
+
+    <!-- Draws route for archived flights with a route set -->
+    <script type="text/javascript">
+
+        let route = {!! json_encode($flight->route) !!};
+
+        for (let i = 0; i < route.length; i++) {
+            //let marker = L.marker([route[i].pos_lat, route[i].pos_long]).addTo(flightMap);
+            //marker.bindPopup(route[i].name);
+            if (i > 0) {
+                L.polyline([[route[i-1].pos_lat, route[i-1].pos_long], [route[i].pos_lat, route[i].pos_long]]).addTo(flightMap);
+            }
+        }
+
+    </script>
+
+@endif
 
 @endpush
 
