@@ -207,7 +207,7 @@ z-index: 2;">
             <div class="alert alert-warning border">
                 Limited dispatch options are available. More options are to be added here, with improved aircraft
                 options already in the works. Please submit further reqeuests to
-                <a href="https://github.com/MultiCrew/copilot/issues" target="_blank">GitHub</a>.
+                <a href="https://github.com/MultiCrew/copilot/issues" target="_blank">GitHub<i class="fas fa-external-link-alt ml-2"></i></a>.
             </div>
 
             <!-- begin details accordion -->
@@ -433,5 +433,14 @@ z-index: 2;">
     });
 </script>
 <script type="text/javascript" src="{{ asset('simbrief/simbrief.apiv1.js') }}"></script>
+
+@endsection
+
+@section('help-content')
+
+<p>
+    Here you can set the parameters used to generate the flight plan, generated through SimBrief. When you press "Generate Plan", a new window will open and you'll be
+    prompted to log in with your SimBrief account. You should then wait for this window to close automatically, and you will be redirected to view your new flight plan.
+</p>
 
 @endsection

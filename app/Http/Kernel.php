@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'flight_role' => \App\Http\Middleware\CheckFlightRole::class,
         'fleet' => \App\Http\Middleware\CheckApprovedAircraftRole::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'is_plannable' => \App\Http\Middleware\CheckPlannableFlight::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'plan_role' => \App\Http\Middleware\CheckPlanRole::class,

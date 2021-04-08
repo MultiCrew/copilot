@@ -136,11 +136,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @yield('help-content', 'This page has no help section defined. Please visit all help below.')
+                    @yield('help-content', 'This page has no help section defined.')
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="#" class="btn btn-primary disabled">View all help<i class="fas fa-fw ml-2 fa-angle-double-right"></i></a>
                 </div>
             </div>
         </div>

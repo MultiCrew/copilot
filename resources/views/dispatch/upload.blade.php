@@ -11,24 +11,13 @@
         </div>
         <h3 class="card-title">Dispatch Flight</h3>
 
-        <div class="row">
-            <div class="col-md-9">
-                <p class="card-text text-justify">
-                    Please upload your existing plan in PDF format. No other file formats are accepted!
-                </p>
-                <p class="card-text text-justify">
-                    If you do not have a PDF, you may wish to <a href="{{ route('dispatch.create', $flight) }}">plan this
-                    flight using SimBrief</a>.
-                </p>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group text-right card-text">
-                    <label>Current UTC Time</label>
-                    <input type="text" id="time" class="form-control text-right" readonly value="">
-                </div>
-            </div>
-        </div>
+        <p class="card-text text-justify">
+            Please upload your existing plan in PDF format. No other file formats are accepted!
+        </p>
+        <p class="card-text text-justify">
+            If you do not have a PDF, you may wish to <a href="{{ route('dispatch.create', $flight) }}">plan this
+            flight using SimBrief</a>.
+        </p>
     </div>
 </div>
 
@@ -65,5 +54,15 @@
         </form>
     </div>
 </div>
+
+@endsection
+
+@section('help-content')
+
+<p>
+    You can upload a PDF (.pdf extension <strong>only</strong>) flight plan file through this page. This PDF will be uploaded to the MultiCrew web server,
+    which will allow your copilot to easily access it through the flight request. <strong>Please note that anyone else on the Internet could access this
+    file, so please do not upload any sensitive or personal information!</strong> Once you complete your flight, this PDF will be deleted immediately.
+</p>
 
 @endsection

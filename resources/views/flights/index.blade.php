@@ -72,6 +72,21 @@
 
 @endsection
 
+@section('help-content')
+
+<p>
+    This page shows all the public flight requests. If you see one you like,
+    simply press "Accept" and you can meet your Copilot and start planning the
+    flight!
+</p>
+
+<p>
+    If you'd like to create your own request, press "New Request" and fill out
+    the form as you see fit.
+</p>
+
+@endsection
+
 @section('scripts')
 <script>
     $(document).ready(function() {

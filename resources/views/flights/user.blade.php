@@ -195,6 +195,18 @@
 
 @endsection
 
+@section('help-content')
+
+<p>This page shows all of the flight which you are involved in as one of the following categories:</p>
+
+<ul>
+    <li>Open Requests - your flight requests which have not been accepted yet.</li>
+    <li>Accepted Requests - your flight requests which are being planned or you're currently flying.</li>
+    <li>Logbook - all the flights you've compelted with Copilot previously.</li>
+</ul>
+
+@endsection
+
 @section('scripts')
 <script>
     $(document).ready(function() {
