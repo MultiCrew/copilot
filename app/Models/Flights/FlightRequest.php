@@ -30,7 +30,7 @@ class FlightRequest extends Model
      * @var array
      */
     protected $fillable = [
-        'departure', 'arrival', 'aircraft_id', 'requestee_id', 'acceptee_id', 'public'
+        'departure', 'arrival', 'aircraft_id', 'requestee_id', 'acceptee_id', 'public', 'network_id'
     ];
 
     /**
@@ -51,6 +51,16 @@ class FlightRequest extends Model
     public function plan()
     {
         return $this->belongsTo('App\Models\Flights\FlightPlan', 'plan_id');
+    }
+
+    /**
+     * The network which the flight has.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function network()
+    {
+        return $this->belongsTo('App\Models\FlightSim\Network');
     }
 
     /**
