@@ -131,8 +131,8 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item disabled @if(Route::currentRouteName() === 'account.profile') active @endif"
-                        href="#">
+                    <a class="dropdown-item @if(Route::is(route('profile.show', Auth::user()->profile))) active @endif"
+                        href="{{ route('profile.show', Auth::user()->profile) }}">
                         <i class="fas fa-user fa-fw mr-3"></i>Profile
                     </a>
                     <a class="dropdown-item @if(Route::currentRouteName() === 'account.index') active @endif"
@@ -142,7 +142,7 @@
 
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
+                        document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt fa-fw mr-3"></i>{{ __('Logout') }}
                     </a>
 

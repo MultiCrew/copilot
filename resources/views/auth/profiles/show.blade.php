@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-xl-3">
         <div class="card mb-4 shadow">
             <div class="card-body">
                 <h3 class="text-center card-title">{{ $profile->user->name }}</h3>
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-xl-9">
         <div class="card mb-4 shadow">
             <div class="card-body">
                 <h3 class="card-title mb-3">Your Preferences</h3>
