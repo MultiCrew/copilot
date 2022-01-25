@@ -1,3 +1,22 @@
+<h5>v0.3.0</h5>
+
+<ul>
+    <li>Added user profiles</li>
+    <li>Added great circle line to flight maps</li>
+    <li>Route from flights dispatched via SimBrief now archived and displayed in logbook</li>
+    <li>Added ability to edit or delete pending fleet additions</li>
+</ul>
+
+<h5>v0.2.5</h5>
+
+<ul>
+    <li>Added Zulu and local time display to navbar</li>
+    <li>Improved layout of flight details table on flight pages</li>
+    <li>Added flight request expiry time to flight tables</li>
+    <li>Added search and sorting functionality to the fleet page</li>
+    <li>Added an API for third-party application integration</li>
+</ul>
+
 <h5>v0.2.4</h5>
 
 <ul>

@@ -17,8 +17,9 @@ class FlightPlanController extends Controller
     {
         $this->middleware(['auth', 'role:user']);
 
-        $this->middleware(['plan_role:member'])->except('index', 'create', 'upload', 'store');
-        $this->middleware(['flight_role:member'])->only('create', 'upload', 'store');
+        $this->middleware(['plan_role:member'])->except(['index', 'create', 'upload', 'store']);
+        $this->middleware(['flight_role:member'])->only(['create', 'upload', 'store']);
+        $this->middleware(['is_plannable'])->only(['create', 'upload']);
     }
 
     /**
@@ -46,12 +47,6 @@ class FlightPlanController extends Controller
      */
     public function create(FlightRequest $flight)
     {
-        if ($flight->plan_id) {
-            return redirect()->route('dispatch.show', $flight->plan_id);
-        } elseif (!$flight->isAccepted() || !$flight->isDispatchable()) {
-            return redirect()->route('flights.show', $flight);
-        }
-
         return view('dispatch.create', ['flight' => $flight]);
     }
 
@@ -64,10 +59,6 @@ class FlightPlanController extends Controller
      */
     public function upload(FlightRequest $flight)
     {
-        if ($flight->plan_id) {
-            return redirect()->route('dispatch.show', $flight->plan_id);
-        }
-
         return view('dispatch.upload', ['flight' => $flight]);
     }
 
@@ -82,6 +73,7 @@ class FlightPlanController extends Controller
     {
         $flight = FlightRequest::findOrFail($request->flight);
         $plan = new FlightPlan();
+
         if ($request->hasFile('plan')) {
             $request->validate([
                 'plan' => 'required|mimes:pdf|max:2000'
@@ -92,7 +84,6 @@ class FlightPlanController extends Controller
                 FlightPlan::generateCode() . '.pdf'
             );
         } else {
-
             /**
              * SimBrief API helper file for dealing with API response
              *
@@ -181,7 +172,7 @@ class FlightPlanController extends Controller
 
     /**
      * Assign a stand to the departure or arrival airport
-     * 
+     *
      * @param FlightPlan $plan
      * @param Request $request
      */

@@ -23,4 +23,14 @@ class ApprovedAircraft extends Model
     {
         return $this->hasMany('App\Models\Flights\FlightRequest', 'aircraft_id');
     }
+
+    /**
+     * The flight sim for the aircraft
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function simulator()
+    {
+        return $this->belongsTo('App\Models\FlightSim\Simulator', 'sim', 'id');
+    }
 }

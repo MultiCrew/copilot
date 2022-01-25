@@ -21,6 +21,18 @@
         </a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" id="tokens-tab" data-toggle="pill" href="#tokens" role="tab">
+            <i class="fas fa-fw mr-2 fa-people-arrows"></i>Third Party Applications
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" id="api-tab" data-toggle="pill" href="#api" role="tab">
+            <i class="fas fa-fw mr-2 fa-laptop-code"></i>API
+        </a>
+    </li>
+
     @role('new')
     <li class="nav-item">
         <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab">
@@ -33,8 +45,7 @@
 <div class="card">
     <div class="card-body tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active card-text" id="account" role="tabpanel">
-
-            <form method="post" action="{{route('account.update')}}">
+            <form method="post" action="{{ route('account.update') }}">
                 @method('patch')
                 @csrf
 
@@ -203,7 +214,7 @@
             </div>
         </div>
 
-        <div class="tab-pane fade card-text" id="discord" role="tabpanel">
+        <div class="tab-pane fade show card-text" id="discord" role="tabpanel">
             <p class="card-text">
                 Some of MultiCrew's services are integrated with Discord. We
                 deliver push notifications to your Discord account, so you can
@@ -215,7 +226,7 @@
                 <dd>Not connected</dd>
             </dl>
 
-            <a class="btn btn-lg btn-primary" role="button" href="{{ route('home.connect') }}">
+            <a class="btn btn-lg btn-primary" role="button" href="{{ route('home.discord.redirect') }}">
                 <i class="fas fa-link mr-2"></i>Connect to Discord
             </a>
             @else
@@ -224,10 +235,74 @@
                 <dd>Connected to Discord with Client ID: {{ $user->discord_id }}</dd>
             </dl>
 
-            <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.disconnect') }}">
+            <a class="btn btn-lg btn-danger" role="button" href="{{ route('home.discord.disconnect') }}">
                 <i class="fas fa-unlink mr-2"></i>Disconnect from Discord
             </a>
             @endif
+        </div>
+
+        <div class="tab-pane fade show card-text" id="tokens" role="tabpanel">
+            <div class="d-flex justify-content-between">
+                <p class="class-text">
+                    View all the third party applications that you have authorized to perform actions on your behalf.
+                    You are able to revoke their access to your account by clicking on the name of the application.
+                </p>
+            </div>
+            @if ($tokens)
+            <div class="card-columns">
+                @foreach ($tokens as $token)
+                <div class="card shadow cursor-pointer h-100" id="card-{{$token['id']}}">
+                    <div class="card-body">
+                        <a onclick="showConfirmation({{json_encode($token['id'])}})" href="javascript:void(0)">
+                            <div class="card-title">
+                                {{$token['client']['name']}}
+                            </div>
+                        </a>
+                        <button hidden id="confirm-{{$token['id']}}" type="button" class="btn btn-danger"
+                            onclick="revokeToken({{json_encode($token['id'])}})">Confirm</button>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{Carbon\Carbon::parse($token['created_at'])->format('d/m/Y')}}
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
+        </div>
+
+        <div class="tab-pane fade show card-text" id="api" role="tabpanel">
+            <div class="d-flex justify-content-between">
+                <p class="class-text">
+                    Create clients to allow your third party applications access to the MultiCrew API.
+                    <br>
+                    Find more information on the <a href="{{config('app.url')}}/docs">MultiCrew Documentation page</a>.
+                </p>
+
+                <p class="class-text">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createClientModal">
+                        <i class="fas fa-fw mr-2 fa-plus"></i> Create Client
+                    </button>
+                </p>
+            </div>
+            @if ($clients)
+            <div class="card-columns">
+                @foreach ($clients as $client)
+                <div class="card shadow cursor-pointer h-100" id="card-{{$client['id']}}">
+                    <a onclick="showModal({{json_encode($client)}})" class="stretched-link text-decoration-none">
+                        <div class="card-body">
+                            <div class="card-title">
+                                {{$client['name']}}
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{Carbon\Carbon::parse($client['created_at'])->format('d/m/Y')}}
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+            @endif
+
         </div>
 
         @role('new')
@@ -259,6 +334,9 @@
         @endrole
     </div>
 </div>
+
+@include('auth.users.client.create')
+@include('auth.users.client.show')
 
 @endsection
 
@@ -408,5 +486,58 @@
             contentType: false
         })
     }
+
+    function checkUsage(val){
+        var element = document.getElementById('otherUsage');
+        if(val == 'other') {
+            element.style.display='block';
+        } else {
+            element.value = val;
+            element.style.display='none';
+        }
+    }
+
+    function showModal(client) {
+        $('#client_show_name').val(client.name);
+        $('#client_show_id').val(client.id);
+        $('#client_show_secret').val(client.secret);
+        client.redirect = client.redirect.replaceAll(',', '\n')
+        $('#client_show_redirect').val(client.redirect);
+        $('#showClientModal').modal('show')
+    }
+
+    function showConfirmation(token) {
+        $(`#confirm-${token}`).removeAttr('hidden');
+    }
+
+    function revokeToken(token) {
+        axios.delete('/oauth/tokens/' + token).then(res => {
+            window.location.href = '/account#tokens';
+            window.location.reload(true);
+        });
+    }
+
+    $('#showClientModal').on('hide.bs.modal', function() {
+        $('#client_show_secret').attr('hidden', true);
+        $('#show_secret').removeAttr('hidden');
+    })
 </script>
+@endsection
+
+@section('help-content')
+<p>
+    In the settings tab you can update your Full Name, Email Address, and password, if you would like to edit your
+    username, please send an email to
+    <a href="mailto:&#105;&#110;&#102;&#111;&#064;&#109;&#117;&#108;&#116;&#105;&#099;&#114;&#101;&#119;&#046;&#099;&#111;&#046;&#117;&#107;">&#105;&#110;&#102;&#111;&#064;&#109;&#117;&#108;&#116;&#105;&#099;&#114;&#101;&#119;&#046;&#099;&#111;&#046;&#117;&#107;</a>.
+    You can also view your roles in this tab.
+
+    In the notifications tab you can update your preferences on how you would like us to notify you about different
+    events relating to your flights or flight requests. Below that you can subscribe to receive notifications when any
+    user creates a new public request with one of your chosen aircraft/airports.
+
+    In the Discord tab you can connect your Discord account to MultiCrew. Pressing the connect button will redirect you
+    to Discord's login page where you can view the data that MultiCrew will receive, before redirecting you back to the
+    account page.
+</p>
+
 @endsection

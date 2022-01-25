@@ -5,7 +5,7 @@
 <div class="card mb-4">
     <div class="card-body">
         <div class="float-right">
-            @if(url()->previous() == env('APP_URL').'/dispatch')
+            @if(url()->previous() == config('app.url').'/dispatch')
                 <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-info">
                     Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
                 </a>
@@ -19,8 +19,8 @@
         <h3 class="card-title">Flight Plan @unless($plan->isApproved()) Review @endunless</h3>
         <p class="lead text-muted">
             Flight
-            from {{ $flight->departure }})
-            to {{ $flight->arrival }})
+            from {{ $plan->flight->departure[0] }}
+            to {{ $plan->flight->arrival[0] }}
         </p>
         <p class="card-text">
             @if($plan->isApproved())
@@ -51,17 +51,25 @@
                         <dl class="row card-text">
                             <dt class="col-5 card-text">Departure</dt>
                             <dd class="col-7 text-right card-text">
-                                <samp>{{ $flight->departure }}</samp>
+                                <samp>{{ $flight->departure[0] }}</samp>
                             </dd>
 
                             <dt class="col-5 card-text">Arrival</dt>
                             <dd class="col-7 text-right card-text">
-                                <samp>{{ $flight->arrival }}</samp>
+                                <samp>{{ $flight->arrival[0] }}</samp>
                             </dd>
 
                             <dt class="col-5 card-text">Aircraft</dt>
                             <dd class="col-7 text-right card-text">
-                                <samp>{{ $flight->aircraft }}</samp>
+                                <samp>{{ $flight->aircraft->name }}</samp>
+                            </dd>
+
+                            <dt class="col-5 card-text">Copilot</dt>
+                            <dd class="col-7 text-right card-text">
+                                <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
+                                    <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                    {{ $flight->otherUser()->username }}
+                                </a>
                             </dd>
                         </dl>
                     </div>
@@ -153,7 +161,7 @@
                 </div>
 
                 <div class="modal-body">
-                    Are you sure you want to complete this flight?
+                    Are you sure you want to complete this flight? The flight plan PDF will be permanently deleted!
                 </div>
 
                 <div class="modal-footer">
@@ -189,5 +197,22 @@ crossorigin="anonymous"></script>
         }
     });
 </script>
+
+@endsection
+
+@section('help-content')
+
+<p>This page shows the uploaded PDF flight plan for your flight.</p>
+
+<p>If you haven't already, take some time to review this flight plan and choose to either Accept or Reject it. You can choose to:</p>
+<ul>
+    <li>Accept - your copilot is notified and, if they accept it too, the flight plan can be exported and used.</li>
+    <li>Reject - if either you or your copilot do this, the flight plan must be regenerated or reuploaded again.</li>
+</ul>
+
+<p>
+    If you have, you can both view and dowload your flight plan PDF. When your flight is completed and you no longer require the flight plan,
+    you can mark the flight as completed, when it will then appear in your logbook.
+</p>
 
 @endsection

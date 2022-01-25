@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\ConvertStringBooleans::class,
     ];
 
     /**
@@ -36,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\UpdateAccessLog::class
         ],
 
         'api' => [
@@ -55,18 +57,24 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'bot' => \App\Http\Middleware\CheckDiscordBot::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'client' => CheckClientCredentials::class,
+        'flight_role' => \App\Http\Middleware\CheckFlightRole::class,
+        'fleet' => \App\Http\Middleware\CheckApprovedAircraftRole::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'is_plannable' => \App\Http\Middleware\CheckPlannableFlight::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'plan_role' => \App\Http\Middleware\CheckPlanRole::class,
+        'profile' => \App\Http\Middleware\CheckProfileRole::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
+        'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'flight_role' => \App\Http\Middleware\CheckFlightRole::class,
-        'plan_role' => \App\Http\Middleware\CheckPlanRole::class,
-        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class
     ];
 
     /**

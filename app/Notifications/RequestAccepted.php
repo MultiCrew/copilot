@@ -55,9 +55,9 @@ class RequestAccepted extends Notification
                 array_push($channels, WebhookChannel::class);
             }
 
-            if ($userNotifications->request_accepted_email) {
-                array_push($channels, 'email');
-            }
+            // if ($userNotifications->request_accepted_email) {
+            //     array_push($channels, 'mail');
+            // }
         }
 
         return $channels;

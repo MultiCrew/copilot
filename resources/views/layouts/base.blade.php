@@ -19,15 +19,14 @@
         @include('includes.nav')
 
         @auth
-            @if(Auth::user()->hasRole('new') ||
-                strpos(Route::currentRouteName(), 'about') !== false ||
-                strpos(Route::currentRouteName(), 'policy') !== false)
+            @if(Auth::user()->hasRole('new') || Route::is('home.about') || Route::is('home.policy'))
                 <div class="w-100" id="header-image">
                     <div id="header-text" class="text-center text-white">
                         <h1 class="display-4">MultiCrew</h1>
                         <p class="lead">@yield('title')</p>
                     </div>
                 </div>
+
                 <main class="container">
                     <div class="p-4 col" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
@@ -39,6 +38,7 @@
             @else
                 <main class="row" id="body-row">
                     @include('includes.sidebar')
+
                     <div class="col-lg-10 p-4" id="content-div">
                         <div class="notify-toast-parent" aria-live="polite" aria-atomic="true">
                             <div class="notify-toast-position" id="notification-div"></div>
@@ -50,13 +50,19 @@
         @endauth
 
         @guest
+            <div class="w-100" id="header-image">
+                <div id="header-text" class="text-center text-white">
+                    <h1 class="display-4">MultiCrew</h1>
+                    <p class="lead">@yield('title')</p>
+                </div>
+            </div>
+
             <main class="py-4 container">
                 @yield('content')
             </main>
         @endguest
 
-        @if(strpos(Route::currentRouteName(), 'about') !== false ||
-            strpos(Route::currentRouteName(), 'policy') !== false)
+        @if(Route::is('home.about') || Route::is('home.policy'))
             <div class="bg-light text-dark py-5">
                 <div class="container">
                     <h3 class="text-center display-4 mb-4">MultiCrew</h3>
@@ -65,6 +71,7 @@
                         together to enjoy flight simulators. We are a community-driven organisation, which specialises
                         in shared cockpit flying, training and support.
                     </p>
+
                     <p class="text-center">
                         <a href="https://fb.me/flymulticrew"><i class="fab fa-facebook-square fa-2x mr-4"></i></a>
                         <a href="https://twitter.com/flymulticrew"><i class="fab fa-twitter fa-2x mr-4"></i></a>
@@ -129,11 +136,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @yield('help-content', 'This page has no help section defined. Please visit all help below.')
+                    @yield('help-content', 'This page has no help section defined.')
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="#" class="btn btn-primary disabled">View all help<i class="fas fa-fw ml-2 fa-angle-double-right"></i></a>
                 </div>
             </div>
         </div>

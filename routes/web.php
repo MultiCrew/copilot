@@ -17,8 +17,14 @@ Route::group([
     Route::get('/', 'Home\HomeController@index')->name('index');
     Route::get('/about', 'Home\HomeController@about')->name('about');
     Route::get('/policies', 'Home\HomeController@policy')->name('policy');
-    Route::get('connect', 'Discord\DiscordController@connect')->name('connect')->middleware('verified');
-    Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
+    Route::group([
+        'as' => 'discord.',
+        'prefix' => 'discord'
+    ], function() {
+        Route::get('redirect', 'Discord\DiscordController@redirect')->name('redirect')->middleware('verified');
+        Route::get('callback', 'Discord\DiscordController@callback')->name('callback')->middleware('verified');
+        Route::get('disconnect', 'Discord\DiscordController@disconnect')->name('disconnect')->middleware('verified');
+    });
 });
 
 /**
@@ -72,8 +78,7 @@ Route::group([
 Route::group(['middleware' => ['verified']], function () {
     Route::resource('flights', 'Flights\FlightController')->except(['create']); // standard resource routes
     Route::resource('archive', 'Flights\ArchivedFlightController')->only(['index', 'show', 'store']);
-    Route::resource('aircraft', 'Aircraft\ApprovedAircraftController')->only(['index', 'store']);
-    Route::resource('aircraft', 'Aircraft\ApprovedAircraftAdminController')->except(['index', 'edit', 'store']);
+    Route::resource('aircraft', 'Aircraft\ApprovedAircraftController')->except(['create', 'edit']);
 });
 
 /**
@@ -105,7 +110,11 @@ Route::group([
  * forms and user profiles
  */
 Auth::routes(['verify' => true]);
+
+// beta application routes
 Route::resource('apply', 'Auth\Application\ApplicationController')->only(['create', 'store'])->middleware('verified');
+
+// account management routes
 Route::group([
     'as' => 'account.',
     'prefix' => 'account',
@@ -115,7 +124,17 @@ Route::group([
     Route::patch('/update', 'Auth\AccountController@update')->name('update');
 });
 
-Route::resource('profile', 'Auth\ProfileController')->middleware('verified');
+// profile picture routes
+Route::group([
+    'as'        => 'profile.picture.',
+    'prefix'    => 'profile/{profile}/picture',
+    'middleware' => 'verified'
+], function () {
+    Route::patch('/', 'Auth\ProfileController@updatePicture')->name('update');
+    Route::delete('/', 'Auth\ProfileController@removePicture')->name('destroy');
+});
+// profile routes
+Route::resource('profile', 'Auth\ProfileController')->only(['show', 'update'])->middleware('verified');
 
 // administration routes
 Route::group([

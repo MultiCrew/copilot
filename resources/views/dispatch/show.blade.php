@@ -5,7 +5,7 @@
 <div class="card mb-4">
     <div class="card-body">
         <div class="float-right">
-            @if(url()->previous() == env('APP_URL').'/dispatch')
+            @if(url()->previous() == config('app.url').'/dispatch')
                 <a href="{{ route('flights.show', [$flight->id]) }}" class="btn btn-info">
                     Flight Details<i class="fas fa-fw ml-2 fa-search"></i>
                 </a>
@@ -83,6 +83,14 @@
                             <dt class="col-5">Aircraft</dt>
                             <dd class="col-7 text-right">
                                 <samp>{{ $fpl['aircraft']['icaocode'] }}</samp>
+                            </dd>
+
+                            <dt class="col-5 card-text">Copilot</dt>
+                            <dd class="col-7 text-right card-text">
+                                <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
+                                    <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                    {{ $flight->otherUser()->username }}
+                                </a>
                             </dd>
                         </dl>
                     </div>
@@ -828,15 +836,36 @@
 @endsection
 
 @if($plan->isApproved())
-    @section('help-title', 'Help | Plan Export')
-
     @section('help-content')
 
+    <p>
+        This flight plan is now exportable and ready to be used on your flight! You can still see the breakdown of different
+        sections of the plan, but you also have these new options.
+    </p>
 
+    <h5>Stand Assignment</h5>
+    <p>
+        You or your copilot can make a note of your assigned stand at both the departure and arrival airports. When you press
+        the save icon after entering your stand, both you and your copilot's flight plan pages will update to show the saved
+        value.
+    </p>
+
+    <h5>Export Plan</h5>
+    <p>Your flight plan can be downloaded as either a PDF or any of the formats which SimBrief supports!</p>
+
+    <h5>Pre-file Flight Plan</h5>
+    <p>These buttons will take you directly to the flight plan pre-file forms of your favourite online networks.</p>
+
+    <h5>Complete Flight</h5>
+    <p>
+        When your flight is finished and you are done with your flight plan, you can mark it as completed and your flight plan
+        will be deleted. Your route will still be stored however, allowing you to view it in your logbook forever!
+    </p>
 
     @endsection
+
 @else
-@section('help-title', 'Help | Plan Reivew')
+
     @section('help-content')
 
         <h5>Review Process</h5>

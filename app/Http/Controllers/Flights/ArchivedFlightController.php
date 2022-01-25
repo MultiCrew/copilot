@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Flights;
 
+use App\Models\Airports\Airport;
+use App\Models\Flights\FlightPlan;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Flights\FlightRequest;
 use App\Models\Flights\ArchivedFlight;
-use App\Models\Flights\FlightPlan;
-use App\Models\Airports\Airport;
-use Illuminate\Http\Request;
-use Auth;
 
 class ArchivedFlightController extends Controller
 {
@@ -24,8 +23,16 @@ class ArchivedFlightController extends Controller
      * @param  \Illuminate\Http\FlightRequest $flight
      * @return \Illuminate\Http\Response
      */
-    public function store(FlightRequest $flight)
+    public function store($flight)
     {
+        $flight = FlightRequest::find($flight);
+        if (empty($flight)) {
+            $recentFlight = ArchivedFlight::where('requestee_id', Auth::user()->id)
+                ->orWhere('acceptee_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+            return redirect()->route('flights.archive.show', $recentFlight);
+        }
         $archived = new ArchivedFlight();
 
         $archived->fill([
@@ -35,6 +42,10 @@ class ArchivedFlightController extends Controller
             'requestee_id'      => $flight->requestee_id,
             'acceptee_id'       => $flight->acceptee_id,
         ]);
+        if (!empty($flight->plan->ofp_json)) {
+            $fpl = json_decode($flight->plan->ofp_json, true);
+            $archived->route = $fpl['navlog']['fix'];
+        }
 
         $archived->save();
         FlightPlan::archive($flight->plan);

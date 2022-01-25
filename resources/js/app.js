@@ -22,11 +22,11 @@ window.markAllRead = function()
     // mark read in the backend
     $.get('/notifications/mark-all-read');
     // Remove all elements in dropdown, except the first 4 (buttons and hidden no notification <li>)
-    $('#notificationDropdownMenu').children().slice(4).remove();
+    $('#notificationDropdownMenu').children().slice(3).remove();
 
     // reset count and hide it
     $('#notify-count').text('');
-    $('#notify-count').attr('hidden', true);
+    $('#notify-count').addClass('d-none');
 
     // hide the mark all read button
     $('#markAllRead').addClass('d-none');
@@ -48,11 +48,10 @@ window.removeNotification = function(id)
 
     // decrement count
     var count = $('#notify-count').text();
-    count--;
-    $('#notify-count').text(count);
+    $('#notify-count').text(--count);
 
     // if count now 0, reset and hide it
-    if ($('#notify-count').text() == 0) {
+    if (count == 0) {
         $('#notify-count').text('');
         $('#notify-count').addClass('d-none');
     }
@@ -102,6 +101,7 @@ window.viewNotification = function(id, notification)
  */
 window.addNotification = function(id, notification)
 {
+    // if the no notifications item is visible
     if (!$('#noNotifications').hasClass('d-none')) {
         // hide the no notifications item
         $('#noNotifications').addClass('d-none');
@@ -138,9 +138,8 @@ window.addNotification = function(id, notification)
 
     // increment, update and ensure the notification count is shown
     var count = $('#notify-count').text();
-    count++;
-    $('#notify-count').text(count);
-    $('#notify-count').addClass('d-none');
+    $('#notify-count').text(++count);
+    $('#notify-count').removeClass('d-none');
 };
 
 /**
@@ -195,7 +194,8 @@ var moment = require('moment');
  */
 function updateTime()
 {
-    $('#time').attr('value', moment.utc().format('HH:mm') + " Z");
+    $('#time').html(moment.utc().format('HH:mm') + " Z");
+    $('#time-local').html(moment().format('HH:mm') + " L");
 };
 
 
@@ -206,6 +206,12 @@ $(document).ready(function()
     if ($('#time').length) {
         setInterval(updateTime, 60000);
     }
+
+    // logout button script
+    $('#logoutFormSubmit').click(function() {
+        event.preventDefault();
+        document.getElementById('logout-form').submit();
+    });
 
     // initialise any file input placeholders via plugin
     bsCustomFileInput.init();

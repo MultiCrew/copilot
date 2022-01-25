@@ -22,10 +22,11 @@
         <table class="table table-hover card-text border">
             <thead class="thead-light">
                 <tr>
-                    <th style="width: 20%">User</th>
-                    <th style="width: 20%">Departure</th>
-                    <th style="width: 20%">Arrival</th>
+                    <th style="width: 15%">User</th>
+                    <th style="width: 15%">Departure</th>
+                    <th style="width: 15%">Arrival</th>
                     <th style="width: 30%">Aircraft</th>
+                    <th style="width: 15%">Expires</th>
                     <th style="width: 10%"></th>
                 </tr>
             </thead>
@@ -33,7 +34,12 @@
             <tbody>
                 @foreach ($flights as $flight)
                     <tr>
-                        <td class="align-middle">{{ User::find($flight->requestee_id)->username }}</td>
+                        <td class="align-middle">
+                            <a href="{{ route('profile.show', $flight->requestee->profile) }}" class="text-decoration-none">
+                                <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                {{ $flight->requestee->username }}
+                            </a>
+                        </td>
                         <td class="align-middle">
                             {{ is_array($flight->departure) ? implode(', ', $flight->departure) : 'No preference' }}
                         </td>
@@ -41,6 +47,7 @@
                             {{ is_array($flight->arrival) ? implode(', ', $flight->arrival) : 'No preference' }}
                         </td>
                         <td class="align-middle">{{ $flight->aircraft->name }}</td>
+                        <td class="align-middle">{{ empty($flight->expiry) ? 'Never' : \Carbon\Carbon::parse($flight->expiry)->format('H:i, D j M Y') }}</td>
                         <td class="p-0 align-middle text-right">
                             <a
                             href="{{route('flights.accept', ['id' => $flight->id])}}"
@@ -62,6 +69,21 @@
 </div>
 
 @include('flights.create')
+
+@endsection
+
+@section('help-content')
+
+<p>
+    This page shows all the public flight requests. If you see one you like,
+    simply press "Accept" and you can meet your Copilot and start planning the
+    flight!
+</p>
+
+<p>
+    If you'd like to create your own request, press "New Request" and fill out
+    the form as you see fit.
+</p>
 
 @endsection
 

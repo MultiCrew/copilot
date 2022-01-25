@@ -24,26 +24,15 @@ z-index: 2;">
         </div>
         <h3 class="card-title">Dispatch Flight</h3>
 
-        <div class="row">
-            <div class="col-md-9">
-                <p class="card-text text-justify">
-                    The following form makes use of the SimBrief API to generate a draft flight plan which both
-                    pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
-                    plan you will be prompted to sign in to or create your SimBrief account.
-                </p>
-                <p class="card-text text-justify">
-                    If you already have a plan, you may wish to <a href="{{ route('dispatch.upload', $flight) }}">upload
-                    a PDF plan</a>.
-                </p>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group text-right">
-                    <label>Current UTC Time</label>
-                    <input type="text" id="time" class="form-control text-right" readonly value="">
-                </div>
-            </div>
-        </div>
+        <p class="card-text text-justify">
+            The following form makes use of the SimBrief API to generate a draft flight plan which both
+            pilots must review. A SimBrief account is <strong>required</strong>, and upon generating the
+            plan you will be prompted to sign in to or create your SimBrief account.
+        </p>
+        <p class="card-text text-justify">
+            If you already have a plan, you may wish to <a href="{{ route('dispatch.upload', $flight) }}">upload
+            a PDF plan</a>.
+        </p>
     </div>
 </div>
 
@@ -140,6 +129,16 @@ z-index: 2;">
                                     value="{{ $flight->aircraft->icao }}">
                                 </div>
                             </div>
+
+                            <div class="form-group row mb-n1">
+                                <label class="col-6 col-form-label">Copilot</label>
+                                <div class="col-6 pt-2">
+                                    <a href="{{ route('profile.show', $flight->otherUser()->profile) }}" class="text-decoration-none">
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>
+                                        {{ $flight->otherUser()->username }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /end summary box -->
@@ -208,7 +207,7 @@ z-index: 2;">
             <div class="alert alert-warning border">
                 Limited dispatch options are available. More options are to be added here, with improved aircraft
                 options already in the works. Please submit further reqeuests to
-                <a href="https://github.com/MultiCrew/copilot/issues" target="_blank">GitHub</a>.
+                <a href="https://github.com/MultiCrew/copilot/issues" target="_blank">GitHub<i class="fas fa-external-link-alt ml-2"></i></a>.
             </div>
 
             <!-- begin details accordion -->
@@ -434,5 +433,14 @@ z-index: 2;">
     });
 </script>
 <script type="text/javascript" src="{{ asset('simbrief/simbrief.apiv1.js') }}"></script>
+
+@endsection
+
+@section('help-content')
+
+<p>
+    Here you can set the parameters used to generate the flight plan, generated through SimBrief. When you press "Generate Plan", a new window will open and you'll be
+    prompted to log in with your SimBrief account. You should then wait for this window to close automatically, and you will be redirected to view your new flight plan.
+</p>
 
 @endsection

@@ -1,7 +1,11 @@
 @extends('layouts.base')
 
-@section('content')
+@push('prepend-scripts')
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+@endpush
+
+@section('content')
 
 <div class="card">
     <div class="card-body">
@@ -16,7 +20,7 @@
             </p>
         </div>
 
-        <table class="table table-hover card-text border mb-3">
+        <table class="table table-hover card-text border mb-3" id="fleet-table">
             <caption>
                 Rows in yellow are <strong>pending approval</strong> and cannot be used in flight requests.
             </caption>
@@ -27,7 +31,7 @@
                     <th>Name</th>
                     <th>Simulator</th>
                     <th>Added by</th>
-                    @role('admin') <th></th> @endrole
+                    <th></th>
                 </tr>
             </thead>
 
@@ -38,15 +42,27 @@
                         <td class="align-middle">{{ $aircraft->name }}</td>
                         <td class="align-middle">{{ $aircraft->sim }}</td>
                         <td class="align-middle">
-                            {{ $aircraft->added_by ? $aircraft->added_by : 'MultiCrew' }}
+                            @if($aircraft->added_by)
+                                @if($aircraft->added_by === Auth::user()->username)
+                                    You!
+                                @else
+                                    <a
+                                    href="{{ route('profile.show', User::where('username', $aircraft->added_by)->first()->profile) }}"
+                                    class="text-decoration-none">
+                                        <i class="fas fa-fw mr-1 fa-xs fa-user-circle"></i>{{ $aircraft->added_by }}
+                                    </a>
+                                @endif
+                            @else
+                                MultiCrew
+                            @endif
                         </td>
-                        @role('admin')
-                            <td class="text-right">
+                        <td class="text-right">
+                            @if($aircraft->added_by === Auth::user()->username || Auth::user()->hasRole('admin'))
                                 <a href="{{ route('aircraft.show', $aircraft) }}" class="btn btn-primary btn-sm my-0">
                                     View<i class="fas fa-angle-double-right ml-2"></i>
                                 </a>
-                            </td>
-                        @endrole
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -55,8 +71,6 @@
                 @endforelse
             </tbody>
         </table>
-
-        <div class="card-text mb-0">{{ $aircrafts->links() }}</div>
     </div>
 </div>
 
@@ -91,8 +105,7 @@ aria-hidden="true">
                         name="icao"
                         id="icao"
                         class="selectpicker mt-1 mb-3 form-control {{ $errors->has('icao') ? 'border-danger' : '' }}"
-                        data-live-search="true"
-                        value="{{ is_null(old('icao')) ? '' : old('icao') }}"></select>
+                        data-live-search="true"></select>
 
                         @if($errors->has('icao'))
                             <p class="help text-danger">
@@ -152,8 +165,17 @@ aria-hidden="true">
 
 @push('append-scripts')
 
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.5/js/ajax-bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('#fleet-table').DataTable({
+            columnDefs: [{ orderable: false, targets: 4 }],
+        });
+    });
+
     $('.selectpicker').selectpicker({
         liveSearch: true
     })
@@ -169,29 +191,27 @@ aria-hidden="true">
             emptyTitle: 'Start typing to search...',
             statusInitialized: '',
         },
-        preprocessData: function(data){
-            var aircraft = [];
+        preprocessData: function(data) {
+            let aircraft = [];
             let count;
-            if(data.length > 0){
-                if(data.length >= 10) {
+            if (data.length > 0) {
+                if (data.length >= 10) {
                     count = 10;
                 } else {
                     count = data.length;
                 }
-                for(var i = 0; i < count; i++){
-                    var curr = data[i];
-                    aircraft.push(
-                        {
+
+                for (let i = 0; i < count; i++) {
+                    let curr = data[i];
+                    aircraft.push({
                             'value': curr.icao,
                             'text': curr.icao + ' - ' + curr.name,
                             'disabled': false
-                        }
-                    );
+                    });
                 }
             }
             return aircraft;
-        },
-        preserveSelected: true
+        }, preserveSelected: true
     });
 
     $(document).ready(function() {
@@ -200,3 +220,12 @@ aria-hidden="true">
 </script>
 
 @endpush
+
+@section('help-content')
+
+<p>
+    Here you can view all of the aircraft which you can use in a new flight request, as well as the pending additions to the MultiCrew fleet. You can make a request
+    to have an aicraft added if it doesn't already exist in the table.
+</p>
+
+@endsection

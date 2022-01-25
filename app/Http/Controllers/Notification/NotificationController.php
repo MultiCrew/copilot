@@ -18,7 +18,7 @@ class NotificationController extends Controller
 
     /**
      * Get all unread notifications belonging to a user
-     * 
+     *
      * @return \Illuminate\Notifications\Notification $notification
      */
     public function notifications()
@@ -28,13 +28,13 @@ class NotificationController extends Controller
 
     /**
      * Mark notification as read
-     * 
+     *
      * @param string id
      * @return \Illuminate\Http\Response
      */
     public function read(string $id)
     {
-        $notification = auth()->user()->notifications()->find($id);
+        $notification = Auth::user()->notifications()->find($id);
         $notification->markAsRead();
     }
 
@@ -61,7 +61,7 @@ class NotificationController extends Controller
         ]);
 
         $userNotification = UserNotification::where('user_id', Auth::id())->first();
-        
+
         $userNotification->request_accepted = $request->request_accepted ? 1 : 0;
         $userNotification->request_accepted_email = $request->request_accepted_email ? 1 : 0;
         $userNotification->request_accepted_push = $request->request_accepted_push ? 1 : 0;
@@ -77,39 +77,49 @@ class NotificationController extends Controller
 
     /**
      * Update the new request airports
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function airport(Request $request) 
+    public function airport(Request $request)
     {
         if($request->ajax()) {
+
+            $request->validate([
+                'data' => 'exists:airports,icao'
+            ]);
+
             $userNotification = UserNotification::where('user_id', Auth::id())->first();
 
             $new_request = $userNotification->new_request;
             $new_request['airports'] = $request->data;
-            $userNotification->new_request = $new_request; 
+            $userNotification->new_request = $new_request;
 
             $userNotification->save();
 
             return;
         }
 	}
-	
+
 	/**
      * Update the new request aircrafts
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function aircraft(Request $request) 
+    public function aircraft(Request $request)
     {
         if($request->ajax()) {
+
+            $request->validate([
+                'data' => 'exists:aircraft,icao'
+            ]);
+
             $userNotification = UserNotification::where('user_id', Auth::id())->first();
 
             $new_request = $userNotification->new_request;
             $new_request['aircrafts'] = $request->data;
-            $userNotification->new_request = $new_request; 
+            $userNotification->new_request = $new_request;
 
             $userNotification->save();
 

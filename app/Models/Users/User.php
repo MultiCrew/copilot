@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Mail\VerifyEmail;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -13,6 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRoles;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -82,6 +84,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * The user's profile
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Users\Profile');
+    }
+
+    /**
      * Required for the WebDevEtc\BlogEtc package.
      * Enter your own logic (e.g. if ($this->id === 1) to
      *   enable this user to be able to add/edit blog posts
@@ -92,6 +104,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canManageBlogEtcPosts()
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * The API User relating to the main User
+     */
+    public function apiUser()
+    {
+        return $this->hasOne('App\Models\Users\APIUser', 'user_id', 'id');
     }
 
     /**

@@ -39,6 +39,10 @@ class ApplicationAdminController extends Controller
 
     public function update(Request $request, ApplicationForm $application)
     {
+        $request->validate([
+            'status' => 'string'
+        ]);
+
         $application->status = $request->status;
         $application->save();
 
